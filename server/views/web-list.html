@@ -216,7 +216,7 @@
 		<div class="main">
 			<ul class="main-ul" >
 				{% for sort in sorts["0"] %}
-					<li {% if loop.first %}class="active"{% endif %}>{{sort.sort_name}}</li>
+					<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
 				{% endfor %}
 			</ul>
 
@@ -244,7 +244,7 @@
 		<% _.forEach(sorts[sort_id], function(level2) { %>
 		<div class="main-product ">
 			<div class="product-title main-product-title-1"><%- level2.sort_name %>
-				<span class="right-triangle"></span>
+				<span class="right-triangle">></span>
 			</div>
 			<ul class="main-product-ul">
 				<% _.forEach(sorts[level2.id], function(level3) { %>
@@ -261,6 +261,7 @@
 	</script>
 	<script>
 		$(function() {
+
 			var sorts = {{sorts_infos|safe}};
 			var click_levelone = function(sort_id){
 				if (!sort_id) {
@@ -275,8 +276,13 @@
 				var t = _.template($("#sort_infos").html());
 				$(".main-right").html(t({sorts:sorts,sort_id:sort_id,parent:parent}));
 			};
-
-			click_levelone("2");
+			$(".main-ul li").click(function(){
+				$(".main-ul li").removeClass("active");
+				$(this).addClass("active");
+				var sortid = $(this).data("id");
+				click_levelone(sortid);
+			});
+			click_levelone(1);
 		});
 	</script>
 </body>
