@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    <title>手机注册下一步</title>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+            padding: 0;
+            margin: 0;
+          }
+          html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background:url(images/bak3.jpg) no-repeat 0 0;
+            background-size: cover;
+
+          }
+          /*隐藏滚动条*/
+          ::-webkit-scrollbar {
+              display: none;
+          }
+          .warp{
+              width: 94.933333%;
+              margin: 62px auto;
+          }
+          p{
+            font-size: 12px;
+            color: #e51c23;
+            margin-bottom: 3px;
+          }
+          .content{
+            width: 100%;
+            height: 205px;
+            background: #fff;
+            text-align: center;
+          }
+          input{
+            height: 40px;
+            outline: none;
+            -webkit-appearance : none ;
+            border: 2px solid #bebebe;
+            text-indent: 10px;
+            font-size: 14px;
+            border-radius: 2px;
+          }
+          .password{
+            width: 93.2584269%;
+            margin: 40px 0 0;
+          }
+          .submit{
+            width: 93.2584269%;
+            background: #29b6f6;
+            border: none;
+            margin-top: 45px;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="warp">
+      <p>该手机号已注册</p>
+      <div class="content">
+        <input type="text" placeholder="请输入原有帐号密码" name="" value="" class="password">
+        <input type="submit" name="" value="登录" class="submit">
+      </div>
+    </div>
+	<script>
+		$(function() {
+			$(".submit").click(function(){
+				location.href = "chat_person_center";
+			});
+		});
+	</script>
+  </body>
+</html>

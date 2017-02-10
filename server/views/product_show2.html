@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>产品详情</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+        }
+        p{
+          padding: 0;
+          margin: 0;
+        }
+        li{
+          list-style: none;
+          float: left;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        .head{
+          width: 100%;
+          display: flex;
+          border-bottom: 1px solid #bbbbbb;
+        }
+        .head p{
+          display: inline-block;
+          flex: 1;
+          text-align: center;
+          height: 44px;
+          line-height: 44px;
+          vertical-align: middle;
+          font-weight: 400;
+          color: #051b28;
+        }
+        .head p img{
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+        .head p span{
+          display: block;
+          width: 30px;
+          height: 30px;
+        }
+        .middle{
+          width: 100%;
+        }
+        .middle .top-img{
+          width: 80%;
+          margin: 0 auto;
+        }
+        .middle .top img{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        .top-infor{
+          width: 100%;
+          height: 45px;
+          margin: 0px;
+          background: #e84e40;
+          font-size: 0;
+        }
+        .top-infor p{
+          display: inline-block;
+          width: 50%;
+          height: 45px;
+          line-height: 45px;
+          color: #fff;
+          font-size: 12px;
+
+        }
+        .top-infor .price span:first-child{
+          vertical-align: middle;
+          padding-left: 10px;
+        }
+        .top-infor .price span:nth-child(3n+2){
+          font-size: 24px;
+          font-weight: bold;
+          vertical-align: middle;
+        }
+        .top-infor .price span:last-child{
+          display: inline-block;
+          width: 60px;
+          height: 35px;
+          vertical-align: middle;
+          text-align: right;
+        }
+        .top-infor .ad{
+          text-align: right;
+        }
+        .top-infor .ad span{
+          display: inline-block;
+          width: 60px;
+          text-align: left;
+        }
+        .middle .top-center{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 12px;
+          line-height: 30px;
+        }
+        .top-service{
+          width: 100%;
+          margin: 0 auto;
+          font-size: 14px;
+          line-height: 47px;
+          background: #f5edf5;
+
+        }
+        .top-service p{
+          width: 96%;
+          margin: 0 auto;
+          border-bottom: 1px solid #bbbbbb;
+        }
+        .top-service .discount-coupon span{
+          display: inline-block;
+          width: 24%;
+          text-align: center;
+        }
+        .top-service .discount-coupon span:first-child{
+          text-align: left;
+        }
+        .top-kind{
+          width: 96%;
+          margin: 0 auto;
+        }
+        .top-kind .top-kind-top span{
+          display: inline-block;
+          width: 33%;
+          line-height: 45px;
+          font-size: 14px;
+        }
+        .top-kind .top-kind-top span:nth-child(3n+2){
+          text-align: center;
+        }
+        .top-kind .top-kind-top span:last-child{
+          text-align: right;
+        }
+        .top-kind-infor{
+          font-size: 0;
+        }
+        .top-kind-infor .kind-title{
+          display: inline-block;
+          width: 20%;
+          font-size: 14px;
+          vertical-align: top;
+          line-height: 30px;
+          margin-top: 5px;
+        }
+        .top-kind-infor .kind-infor{
+          display: inline-block;
+          width: 80%;
+          font-size: 14px;
+        }
+        .top-kind-infor .kind-infor span{
+          display: inline-block;
+          width: 20%;
+          line-height: 30px;
+          text-align: center;
+          border: 1px solid #bbb;
+          box-sizing: border-box;
+          margin: 5px 5px;
+          vertical-align: middle;
+        }
+        .expressage{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 14px;
+          line-height: 45px;
+        }
+        .expressage p span{
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .expressage p span:first-child{
+          width: 60px;
+        }
+        .expressage p span:nth-child(5n+2){
+          width: 45px;
+        }
+        .expressage p span:nth-child(5n+3){
+          width: 75px;
+        }
+        .expressage p span:nth-child(5n+4){
+          width: 100px;
+        }
+        .expressage p span img{
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+        .combo-infor{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 0;
+        }
+        .combo-infor span{
+          display: inline-block;
+          font-size: 14px;
+          vertical-align: middle;
+          line-height: 45px;
+        }
+        .combo-infor span img{
+          vertical-align: middle;
+        }
+        .combo-infor span:first-child{
+          width: 16.666667%;
+        }
+        .combo-infor span:nth-child(3n+2){
+          width: 46.3333333%;
+        }
+        .combo-infor span:last-child{
+          width: 37%;
+          text-align: right;
+        }
+        .evaluate{
+          width: 96%;
+          margin: 0 auto;
+        }
+        .evaluate .evaluate-top{
+          width: 100%;
+          font-size:0;
+
+        }
+        .evaluate .evaluate-top span{
+          display: inline-block;
+          font-size: 14px;
+          height: 45px;
+          line-height: 45px;
+        }
+        .evaluate .evaluate-top span:first-child{
+          width: 70.277778%;
+        }
+        .evaluate .evaluate-top span:last-child{
+          font-size: 14px;
+          width:29.722222% ;
+          text-align: right;
+        }
+        .evaluate .evaluate-bottom span{
+          display: inline-block;
+          background: #CFCFCF;
+          border-radius: 2px;
+          line-height: 35px;
+          margin: 10px 5px;
+        }
+        .evaluate .evaluate-bottom  img{
+          width: 25%;
+        }
+        .evaluate-middle{
+          text-indent: 10px;
+          font-size: 12px;
+          color: #575657;
+          margin-bottom: 10px;
+        }
+        .all{
+          width: 100%;
+          margin: 0 auto;
+          text-align: center;
+          height: 35px;
+          line-height: 35px;
+          color: #575657;
+          font-size: 12px;
+          border-top: 1px solid #F0F0F0;
+        }
+        .warp{
+          border-bottom: 1px solid #F0F0F0;
+        }
+        .hot{
+          width: 100%;
+          margin: 0 auto;
+        }
+        .hot .hot-title{
+          text-align: center;
+          border-bottom: 1px solid #F0F0F0;
+        }
+        .hot .hot-title span{
+          display: inline-block;
+          font-size: 12px;
+          height: 22px;
+          padding: 0 10px;
+        }
+        .hot .hot-title a:first-child{
+          color: #e51c23;
+        }
+        .hot-img-warp{
+          display: flex;
+          width: 96%;
+          margin: 0 auto;
+        }
+        .hot-img-warp li{
+          flex: 1;
+
+        }
+        .hot-img-warp li .hot-img-top{
+          width: 83.333333%;
+          height: 100px;
+          margin: 0 auto;
+          background: #eee;
+        }
+        .hot  li .hot-img-top img{
+          width: 100%;
+          height: 100px;
+        }
+        .hot-img-warp li p{
+          font-size: 12px;
+          line-height: 25px;
+          text-indent: 10px;
+        }
+        .hot-img-warp li p:last-child{
+          color: #ff5722;
+        }
+        .img-word{
+          width: 96%;
+          line-height: 45px;
+          overflow: hidden;
+          margin: 0 auto;
+        }
+        .img-word span:last-child{
+          float: right;
+        }
+        .hot .images{
+          text-align: center;
+        }
+        .hot .images span{
+          display: inline-block;
+          width: 96%;
+          margin: 10px 0;
+
+        }
+        .hot .images span img{
+          width: 100%;
+        }
+        .footer{
+          width: 100%;
+          height: 75px;
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          right: 0;
+        }
+        .footer ul{
+          width: 100%;
+          display: flex;
+          text-align: center;
+        }
+        .footer ul li{
+          flex: 1;
+          height: 75px;
+          background:#fff;
+          font-size: 12px;
+
+        }
+        .footer ul li .footer-top{
+          width:40px;
+          height:40px;
+          margin: 10px auto 0;
+          text-align: center;
+          line-height: 40px;
+        }
+        .footer ul li img{
+          width:30px;
+          height:30px;
+          vertical-align: bottom;
+        }
+        .footer ul li .footer-bottom{
+          display: inline-block;
+          color: #707070;
+          line-height: 25px;
+        }
+        .footer .footer-car{
+          line-height: 75px;
+          font-size: 12px;
+          font-weight: bold;
+          color: #fff;
+        }
+        .footer .yellow{
+          background: #ffa726;
+        }
+        .footer .red{
+          background: #e84e40;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="head">
+      <p><span><</span></p>
+      <p>商品</p>
+      <p>详情</p>
+      <p>评论</p>
+      <p><img src="images/shouye-2.png" alt=""></p>
+    </div>
+    <div class="middle">
+      <div class="top">
+        <div class="top-img">
+          <img src="images/{{product.mp_pictures[0].location}}" alt="">
+        </div>
+        <div class="top-infor">
+          <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span><span><s>￥{{product.product_marketing_price}}</s></span></p>
+          <p class="ad"><span>降价通知</span></p>
+        </div>
+      </div>
+      <div class="top-center">
+        <p>{{product.product_name}}</p>
+        <p>{{product.product_describe}}</p>
+      </div>
+      <div class="top-service">
+        <p>服务：满xx免邮费</p>
+        <p class="discount-coupon"><span>领优惠券：</span><a href="#"><span>￥20</span></a><a href="#"><span>￥30</span></a><a href="#"><span>￥40</span></a></p>
+      </div>
+      <div class="top-kind">
+        <p class="top-kind-top"><span>已选 金华火腿</span><span>1件</span><span>∨</span></p>
+        <div class="top-kind-infor">
+          <p class="kind-title"><span>种类:</span></p>
+          <p class="kind-infor"><span>沙糖桔</span><span>柑橘</span><span>蜜橘</span><span>丑橘</span><span>供橘</span></p>
+        </div>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="expressage">
+        <p><span>送至</span><span>上海</span><span>宝山区</span><span>呼兰路911号</span><span><img src="images/address.png" alt=""></span></p>
+        <p><span>重量</span><span>20kg</span></p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="combo">
+        <p class="combo-infor">
+          <span><img src="images/combo.png" alt=""></span>
+          <span>可选用套餐</span>
+          <span>套餐购买享优惠 ></span>
+        </p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="warp">
+        <div class="evaluate">
+          <p class="evaluate-top"><span>商品评价({{product.mp_sales.total_number || 0}})</span><span>好评率100% ></p>
+          <p class="evaluate-bottom"><span>肉质好</span><span>肉质好</span><span>肉质好</span></p>
+        </div>
+		{% for comment in product.mp_comments %}
+			{% if comment.is_again ==0 %}
+		        <div class="evaluate">
+		          <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].name}}</span><span>2016-12-22</p>
+				  <img src="images/{{product.mp_persons[comment.person_id].img_location}}" alt="" width="30px;">
+		          <p class="evaluate-middle">{{comment.content}}</p>
+		          <p class="evaluate-bottom">
+					  {% for saidan in product.mp_saidans[comment.id] %}
+					  	<img src="{{saidan.location}}" alt="">
+				      {% endfor %}
+				  </p>
+		        </div>
+				{% for again_comment in product.again_comments %}
+					{% if again_comment.parent ==comment.id	 %}
+					<div class="evaluate">
+					  追加评论：
+					  <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].name}}</span><span>2016-12-22</p>
+					  <p class="evaluate-middle">{{again_comment.content}}</p>
+					  <p class="evaluate-bottom">
+						  {% for saidan in product.mp_saidans[again_comment.id] %}
+							<img src="{{saidan.location}}" alt="">
+						  {% endfor %}
+					  </p>
+					</div>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+        <p class="all">查看全部评论</p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="hot">
+        <p class="hot-title"><a href="#"><span>热销产品</span></a>|<a href="#"><span>猜你喜欢</span></a>|<a href="#"><span>精品推荐</span></a></p>
+        <div class="hot-img">
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+        <p class="img-word"><span>图文详情</span><span>></span></p>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+        <div class="images">
+          <span><img src="images/back-12.jpg" alt=""></span>
+          <span><img src="images/back-13.jpg" alt=""></span>
+          <span><img src="images/back-14.jpg" alt=""></span>
+          <span><img src="images/back-19.jpg" alt=""></span>
+          <span><img src="images/back-16.jpg" alt=""></span>
+          <span><img src="images/back-17.jpg" alt=""></span>
+        </div>
+
+      </div>
+
+    </div>
+    <div style="background:#fff;height:75px;width:100%"></div>
+    <div class="footer">
+      <ul>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/tel.png" alt=""></p>
+            <p class="footer-bottom">客服</p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/shoucang.png" alt=""></p>
+            <p class="footer-bottom">收藏</p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/car.png" alt=""></p>
+            <p class="footer-bottom">购物车</p>
+          </a>
+        </li>
+        <li>
+          <a href="/shopping_cart">
+
+            <p class="footer-car yellow">加入购物车</p>
+          </a>
+        </li>
+        <li >
+          <a href="/order_pay">
+
+            <p class="footer-car red">立即购买</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

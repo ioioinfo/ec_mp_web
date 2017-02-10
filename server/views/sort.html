@@ -248,7 +248,7 @@
 			</div>
 			<ul class="main-product-ul">
 				<% _.forEach(sorts[level2.id], function(level3) { %>
-				<li><a href="#"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
+				<li><a href="/search"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
 				<% }); %>
 			</ul>
 			<% }); %>
@@ -261,7 +261,9 @@
 	</script>
 	<script>
 		$(function() {
-
+			$(".header-search").click(function(){
+				location.href = "/search_area";
+			});
 			var sorts = {{sorts_infos|safe}};
 			var click_levelone = function(sort_id){
 				if (!sort_id) {

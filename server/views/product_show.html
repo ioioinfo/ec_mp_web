@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>商品详情</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script> -->
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        body, ul, li, p{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+        }
+        body {
+         font-family:"Times New Roman", Times, serif;
+        }
+        p{
+          padding: 0;
+          margin: 0;
+        }
+        li{
+          list-style: none;
+          float: left;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        #box {
+         position:relative;
+         width:100%;
+         height:375px;
+         margin:0 auto;
+        }
+        #box .imgList{
+         position:relative;
+         width:100%;
+         height:375px;
+         overflow:hidden;
+        }
+        #box .imgList li{
+         position:absolute;
+         top:0;
+         left:0;
+         width:100%;
+         height:170px;
+        }
+		#box .imgList li img{
+         width: 100%;
+         height: 375px;
+        }
+        #box .countNum{
+         width: 75px;
+         height: 20px;
+         position:absolute;
+         right:0;
+         bottom:5px;
+        }
+        #box .countNum li{
+         width:20px;
+         height:20px;
+         float:left;
+         color:#fff;
+         border-radius:20px;
+         background:#f90;
+         text-align:center;
+         margin-right:5px;
+         cursor:pointer;
+         opacity:0.7;
+         filter:alpha(opacity=70);
+        }
+        #box .countNum li.current{
+         background:#f60;
+         font-weight:bold;
+         opacity:1;
+         filter:alpha(opacity=70);
+        }
+        .head{
+          width: 100%;
+          display: flex;
+          border-bottom: 1px solid #bbbbbb;
+        }
+        .head p{
+          display: inline-block;
+          flex: 1;
+          text-align: center;
+          height: 44px;
+          line-height: 44px;
+          vertical-align: middle;
+          font-weight: 400;
+          color: #051b28;
+        }
+        .head p img{
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+        .head p span{
+          display: block;
+          width: 30px;
+          height: 30px;
+        }
+        .middle{
+          width: 100%;
+        }
+        .middle .top-img{
+          /*width: 80%;*/
+          margin: 0 auto;
+        }
+        .middle .top img{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        .top-infor{
+          width: 100%;
+          height: 45px;
+          margin: 0px;
+          background: #e84e40;
+          font-size: 0;
+        }
+
+        .top-infor p{
+          display: inline-block;
+          width: 25%;
+          height: 45px;
+          line-height: 45px;
+          color: #fff;
+          font-size: 16px;
+          font-weight: bold;
+          text-align: center;
+        }
+        .top-infor p:nth-child(4n+2){
+          text-align: left;
+        }
+        .top-infor .ad{
+          font-size: 12px;
+          font-weight: normal;
+        }
+        .middle .top-center{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 12px;
+          line-height: 30px;
+        }
+        .middle .service{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 12px;
+          line-height: 30px;
+        }
+        .middle .top-center p span{
+          display: inline-block;
+          font-size: 14px;
+          line-height: 30px;
+          color: #FF4400;
+        }
+        .middle .top-center p span:first-child{
+          width: 84.72222%;
+
+          white-space:wrap;
+
+        }
+        .middle .top-center p span:last-child{
+          float: right;
+          color: #1CADF3;
+        }
+        .address{
+          width: 96%;
+          margin: 0 auto;
+          border-bottom: 1px solid #bbbbbb;
+        }
+        .address span{
+          display: inline-block;
+          font-size: 14px;
+          line-height: 40px;
+        }
+        .address span:last-child{
+          float: right;
+        }
+        .top-service{
+          width: 100%;
+          margin: 0 auto;
+          font-size: 14px;
+          line-height: 40px;
+          background: #f5edf5;
+
+        }
+        .top-service p{
+          width: 96%;
+          margin: 0 auto;
+          border-bottom: 1px solid #bbbbbb;
+          padding-bottom: 8px;
+        }
+        .top-service p .span1{
+          color: #E84E40;
+          display: inline-block;padding: 0 10px;
+        }
+        .top-service .discount-coupon span{
+          display: inline-block;
+          width: 24%;
+          text-align: center;
+          color: transparent;
+          height: 30px;
+        }
+        .top-service .discount-coupon .span2{
+          color: #000;
+          height: 30px;
+          line-height: 30px;
+          vertical-align: middle;
+        }
+        .top-service .discount-coupon .span3{
+          background: url(images/i-11.png) no-repeat 0 0 ;
+          background-size: contain;
+          vertical-align: middle;
+        }
+        .top-service .discount-coupon .span4{
+          background: url(images/i-12.png) no-repeat 0 0 ;
+          background-size: contain;
+          vertical-align: middle;
+        }
+        .top-service .discount-coupon .span5{
+          background: url(images/i-13.png) no-repeat 0 0 ;
+          background-size: contain;
+          vertical-align: middle;
+        }
+        .top-service .discount-coupon span:first-child{
+          text-align: left;
+        }
+        .top-kind{
+          width: 96%;
+          margin: 0 auto;
+        }
+        .top-kind .top-kind-top span{
+          display: inline-block;
+          width: 33%;
+          line-height: 45px;
+          font-size: 14px;
+        }
+        .top-kind .top-kind-top span:nth-child(3n+2){
+          text-align: center;
+        }
+        .top-kind .top-kind-top span:last-child{
+          text-align: right;
+          float: right;
+        }
+        .top-kind-infor{
+          font-size: 0;
+        }
+        .top-kind-infor .kind-title{
+          display: inline-block;
+          width: 20%;
+          font-size: 14px;
+          vertical-align: top;
+          line-height: 30px;
+          margin-top: 5px;
+        }
+        .top-kind-infor .kind-infor{
+          display: inline-block;
+          width: 80%;
+          font-size: 14px;
+        }
+        .top-kind-infor .kind-infor span{
+          display: inline-block;
+          width: 20%;
+          line-height: 30px;
+          text-align: center;
+          border: 1px solid #bbb;
+          box-sizing: border-box;
+          margin: 5px 5px;
+          vertical-align: middle;
+        }
+        .expressage{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 14px;
+          line-height: 45px;
+        }
+        .expressage p span{
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .expressage p span:first-child{
+          width: 60px;
+        }
+        .expressage p span:nth-child(5n+2){
+          width: 45px;
+        }
+        .expressage p span:nth-child(5n+3){
+          width: 75px;
+        }
+        .expressage p span:nth-child(5n+4){
+          width: 100px;
+        }
+        .expressage p .dingwei{
+          float: right;
+        }
+        .expressage p span img{
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+
+        .combo-infor{
+          width: 96%;
+          margin: 0 auto;
+          font-size: 0;
+        }
+        .combo-infor span{
+          display: inline-block;
+          font-size: 14px;
+          vertical-align: middle;
+          line-height: 45px;
+        }
+        .combo-infor span img{
+          vertical-align: middle;
+        }
+        .combo-infor span:first-child{
+          width: 16.666667%;
+        }
+        .combo-infor span:nth-child(3n+2){
+          width: 46.3333333%;
+        }
+        .combo-infor span:last-child{
+          width: 37%;
+          text-align: right;
+        }
+        .evaluate{
+          width: 96%;
+          margin: 0 auto;
+        }
+        .evaluate .evaluate-top{
+          width: 100%;
+          font-size:0;
+
+        }
+        .evaluate .evaluate-top span{
+          display: inline-block;
+          font-size: 14px;
+          height: 45px;
+          line-height: 45px;
+        }
+        .evaluate .evaluate-top span:first-child{
+          width: 70.277778%;
+        }
+        .evaluate .evaluate-top span:last-child{
+          font-size: 14px;
+          width:29.722222% ;
+          text-align: right;
+        }
+        .evaluate .evaluate-bottom span{
+          display: inline-block;
+          background: #63B8FF;
+          border-radius: 2px;
+          line-height: 15px;
+          margin: 10px 5px;
+          font-size: 14px;
+          padding: 2px 4px;
+          color: #fff;
+          border-radius: 4px;
+        }
+        .evaluate .evaluate-bottom  img{
+			width: 20.833333%;
+            margin: 0 2.0833333%;
+        }
+        .evaluate-middle{
+          text-indent: 10px;
+          font-size: 12px;
+          color: #575657;
+          margin-bottom: 10px;
+        }
+        .all{
+          width: 100%;
+          margin: 0 auto;
+          text-align: center;
+          height: 35px;
+          line-height: 35px;
+          color: #575657;
+          font-size: 12px;
+          border-top: 1px solid #F0F0F0;
+        }
+        .warp{
+          border-bottom: 1px solid #F0F0F0;
+        }
+        .hot{
+          width: 100%;
+          margin: 0 auto;
+        }
+        .hot .hot-title{
+          text-align: center;
+          border-bottom: 1px solid #F0F0F0;
+        }
+        .hot .hot-title span{
+          display: inline-block;
+          font-size: 12px;
+          height: 22px;
+          padding: 0 10px;
+        }
+        .hot .hot-title a:first-child{
+          color: #e51c23;
+        }
+        .hot-img-warp{
+          display: flex;
+          width: 96%;
+          margin: 0 auto;
+        }
+        .hot-img-warp li{
+          flex: 1;
+
+        }
+        .hot-img-warp li .hot-img-top{
+          width: 83.333333%;
+          height: 100px;
+          margin: 0 auto;
+          background: #eee;
+        }
+        .hot  li .hot-img-top img{
+          width: 100%;
+          height: 100px;
+        }
+        .hot-img-warp li p{
+          font-size: 12px;
+          line-height: 25px;
+          text-indent: 10px;
+        }
+        .hot-img-warp li p:last-child{
+          color: #ff5722;
+        }
+        .img-word{
+          width: 96%;
+          line-height: 45px;
+          overflow: hidden;
+          margin: 0 auto;
+          display: flex;
+        }
+        .img-word span{
+          display: block;
+          flex: 1;
+          text-align: center;
+        }
+        .img-word span:nth-child(3n+2){
+          border-bottom: 2px solid #E84E40;
+        }
+        .img-word span:last-child{
+
+        }
+        .hot .images{
+          text-align: center;
+        }
+        .hot .images span{
+          display: inline-block;
+          width: 96%;
+          margin: 10px 0;
+
+        }
+        .hot .images span img{
+          width: 100%;
+        }
+        .footer{
+          width: 100%;
+          height: 65px;
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          border-top: 2px solid #E7E7E7;
+        }
+        .footer ul{
+          width: 100%;
+          display: flex;
+          text-align: center;
+        }
+        .footer ul li{
+          flex: 1;
+          height: 65px;
+          background:#fff;
+          font-size: 12px;
+
+        }
+        .footer ul li .footer-top{
+          width:40px;
+          height:40px;
+          margin: 0 auto;
+          text-align: center;
+          line-height: 40px;
+        }
+        .footer ul li img{
+          width:30px;
+          height:30px;
+          vertical-align: bottom;
+        }
+        .footer ul li .footer-bottom{
+          display: inline-block;
+          color: #707070;
+          line-height: 25px;
+        }
+        .footer .footer-car{
+          line-height: 75px;
+          font-size: 12px;
+          font-weight: bold;
+          color: #fff;
+        }
+        .footer .yellow{
+          background: #ffa726;
+        }
+        .footer .red{
+          background: #e84e40;
+        }
+      }
+    </style>
+    <script>
+    <!--
+	 var imgaes ={{ JSON.stringify(product.mp_pictures)|| safe}};
+	 var imgs = [];
+	 for (var i = 0; i < imgaes.length; i++) {
+	 	imgs.push("<img src=\'images/"+imgaes[i].location+"\'/>");
+	 }
+     function runImg(){}
+     runImg.prototype={
+      bigbox:null,//最外层容器
+      boxul:null,//子容器ul
+      imglist:null,//子容器img
+      numlist:null,//子容器countNum
+      index:0,//当前显示项
+      timer:null,//控制图片转变效果
+      play:null,//控制自动播放
+      imgurl:[],//存放图片
+      count:0,//存放的个数
+      $:function(obj)
+      {
+       if(typeof(obj)=="string")
+       {
+        if(obj.indexOf("#")>=0)
+        {
+         obj=obj.replace("#","");
+         if(document.getElementById(obj))
+         {
+          return document.getElementById(obj);
+         }
+         else
+         {
+          alert("没有容器"+obj);
+          return null;
+         }
+        }
+        else
+        {
+         return document.createElement(obj);
+        }
+       }
+       else
+       {
+        return obj;
+       }
+      },
+      //初始化
+      info:function(id)
+      {
+       this.count=this.count<=5?this.count:5;
+       this.bigbox=this.$(id);
+       for(var i=0;i<2;i++)
+       {
+        var ul=this.$("ul");
+        for(var j=1;j<=this.count;j++)
+        {
+         var li=this.$("li");
+         li.innerHTML=i==0?this.imgurl[j-1]:j;
+         ul.appendChild(li);
+        }
+        this.bigbox.appendChild(ul);
+       }
+       this.boxul=this.bigbox.getElementsByTagName("ul");
+       this.boxul[0].className="imgList";
+       this.boxul[1].className="countNum";
+       this.imglist=this.boxul[0].getElementsByTagName("li");
+       this.numlist=this.boxul[1].getElementsByTagName("li");
+       this.numlist[0].className="current";
+      },
+      //封装程序入口
+      action:function(id)
+      {
+       this.autoplay();
+       this.mouseoverout(this.bigbox,this.numlist);
+      },
+      //图片切换效果
+      imgshow:function(num,numlist,imglist)
+      {
+       this.index=num;
+       var alpha=0;
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].className="";
+       }
+       numlist[this.index].className="current";
+       clearInterval(this.timer);
+       for(var j=0;j<imglist.length;j++)
+       {
+        imglist[j].style.opacity=0;
+        imglist[j].style.filter="alpha(opacity=0)";
+       }
+       var $this=this;
+       //利用透明度来实现切换图片
+       this.timer=setInterval(function(){
+        alpha+=2;
+        if(alpha>100){alpha=100};//不能大于100
+        //为兼容性赋样式
+        imglist[$this.index].style.opacity=alpha/100;
+        imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
+        if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
+       },20)//经测试20是我认为最合适的值
+      },
+      //自动播放
+      autoplay:function(){
+       var $this=this;
+       this.play=setInterval(function(){
+        $this.index++;
+        if($this.index>$this.imglist.length-1){$this.index=0};
+        $this.imgshow($this.index,$this.numlist,$this.imglist);
+        },2000)
+      },
+      //处理鼠标事件
+      mouseoverout:function(box,numlist)
+      {
+       var $this=this;
+       box.onmouseover=function()
+       {
+        clearInterval($this.play);
+       }
+       box.onmouseout=function()
+       {
+        $this.autoplay($this.index);
+       }
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].index=i;
+        numlist[i].onmouseover=function(){
+         $this.imgshow(this.index,$this.numlist,$this.imglist);
+        }
+       }
+      }
+     }
+     window.onload=function(){
+      var runimg=new runImg();
+      runimg.count=3;
+
+    //   runimg.imgurl=[
+    //   "<img src=\"images/i-9.png\"/>",
+    //   "<img src=\"images/back-11.jpg\"/>",
+    //   "<img src=\"images/back-12.jpg\"/>"];
+
+	  runimg.imgurl = imgs;
+      runimg.info("#box");
+      runimg.action("#box");
+     }
+    -->
+    </script>
+  </head>
+  <body>
+    <div class="head">
+      <p><span><</span></p>
+      <p>商品</p>
+      <p>详情</p>
+      <p>评论</p>
+      <p><img src="images/shouye-2.png" alt=""></p>
+    </div>
+    <div class="middle">
+      <div class="top">
+        <div class="top-img">
+          <div id="box"></div>
+        </div>
+        <div class="top-infor">
+          <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
+          <p class="ad"><span><s>{{product.product_marketing_price}}</s></span></p>
+          <p class="ad"><span>销量：{{product.mp_sales.total_sales}}</span></p>
+          <p class="ad"><span>降价通知</span></p>
+        </div>
+      </div>
+      <div class="top-center">
+        <p><span>{{product.product_name}}</span> <span>分享</span></p>
+        <p>{{product.product_describe}}</p>
+      </div>
+      <div class="service">
+        <p><span>服务</span></p>
+      </div>
+      <div class="address">
+        <span>快递:免费</span><span>上海</span>
+      </div>
+      <div class="top-service">
+        <p>优惠：<span class="span1">满99减100</span></p>
+        <p class="discount-coupon"><span class="span2">领优惠券：</span><a href="#"><span class="span3">ss</span></a><a href="#"><span class="span4"></span></a><a href="#"><span class="span5"></span></a></p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="top-kind">
+        <p class="top-kind-top"><span>选择颜色分类</span><span>></span></p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="expressage">
+        <p><span>送至</span><span>上海</span><span>宝山区</span><span>呼兰路911号</span><span class="dingwei"><img src="images/address.png" alt=""></span></p>
+        <p><span>重量</span><span class="weight">20kg</span></p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="combo">
+        <p class="combo-infor">
+          <span><img src="images/combo.png" alt=""></span>
+          <span>可选用套餐</span>
+          <span>套餐购买享优惠 ></span>
+        </p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="warp">
+        <div class="evaluate">
+          <p class="evaluate-top"><span>商品评价({{product.mp_total_comments.total_number || 0}})</span><span>好评率100% ></p>
+          <p class="evaluate-bottom"><span>好评({{product.mp_total_comments.good_comment || 0}})</span><span>中评({{product.mp_total_comments.normal_comment || 0}})</span><span>差评({{product.mp_total_comments.bad_comment || 0}})</span><span>有图({{product.mp_total_comments.pic_comment || 0}})</span></p>
+        </div>
+{% for comment in product.mp_comments %}
+   {% if comment.is_again ==0 %}
+   <div class="evaluate">
+	 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].name}}</span><span>2016-12-22</p>
+	 <img src="images/{{product.mp_persons[comment.person_id].img_location}}" alt="" width="30px;">
+	 <p class="evaluate-middle">{{comment.content}}</p>
+	 <p class="evaluate-bottom">
+		 {% for saidan in product.mp_saidans[comment.id] %}
+		   <img src="{{saidan.location}}" alt="">
+		 {% endfor %}
+	 </p>
+   </div>
+   {% for again_comment in product.again_comments %}
+	   {% if again_comment.parent ==comment.id	 %}
+	   <div class="evaluate">
+		 追加评论：
+		 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].name}}</span><span>2016-12-22</p>
+		 <p class="evaluate-middle">{{again_comment.content}}</p>
+		 <p class="evaluate-bottom">
+			 {% for saidan in product.mp_saidans[again_comment.id] %}
+			   <img src="{{saidan.location}}" alt="">
+			 {% endfor %}
+		 </p>
+	   </div>
+	   {% endif %}
+   {% endfor %}
+	{% endif %}
+{% endfor %}
+
+        <p class="all">查看全部评论</p>
+      </div>
+      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+      <div class="hot">
+        <p class="hot-title"><a href="#"><span>热销产品</span></a>|<a href="#"><span>猜你喜欢</span></a>|<a href="#"><span>精品推荐</span></a></p>
+        <div class="hot-img">
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+          <ul class="hot-img-warp">
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div class="hot-img-top">
+                  <img src="images/jiangyou_08.jpg" alt="">
+                </div>
+                <p>金华火腿</p>
+                <p>￥111</p>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+        <p class="img-word"><span>图文详情</span><span>产品参数</span><span>包装售后</span></p>
+        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+
+
+        <div class="images">
+		{% for product_detail in product.mp_product_details %}
+          <span><img src="{{product_detail.picture_location}}" alt=""></span>
+		 {% endfor %}
+        </div>
+
+      </div>
+
+    </div>
+    <div style="background:#fff;height:75px;width:100%"></div>
+    <div class="footer">
+      <ul>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/tel.png" alt=""></p>
+            <p class="footer-bottom">客服</p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/shoucang.png" alt=""></p>
+            <p class="footer-bottom">收藏</p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="footer-top"><img src="images/car.png" alt=""></p>
+            <p class="footer-bottom">购物车</p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+
+            <p class="footer-car yellow">加入购物车</p>
+          </a>
+        </li>
+        <li >
+          <a href="#">
+
+            <p class="footer-car red">立即购买</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

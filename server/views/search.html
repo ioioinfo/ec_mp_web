@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商品搜索</title>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          width: 100%;
+          height: 100%;
+        }
+        .search{
+          width: 100%;
+          height: 45px;
+          margin-top: 10px;
+        }
+        li{
+          list-style: none;
+        }
+        a{
+          color: #888888;
+          text-decoration: none;
+          font-size: 14px;
+          display: inline-block;
+        }
+
+        img{
+          width: 8%;
+          vertical-align: middle;
+        }
+        input{
+          width: 74.9333333%;
+          height: 32px;
+          line-height: 32px;
+          border: none;
+          border: 2px solid #ebe8eb;
+          outline: none;
+          -webkit-appearance : none ;
+        }
+        .search span{
+          display: inline-block;
+        }
+        .word ul{
+          width: 100%;
+          display: flex;
+          border: 1px solid #e8e1e8;
+        }
+        .word .word-next li{
+          flex: 1;
+          text-align: center;
+          height: 45px;
+          line-height: 45px;
+        }
+        .word-next .red a{
+          color: #ff5722;
+        }
+        .word .word-next li span img{
+          width: 12px;
+          height: 12px;
+        }
+        .infor{
+          width: 96%;
+          margin: 20px auto 0;
+        }
+        .infor .infor-ul li{
+          height: 140px;
+        }
+        .infor-left{
+          width: 27.7777778%;
+          height: 100px;
+          display: inline-block;
+          vertical-align: top;
+        }
+        .infor-left img{
+          width: 100%;
+          height: 100px;
+        }
+        .infor-right{
+          display: inline-block;
+          width: 67.111111%;
+          height: 140px;
+          border-bottom: 1px solid #e8e1e8;
+        }
+        .infor-right .infor-right-one{
+          width: 100%;
+          line-height: 30px;
+          font-size: 14px;
+        }
+        .infor-right .infor-right-two span{
+          display: inline-block;
+          background: #ede6ed;
+          font-size: 12px;
+          padding: 4px 5px;
+          margin: 0 10px 0 0;
+          border-radius: 6px;
+        }
+        .infor-right-three{
+          font-size: 16px;
+          color: #e51c23;
+          line-height: 28px;
+        }
+        .infor-right-four span{
+          border-radius: 4px;
+          display: inline-block;
+        }
+        .infor-right-four span:first-child{
+          padding: 0 4px;
+          background: #ff7043;
+          color: #fff;
+          font-size: 12px;
+
+        }
+        .infor-right-four span:nth-child(3n+2){
+          padding: 0 14px;
+        }
+        .infor-right p{
+
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search">
+      <img src="images/jiantou.png" alt="">
+      <input type="text" name="" value="" placeholder="搜索">
+      <span><a href="#">取消</a></span>
+    </div>
+    <div class="word">
+      <ul class="word-next">
+        <li class="red"><a href="#"><span>综合</span><span><img src="images/jiantou-down-2.png" alt=""></span></a></li>
+        <li><a href="#"><span>销量</span></a></li>
+        <li><a href="#"><span>价格</span><span><img src="images/jiantou-two.png" alt=""></span></a></li>
+        <li><a href="#"><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+      </ul>
+    </div>
+    <div class="infor">
+      <ul class="infor-ul">
+        <li>
+          <a href="/product_show">
+            <div class="infor-left">
+              <img src="images/ad_01.jpg" alt="">
+            </div>
+            <div class="infor-right">
+              <p class="infor-right-one">海天酱油</p>
+              <p class="infor-right-two"><span>128g</span><span>4.7英寸</span></p>
+              <p class="infor-right-three">￥5777.00</p>
+              <p class="infor-right-four"><span>自营</span><span>32609条评论</span><span>好评率96%</span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="infor">
+      <ul class="infor-ul">
+        <li>
+          <a href="/product_show">
+            <div class="infor-left">
+              <img src="images/ad_01.jpg" alt="">
+            </div>
+            <div class="infor-right">
+              <p class="infor-right-one">海天酱油</p>
+              <p class="infor-right-two"><span>128g</span><span>4.7英寸</span></p>
+              <p class="infor-right-three">￥5777.00</p>
+              <p class="infor-right-four"><span>自营</span><span>32609条评论</span><span>好评率96%</span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="infor">
+      <ul class="infor-ul">
+        <li>
+          <a href="/product_show">
+            <div class="infor-left">
+              <img src="images/ad_01.jpg" alt="">
+            </div>
+            <div class="infor-right">
+              <p class="infor-right-one">海天酱油</p>
+              <p class="infor-right-two"><span>128g</span><span>4.7英寸</span></p>
+              <p class="infor-right-three">￥5777.00</p>
+              <p class="infor-right-four"><span>自营</span><span>32609条评论</span><span>好评率96%</span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="infor">
+      <ul class="infor-ul">
+        <li>
+          <a href="/product_show">
+            <div class="infor-left">
+              <img src="images/ad_01.jpg" alt="">
+            </div>
+            <div class="infor-right">
+              <p class="infor-right-one">海天酱油</p>
+              <p class="infor-right-two"><span>128g</span><span>4.7英寸</span></p>
+              <p class="infor-right-three">￥5777.00</p>
+              <p class="infor-right-four"><span>自营</span><span>32609条评论</span><span>好评率96%</span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="infor">
+      <ul class="infor-ul">
+        <li>
+          <a href="/product_show">
+            <div class="infor-left">
+              <img src="images/ad_01.jpg" alt="">
+            </div>
+            <div class="infor-right">
+              <p class="infor-right-one">海天酱油</p>
+              <p class="infor-right-two"><span>128g</span><span>4.7英寸</span></p>
+              <p class="infor-right-three">￥5777.00</p>
+              <p class="infor-right-four"><span>自营</span><span>32609条评论</span><span>好评率96%</span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </body>
+</html>

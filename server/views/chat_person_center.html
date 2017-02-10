@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+            padding: 0;
+            margin: 0;
+          }
+          html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background:#d4d8d9;
+          }
+          a{
+            text-decoration: none;
+            color: #000;
+          }
+          /*隐藏滚动条*/
+          ::-webkit-scrollbar {
+              display: none;
+          }
+          .warp{
+            width: 100%;
+            background: url(images/bak3.jpg) no-repeat 0 0;
+            background-size:cover;
+            margin: 0 auto 10px;
+          }
+          .top{
+            overflow: hidden;
+            height: 139px;
+
+          }
+          .top-left{
+            width: 51.47058%;
+            float: left;
+            margin: 28px 0 0 15px;
+          }
+          .top-left-header{
+            display: inline-block;
+            width: 50px;
+            height:50px;
+
+            margin-top: 12px;
+
+          }
+          .top-left-header img{
+            width: 50px;
+            height: 50px;
+            border-radius: 38px;
+            vertical-align: middle;
+          }
+
+          .top-left-name{
+            display: inline-block;
+            width: 80px;
+            vertical-align: top;
+          }
+          .top-left-name p{
+            color: #fff;
+            font-size: 16px;
+
+            line-height: 37px;
+          }
+          .top-right{
+            float: right;
+            font-size: 16px;
+
+            color: #fff;
+            line-height: 37px;
+            margin-right: 15px;
+          }
+          .top-right1{
+            margin-top: 26px;
+          }
+          .top-right1 span img{
+            width: 12px;
+            height: 14px;
+            margin-right: 4px;
+            vertical-align: middle;
+          }
+          .list{
+            width: 100%;
+            height: 64px;
+            line-height: 64px;
+            margin: 0 auto;
+            background: #fff;
+            margin-bottom: 5px;
+          }
+          .list img{
+            width: 25px;
+            height: 25px;
+            vertical-align: middle;
+            margin-left: 5%;
+          }
+          .list span:nth-child(3n+2){
+            color: #888888;
+            font-size: 14px;
+            vertical-align: middle;
+            font-weight: bold;
+            margin-left: 15px;
+          }
+          .list span:last-child{
+            float: right;
+            margin-right: 6%;
+          }
+          .none{
+            width: 100%;
+            height: 153px;
+            line-height: 153px;
+            background: #fff;
+            text-align: center;
+            color: #d4d8d9;
+          }
+          .help{
+            width: 100%;
+            height: 150px;
+            line-height: 150px;
+            background: #fff;
+            text-align: center;
+            margin-top: 5px;
+          }
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="warp">
+      <div class="top">
+        <div class="top-left">
+          <div class="top-left-header">
+            <img src="images/weixinheader.jpg" alt="">
+          </div>
+          <div class="top-left-name">
+            <p>李网吧</p>
+            <p>$钻石会员</p>
+          </div>
+        </div>
+        <p class="top-right top-right1"><span><img src="images/shouji.png" alt=""></span><span>13111111111</span></p>
+        <p class="top-right top-right2">折扣：7折</p>
+      </div>
+
+    </div>
+    <div class="line"></div>
+    <div class="list">
+      <span><img src="images/jifen.png" alt=""></span>
+      <span>积分：10</span>
+      <span>></span>
+    </div>
+    <div class="list">
+      <span><img src="images/yuer.png" alt=""></span>
+      <span>余额：10</span>
+      <span>></span>
+    </div>
+    <div class="list">
+      <span><img src="images/liebiao.png" alt=""></span>
+      <span>订单列表</span>
+      <span>></span>
+    </div>
+    <div class="none">等待添加</div>
+    <div class="help">客服电话：12345678901</div>
+
+  </body>
+</html>

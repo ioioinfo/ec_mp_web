@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>order-center</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        li{
+          list-style: none;
+        }
+        html,body{
+          width: 100%;
+          height: 100%;
+        }
+        .top{
+          width: 100%;
+          height: 51px;
+          line-height: 51px;
+          border-bottom:1px solid #e8e8e8;
+          box-shadow: 0 2px  4px #e8e8e8;
+        }
+        .top span:first-child{
+          display: inline-block;
+          width: 8%;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+        }
+        .top span:last-child{
+          display: inline-block;
+          text-align: center;
+          width: 84%;
+          font-size: 14px;
+        }
+        .middle{
+          overflow: hidden;
+        }
+        .shop-infor{
+          width: 100%;
+          /*height:77px;*/
+          border-bottom:1px solid #F0F0F0;
+          border-top:1px solid #e8e8e8;
+          /*margin-top: 20px;*/
+        }
+        .shop-infor-img img{
+          width: 25px;
+          height: 25px;
+          vertical-align: middle;
+        }
+        .shop-infor-img{
+          width: 25px;
+          height: 25px;
+          display: inline-block;
+          padding-left: 10px;
+          padding-top: 10px;
+        }
+        .shop-infor-word{
+          font-size: 14px;
+          display: inline-block;
+          line-height: 40px;
+          color: #5677fc;
+        }
+        .shop-infor .product-waite{
+          font-size: 12px;
+          line-height: 40px;
+          color: #A9A9A9;
+          float: right;
+          margin-right:2.66667%;
+        }
+        .shop-infor p{
+          font-size: 12px;
+          color: #f72e0a;
+          padding-left: 10px;
+        }
+        .shop-infor p a{
+          color: #f72e0a;
+        }
+        .product-infor{
+
+          width: 100%;
+          height: 119px;
+          margin-top: 15px;
+          vertical-align: middle;
+        }
+        .product-infor-left{
+          float: left;
+          width: 32.66667%;
+          height: 81px;
+          text-align: right;
+        }
+        .product-infor-left img{
+          width:90%;
+          height: 81px;
+
+          vertical-align: middle;
+        }
+        .product-infor-right{
+          float: left;
+          overflow: hidden;
+          width: 67.3333%;
+          box-sizing: border-box;
+        }
+        .product-infor-right p{
+          padding-left: 10px;
+        }
+        .product-infor-right p:first-child{
+          font-size: 12px;
+        }
+        .product-infor-right .product-infor-price{
+          margin-top: 30px;
+        }
+        .product-infor-price span:first-child{
+          font-size: 14px;
+          color: #000;
+        }
+        .product-infor-price span:nth-child(3n+2){
+          font-size: 12px;
+        }
+        .product-infor-price span:last-child{
+          font-size: 16px;
+          color:#555;
+          font-weight: 600;
+        }
+        .product-infor-buy span{
+          font-size: 14px;
+          width: 74px;
+          height: 25px;
+          line-height: 25px;
+          display: inline-block;
+          background: #e84e40;
+          text-align: center;
+          margin-top: 20px;
+          color: #fff;
+          border-radius: 2px;
+        }
+        .product-infor-buy span:last-child{
+          margin-right:2.66667%;
+          float: right;
+        }
+        .footer{
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          color: #B3B3B3;
+        }
+        .background{
+          width: 100%;
+          height: 5px;
+          margin-top: 3px;
+          background: #EAEAEA;
+
+        }
+        .product-waite{
+          color: #EAEAEA;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <span><</span>
+      <span>订单中心</span>
+    </div>
+    <div class="middle">
+      <div class="shop-infor">
+        <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
+        <span class="shop-infor-word">XXX店</span>
+        <span class="product-waite">等待收货</span>
+        <p><a href="/order_detail">快件已到达上海，下一站即将到达宝山2017/1/6</a></p>
+      </div>
+
+      <div class="product-infor">
+        <div class="product-infor-left"><img src="images/jiangyou_02.png" alt=""></div>
+        <div class="product-infor-right">
+          <p>海天酱油，天然大豆酿造,750g</p>
+          <p class="product-infor-price"><span>实付款：</span><span>￥</span> <span>999.00</span></p>
+          <p class="product-infor-buy"><span>确认收货</span><span>再次购买</span></p>
+        </div>
+      </div>
+
+      <div class="background"></div>
+
+      <div class="shop-infor">
+        <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
+        <span class="shop-infor-word">XXX店</span>
+        <span class="product-waite">交易成功</span>
+        <p><a href="#">宝山 的派件已签收 签收人是 拍照签收,扫描时间：2016-12-21 12:49:37 中通速递</a></p>
+      </div>
+
+      <div class="product-infor">
+        <div class="product-infor-left"><img src="images/jiangyou_03.jpg" alt=""></div>
+        <div class="product-infor-right">
+          <p>海天酱油，天然大豆酿造,750g</p>
+          <p class="product-infor-price"><span>实付款：</span><span>￥</span> <span>999.00</span></p>
+          <p class="product-infor-buy"><span>再次购买</span></p>
+        </div>
+      </div>
+      <div class="background"></div>
+      <div class="shop-infor">
+        <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
+        <span class="shop-infor-word">XXX店</span>
+        <span class="product-waite">等待交易</span>
+        <!-- <p><a href="#">快件已到达上海，下一站即将到达宝山</a></p> -->
+      </div>
+
+      <div class="product-infor">
+        <div class="product-infor-left"><img src="images/jiangyou_04.png" alt=""></div>
+        <div class="product-infor-right">
+          <p>海天酱油，天然大豆酿造,750g</p>
+          <p class="product-infor-price"><span>实付款：</span><span>￥</span> <span>999.00</span></p>
+          <p class="product-infor-buy"><span>取消订单</span><span>付款</span></p>
+        </div>
+      </div>
+      <div class="background"></div>
+      <div class="shop-infor">
+        <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
+        <span class="shop-infor-word">XXX店</span>
+        <span class="product-waite">等待发货</span>
+        <p><a href="#">即将发货</a></p>
+      </div>
+
+      <div class="product-infor">
+        <div class="product-infor-left"><img src="images/jiangyou_05.png" alt=""></div>
+        <div class="product-infor-right">
+          <p>海天酱油，天然大豆酿造,750g</p>
+          <p class="product-infor-price"><span>实付款：</span><span>￥</span> <span>999.00</span></p>
+          <p class="product-infor-buy"><span>提现发货</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="background"></div>
+    <div class="footer">
+      没有更多内容
+    </div>
+  </body>
+</html>
