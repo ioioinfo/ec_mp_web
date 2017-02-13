@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <title></title>
+   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+   <title>代收货</title>
+   <style media="screen">
+     @media screen and (max-width:640px){
+       *{
+         margin: 0;
+         padding: 0;
+       }
+       html,body{
+         margin: 0;
+         padding: 0;
+         width: 100%;
+         height: 100%;
+       }
+
+       .warp{
+       }
+       a{
+         text-decoration: none;
+         color: #101010;
+       }
+       ::-webkit-scrollbar {
+           display: none;
+       }
+       /*----头                  部----*/
+       .header{
+         width:100%;
+         height: 80px;
+         line-height: 80px;
+         background-image:url(images/header.jpg);
+         background-repeat: no-repeat;
+         text-align: center;
+
+       }
+
+       /*-----搜    索     框----*/
+       .web-input{
+         width: 63%;;
+         background: #e8e1e8;
+         font-size: 14px;
+         color: #8B8B83;
+         font-weight: 300;
+         text-indent: 10px;
+         padding: 10px  5px 10px 0;
+         vertical-align: middle;
+         border-radius: 4px;
+         margin-right: 10px;
+         border: 2px solid #ebe8eb;
+         outline: none;
+         -webkit-appearance : none ;
+
+       }
+       .person-details{
+         width: 45px;
+         height: 45px;
+         display: inline-block;
+         vertical-align: middle;
+
+       }
+       .person-details img{
+         width: 45px;
+         height: 45px;
+       }
+       /*导                  航*/
+       .header-nav{
+
+       }
+       .nav-ul{
+
+         width: 100%;
+         display: -webkit-flex;
+         display: -moz-flex;
+         display: -ms-flex;
+         display: -o-flex;
+         display: flex;
+         font-size: 12px;
+         }
+       .nav-ul li{
+         -webkit-flex: 1;
+         -moz-flex: 1;
+         -ms-flex: 1;
+         -o-flex: 1;
+         box-flex: 1;
+         float: left;
+         text-align: center;
+         list-style: none;
+         margin-top: 20px;
+       }
+       .nav-img-daifukuan{
+         height: 23px;
+         width: 27px;
+         margin: 0 auto;
+       }
+       .nav-img-daifukuan img{
+         height: 23px;
+         width: 27px;
+         display: block;
+       }
+       .nav-ul li p{
+         margin-top: 5px;
+
+       }
+/*-----中    间    部   分-----*/
+       .main{
+         width: 100%;
+         margin-top: 20px;
+
+       }
+       .main-list{
+         width:93.6%;
+         overflow: hidden;
+         padding: 12px 0;
+         margin:0 auto;
+         border-bottom: 1px solid #fff;
+       }
+       .main-list .main-list-left{
+         width:17.094017%;
+         height: 60px;
+         float: left;
+         margin-right: 11px;
+       }
+       .main-list .main-list-left img{
+         width: 100%;
+         display: inline-block;
+       }
+       .main .main-list .main-list-middle{
+         width: 58.689458%;
+         height: 60px;
+         float: left;
+         font-size: 12px;
+         color: #051b28;
+       }
+       .main .main-list .main-list-middle p{
+         font-size: 12px;
+         color: #051b28;
+       }
+       .main .main-list .main-list-middle span{
+         display: inline-block;
+         margin-top: 5px;
+         font-size: 12px;
+         color: #999;
+       }
+       .main .main-list .main-list-right{
+         float: right;
+         width: 20.5%;
+       }
+       .main .main-list .main-list-right span{
+         display: block;
+         width: 100%;
+         text-align: right;
+       }
+       .main .main-list .main-list-right span:first-child{
+
+        line-height: 16px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-list .main-list-right span:last-child{
+        line-height: 12px;
+        color: #999;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main-money{
+         width:93.6%;
+         overflow: hidden;
+         padding: 5px 0;
+         margin:15px auto;
+         border-bottom: 1px solid #fff;
+       }
+       .main-money .main-money-left{
+         width:60px;
+         height: 30px;
+         float: left;
+         margin-right: 11px;
+         font-size: 12px;
+       }
+       .main .main-money .main-money-right{
+         float: right;
+         width: 71.953px;
+       }
+       .main .main-money .main-money-right span{
+         display: block;
+         width: 100%;
+         text-align: right;
+       }
+       .main .main-money .main-money-right span:first-child{
+
+        line-height: 16px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-money .main-money-right span:last-child{
+        line-height: 12px;
+        color: #999;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-p{
+         font-size: 14px;
+         font-weight: 700px;
+         text-align: right;
+         width:93.6%;
+         margin: 0 auto;
+         line-height: 30px;
+         border-bottom: 1px solid #fff;
+       }
+       .main .main-p1{
+         font-size: 14px;
+         font-weight: 700px;
+         text-align: right;
+         width:93.6%;
+         margin: 15px auto;
+         line-height: 30px;
+         background: #F5F5F5;
+       }
+       .main .main-p1 span{
+         display: inline-block;
+         width: 75px;
+         height: 25px;
+         line-height: 25px;
+         text-align: center;
+         border: 1px solid #CDCDCD;
+       }
+       .main .main-p1 span:first-child{
+         margin-right: 10px;
+       }
+       /*-----为您推荐------*/
+      .main-recommend{
+         width: 75.73333%;
+         margin: 10px auto;
+         text-align: center;
+       }
+       .main-recommend-line{
+         width: 30.4%;
+         height: 1px;
+         background: #bbb;
+         display: inline-block;
+         vertical-align: middle;
+       }
+       .main-recommend-center{
+         font-size: 14px;
+         color:#051b28;
+       }
+       /*----为你推荐图片展示部分----*/
+
+       .main-recommend-img-ul{
+         padding: 0;
+         margin: 0;
+         overflow: hidden;
+       }
+       .main-recommend-img-ul li{
+         width: 50%;
+         height: 248px;
+         float: left;
+         box-sizing: border-box;
+         padding-bottom: 4px;
+         position: relative;
+         display: block;
+         overflow: hidden;
+         margin: 5px 0;
+       }
+       .main-recommend-img-ul li:first-child{
+         padding-right: 2px;
+       }
+       .main-recommend-img-ul li:last-child{
+         padding-left: 2px;
+       }
+       .main-recommend-img .recommend-img-top{
+         width: 100%;
+         height: 172px;
+       }
+       .recommend-img-top img{
+         width: 100%;
+         display: block;
+         height: 172px;
+         border: 0;
+         vertical-align: middle;
+
+       }
+       .recommend-img-bottom .recommend-span-top{
+         height: 33px;
+         font-size: 13px;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         display: -webkit-box;
+         -webkit-line-clamp: 2;
+         -webkit-box-orient: vertical;
+         word-break: break-word;
+         color: #232326;
+         margin-top: 5px;
+         line-height: 17px;
+         margin-bottom: 3px;
+         padding: 0 4px;
+         text-align: center;
+       }
+       .recommend-img-bottom .reconmmend-span-bottom{
+         color: #f23030;
+         font-size: 13px;
+         display: block;
+         padding: 0 4px;
+         top: 1px;
+         height: 25px;
+         line-height: 25px;
+         position: relative;
+
+       }
+       .reconmmend-span-bottom .reconmmend-span-bottom-price{
+         font-size: 18px;
+       }
+       .reconmmend-span-bottom .reconmmend-span-bottom-num{
+         display: block;
+         position: absolute;
+         top: 0;
+         right: 8px;
+         text-align: center;
+         color: #686868;
+         font-size: 12px;
+         width: 60px;
+         height: 24px;
+         line-height: 25px;
+       }
+       .main-no-more{
+         weight:100%;
+         height:50px;
+         background:#f0f2f5;
+         text-align: center;
+         line-height: 50px;
+         color: #868489;
+       }
+       /*-------底     部------*/
+       .footer{
+
+       }
+       .footer .footer-top{
+         width: 100%;
+         height: 86px;
+         line-height: 86px;
+         display: -webkit-flex;
+         display: -moz-flex;
+         display: -ms-flex;
+         display: -o-flex;
+         display: flex;
+         text-align: center;
+         border-top: 1px solid #666;
+       }
+       .footer-top li{
+         list-style: none;
+         font-size: 16px;
+         color:#051b28;
+         -webkit-flex: 1;
+         -moz-flex: 1;
+         -ms-flex: 1;
+         -o-flex: 1;
+         box-flex: 1;
+       }
+
+     }
+   </style>
+ </head>
+ <body>
+   <div class="warp">
+     <!--       头部      -->
+     <header class="header">
+       <div class="person-details">
+         <img src="images/person.png" alt="">
+       </div>
+        <input type="text" name="" value="" placeholder="物品搜索" class="web-input">
+
+     </header>
+     <div class="header-nav">
+       <ul class="nav-ul">
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daifukuan.png" alt="">
+           </div>
+           <p>待付款</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daifahuo.png" alt="">
+           </div>
+           <p>待发货</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daishouhuo.png" alt="">
+           </div>
+           <p>待收货</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daipingjia.png" alt="">
+           </div>
+           <p>待评价</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/tuikuan.png" alt="">
+           </div>
+           <p>售后/退款</p></a>
+         </li>
+       </ul>
+     </div>
+     <!--     中部       -->
+     <div class="main">
+       <!-- 中间导航 -->
+       <div style="background:#F5F5F5;">
+        <div class="main-list">
+         <div class="main-list-left">
+           <img src="images/xianglong.jpg" alt="">
+         </div>
+         <div class="main-list-middle">
+           <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
+           <span>书籍分类：武林秘籍</span>
+         </div>
+         <div class="main-list-right">
+           <span>￥9.00</span>
+           <span>x1</span>
+         </div>
+       </div>
+       <div class="main-list">
+        <div class="main-list-left">
+          <img src="images/xianglong.jpg" alt="">
+        </div>
+        <div class="main-list-middle">
+          <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
+          <span>书籍分类：武林秘籍</span>
+        </div>
+        <div class="main-list-right">
+          <span>￥9.00</span>
+          <span>x1</span>
+        </div>
+      </div>
+        <div class="main-money">
+         <div class="main-money-left">
+          <span>运费</span>
+         </div>
+
+         <div class="main-money-right">
+           <span>￥0.00</span>
+           <span>x1</span>
+         </div>
+       </div>
+        <p class="main-p">共2件商品 &nbsp 合计：18.00 &nbsp (包括邮费在内)</p>
+        <p class="main-p1 check_logistic"><span>查看物流</span><span>确认收货</span></p>
+       </div>
+       <!-- 中间下面部分 -->
+       <div class="main-recommend">
+         <span class="main-recommend-line"></span><span class="main-recommend-center">为您推荐</span><span class="main-recommend-line"></span>
+       </div>
+
+       <!-- 为你推荐图片展示部分 -->
+       <div class="main-recommend-img">
+         <ul class="main-recommend-img-ul">
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_1.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </li>
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_2.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </a>
+           </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_3.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </li>
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_4.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </a>
+           </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_5.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </li>
+           <li>
+             <a href="#">
+               <div class="recommend-img">
+                 <div class="recommend-img-top">
+                   <img src="images/c_6.jpg" alt="">
+                 </div>
+                 <div class="recommend-img-bottom">
+                   <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                   <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                 </div>
+               </div>
+             </a>
+           </a>
+           </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_7.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </li>
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_8.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </a>
+             </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </li>
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_1.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </a>
+             </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_2.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </li>
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_3.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </a>
+             </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_4.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </li>
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_5.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </a>
+             </li>
+         </ul>
+         <ul class="main-recommend-img-ul">
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_6.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </li>
+             <li>
+               <a href="#">
+                 <div class="recommend-img">
+                   <div class="recommend-img-top">
+                     <img src="images/c_9_7.jpg" alt="">
+                   </div>
+                   <div class="recommend-img-bottom">
+                     <span class="recommend-span-top">冬季2016新款纯色百搭弹力修身加绒加厚针织衫力修身加绒加厚</span>
+                     <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price">999</span><span class="reconmmend-span-bottom-num">月销量：1</span></span>
+
+                   </div>
+                 </div>
+               </a>
+             </a>
+             </li>
+         </ul>
+       </div>
+       <div class="main-no-more">
+         没有更多!!!
+       </div>
+     </div>
+
+     <!--    底部      -->
+     <div class="footer">
+       <ul class="footer-top">
+         <li><a href="#">xxx</a></li>
+         <li><a href="#">退出</a></li>
+         <li><a href="#">意见反馈</a></li>
+         <li><a href="#">电脑版</a></li>
+       </ul>
+       <div class="" style="text-align:center;">
+         网络备案号
+       </div>
+     </div>
+ </div>
+ <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+ <script>
+ $(function() {
+	$(".check_logistic").click(function(){
+		location.href = "/check_logistic";
+	});
+ });
+ </script>
+ </body>
+</html>

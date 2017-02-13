@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <title></title>
+   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+   <title>代发货</title>
+   <style media="screen">
+     @media screen and (max-width:640px){
+       *{
+         margin: 0;
+         padding: 0;
+       }
+       html,body{
+         margin: 0;
+         padding: 0;
+         width: 100%;
+         height: 100%;
+       }
+
+       .warp{
+       }
+       a{
+         text-decoration: none;
+         color: #101010;
+       }
+       ::-webkit-scrollbar {
+           display: none;
+       }
+       /*----头                  部----*/
+       .header{
+         width:100%;
+         height: 80px;
+         line-height: 80px;
+         background-image:url(images/header.jpg);
+         background-repeat: no-repeat;
+         text-align: center;
+
+       }
+
+       /*-----搜    索     框----*/
+       .web-input{
+         width: 63%;;
+         background: #e8e1e8;
+         font-size: 14px;
+         color: #8B8B83;
+         font-weight: 300;
+         text-indent: 10px;
+         padding: 10px  5px 10px 0;
+         vertical-align: middle;
+         border-radius: 4px;
+         margin-right: 10px;
+         border: 2px solid #ebe8eb;
+         outline: none;
+         -webkit-appearance : none ;
+
+       }
+       .person-details{
+         width: 45px;
+         height: 45px;
+         display: inline-block;
+         vertical-align: middle;
+
+       }
+       .person-details img{
+         width: 45px;
+         height: 45px;
+       }
+       /*导                  航*/
+       .header-nav{
+
+       }
+       .nav-ul{
+
+         width: 100%;
+         display: -webkit-flex;
+         display: -moz-flex;
+         display: -ms-flex;
+         display: -o-flex;
+         display: flex;
+         font-size: 12px;
+         }
+       .nav-ul li{
+         -webkit-flex: 1;
+         -moz-flex: 1;
+         -ms-flex: 1;
+         -o-flex: 1;
+         box-flex: 1;
+         float: left;
+         text-align: center;
+         list-style: none;
+         margin-top: 20px;
+       }
+       .nav-img-daifukuan{
+         height: 23px;
+         width: 27px;
+         margin: 0 auto;
+       }
+       .nav-img-daifukuan img{
+         height: 23px;
+         width: 27px;
+         display: block;
+       }
+       .nav-ul li p{
+         margin-top: 5px;
+
+       }
+/*-----中    间    部   分-----*/
+       .main{
+         width: 100%;
+         margin-top: 20px;
+
+       }
+       .main-list{
+         width:93.6%;
+         overflow: hidden;
+         padding: 12px 0;
+         margin:0 auto;
+         border-bottom: 1px solid #fff;
+       }
+       .main-list .main-list-left{
+         width:17.094017%;
+         height: 60px;
+         float: left;
+         margin-right: 11px;
+       }
+       .main-list .main-list-left img{
+         width: 100%;
+         display: inline-block;
+       }
+       .main .main-list .main-list-middle{
+         width: 58.689458%;
+         height: 60px;
+         float: left;
+         font-size: 12px;
+         color: #051b28;
+       }
+       .main .main-list .main-list-middle p{
+         font-size: 12px;
+         color: #051b28;
+       }
+       .main .main-list .main-list-middle span{
+         display: inline-block;
+         margin-top: 5px;
+         font-size: 12px;
+         color: #999;
+       }
+       .main .main-list .main-list-right{
+         float: right;
+         width: 20.5%;
+       }
+       .main .main-list .main-list-right span{
+         display: block;
+         width: 100%;
+         text-align: right;
+       }
+       .main .main-list .main-list-right span:first-child{
+
+        line-height: 16px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-list .main-list-right span:last-child{
+        line-height: 12px;
+        color: #999;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main-money{
+         width:93.6%;
+         overflow: hidden;
+         padding: 5px 0;
+         margin:15px auto;
+         border-bottom: 1px solid #fff;
+       }
+       .main-money .main-money-left{
+         width:60px;
+         height: 30px;
+         float: left;
+         margin-right: 11px;
+         font-size: 12px;
+       }
+       .main .main-money .main-money-right{
+         float: right;
+         width: 71.953px;
+       }
+       .main .main-money .main-money-right span{
+         display: block;
+         width: 100%;
+         text-align: right;
+       }
+       .main .main-money .main-money-right span:first-child{
+
+        line-height: 16px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-money .main-money-right span:last-child{
+        line-height: 12px;
+        color: #999;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+       }
+       .main .main-p{
+         font-size: 14px;
+         font-weight: 700px;
+         text-align: right;
+         width:93.6%;
+         margin: 0 auto;
+         line-height: 30px;
+         border-bottom: 1px solid #fff;
+       }
+       .main .main-p1{
+         font-size: 14px;
+         font-weight: 700px;
+         text-align: right;
+         width:93.6%;
+         margin: 15px auto;
+         line-height: 30px;
+         background: #F5F5F5;
+       }
+       .main .main-p1 span{
+         display: inline-block;
+         width: 75px;
+         height: 25px;
+         line-height: 25px;
+         text-align: center;
+         border: 1px solid #CDCDCD;
+       }
+       .main .main-p1 span:first-child{
+         margin-right: 10px;
+       }
+       /*-----为您推荐------*/
+      .main-recommend{
+         width: 75.73333%;
+         margin: 10px auto;
+         text-align: center;
+         min-height: 100px;
+       }
+       .main-recommend-line{
+         width: 30.4%;
+         height: 1px;
+         display: inline-block;
+         vertical-align: middle;
+       }
+       .main-recommend-center{
+         font-size: 14px;
+         color:#051b28;
+       }
+       /*----为你推荐图片展示部分----*/
+
+
+       /*-------底     部------*/
+       .footer{
+
+       }
+       .footer .footer-top{
+         width: 100%;
+         height: 86px;
+         line-height: 86px;
+         display: -webkit-flex;
+         display: -moz-flex;
+         display: -ms-flex;
+         display: -o-flex;
+         display: flex;
+         text-align: center;
+         border-top: 1px solid #666;
+       }
+       .footer-top li{
+         list-style: none;
+         font-size: 16px;
+         color:#051b28;
+         -webkit-flex: 1;
+         -moz-flex: 1;
+         -ms-flex: 1;
+         -o-flex: 1;
+         box-flex: 1;
+       }
+
+     }
+   </style>
+ </head>
+ <body>
+   <div class="warp">
+     <!--       头部      -->
+     <header class="header">
+       <div class="person-details">
+         <img src="images/person.png" alt="">
+       </div>
+        <input type="text" name="" value="" placeholder="物品搜索" class="web-input">
+
+     </header>
+     <div class="header-nav">
+       <ul class="nav-ul">
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daifukuan.png" alt="">
+           </div>
+           <p>待付款</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daifahuo.png" alt="">
+           </div>
+           <p>待发货</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daishouhuo.png" alt="">
+           </div>
+           <p>待收货</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/daipingjia.png" alt="">
+           </div>
+           <p>待评价</p></a>
+         </li>
+         <li><a href="#">
+           <div class="nav-img-daifukuan">
+             <img src="images/tuikuan.png" alt="">
+           </div>
+           <p>售后/退款</p></a>
+         </li>
+       </ul>
+     </div>
+     <!--     中部       -->
+     <div class="main">
+       <!-- 中间导航 -->
+       <div style="background:#F5F5F5;">
+        <div class="main-list">
+         <div class="main-list-left">
+           <img src="images/xianglong.jpg" alt="">
+         </div>
+         <div class="main-list-middle">
+           <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
+           <span>书籍分类：武林秘籍</span>
+         </div>
+         <div class="main-list-right">
+           <span>￥9.00</span>
+           <span>x1</span>
+         </div>
+       </div>
+       <div class="main-list">
+        <div class="main-list-left">
+          <img src="images/xianglong.jpg" alt="">
+        </div>
+        <div class="main-list-middle">
+          <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
+          <span>书籍分类：武林秘籍</span>
+        </div>
+        <div class="main-list-right">
+          <span>￥9.00</span>
+          <span>x1</span>
+        </div>
+      </div>
+        <div class="main-money">
+         <div class="main-money-left">
+          <span>运费</span>
+         </div>
+
+         <div class="main-money-right">
+           <span>￥0.00</span>
+           <span>x1</span>
+         </div>
+       </div>
+        <p class="main-p">共2件商品 &nbsp 合计：18.00 &nbsp (包括邮费在内)</p>
+        <p class="main-p1"><span>提醒发货</span></p>
+       </div>
+       <!-- 中间下面部分 -->
+       <div class="main-recommend">
+         <span class="main-recommend-line"></span><span class="main-recommend-center"></span><span class="main-recommend-line"></span>
+       </div>
+
+       <!-- 为你推荐图片展示部分 -->
+
+     </div>
+
+     <!--    底部      -->
+     <div class="footer">
+       <ul class="footer-top">
+         <li><a href="#">xxx</a></li>
+         <li><a href="#">退出</a></li>
+         <li><a href="#">意见反馈</a></li>
+         <li><a href="#">电脑版</a></li>
+       </ul>
+       <div class="" style="text-align:center;">
+         网络备案号
+       </div>
+     </div>
+ </div>
+ </body>
+</html>

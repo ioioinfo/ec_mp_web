@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>添加新地址</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+            margin: 0;
+            padding: 0;
+          }
+          html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            position: relative;
+          }
+
+          a{
+            text-decoration: none;
+            color: #101010;
+          }
+          .wrap .top{
+            font-size: 0;
+            border-bottom: 1px solid #E7E7E7;
+          }
+          .wrap .top span{
+            font-size: 14px;
+          }
+          .wrap .top span:first-child{
+            display: inline-block;
+            width: 12.533333%;
+            height: 47px;
+            line-height: 47px;
+            text-align: center;
+          }
+          .wrap .top span:nth-child(3n+2){
+            display: inline-block;
+            width: 74.933333%;
+            height: 47px;
+            line-height: 47px;
+            text-align: left;
+          }
+          .wrap .top span:last-child{
+            display: inline-block;
+            width: 12.533333%;
+            height: 47px;
+            line-height: 47px;
+            text-align: center;
+            color: #FF4400;
+          }
+          .wrap .top span img{
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+          }
+          .middle{
+
+            font-size: 0;
+            border-bottom: 1px solid #f8f5f5;
+          }
+          .middle .middle-shouhuoren{
+            width: 96%;
+            margin: 0 auto;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f5f5;
+            overflow: hidden;
+          }
+          .middle .span1{
+            display: inline-block;
+            width: 16.66666%;
+            font-size: 14px;
+
+            line-height: 26px;
+          }
+          .middle .input1{
+            width: 83.33334%;
+            outline-style: none;
+            border: none;
+            line-height: 26px;
+          }
+          .middle .middle-shouhuoren p{
+            display: inline-block;
+            width: 83.33334%;
+            font-size: 14px;
+            text-align: right;
+          }
+          .middle .middle-shouhuoren p img{
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+          }
+          .middle .middle-shouhuoren p .span2{
+            vertical-align: middle;
+            margin-right: 10px;
+            line-height: 26px;
+            color: #999;
+          }
+          .middle .middle-shouhuoren .input2{
+            width: 100%;
+            height: 56px;
+            outline-style: none;
+            border: none;
+
+          }
+          .middle .middle-shouhuoren .input3{
+            float: right;
+            margin: 2px 2.77777% 0 0;
+
+          }
+          .middle .middle-shouhuoren .span3{
+            display: inline-block;
+            width: 37.66666%;
+            font-size: 14px;
+          }
+          .bottom{
+            padding: 10px 0;
+            border: none;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <span><img src="images/back.png" alt=""></span>
+        <span>添加新地址</span>
+        <span>保存</span>
+      </div>
+      <div class="middle">
+        <div class="middle-shouhuoren">
+          <span class="span1">收货人</span><input type="text" name="" value="" class="input1">
+        </div>
+      </div>
+      <div class="middle">
+        <div class="middle-shouhuoren">
+          <span class="span1">联系电话</span><input type="text"  name="" value="" class="input1">
+        </div>
+      </div><div class="middle">
+        <div class="middle-shouhuoren">
+          <span class="span1">所在地区</span><p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+        </div>
+      </div>
+    </div><div class="middle">
+      <div class="middle-shouhuoren">
+        <span class="span1">街道</span><p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+      </div>
+    </div>
+  </div><div class="middle">
+    <div class="middle-shouhuoren">
+      <textarea  placeholder="详细地址" class="input2"></textarea>
+    </div>
+  </div>
+  <div style="width:100%;height:10px;background:#f8f5f5"></div>
+</div><div class="middle bottom">
+  <div class="middle-shouhuoren">
+      <span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3">
+  </div>
+</div>
+    </div>
+  </body>
+</html>
