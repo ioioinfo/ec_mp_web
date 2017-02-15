@@ -1,5 +1,6 @@
 // Base routes for item..
 const uu_request = require('../utils/uu_request');
+﻿var industries = require('../utils/industries.js');
 var eventproxy = require('eventproxy');
 var do_get_method = function(url,cb){
 	uu_request.get(url, function(err, response, body){
@@ -80,6 +81,31 @@ var find_personsVip = function(persons, cb){
 	url = url + persons + "&scope_code=" +platform_id;
 	do_get_method(url,cb);
 };
+//得到所有订单
+var get_ec_orders = function(cb){
+	var url = "http://127.0.0.1:18010/get_ec_orders";
+	do_get_method(url,cb);
+};
+//得到单个订单
+var get_ec_order = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/get_ec_order?order_id="+order_id;
+	do_get_method(url,cb);
+};
+//得到个人地址信息
+var get_order_address = function(person_id,cb){
+	var url = "http://127.0.0.1:18010/search_order_address?person_id="+person_id;
+	do_get_method(url,cb);
+};
+//查询物流信息
+var get_logistics_info = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/search_laster_logistics?order_id="+order_id;
+	do_get_method(url,cb);
+};
+//
+var get_logistics_infos = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/search_logistics_info?order_id="+order_id;
+	do_get_method(url,cb);
+};
 exports.register = function(server, options, next){
 	server.route([
 		//desc,需要服务器地址
@@ -146,24 +172,46 @@ exports.register = function(server, options, next){
 				var is_active = 0;
 				find_product_info(product_id, function(err, content){
 					if (!err) {
+						var industry_id = content.product.industry_id;
+						var industry = industries[industry_id];
 						find_favorite(product_id,person_id,function(err,result){
 							if (!err) {
 								if (result.row && result.row.is_active) {
 									is_active = result.row.is_active;
 								}
-								return reply.view("product_show",{"product":content.product,"is_active":is_active});
+								return reply.view(industry.view_name,{"product":content.product,"is_active":is_active});
 							}else {
 
 							}
 						});
-
 					}else {
-
 					}
-
-
 				});
 				// return reply.view("product_show");
+			}
+		},
+		//产品图文参数
+		{
+			method: 'GET',
+			path: '/product_text_configure',
+			handler: function(request, reply){
+				return reply.view("product_text_configure");
+			}
+		},
+		//产品评论
+		{
+			method: 'GET',
+			path: '/product_comment',
+			handler: function(request, reply){
+				return reply.view("product_comment");
+			}
+		},
+		//去评价
+		{
+			method: 'GET',
+			path: '/go_comment',
+			handler: function(request, reply){
+				return reply.view("go_comment");
 			}
 		},
 		//修改收藏
@@ -262,15 +310,30 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/order_center',
 			handler: function(request, reply){
-				return reply.view("order_center");
+				get_ec_orders(function(err,results){
+					if (!err) {
+						if (true) {
+							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
+						}
+					}else {
+
+					}
+				});
 			}
 		},
 		//查看物流
 		{
 			method: 'GET',
-			path: '/check_logistic',
+			path: '/check_logistics',
 			handler: function(request, reply){
-				return reply.view("check_logistic");
+				var order_id = request.query.order_id;
+				get_logistics_infos(order_id, function(err,results){
+					if (!err) {
+						return reply.view("check_logistics",{"logistics_infos":results.rows,"order_logistics":results.order_logistics});
+					}else {
+
+					}
+				});
 			}
 		},
 		//地址管理
@@ -289,7 +352,7 @@ exports.register = function(server, options, next){
 				return reply.view("add_address");
 			}
 		},
-		//新增地址
+		//编辑地址
 		{
 			method: 'GET',
 			path: '/edit_address',
@@ -297,7 +360,7 @@ exports.register = function(server, options, next){
 				return reply.view("edit_address");
 			}
 		},
-		//新增地址
+		//收藏
 		{
 			method: 'GET',
 			path: '/favorite_list',
@@ -350,7 +413,49 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/order_detail',
 			handler: function(request, reply){
-				return reply.view("order_detail");
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var order_id = request.query.order_id;
+
+				var ep =  eventproxy.create("order","details","products","order_address","logistics_info",
+					function(order,details,products,order_address,logistics_info){
+					return reply.view("order_detail",{"order":order,"order_address":order_address,"details":details,"products":products,"logistics_info":logistics_info});
+				});
+
+				get_ec_order(order_id,function(err,results){
+					if (!err) {
+						if (true) {
+							ep.emit("order", results.orders[0]);
+							ep.emit("details", results.details);
+							ep.emit("products", results.products);
+						}
+					}else {
+						ep.emit("order", {});
+						ep.emit("details", {});
+						ep.emit("products", {});
+					}
+				});
+
+				get_order_address(person_id,function(err,results){
+					if (!err) {
+						if (true) {
+							ep.emit("order_address", results.address[0]);
+						}
+					}else {
+						ep.emit("order", {});
+					}
+				});
+				get_logistics_info(order_id,function(err,results){
+					if (!err) {
+						if (true) {
+							ep.emit("logistics_info", results.row);
+						}
+					}else {
+						ep.emit("logistics_info", {});
+					}
+				});
 			}
 		},
 		//微信注册

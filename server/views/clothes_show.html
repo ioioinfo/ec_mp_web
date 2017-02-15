@@ -19,6 +19,7 @@
         }
         body {
          font-family:"Times New Roman", Times, serif;
+		 position: relative;
         }
         p{
           padding: 0;
@@ -31,6 +32,205 @@
         a{
           text-decoration: none;
           color: #000;
+        }
+		.content{
+          width: 100%;
+          overflow: hidden;
+          background-color: #fff;
+          border-top: 1px solid #dadada;
+
+        }
+
+        .price{
+          width: 100%;
+          height: 84px;
+          border-bottom: 1px solid #dcdcdc;
+        }
+        .price-top{
+          font-size: 15px;
+          line-height: 15px;
+          color: #f23030;
+          padding-top: 42px;
+          padding-left: 10px;
+          font-weight: bold;
+        }
+        .price .price-top-1{
+          width: 9px;
+          height: 11px;
+          margin-right: 3px;
+          margin-top: 2px;
+          float: left;
+          display: block;
+          background: url("images/product-detail-sprites-mjs.png") no-repeat 0 0;
+          background-size: 100px 100px;
+          background-position: -14px -17px;
+        }
+        .price .price-bottom{
+          font-size: 11px;
+          line-height: 11px;
+          color: #81838e;
+          padding-top: 8px;
+          padding-left: 10px;
+        }
+        .content .content-middle{
+
+          padding-left: 10px;
+
+        }
+        .content-middle-infor{
+          height: auto;
+          padding-top: 15px;
+          font-size: 0;
+          padding-bottom: 15px;
+          border-width: 0 0 1px 0;
+          background-color: #fff;
+        }
+        .middle-1{
+          font-size: 0;
+          overflow: hidden;
+          position: relative;
+        }
+        .middle-span1{
+          line-height: 18px;
+          margin-right: 8px;
+          display: inline-block;
+          line-height: 15px;
+          font-size: 13px;
+          color: #81838e;
+          width: 26px;
+          white-space: normal;
+          height: auto;
+          float: left;
+        }
+        .middle-name{
+          line-height: 18px;
+          margin-right: 8px;
+          margin-left: 34px;
+          font-size: 13px;
+          color: #252525;
+          line-height: 15px;
+          padding-right: 15px;
+        }
+        .middle-2 .middle-2-0ne{
+          margin-top: 13px;
+          font-size: 0;
+          overflow: hidden;
+          position: relative;
+        }
+        .middle-2 .middle-2-0ne .middle-span3{
+          line-height: 23px;
+          float: left;
+          display: inline-block;
+          font-size: 13px;
+          color: #81838e;
+          width: 26px;
+          white-space: normal;
+          height: auto;
+        }
+        .middle-2 .middle-2-0ne .middle-color{
+          margin-left: 34px;
+          overflow: hidden;
+          float: left;
+        }
+        .middle-2 .middle-2-0ne .middle-color .middle-a1{
+
+          border: 1px solid #bfbfbf;
+          color: #232326;
+          height: 27px;
+          border-radius: 4px;
+          line-height: 25px;
+          font-size: 13px;
+          float: left;
+          margin-right: 10px;
+          padding-left: 20px;
+          padding-right: 20px;
+          margin-bottom: 10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 69px;
+          max-width: 98%;
+          box-sizing: border-box;
+          text-align: center;
+        }
+        .middle-2 .middle-2-0ne .middle-color .middle-a2{
+          border: 1px solid #f23030;
+          color: #f23030;
+
+        }
+        .middle-2-0ne::after{
+          visibility: hidden;
+          display: block;
+          font-size: 0;
+          content: " ";
+          clear: both;
+          height: 0;
+        }
+        .middle-number-right{
+          display: inline-block;
+          height: 26px;
+          border-radius: 5px;
+          margin-left: 8px;
+          float: left;
+          line-height: 26px;
+        }
+        .middle-number-input1{
+          font-size: 16px;
+          vertical-align: middle;
+          outline: none;
+          color: inherit;
+          font: inherit;
+        }
+        .middle-number-right .middle-a3{
+          float: left;
+          font-size: 15px;
+          text-align: center;
+          background: #fff;
+          border: 1px solid #cbcbcb;
+          color: #232326;
+          display: block;
+          height: 24px;
+          line-height: 24px;
+          width: 26px;
+          overflow: hidden;
+          text-indent: -200px;
+          box-sizing: border-box;
+          -webkit-border-radius: 2px 0 0 2px;
+        }
+        .middle-number-right .middle-a3 .middle-em{
+
+          background: url("images/product-detail-sprites-mjs.png") no-repeat;
+          background-position: -32px -85px;
+          background-size: 100px 100px;
+          height: 12px;
+          width: 12px;
+          display: block;
+          margin: 6px;
+        }
+        .middle-number-right .middle-a3 .push{
+          background: url("images/product-detail-sprites-mjs.png") no-repeat;
+          background-position: -32px -67px;
+          background-size: 100px 100px;
+          height: 12px;
+          width: 12px;
+          display: block;
+          margin: 6px;
+        }
+        .middle-number-input2{
+          float: left;
+          font-size: 15px;
+          text-align: center;
+          color: #232326;
+          border: solid #cbcbcb;
+          border-width: 1px 0 1px 0;
+          height: 24px;
+          line-height: 24px;
+          width: 34px;
+          border-radius: 0;
+          -webkit-appearance: none;
+          box-sizing: border-box;
+          vertical-align: middle;
+          outline: none;
         }
         #box {
          position:relative;
@@ -517,156 +717,151 @@
     </style>
     <script>
     <!--
-	 var images ={{ JSON.stringify(product.mp_pictures)|| safe}};
+	 var imgaes ={{ JSON.stringify(product.mp_pictures)|| safe}};
 	 var imgs = [];
-	 for (var i = 0; i < images.length; i++) {
-	 	imgs.push("<img src=\'images/"+images[i].location+"\'/>");
+	 for (var i = 0; i < imgaes.length; i++) {
+	 	imgs.push("<img src=\'images/"+imgaes[i].location+"\'/>");
 	 }
-	 <!--
-	  function runImg(){}
-	  runImg.prototype={
-	   bigbox:null,//最外层容器
-	   boxul:null,//子容器ul
-	   imglist:null,//子容器img
-	   numlist:null,//子容器countNum
-	   index:0,//当前显示项
-	   timer:null,//控制图片转变效果
-	   play:null,//控制自动播放
-	   imgurl:[],//存放图片
-	   count:0,//存放的个数
-	   $:function(obj)
-	   {
-		if(typeof(obj)=="string")
-		{
-		 if(obj.indexOf("#")>=0)
-		 {
-		  obj=obj.replace("#","");
-		  if(document.getElementById(obj))
-		  {
-		   return document.getElementById(obj);
-		  }
-		  else
-		  {
-		   alert("没有容器"+obj);
-		   return null;
-		  }
-		 }
-		 else
-		 {
-		  return document.createElement(obj);
-		 }
-		}
-		else
-		{
-		 return obj;
-		}
-	   },
-	   //初始化
-	   info:function(id)
-	   {
-		this.count=this.count<=5?this.count:5;
-		this.bigbox=this.$(id);
-		for(var i=0;i<2;i++)
-		{
-		 var ul=this.$("ul");
-		 for(var j=1;j<=this.count;j++)
-		 {
-		  var li=this.$("li");
-		  li.innerHTML=i==0?this.imgurl[j-1]:j;
-		  ul.appendChild(li);
-		 }
-		 this.bigbox.appendChild(ul);
-		}
-		this.boxul=this.bigbox.getElementsByTagName("ul");
-		this.boxul[0].className="imgList";
-		this.boxul[1].className="countNum";
-		this.imglist=this.boxul[0].getElementsByTagName("li");
-		this.numlist=this.boxul[1].getElementsByTagName("li");
-		this.numlist[0].className="current";
-	   },
-	   //封装程序入口
-	   action:function(id)
-	   {
-		this.imgshow(this.index,this.numlist,this.imglist);
-		this.autoplay();
-		this.mouseoverout(this.bigbox,this.numlist);
-	   },
-	   //图片切换效果
-	   imgshow:function(num,numlist,imglist)
-	   {
-		this.index=num;
-		var alpha=80;
-		for(var i=0;i<numlist.length;i++)
-		{
-		 numlist[i].className="";
-		}
-		numlist[this.index].className="current";
-		clearInterval(this.timer);
-		for(var j=0;j<imglist.length;j++)
-		{
-		 imglist[j].style.opacity=0;
-		 imglist[j].style.filter="alpha(opacity=0)";
-		}
-		var $this=this;
-		imglist[$this.index].style.opacity=alpha;
-		imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
-
-		//利用透明度来实现切换图片
-		this.timer=setInterval(function(){
-		 alpha+=2;
-		 if(alpha>100){alpha=100};//不能大于100
-		 //为兼容性赋样式
-		 imglist[$this.index].style.opacity=alpha/100;
-		 imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
-		 if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
-	   },40)//经测试20是我认为最合适的值
-	   },
-	   //自动播放
-	   autoplay:function(){
-		var $this=this;
-		this.play=setInterval(function(){
-		 $this.index++;
-		 if($this.index>$this.imglist.length-1){$this.index=0};
-		 $this.imgshow($this.index,$this.numlist,$this.imglist);
-	   },4000)
-	   },
-	   //处理鼠标事件
-	   mouseoverout:function(box,numlist)
-	   {
-		var $this=this;
-		box.onmouseover=function()
-		{
-		 clearInterval($this.play);
-		}
-		box.onmouseout=function()
-		{
-		 $this.autoplay($this.index);
-		}
-		for(var i=0;i<numlist.length;i++)
-		{
-		 numlist[i].index=i;
-		 numlist[i].onmouseover=function(){
-		  $this.imgshow(this.index,$this.numlist,$this.imglist);
-		 }
-		}
-	   }
-	  }
-	  window.onload=function(){
-	   var runimg=new runImg();
-	   runimg.count=images.length;
-	   runimg.imgurl=imgs;
-	   runimg.info("#box");
-	   runimg.action("#box");
-	  }
-	 -->
+     function runImg(){}
+     runImg.prototype={
+      bigbox:null,//最外层容器
+      boxul:null,//子容器ul
+      imglist:null,//子容器img
+      numlist:null,//子容器countNum
+      index:0,//当前显示项
+      timer:null,//控制图片转变效果
+      play:null,//控制自动播放
+      imgurl:[],//存放图片
+      count:0,//存放的个数
+      $:function(obj)
+      {
+       if(typeof(obj)=="string")
+       {
+        if(obj.indexOf("#")>=0)
+        {
+         obj=obj.replace("#","");
+         if(document.getElementById(obj))
+         {
+          return document.getElementById(obj);
+         }
+         else
+         {
+          alert("没有容器"+obj);
+          return null;
+         }
+        }
+        else
+        {
+         return document.createElement(obj);
+        }
+       }
+       else
+       {
+        return obj;
+       }
+      },
+      //初始化
+      info:function(id)
+      {
+       this.count=this.count<=5?this.count:5;
+       this.bigbox=this.$(id);
+       for(var i=0;i<2;i++)
+       {
+        var ul=this.$("ul");
+        for(var j=1;j<=this.count;j++)
+        {
+         var li=this.$("li");
+         li.innerHTML=i==0?this.imgurl[j-1]:j;
+         ul.appendChild(li);
+        }
+        this.bigbox.appendChild(ul);
+       }
+       this.boxul=this.bigbox.getElementsByTagName("ul");
+       this.boxul[0].className="imgList";
+       this.boxul[1].className="countNum";
+       this.imglist=this.boxul[0].getElementsByTagName("li");
+       this.numlist=this.boxul[1].getElementsByTagName("li");
+       this.numlist[0].className="current";
+      },
+      //封装程序入口
+      action:function(id)
+      {
+       this.autoplay();
+       this.mouseoverout(this.bigbox,this.numlist);
+      },
+      //图片切换效果
+      imgshow:function(num,numlist,imglist)
+      {
+       this.index=num;
+       var alpha=0;
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].className="";
+       }
+       numlist[this.index].className="current";
+       clearInterval(this.timer);
+       for(var j=0;j<imglist.length;j++)
+       {
+        imglist[j].style.opacity=0;
+        imglist[j].style.filter="alpha(opacity=0)";
+       }
+       var $this=this;
+       //利用透明度来实现切换图片
+       this.timer=setInterval(function(){
+        alpha+=2;
+        if(alpha>100){alpha=100};//不能大于100
+        //为兼容性赋样式
+        imglist[$this.index].style.opacity=alpha/100;
+        imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
+        if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
+       },20)//经测试20是我认为最合适的值
+      },
+      //自动播放
+      autoplay:function(){
+       var $this=this;
+       this.play=setInterval(function(){
+        $this.index++;
+        if($this.index>$this.imglist.length-1){$this.index=0};
+        $this.imgshow($this.index,$this.numlist,$this.imglist);
+        },2000)
+      },
+      //处理鼠标事件
+      mouseoverout:function(box,numlist)
+      {
+       var $this=this;
+       box.onmouseover=function()
+       {
+        clearInterval($this.play);
+       }
+       box.onmouseout=function()
+       {
+        $this.autoplay($this.index);
+       }
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].index=i;
+        numlist[i].onmouseover=function(){
+         $this.imgshow(this.index,$this.numlist,$this.imglist);
+        }
+       }
+      }
+     }
+     window.onload=function(){
+      var runimg=new runImg();
+      runimg.count=imgs.length;
+	  runimg.imgurl = imgs;
+      runimg.info("#box");
+      runimg.action("#box");
+     }
+    -->
     </script>
   </head>
   <body>
     <div class="head">
       <p><span><</span></p>
       <p>商品</p>
-      <p class="details">详情</p>
-      <p class="comment">评论</p>
+      <p>详情</p>
+      <p>评论</p>
       <p><img src="images/shouye-2.png" alt=""></p>
     </div>
     <div class="middle">
@@ -696,8 +891,54 @@
         <p class="discount-coupon"><span class="span2">领优惠券：</span><a href="#"><span class="span3">ss</span></a><a href="#"><span class="span4"></span></a><a href="#"><span class="span5"></span></a></p>
       </div>
       <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="top-kind">
-        <p class="top-kind-top"><span>选择颜色分类</span><span>></span></p>
+	  <div class="content">
+        <div class="price">
+          <div class="price-top">
+            <span class="price-top-1"></span>
+            <span class="price-top-2">111.00</span>
+          </div>
+          <div class="price-bottom">
+            <span>重量:</span>
+            <span>5kg</span>
+          </div>
+        </div>
+        <div class="content-middle">
+          <div class="content-middle-infor">
+            <div class="middle-1">
+              <span class="middle-span1">已选</span>
+              <div class="middle-name">
+                降龙十八掌精装版&nbsp&nbsp <span class="middle-span2">1件</span>
+              </div>
+            </div>
+            <div class="middle-2">
+			{% for property in product.mp_stock.properties %}
+              <div class="middle-2-0ne">
+                <span class="middle-span3">{{property["name"]}}</span>
+                <p class="middle-color">
+					{% for size_name in property.all_value %}
+				    	{% if product.mp_stock.stocks[size_name]>0 %}
+							<a href="#" class="middle-a1 middle-a2">{{size_name}}</a>
+						{% else %}
+							<a href="#" class="middle-a1">{{size_name}}</a>
+						{% endif %}
+					{% endfor %}
+				</p>
+
+			  </div>
+			{% endfor %}
+
+              <div class="middle-2-0ne" style="float:right;margin-right:20px;">
+                <span class="middle-span3">数量</span>
+                <div class="middle-number-right">
+                  <input type="hidden" name="" value="" class="middle-number-input1">
+                  <a href="#" class="middle-a3"><em class="middle-em">-</em></a>
+                  <input type="tel" name="" value="1" class="middle-number-input2">
+                  <a href="#" class="middle-a3"><em class="middle-em push">+</em></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
       <div class="expressage">
@@ -897,12 +1138,6 @@
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 		$(function() {
-			$(".details").click(function(){
-				location.href = "/product_text_configure?product_id={{product.id}}";
-			});
-			$(".comment").click(function(){
-				location.href = "/product_comment";
-			});
 			var is_active = {{is_active}};
 			var product_id = "{{product.id}}";
 			$(".favorite").click(function(){

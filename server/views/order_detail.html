@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>web-product-infor</title>
+    <title>订单详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
     <style media="screen">
       @media screen and (max-width:640px) {
         *{
@@ -27,24 +28,65 @@
             text-decoration: none;
             color: #fff;
           }
-        .header{
-          width: 100%;
-          height: 50px;
-          line-height: 50px;
-          /*text-align: center;*/
-          font-weight: 600;
-          border-bottom: 1px solid #e8e8e8;
-          overflow: hidden;
-        }
-        .back {
-          margin-left: 2.66667%;
-          display: inline-block;
-          font-size: 18px;
-          
-        }
-        .header span:last-child{
-          margin-left: 35.0786%;
-        }
+          .top{
+           width: 100%;
+           height: 47px;
+           overflow: hidden;
+           border-bottom: 1px solid #e7e7e7;
+           box-shadow: 0 2px 5px #e7e7e7;
+           background: #fff;
+         }
+         .top .back{
+           width: 12.5333333%;
+           height: 47px;
+           float: left;
+           display: inline-block;
+           text-align: center;
+           line-height: 47px;
+
+         }
+         .top .back img{
+           width: 25px;
+           height: 25px;
+           vertical-align: middle;
+         }
+         .top .top-right{
+           width: 12.5333333%;
+           height: 47px;
+           float: right;
+           display: inline-block;
+           text-align: center;
+           line-height: 47px;
+           position: relative;
+         }
+         .top .top-right p{
+           display: inline-block;
+           width: 18px;
+           height: 14px;
+           line-height: 14px;
+           color: #fff;
+           position: absolute;
+           left: 19px;
+           top: 10px;
+           font-size: 12px;
+           background: #D81E06;
+           border-radius: 7px;
+           text-align: center;
+         }
+         .top .top-right img{
+           width: 25px;
+           height: 25px;
+           vertical-align: middle;
+         }
+         .top .top-title{
+           float: left;
+           width: 74.93333333%;
+           height: 47px;
+           line-height: 47px;
+           text-align: center;
+           color: #252525;
+           font-weight: 400;
+         }
         .content{
           width: 100%;
           overflow: hidden;
@@ -105,73 +147,139 @@
           background: #EBEBEB;
         }
         .shop-infor{
-          width: 100%;
-          height: 40px;
-          border-bottom:1px solid #e8e8e8;
+          width: 90%;
+          margin: 0 auto;
+          height: 35px;
+          line-height: 35px;
+          overflow: hidden;
         }
-        .shop-infor-img img{
-          width: 25px;
-          height: 25px;
+        .shop-infor .shop-infor-img{
+          margin-right:8.544px;
+          line-height: 0;
+          width: 16px;
+          height: 17px;
+          display: inline-block;
+        }
+        .shop-infor .shop-infor-img img{
+          width: 100%;
           vertical-align: middle;
         }
-        .shop-infor-img{
-          width: 25px;
-          height: 25px;
-          display: inline-block;
-          padding-left: 10px;
-          padding-top: 10px;
-        }
-        .shop-infor-word{
+        .content .shop-infor .span1{
           font-size: 14px;
+          color: #999;
+          vertical-align: middle;
           display: inline-block;
-          line-height: 40px;
-          color: #5677fc;
+          margin-right: 5px;
         }
-        .shop-infor span:last-child{
-          font-size: 12px;
-          line-height: 40px;
-          color: #e51c23;
+        .content .shop-infor span img{
+          width: 15px;
+          height: 15px;
+          vertical-align: middle;
+        }
+        .content .shop-infor .span2{
+          font-size: 14px;
+          color: #F72E0A;
+          vertical-align: middle;
           float: right;
-          margin-right:2.66667%;
+          vertical-align: middle;
         }
-        .product-infor{
-
+        .content .product-infor{
           width: 100%;
-          height: 119px;
-          display:table-cell;
-          vertical-align: middle;
+
+          overflow: hidden;
+          background: #F5F5F5;
+          padding: 5px 0;
         }
-        .product-infor-left{
+        .content .product-infor .all{
+          width: 90%;
+          padding: 5px 0;
+          overflow: hidden;
+          margin: 0 auto;
+
+        }
+        .product-infor .product-infor-left{
           float: left;
-          width: 121px;
-          height: 81px;
+          width: 15.11111%;
+          height: 52px;
+          margin-right: 2.962962%;
         }
-        .product-infor-left img{
-          width: 121px;
-          height: 81px;
-          vertical-align: middle;
+        .product-infor .product-infor-left img{
+          width: 51px;
+          height: 52px;
         }
-        .product-infor-right{
+        .product-infor .product-infor-middle{
           float: left;
+          width: 52.148148%;
+
         }
-        .product-infor-right p{
-          padding-left: 10px;
+        .product-infor .product-infor-middle .p1{
+          width: 100%;
+          font-size: 12px;
+          height: 35px;
+          line-height: 17px;
+          color: #223541;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          -moz-line-clamp: 2;
+          -ms-line-clamp: 2;
+          -o-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          -moz-box-orient: vertical;
+          -ms-box-orient: vertical;
+          -o-box-orient: vertical;
+          box-orient: vertical;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-box;
+          display: -o-box;
+          display: box;
+          word-break: break-all;
         }
-        .product-infor-right p:first-child{
+        .product-infor .product-infor-middle .p2{
+          margin-top: 5px;
+          color: #999;
+          width: 100%;
+          font-size: 12px;
+          /*height: 30px;*/
+          overflow: hidden;
+
+        }
+        .product-infor .product-infor-middle .p3{
+          margin-top: 5px;
+          width: 48px;
+          font-size: 12px;
+          display: inline-block;
+          background: #ff5000;
+          color: #fff;
+          text-align: center;
+        }
+        .product-infor .product-infor-right{
+          width: 29.6296296%;
+          float: right;
+        }
+        .product-infor .product-infor-right p{
+          width: 100%;
+          text-align: right;
+          line-height: 16px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          margin-bottom: 5px;
           font-size: 14px;
         }
-        .product-infor-right p:last-child{
-          margin-top: 40px;
+        .product-infor .product-infor-right .tuikuan{
+          color: #999;
         }
-        .product-infor-price span:first-child{
-          font-size: 14px;
-          color: #000;
+        .product-infor .product-infor-right p:first-child{
+          width: 100%;
+          text-align: right;
+          line-height: 13px;
+          font-weight: 700;
         }
-        .product-infor-price span:last-child{
-          font-size: 16px;
-          color:#555;
-          font-weight: 600;
-        }
+
+
+
         .service{
           text-align: center;
           height: 40px;
@@ -237,8 +345,8 @@
         .footer ul li{
           flex: 1;
           width: 74px;
-          height: 25px;
-          line-height: 25px;
+          height: 35px;
+          line-height: 35px;
           list-style: none;
         }
         .footer ul li p{
@@ -248,45 +356,72 @@
           border-radius: 3px;
           text-align: center;
         }
+        .yuanjia{
+          color: #999;
+        }
+        .order-time{
+          padding: 10px 0;
+          border-bottom: 1px solid #eee;
+        }
+        .order-time p{
+          width: 100%;
+          text-indent: 10px;
+          font-size: 12px;
+          line-height: 16px;
+          color: #223541;
+          padding: 5px 0;
+        }
       }
     </style>
   </head>
   <body>
     <!-- 头部 -->
-    <div class="header">
-      <span class="back"><</span>
-      <span>订单详情</span>
+    <div class="top">
+      <div class="back">
+        <img src="images/back.png" alt="">
+      </div>
+      <p class="top-title">订单详情</p>
+      <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
     </div>
 
     <!-- 中间 -->
     <div class="content">
-      <div class="order-number">
-        <span>订单单号：1234567890</span>
-      </div>
       <div class="Delivery-status">
-        <span>快件以签收，签收人：XXX，扫描时间：2017/1/3</span>
-        <span><a href="#">></a></span>
+        <span>{{logistics_info.detail_desc | safe}}</span>
+        <span><a href="/check_logistics?order_id={{order.order_id}}">></a></span>
       </div>
       <div class="Delivery-infor">
-        <span><img src="images/person.png" alt="" class="Delivery-infor-img">包哥</span>
-        <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">181******3323</span>
+        <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order_address.receive_name}}</span>
+        <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order_address.telephone}}</span>
       </div>
       <div class="Delivery-infor-bottom">
-        <span>上海市宝山区呼兰路911弄11号3号楼101A</span>
+        <span>{{order_address.address}}</span>
       </div>
       <div class="background"></div>
       <div class="shop-infor">
         <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
-        <span class="shop-infor-word">XXX店</span>
-        <span>等待收货</span>
+        <span class="span1">自营店</span><span><img src="images/jiantou-right.png" alt=""></span><span class="span2">{{order.order_status}}</span>
       </div>
+	  	{% for detail in details[order.order_id] %}
       <div class="product-infor">
-        <div class="product-infor-left"><img src="images/jiangyou_02.png" alt=""></div>
-        <div class="product-infor-right">
-          <p>海天酱油，天然大豆酿造,750g</p>
-          <p class="product-infor-price"><span>实付款：</span><span>999.00</span></p>
+        <div class="all">
+          <div class="product-infor-left"><img src="images/{{products[detail.product_id].img.location}}" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">{{products[detail.product_id].product_name}}</p>
+            <p class="p2">{{products[detail.product_id].product_describe}}&nbsp;颜色:{{products[detail.product_id].color}}</p>
+            <p class="p3">7天退换</p>
+          </div>
+          <div class="product-infor-right">
+            <p>￥ {{detail.price}}</p>
+            <p class="yuanjia"><s>￥{{detail.marketing_price}}</s></p>
+            <p>x{{detail.number}}</p>
+            <p class="tuikuan">退款</p>
+          </div>
         </div>
       </div>
+ {% endfor %}
+
+
       <div class="background"></div>
       <div class="service">
         <img src="images/mobile.png" alt=""> 联系客服
@@ -294,7 +429,7 @@
       <div class="background"></div>
       <div class="pay">
         <span>支付方式</span>
-        <span>在线支付</span>
+        <span>{{order.pay_way}}</span>
       </div>
       <div class="pay">
         <span>发票信息</span>
@@ -303,24 +438,32 @@
       <div class="background"></div>
       <div class="pay price">
         <span>商品价格：</span>
-        <span>￥999.00</span>
+        <span>￥{{order.actual_price}}</span>
       </div>
       <div class="pay">
         <span>运费：</span>
-        <span>00.00</span>
+        <span>￥00.00</span>
       </div>
       <div class="real-price">
-        <span>实付款：￥999.00</span>
+        <span>实付款：￥{{order.actual_price}}</span>
       </div>
-      <div class="real-time">
-        <span>实付款：￥999.00</span>
-      </div>
+
+    </div>
+
+    <!-- 订单创建时间 -->
+    <div class="background"></div>
+    <div class="order-time">
+      <p>订单编号：{{order.order_id}}</p>
+      <p>支付交易号：2017021221001001200270165991</p>
+      <p>创建时间：2017-02-14  14：22</p>
+      <p>付款时间：2017-02-14  14：22</p>
+      <p>发货时间：2017-02-14  18：22</p>
     </div>
     <!-- 底部 -->
     <div class="footer">
       <ul>
         <li><a href="#"><p>删除订单</p></a></li>
-        <li><a href="#"><p>商品评价</p></a></li>
+        <li><a href="/go_comment"><p>商品评价</p></a></li>
         <li><a href="#"><p>确认收货</p></a></li>
         <li><a href="#"><p>再次购买</p></a></li>
 

@@ -4,6 +4,7 @@
    <meta charset="utf-8">
    <title></title>
    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+   <meta name="format-detection" content="telephone=no" />
    <title>代发货</title>
    <style media="screen">
      @media screen and (max-width:640px){
@@ -56,62 +57,7 @@
          margin-top: 20px;
 
        }
-       .main-list{
-         width:93.6%;
-         overflow: hidden;
-         padding: 12px 0;
-         margin:0 auto;
-         border-bottom: 1px solid #fff;
-       }
-       .main-list .main-list-left{
-         width:17.094017%;
-         height: 60px;
-         float: left;
-         margin-right: 11px;
-       }
-       .main-list .main-list-left img{
-         width: 100%;
-         display: inline-block;
-       }
-       .main .main-list .main-list-middle{
-         width: 58.689458%;
-         height: 60px;
-         float: left;
-         font-size: 12px;
-         color: #051b28;
-       }
-       .main .main-list .main-list-middle p{
-         font-size: 12px;
-         color: #051b28;
-       }
-       .main .main-list .main-list-middle span{
-         display: inline-block;
-         margin-top: 5px;
-         font-size: 12px;
-         color: #999;
-       }
-       .main .main-list .main-list-right{
-         float: right;
-         width: 20.5%;
-       }
-       .main .main-list .main-list-right span{
-         display: block;
-         width: 100%;
-         text-align: right;
-       }
-       .main .main-list .main-list-right span:first-child{
 
-        line-height: 16px;
-        font-weight: 700;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-       }
-       .main .main-list .main-list-right span:last-child{
-        line-height: 12px;
-        color: #999;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-       }
        .warp .bottom{
          width: 93.6%;
          margin: 20px auto;
@@ -132,7 +78,7 @@
          display: inline-block;
 
          color: #999;
-         line-height: 25px;
+         line-height: 40px;
        }
        .warp .bottom .bottom-p2 span{
          margin-left: 0;
@@ -216,69 +162,33 @@
      <!--     中部       -->
      <div class="main">
        <!-- 中间导航 -->
-       <div style="background:#F5F5F5;">
-        <div class="main-list">
-         <div class="main-list-left">
-           <img src="images/xianglong.jpg" alt="">
-         </div>
-         <div class="main-list-middle">
-           <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
-           <span>书籍分类：武林秘籍</span>
-         </div>
-         <div class="main-list-right">
-           <span>￥9.00</span>
-           <span>x1</span>
-         </div>
-        </div>
-        <div class="main-list">
-        <div class="main-list-left">
-          <img src="images/xianglong.jpg" alt="">
-        </div>
-        <div class="main-list-middle">
-          <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
-          <span>书籍分类：武林秘籍</span>
-        </div>
-        <div class="main-list-right">
-          <span>￥9.00</span>
-          <span>x1</span>
-        </div>
-       </div>
-     </div>
+
      <!-- 物流状态信息 -->
       <div class="bottom">
-        <p><img src="images/i-5.png" alt=""><span>物流信息由XX提供</span></p>
-        <p class="bottom-p2"><span>订单号：</span><span>12345678909</span></p>
+        <p><img src="images/i-5.png" alt=""><span>物流信息由{{order_logistics.transport_way}}快递提供</span></p>
+        <p class="bottom-p2"><span>运单号：</span><span>{{order_logistics.logistics_id}}</span></p>
 
         <div class="product">
+		{% for logistics_info in logistics_infos %}
+			{% if loop.first %}
             <div class="product-all">
               <div class="product-all-right right-color1">
-                <div class="product-all-right-time"><span>2017/2/9</span> <span>10:11</span></div>
-                <span class="product-span1">上海市宝山区呼兰路911弄上海市宝山区呼兰路911弄上海市宝山区呼兰路911弄</span>
-                <span class="product-span1 product-span2">10：17马云正在派件&nbsp电话：13112345678</span>
+                <div class="product-all-right-time"><span>{{logistics_info.add_time_text}}</span></div>
+                <span class="product-span1">{{logistics_info.detail_desc | safe}}</span>
+                <!-- <span class="product-span1 product-span2">10：17马云正在派件&nbsp电话：13112345678</span> -->
               </div>
             </div>
             <div class="line"></div>
+			{% else %}
             <div class="product-all color">
               <div class="product-all-right right-color2">
-                <div class="product-all-right-time"><span>10:11</span></div>
-                <span class="product-span1">上海市宝山区呼兰路911弄上海市宝山区呼兰路911弄上海市宝山区呼兰路911弄</span>
+                <div class="product-all-right-time"><span>{{logistics_info.add_time_text}}</span></div>
+                <span class="product-span1">{{logistics_info.detail_desc | safe}}</span>
               </div>
             </div>
             <div class="line"></div>
-            <div class="product-all color">
-              <div class="product-all-right right-color2">
-                <div class="product-all-right-time"><span>2017/2/9</span> <span>10:11</span></div>
-                <span class="product-span1">快件已到达上海中转站</span>
-              </div>
-            </div>
-            <div class="line"></div>
-            <div class="product-all color">
-              <div class="product-all-right right-color2">
-                <div class="product-all-right-time"><span>2017/2/9</span> <span>10:11</span></div>
-                <span class="product-span1">快递已经发货</span>
-              </div>
-            </div>
-            <div class="line"></div>
+			{% endif %}
+		{% endfor %}
         </div>
       </div>
  </div>
