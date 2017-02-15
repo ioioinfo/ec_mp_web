@@ -860,8 +860,8 @@
     <div class="head">
       <p><span><</span></p>
       <p>商品</p>
-      <p>详情</p>
-      <p>评论</p>
+      <p class="details">详情</p>
+      <p class="comment">评论</p>
       <p><img src="images/shouye-2.png" alt=""></p>
     </div>
     <div class="middle">
@@ -1087,7 +1087,7 @@
         </div>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-        <p class="img-word"><span>图文详情</span><span>产品参数</span><span>包装售后</span></p>
+        <p class="img-word"><span class="details">图文详情</span><span>产品参数</span><span>包装售后</span></p>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
 
 
@@ -1138,6 +1138,12 @@
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 		$(function() {
+			// $(".details").click(function(){
+			// 	location.href = "/product_text_configure?product_id={{product.id}}";
+			// });
+			$(".comment").click(function(){
+				location.href = "/product_comment?product_id="+{{product.id}};
+			});
 			var is_active = {{is_active}};
 			var product_id = "{{product.id}}";
 			$(".favorite").click(function(){

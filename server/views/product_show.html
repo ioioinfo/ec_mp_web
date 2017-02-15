@@ -731,7 +731,7 @@
 	 </p>
    </div>
    {% for again_comment in product.again_comments %}
-	   {% if again_comment.parent ==comment.id	 %}
+	   {% if again_comment.parent ==comment.id%}
 	   <div class="evaluate">
 		 追加评论：
 		 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
@@ -747,7 +747,7 @@
 	{% endif %}
 {% endfor %}
 
-        <p class="all">查看全部评论</p>
+        <p class="all comment">查看全部评论</p>
       </div>
       <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
       <div class="hot">
@@ -846,7 +846,7 @@
         </div>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-        <p class="img-word"><span>图文详情</span><span>产品参数</span><span>包装售后</span></p>
+        <p class="img-word"><span class="details">图文详情</span><span>产品参数</span><span>包装售后</span></p>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
 
 
@@ -901,7 +901,7 @@
 				location.href = "/product_text_configure?product_id={{product.id}}";
 			});
 			$(".comment").click(function(){
-				location.href = "/product_comment";
+				location.href = "/product_comment?product_id="+{{product.id}};
 			});
 			var is_active = {{is_active}};
 			var product_id = "{{product.id}}";

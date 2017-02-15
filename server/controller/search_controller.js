@@ -101,9 +101,58 @@ var get_logistics_info = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/search_laster_logistics?order_id="+order_id;
 	do_get_method(url,cb);
 };
-//
+//所有物流信息
 var get_logistics_infos = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/search_logistics_info?order_id="+order_id;
+	do_get_method(url,cb);
+};
+//查询个人地址
+var search_person_address = function(person_id,cb){
+	var url = "http://139.196.148.40:18003/address/list_by_person?person_id="+person_id;
+	do_get_method(url,cb);
+};
+//产品id找评论
+var find_comments_info = function(product_id, cb){
+	var url = "http://127.0.0.1:8060/comments_show?product_id=";
+	url = url + product_id;
+	do_get_method(url,cb);
+};
+//根据id找到追评
+var find_again_comments = function(product_id, cb){
+	var url = "http://127.0.0.1:8060/again_comments?product_id=";
+	url = url + product_id;
+	do_get_method(url,cb);
+}
+//根据评论找晒单
+var find_saidans_pictures = function(comments_ids, cb){
+	var url = "http://127.0.0.1:8060/comments_saidan?comments_ids=";
+	url = url + comments_ids;
+	do_get_method(url,cb);
+};
+//好评，差评，总数
+var find_total_comments = function(product_id, cb){
+	var url = "http://139.196.148.40:16001/get_product_comments_summary?product_id=";
+	url = url + product_id;
+	do_get_method(url,cb);
+};
+//根据personid找头像
+var find_comments_persons = function(person_id, cb){
+	var platform_id = "ec_shopping";
+	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
+	url = url + person_id + "&scope_code=" +platform_id;
+	do_get_method(url,cb);
+};
+//根据personid找vip
+var find_comments_personsVip = function(comments_persons, cb){
+	var platform_id = "ec_shopping"
+	var url = "http://139.196.148.40:18003/vip/list_by_scope_persons?person_ids=";
+	url = url + comments_persons + "&scope_code=" +platform_id;
+	do_get_method(url,cb);
+};
+//通过商品id查找到商品
+var find_properties_by_product = function(product_id, cb){
+	var url = "http://127.0.0.1:18002/find_properties_by_product?product_id=";
+	url = url + product_id;
 	do_get_method(url,cb);
 };
 exports.register = function(server, options, next){
@@ -113,7 +162,7 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/desc',
 			handler: function(request, reply){
-				return reply({"success":"ok","server":"ec_search server, ec_interaction server, ec_shopping_cart server"});
+				return reply({"success":"ok","server":"ec_search server, ec_interaction server, ec_shopping_cart server, ec_product server, ec_order server, ec_web server"});
 			}
 		},
 		//分类
@@ -195,7 +244,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/product_text_configure',
 			handler: function(request, reply){
-				return reply.view("product_text_configure");
+				var product_id = request.query.product_id;
+				find_properties_by_product(product_id, function(err, result){
+					if (!err) {
+						return reply.view("product_text_configure",{"rows":result.properties});
+					}else {
+
+					}
+				});
 			}
 		},
 		//产品评论
@@ -203,7 +259,99 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/product_comment',
 			handler: function(request, reply){
-				return reply.view("product_comment");
+				var product_id = request.query.product_id;
+				var ep =  eventproxy.create("comments","again_comments","comment_data",function(comments,again_comments,comment_data){
+					var comments_ids = [];
+					var comments_persons = [];
+					if (comments && comments.length >0) {
+						if (comments) {
+							for (var i = 0; i < comments.length; i++) {
+								comments_ids.push(comments[i].id);
+								comments_persons.push(comments[i].person_id);
+							}
+							comments_persons = JSON.stringify(comments_persons);
+							comments_ids = JSON.stringify(comments_ids);
+							var eproxy =  eventproxy.create("persons","saidans","personsVip",function(persons,saidans,personsVip){
+								var again_num = again_comments.length;
+								var person_map = {};
+								var saidan_map = {};
+								for (var i = 0; i < persons.length; i++) {
+									person_map[persons[i].person_id] = persons[i];
+								}
+								var personVip_map = {};
+								for (var i = 0; i < personsVip.length; i++) {
+									personVip_map[personsVip[i].person_id] = personsVip[i];
+								}
+								var again_comments_map = {};
+								for (var i = 0; i < again_comments.length; i++) {
+									again_comments_map[again_comments[i].parent] = again_comments[i];
+								}
+								if (saidans) {
+									for (var i = 0; i < saidans.length; i++) {
+										var saidan = saidans[i]; //一个晒单对象
+										var comment_saidans = []; //晒单数组
+										if (saidan_map[saidan.product_comments_id]) { //晒单评论id对应的存在
+											comment_saidans = saidan_map[saidan.product_comments_id]; //晒单 = 晒单产品id
+										}
+										comment_saidans.push(saidan); //晒单添加 晒单对象
+										saidan_map[saidan.product_comments_id] = comment_saidans; //晒单评论id = 晒单
+									}
+								}
+								return reply.view("product_comment",{"comments":comments,"again_comments":again_comments_map,"comment_data":comment_data,"personsVip":personVip_map,"persons":person_map,"saidans":saidan_map,"again_num":again_num});
+							});
+							find_comments_persons(comments_persons, function(err, content){
+								if (!err) {
+									var persons = content.rows;
+									eproxy.emit("persons", persons);
+								}else {
+									eproxy.emit("persons", []);
+								}
+							});
+							find_comments_personsVip(comments_persons, function(err, content){
+								if (!err) {
+									var personsVip = content.rows;
+									eproxy.emit("personsVip", personsVip);
+								}else {
+									eproxy.emit("personsVip", []);
+								}
+							});
+							find_saidans_pictures(comments_ids, function(err, content){
+								if (!err) {
+									var saidans = content.rows;
+									eproxy.emit("saidans", saidans);
+								}else {
+									eproxy.emit("saidans", []);
+								}
+							});
+						}
+					}else {
+						return reply.view("product_comment",{"comments":comments,"again_comments":again_comments,"comment_data":comment_data});
+					}
+				});
+				find_total_comments(product_id,function(err,results){
+					if (!err) {
+						var comment_data = results.row;
+						ep.emit("comment_data", comment_data);
+					}else {
+						ep.emit("comment_data", []);
+					}
+				});
+				find_again_comments(product_id,function(err,results){
+					if (!err) {
+						var again_comments = results.rows;
+						ep.emit("again_comments", again_comments);
+					}else {
+						ep.emit("again_comments", []);
+					}
+				});
+				find_comments_info(product_id,function(err,results){
+					if (!err) {
+						var comments = results.rows;
+						ep.emit("comments", comments);
+					}else {
+						ep.emit("comments", []);
+					}
+				});
 			}
 		},
 		//去评价
@@ -305,6 +453,37 @@ exports.register = function(server, options, next){
 				return reply.view("configure");
 			}
 		},
+		//个人信息
+		{
+			method: 'GET',
+			path: '/person_info',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var ep =  eventproxy.create("persons","personsVip",
+					function(persons,personsVip){
+					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip});
+				});
+				find_persons(person_id, function(err, content){
+					if (!err) {
+						var persons = content.rows;
+						ep.emit("persons", persons);
+					}else {
+						ep.emit("persons", []);
+					}
+				});
+				find_personsVip(person_id, function(err, content){
+					if (!err) {
+						var personsVip = content.rows;
+						ep.emit("personsVip", personsVip);
+					}else {
+						ep.emit("personsVip", []);
+					}
+				});
+			}
+		},
 		//订单中心
 		{
 			method: 'GET',
@@ -341,7 +520,18 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/address_management',
 			handler: function(request, reply){
-				return reply.view("address_management");
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				search_person_address(person_id,function(err,results){
+					if (!err) {
+						return reply.view("address_management",{"addresses":results.rows});
+					}else {
+
+					}
+				});
+
 			}
 		},
 		//新增地址
@@ -406,6 +596,14 @@ exports.register = function(server, options, next){
 			path: '/after_sale',
 			handler: function(request, reply){
 				return reply.view("after_sale");
+			}
+		},
+		//账户余额
+		{
+			method: 'GET',
+			path: '/account_yue',
+			handler: function(request, reply){
+				return reply.view("yue");
 			}
 		},
 		//订单详情

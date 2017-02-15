@@ -118,12 +118,9 @@
       </div>
       <div class="content">
         <ul>
-          <li><p class="p1">品牌</p><p class="p2">其他</p></li>
-          <li><p class="p1 p3">颜色分类</p><p class="p2 p4">其他打开按时奥i额哥哥额郭德纲大概身份的更丰富的无法发送斯蒂芬森司法所我发誓发顺丰发顺丰司法所s就安徽哦哎俺姐看阿康偶看啊垃圾屁iojda拉萨空间拉萨空间拉什科的；实付款卡死看来大家拉丝机啊阿隆索肯德基爱如啊</p></li>
-          <li><p class="p1">尺码</p><p class="p2">S</p></li>
-          <li><p class="p1">产品形式</p><p class="p2">独立式</p></li>
-          <li><p class="p1">材质</p><p class="p2">木质</p></li>
-          <li><p class="p1">适应对象</p><p class="p2">鱼</p></li>
+		{% for row in rows %}
+          <li><p class="p1">{{row.name}}</p><p class="p2">{{row.value}}</p></li>
+		{% endfor %}
         </ul>
       </div>
       <div class="none">

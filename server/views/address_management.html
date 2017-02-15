@@ -136,73 +136,37 @@
       <span>管理收货地址</span>
     </div>
     <!-- 中间地址部分 -->
+	{% for address in addresses %}
     <div class="content">
       <div class="main">
-        <p><span class="name">马云</span><span class="tel">13112345678</span></p>
-        <p class="add">上海上海市宝山区张庙街道宝山区呼兰路911弄11号博济智慧园3号楼101A</p>
+        <p><span class="name">{{address.linkname}}</span><span class="tel">{{address.mobile}}</span></p>
+        <p class="add">{{address.province}}{{address.city}}{{address.district}}{{address.detail_address}}</p>
       </div>
       <div class="line"></div>
       <div class="bottom">
-        <p class="bottom-p1"><span><img src="images/select-1.png" alt="" class="images"></span><span class="word">默认地址</span></p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address">编辑</span><span><img src="images/select.png" alt=""></span><span class="word">删除</span></p>
+        <p class="bottom-p1">
+			<span class="is_default" data-id={{address.id}}>
+				{% if address.is_default==1 %}
+					<img src="images/select-2.png" alt="" class="images">
+				{% else %}
+					<img src="images/select-1.png" alt="" class="images">
+				{% endif %}
+			</span>
+			<span class="word">默认地址</span>
+		</p>
+        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address" data-id={{address.id}}>编辑</span><span><img src="images/select.png" alt=""></span><span class="word delete" data-id={{address.id}}>删除</span></p>
       </div>
       <div class="background"></div>
     </div>
-    <div class="content">
-      <div class="main">
-        <p><span class="name">董明珠</span><span class="tel">13112345678</span></p>
-        <p class="add">上海上海市宝山区张庙街道宝山区呼兰路911弄11号博济智慧园3号楼101A</p>
-      </div>
-      <div class="line"></div>
-      <div class="bottom">
-        <p class="bottom-p1"><span><img src="images/select-1.png" alt="" class="images"></span><span class="word">默认地址</span></p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address">编辑</span><span><img src="images/select.png" alt=""></span><span class="word">删除</span></p>
-      </div>
-      <div class="background"></div>
-    </div>
-    <div class="content">
-      <div class="main">
-        <p><span class="name">王健林</span><span class="tel">13112345678</span></p>
-        <p class="add">上海上海市宝山区张庙街道宝山区呼兰路911弄11号博济智慧园3号楼101A</p>
-      </div>
-      <div class="line"></div>
-      <div class="bottom">
-        <p class="bottom-p1"><span><img src="images/select-1.png" alt="" class="images"></span><span class="word">默认地址</span></p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address">编辑</span><span><img src="images/select.png" alt=""></span><span class="word">删除</span></p>
-      </div>
-      <div class="background"></div>
-    </div>
-    <div class="content">
-      <div class="main">
-        <p><span class="name">李彦宏</span><span class="tel">13112345678</span></p>
-        <p class="add">上海上海市宝山区张庙街道宝山区呼兰路911弄11号博济智慧园3号楼101A</p>
-      </div>
-      <div class="line"></div>
-      <div class="bottom">
-        <p class="bottom-p1"><span><img src="images/select-1.png" alt="" class="images"></span><span class="word">默认地址</span></p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address">编辑</span><span><img src="images/select.png" alt=""></span><span class="word">删除</span></p>
-      </div>
-      <div class="background"></div>
-    </div>
-    <div class="content">
-      <div class="main">
-        <p><span class="name">马化腾</span><span class="tel">13112345678</span></p>
-        <p class="add">上海上海市宝山区张庙街道宝山区呼兰路911弄11号博济智慧园3号楼101A</p>
-      </div>
-      <div class="line"></div>
-      <div class="bottom">
-        <p class="bottom-p1"><span><img src="images/select-1.png" alt="" class="images"></span><span class="word">默认地址</span></p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address">编辑</span><span><img src="images/select.png" alt=""></span><span class="word">删除</span></p>
-      </div>
-      <div class="background"></div>
-    </div>
+	{% endfor %}
   </div>
   <p class="footer">新建地址</p>
 
   <script type="text/javascript">
     $(function(){
-      $(".bottom .images").click(function(){
-        $(this).attr("src","images/select-2.png");
+      $(".is_default").click(function(){
+		$(".is_default").children(".images").attr("src","images/select-1.png");
+        $(this).children(".images").attr("src","images/select-2.png");
       })
 	  $(".footer").click(function(){
 		  location.href = "/add_address";

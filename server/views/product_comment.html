@@ -173,50 +173,36 @@
       <div class="back">
         <img src="images/back.png" alt="">
       </div>
-      <p class="top-title">评价(1111)</p>
+      <p class="top-title">评价({{comment_data.total_number}})</p>
       <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
     </div>
 
     <!-- 具体内容 -->
     <div class="content">
       <div class="content-nav">
-        <span class="color">全部(1111)</span>
-        <span>有图</span>
-        <span>差评</span>
-        <span>追加</span>
+        <span class="color">好评({{comment_data.good_comment}})</span>
+        <span>有图({{comment_data.pic_comment}})</span>
+        <span>差评({{comment_data.bad_comment}})</span>
+        <span>追加({{again_num}})</span>
       </div>
-      <div class="content-infor">
-        <p class="p-name">小小王八蛋</p>
-        <p class="p-kind">2017-2-14  颜色分类：蓝色 s,赠袜子</p>
-        <p class="p-infor">很好，衣服绝对是年均复合丝房价快速反击可素可素冷飕飕收款方女士称克拉大哦啊多久啊拉大了啊看到那垃圾打捞队啊来得及阿拉丁安大略额外问色的方式啊发是爱的是才啊发是啊啊阿达大大大爱的啊按时啊啊啊大大是速度阿萨德帕克斯立即了看看科技看电视斯蒂芬司法会计核算阿卡</p>
-        <p class="p-img"><img src="images/c_3.jpg" alt=""><img src="images/c_4.jpg" alt=""><img src="images/c_5.jpg" alt=""></p>
-        <p class="p-zhuijia">追加评论&nbsp&nbsp <span>2017-2-14</span></p>
-        <p class="p-zhuijia-infor">还是不错的</p>
-      </div>
-      <div class="content-infor">
-        <p class="p-name">小小王八蛋</p>
-        <p class="p-kind">2017-2-14  颜色分类：蓝色 s,赠袜子</p>
-        <p class="p-infor">很好，衣服绝对是年均复合丝房价快速反击可素可素冷飕飕收款方女士称克拉大哦啊多久啊拉大了啊看到那垃圾打捞队啊来得及阿拉丁安大略额外问色的方式啊发是爱的是才啊发是啊啊阿达大大大爱的啊按时啊啊啊大大是速度阿萨德帕克斯立即了看看科技看电视斯蒂芬司法会计核算阿卡</p>
-        <p class="p-img"><img src="images/c_3.jpg" alt=""><img src="images/c_4.jpg" alt=""><img src="images/c_5.jpg" alt=""></p>
-        <p class="p-zhuijia">追加评论&nbsp&nbsp <span>2017-2-14</span></p>
-        <p class="p-zhuijia-infor">还是不错的</p>
-      </div>
-      <div class="content-infor">
-        <p class="p-name">小小王八蛋</p>
-        <p class="p-kind">2017-2-14  颜色分类：蓝色 s,赠袜子</p>
-        <p class="p-infor">很好，衣服绝对是年均复合丝房价快速反击可素可素冷飕飕收款方女士称克拉大哦啊多久啊拉大了啊看到那垃圾打捞队啊来得及阿拉丁安大略额外问色的方式啊发是爱的是才啊发是啊啊阿达大大大爱的啊按时啊啊啊大大是速度阿萨德帕克斯立即了看看科技看电视斯蒂芬司法会计核算阿卡</p>
-        <p class="p-img"><img src="images/c_3.jpg" alt=""><img src="images/c_4.jpg" alt=""><img src="images/c_5.jpg" alt=""></p>
-        <p class="p-zhuijia">追加评论&nbsp&nbsp <span>2017-2-14</span></p>
-        <p class="p-zhuijia-infor">还是不错的</p>
-      </div>
-      <div class="content-infor">
-        <p class="p-name">小小王八蛋</p>
-        <p class="p-kind">2017-2-14  颜色分类：蓝色 s,赠袜子</p>
-        <p class="p-infor">很好，衣服绝对是年均复合丝房价快速反击可素可素冷飕飕收款方女士称克拉大哦啊多久啊拉大了啊看到那垃圾打捞队啊来得及阿拉丁安大略额外问色的方式啊发是爱的是才啊发是啊啊阿达大大大爱的啊按时啊啊啊大大是速度阿萨德帕克斯立即了看看科技看电视斯蒂芬司法会计核算阿卡</p>
-        <p class="p-img"><img src="images/c_3.jpg" alt=""><img src="images/c_4.jpg" alt=""><img src="images/c_5.jpg" alt=""></p>
-        <p class="p-zhuijia">追加评论&nbsp&nbsp <span>2017-2-14</span></p>
-        <p class="p-zhuijia-infor">还是不错的</p>
-      </div>
+	  {% for comment in comments %}
+			{% if comment.is_again ==0 %}
+		      <div class="content-infor">
+		        <p class="p-name">{{persons[comment.person_id].nickname}}</p>
+		        <p class="p-kind">{{comment.create_at | date('Y-m-d H:i:s',-8*60)}}</p>
+		        <p class="p-infor">{{comment.content}}</p>
+		        <p class="p-img">
+					{% for saidan in saidans[comment.id] %}
+						<img src="{{saidan.location}}" alt="">
+					{% endfor %}
+				</p>
+				{% if again_comments[comment.id] %}
+			        <p class="p-zhuijia">追加评论&nbsp;&nbsp; <span>{{again_comments[comment.id].create_at | date('Y-m-d H:i:s',-8*60)}}</span></p>
+			        <p class="p-zhuijia-infor">{{again_comments[comment.id].content}}</p>
+				{% endif %}
+		      </div>
+			{% endif %}
+	   {% endfor %}
     </div>
 
     <div class="footer">
