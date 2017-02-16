@@ -155,6 +155,45 @@ var find_properties_by_product = function(product_id, cb){
 	url = url + product_id;
 	do_get_method(url,cb);
 };
+//收货操作
+var receive_goods_operations = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/receive_goods_operations?order_id=";
+	url = url + order_id;
+	do_get_method(url,cb);
+};
+//更新默认地址
+var update_default_address = function(data,cb){
+	var url = "http://139.196.148.40:18003/address/set_default_address";
+	do_post_method(url,data,cb);
+};
+//删除地址
+var delete_address = function(data,cb){
+	var url = "http://139.196.148.40:18003/address/delete_address";
+	do_post_method(url,data,cb);
+};
+//新增/修改地址
+var save_address = function(data,cb){
+	var url = "http://139.196.148.40:18003/address/save_address";
+	do_post_method(url,data,cb);
+};
+//查询地址
+var search_address = function(address_id,person_id,cb){
+	var url = "http://139.196.148.40:18003/address/get_by_id?address_id=";
+	url = url + address_id + "&person_id=" + person_id;
+	do_get_method(url,cb);
+};
+//收藏查询
+var search_favorite_list = function(person_id,cb){
+	var url = "http://139.196.148.40:18003/favorite/list_by_person?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+//查询产品信息
+var search_products_list = function(product_ids,cb){
+	var url = "http://127.0.0.1:18002/find_products_with_picture?product_ids=";
+	url = url + product_ids;
+	do_get_method(url,cb);
+};
 exports.register = function(server, options, next){
 	server.route([
 		//desc,需要服务器地址
@@ -453,6 +492,21 @@ exports.register = function(server, options, next){
 				return reply.view("configure");
 			}
 		},
+		//买家确认收货
+		{
+			method: 'GET',
+			path: '/receive_goods',
+			handler: function(request, reply){
+				var order_id = request.query.order_id;
+				receive_goods_operations(order_id,function(err,result){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+
+					}
+				});
+			}
+		},
 		//个人信息
 		{
 			method: 'GET',
@@ -526,12 +580,54 @@ exports.register = function(server, options, next){
 				}
 				search_person_address(person_id,function(err,results){
 					if (!err) {
-						return reply.view("address_management",{"addresses":results.rows});
+						return reply.view("address_management",{"addresses":JSON.stringify(results.rows)});
 					}else {
 
 					}
 				});
 
+			}
+		},
+		//修改默认地址
+		{
+			method: 'GET',
+			path: '/address_default',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var address_id = request.query.address_id;
+				var data = {
+					"address_id" : address_id,
+					"person_id"  : person_id
+				}
+				update_default_address(data,function(err,result){
+					if (!err) {
+						return reply({"success":true});
+					}
+				});
+			}
+		},
+		//地址删除
+		{
+			method: 'GET',
+			path: '/address_delete',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var address_id = request.query.address_id;
+				var data = {
+					"address_id" : address_id,
+					"person_id"  : person_id
+				}
+				delete_address(data,function(err,result){
+					if (!err) {
+						return reply({"success":true});
+					}
+				});
 			}
 		},
 		//新增地址
@@ -540,6 +636,56 @@ exports.register = function(server, options, next){
 			path: '/add_address',
 			handler: function(request, reply){
 				return reply.view("add_address");
+			}
+		},
+		//查询地址信息
+		{
+			method: 'GET',
+			path: '/search_address',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var address_id = request.query.address_id;
+				search_address(address_id,person_id,function(err,result){
+					if (!err) {
+						return reply.view("edit_address",{"address":JSON.stringify(result.row)});
+					}else {
+					}
+				});
+			}
+		},
+		//新增地址
+		{
+			method: 'GET',
+			path: '/new_address',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				var data = {};
+				var info = JSON.parse(request.query.info);
+				data.linkname = info.linkname;
+				data.mobile = info.mobile;
+				data.alias = info.alias;
+				data.detail_address = info.detail_address;
+				data.is_default = info.is_default;
+				data.person_id = person_id;
+				data.province = "上海";
+				data.city = "市";
+				data.district = "宝山区";
+				if (info.address_id) {
+					data.address_id = info.address_id;
+				}
+				save_address(data,function(err,result){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+
+					}
+				});
 			}
 		},
 		//编辑地址
@@ -555,7 +701,28 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/favorite_list',
 			handler: function(request, reply){
-				return reply.view("favorite_list");
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = 1;
+				}
+				search_favorite_list(person_id,function(err,results){
+					if (!err) {
+						var product_ids = [];
+						for (var i = 0; i < results.rows.length; i++) {
+							product_ids.push(results.rows[i].product_id);
+						}
+						product_ids = JSON.stringify(product_ids);
+						search_products_list(product_ids,function(err,results){
+							if (!err) {
+								console.log("products"+JSON.stringify(results.products));
+								return reply.view("favorite_list",{"products":results.products});
+							}else {
+							}
+						});
+					}else {
+
+					}
+				});
 			}
 		},
 		//代付款

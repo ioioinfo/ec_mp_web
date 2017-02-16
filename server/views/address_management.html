@@ -5,6 +5,7 @@
   <title></title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+  <script src="js/lodash.min.js" type="text/javascript"></script>
   <title>代发货</title>
   <style media="screen">
     @media screen and (max-width:640px){
@@ -129,52 +130,73 @@
   </style>
 </head>
 <body>
-  <div class="warp">
-    <!--       头部      -->
-    <div class="top">
-      <img src="images/back.png" alt="">
-      <span>管理收货地址</span>
-    </div>
-    <!-- 中间地址部分 -->
-	{% for address in addresses %}
-    <div class="content">
-      <div class="main">
-        <p><span class="name">{{address.linkname}}</span><span class="tel">{{address.mobile}}</span></p>
-        <p class="add">{{address.province}}{{address.city}}{{address.district}}{{address.detail_address}}</p>
-      </div>
-      <div class="line"></div>
-      <div class="bottom">
-        <p class="bottom-p1">
-			<span class="is_default" data-id={{address.id}}>
-				{% if address.is_default==1 %}
-					<img src="images/select-2.png" alt="" class="images">
-				{% else %}
-					<img src="images/select-1.png" alt="" class="images">
-				{% endif %}
-			</span>
-			<span class="word">默认地址</span>
-		</p>
-        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><span class="word edit_address" data-id={{address.id}}>编辑</span><span><img src="images/select.png" alt=""></span><span class="word delete" data-id={{address.id}}>删除</span></p>
-      </div>
-      <div class="background"></div>
-    </div>
-	{% endfor %}
+  <div class="warp" id="addresses">
   </div>
+	<script id="address_infos" type="text/template">
+		<!--       头部      -->
+	    <div class="top">
+	      <img src="images/back.png" alt="">
+	      <span>管理收货地址</span>
+	    </div>
+	    <!-- 中间地址部分 -->
+		<% _.forEach(addresses, function(address) { %>
+		    <div class="content" id="<%- address.address_id %>">
+		      <div class="main">
+		        <p><span class="name"><%- address.linkname %></span><span class="tel"><%- address.mobile %></span></p>
+		        <p class="add">
+					<%- address.province %><%- address.city %><%- address.district %><%- address.detail_address %>
+				</p>
+		      </div>
+		      <div class="line"></div>
+		      <div class="bottom">
+		        <p class="bottom-p1">
+					<span class="is_default" data-id="<%- address.address_id %>">
+						<% if (address.is_default==1) { %>
+							<img src="images/select-2.png" alt="" class="images">
+						<% }else{ %>
+							<img src="images/select-1.png" alt="" class="images">
+						<% } %>
+					</span>
+					<span class="word">默认地址</span>
+				</p>
+		        <p class="bottom-p2"><span><img src="images/i-8.png" alt=""></span><a href="/search_address?address_id=<%- address.address_id %>"><span class="word edit_address">编辑</span></a><span><img src="images/select.png" alt=""></span><span class="word delete" data-id="<%- address.address_id %>">删除</span></p>
+		      </div>
+		      <div class="background"></div>
+		    </div>
+		<% }); %>
+	</script>
   <p class="footer">新建地址</p>
-
   <script type="text/javascript">
     $(function(){
-      $(".is_default").click(function(){
-		$(".is_default").children(".images").attr("src","images/select-1.png");
-        $(this).children(".images").attr("src","images/select-2.png");
-      })
-	  $(".footer").click(function(){
-		  location.href = "/add_address";
-	  });
-	  $(".edit_address").click(function(){
-		  location.href = "/edit_address";
-	  });
-    })
+		var addresses = {{addresses|safe}};
+		var address_management = function(){
+			var t = _.template($("#address_infos").html());
+			$("#addresses").html(t({addresses:addresses}));
+
+			$(".is_default").click(function(){
+				var address_id = $(this).data("id");
+				$(".is_default").children(".images").attr("src","images/select-1.png");
+				$(this).children(".images").attr("src","images/select-2.png");
+				$.get("/address_default",{address_id:address_id},function(data){
+					if (data.success) {
+
+					}
+				});
+			});
+			$(".delete").click(function(){
+				var address_id = $(this).data("id");
+				$.get("/address_delete",{address_id:address_id},function(data){
+					if (data.success) {
+						$("#"+address_id).attr("style","display:none");
+					}
+				})
+			});
+			$(".footer").click(function(){
+				location.href = "/add_address";
+			});
+		};
+		address_management();
+})
   </script>
 </body>
 </html>

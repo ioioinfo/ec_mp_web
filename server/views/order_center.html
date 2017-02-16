@@ -326,11 +326,16 @@
 	      </div>
 	  {% endfor %}
       <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥0</span></p>
-      <p class="product-submit"><span><a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a></span><span>确认收货</span></p>
+      <p class="product-submit">
+		  <span>
+			  <a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+		  </span>
+		  <span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
+	  </p>
       <div class="background"></div>
       <div class="background"></div>
 
-	  {% endfor %}
+	 {% endfor %}
     </div>
 
     <div class="footer">
@@ -342,6 +347,16 @@
 		$(".product-infor").click(function(){
 			var order_id = $(this).data("id");
 			location.href = "/order_detail?order_id=" + order_id;
+		});
+		$(".receive_product").click(function(){
+			var order_id = $(this).data("id");
+			$.get("/receive_goods",{order_id:order_id},function(data){
+				if (data.success) {
+					location.href = "/order_center";
+				}else {
+					
+				}
+			})
 		});
 	});
 	</script>

@@ -85,7 +85,7 @@
       .main .main-list .main-list-middle p{
         font-size: 12px;
         color: #3d3f45;
-        height:30px;
+        height:34px;
         overflow: hidden;
 
       }
@@ -137,59 +137,24 @@
     <div class="main">
       <!-- 中间导航 -->
       <div style="background:#F5F5F5;">
-       <div class="main-list">
-        <div class="main-list-left">
-          <img src="images/xianglong.jpg" alt="">
-        </div>
-        <div class="main-list-middle">
-          <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人撒打算打算阿斯达斯阿斯达斯的阿萨德撒撒旦撒阿萨德</p>
-          <span>书籍分类：武林秘籍</span>
-           <p class="price">￥9.00</p>
-        </div>
-        <div class="main-list-right">
-          <img src="images/select.png" alt="">
-        </div>
-       </div>
-       <div class="main-list">
-         <div class="main-list-left">
-           <img src="images/c_9_6.jpg" alt="">
-         </div>
-         <div class="main-list-middle">
-           <p>视康眼镜，超薄6.0镜片，指定地点到家测量势力，钛合金框架</p>
-           <span>书籍分类：武林秘籍</span>
-           <p class="price">￥9.00</p>
-         </div>
-         <div class="main-list-right">
-           <img src="images/select.png" alt="">
-         </div>
-       </div>
-       <div class="main-list">
-         <div class="main-list-left">
-           <img src="images/c_3.jpg" alt="">
-         </div>
-         <div class="main-list-middle">
-           <p>裙子，短裙子，能够传出去的裙子</p>
-           <span>衣服分类：短裙</span>
-           <p class="price">￥9.00</p>
-         </div>
-         <div class="main-list-right">
-           <img src="images/select.png" alt="">
-         </div>
-       </div>
-       <div class="main-list">
-         <div class="main-list-left">
-           <img src="images/c_9_6.jpg" alt="">
-         </div>
-         <div class="main-list-middle">
-           <p>江湖失传已久的武林绝许，丐帮帮主萧峰留予后人</p>
-           <span>书籍分类：武林秘籍</span>
-           <p class="price">￥9.00</p>
-         </div>
-         <div class="main-list-right">
-           <img src="images/select.png" alt="">
-         </div>
-       </div>
-    </div>
+		{% for product in products %}
+		<a href="/product_show?product_id={{product.id}}">
+	       	<div class="main-list">
+	        <div class="main-list-left">
+	          <img src="images/{{product.img.location}}" alt="">
+	        </div>
+	        <div class="main-list-middle">
+	          <p>{{product.product_name}}{{product.product_describe}}</p>
+	          <span>颜色：{{product.color}}&nbsp;重量：{{product.weight}}g</span>
+	           <p class="price">￥{{product.product_sale_price}}</p>
+	        </div>
+	        <div class="main-list-right">
+	          <img src="images/select.png" alt="">
+	        </div>
+	       </div>
+	   </a>
+	   {% endfor %}
+	</div>
 
 </div>
   <p class="footer">没有更多！！！</p>

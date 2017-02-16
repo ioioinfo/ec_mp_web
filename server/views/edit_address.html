@@ -149,44 +149,83 @@
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="top">
-        <span><img src="images/back.png" alt=""></span>
-        <span>添加新地址</span>
-        <span>删除</span>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">收货人</span><input type="text" name="" placeholder="马云" value="" class="input1">
-        </div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">联系电话</span><input type="text" placeholder="18123456789"  name="" value="" class="input1">
-        </div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">所在地区</span><p><span class="span2">上海市宝山区</span><span><img src="images/jiantou-right.png" alt=""></span></p>
-        </div>
-      </div>
-
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">街道</span><p><span class="span2">张庙街道</span><span><img src="images/jiantou-right.png" alt=""></span></p>
-        </div>
-      </div>
-
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <textarea  placeholder="上海市宝山区呼兰路911弄11号博济智慧园3号楼101A" class="input2"></textarea>
-        </div>
-      </div>
-      <div style="width:100%;height:10px;background:#f8f5f5"></div>
+    <div class="wrap" id="address">
     </div>
     </div>
     <div class="footer">
       保存
     </div>
+	<script id="address_infos" type="text/template">
+		<div class="top">
+		  <span><img src="images/back.png" alt=""></span>
+		  <span>添加新地址</span>
+		  <span>删除</span>
+		</div>
+		<div class="middle">
+		  <div class="middle-shouhuoren">
+			<span class="span1">收货人</span><input type="text" name="" value="<%- address.linkname %>" class="input1 linkname">
+		  </div>
+		</div>
+		<div class="middle">
+		  <div class="middle-shouhuoren">
+			<span class="span1">联系电话</span><input type="text" name="" value="<%- address.mobile %>" class="input1 mobile">
+		  </div>
+		</div>
+	 	<div class="middle">
+		  <div class="middle-shouhuoren">
+			<span class="span1">地址别名</span><input type="text" name="" value="<%- address.alias %>" class="input1 alias">
+		  </div>
+		</div>
+		<div class="middle">
+		  <div class="middle-shouhuoren">
+			<span class="span1">所在地区</span><p><span class="span2"><%- address.province %><%- address.city %></span><span><img src="images/jiantou-right.png" alt=""></span></p>
+		  </div>
+		</div>
+		<div class="middle">
+		  <div class="middle-shouhuoren">
+			<span class="span1">街道</span><p><span class="span2"><%- address.district %></span><span><img src="images/jiantou-right.png" alt=""></span></p>
+		  </div>
+		</div>
+		<div class="middle">
+		  <div class="middle-shouhuoren">
+			<textarea class="input2 detail_address"><%- address.detail_address %></textarea>
+		  </div>
+		</div>
+		<div style="width:100%;height:10px;background:#f8f5f5"></div>
+		<div class="middle bottom">
+			<div class="middle-shouhuoren">
+				<span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3 is_default">
+			</div>
+		</div>
+	</script>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+	<script src="js/lodash.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function(){
+			var address = {{address|safe}};
+			var address_id = address.address_id;
+			var address_management = function(){
+				var t = _.template($("#address_infos").html());
+				$("#address").html(t({address:address}));
+			};
+			address_management();
+			$(".footer").click(function(){
+				var data = {};
+				data.linkname = $(".linkname").val();
+				data.mobile = $(".mobile").val();
+				data.alias = $(".alias").val();
+				data.detail_address = $(".detail_address").val();
+				data.address_id = address_id;
+				if($(".is_default").is(":checked")){
+					data.is_default = 1;
+				}
+				$.get("/new_address",{info:JSON.stringify(data)},function(data){
+					if (data.success) {
+						location.href = "/address_management";
+					}
+				});
+			});
+		})
+	</script>
   </body>
 </html>
