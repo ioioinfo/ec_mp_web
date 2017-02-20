@@ -881,10 +881,7 @@
           </a>
         </li>
         <li>
-          <a href="#">
-
-            <p class="footer-car yellow">加入购物车</p>
-          </a>
+            <p class="footer-car yellow  shopping_cart">加入购物车</p>
         </li>
         <li >
           <a href="#">
@@ -919,6 +916,18 @@
 					}
 				});
 			});
+			$(".shopping_cart").click(function(){
+				var product_id = {{product.id | safe}};
+				var product_price = {{product.product_sale_price | safe}};
+				$.get("/shopping_cart",{product_id:product_id,product_price:product_price},function(data){
+					if (data.success) {
+						alert(data.all_items);
+					}else {
+						alert(data.message);
+					}
+				})
+			});
+
 		});
 	</script>
   </body>

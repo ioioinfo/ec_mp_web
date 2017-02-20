@@ -21,7 +21,6 @@
           ::-webkit-scrollbar {
               display: none;
           }
-
           a{
             text-decoration: none;
             color: #fff;
@@ -442,7 +441,7 @@
       </div>
       <div class="pay">
         <span>发票信息</span>
-        <span>个人发票</span>
+        <span>{{invoices[order.order_id].invoice_name}}</span>
       </div>
       <div class="background"></div>
       <div class="pay price">
@@ -475,7 +474,6 @@
         <li><a href="/go_comment"><p>商品评价</p></a></li>
         <li><a href="#"><p>确认收货</p></a></li>
         <li><a href="#"><p class="last-p">再次购买</p></a></li>
-
       </ul>
     </div>
 	<div style="width:100%;height:56px;background:#fff;"></div>
