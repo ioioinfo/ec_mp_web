@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale-1,maximum-scale-1,user-scalable=no"/>
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
-    <title>微信公众号注册帐号</title>
+    <title>微信公众号登入</title>
       <style media="screen">
         @media screen and (max-width:640px){
           *{
@@ -54,6 +53,8 @@
               text-indent: 10px;
               font-size: 14px;
               border-radius: 2px;
+              color: #fff;
+              font-weight: bold;
             }
             .auth-code{
               width: 93.2584269%;
@@ -91,24 +92,63 @@
   </head>
   <body>
     <div class="warp">
-        <input type="text" placeholder="请输入已有帐号" value="" name=""  class="password">
-        <input type="text" placeholder="输入登录密码" name="" value="" class="password">
+        <input type="text" placeholder="请输入已有帐号" value="" name=""  class="password" id="username">
+        <input type="password" placeholder="输入登录密码" name="" value="" class="password" id="password">
         <div class="auth-code">
-          <input type="text" placeholder="请输入验证码" name="" value="" class="auth-code-left">
-          <input type="text" name="" value="1 2 3 4" class="auth-code-right">
+          <input type="text" placeholder="请输入验证码" name="" value="" class="auth-code-left" id="vertify">
+          <!-- <input type="text" name="" value="1 2 3 4" class="auth-code-right"> -->
+		  <img id="img" src=""/>
         </div>
-        <input type="submit" name="" value="立即注册" class="submit">
-
-
+        <input type="submit" name="" value="立即登录" class="submit">
     </div>
     <div class="welcome">
 
     </div>
-	<script>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+	<script type="text/javascript">
 		$(function() {
-			$(".submit").click(function(){
-				location.href = "chat_person_center";
+			var change_picture = function(){
+				$.get("/captcha", function(data){
+					if (data.success) {
+						$("#img").attr("src","data:image/png;base64,"+data.image);
+					}else {
+						alert("fail");
+					}
+				});
+			};
+			change_picture();
+
+			$("#img").click(function(){
+				change_picture();
 			});
+
+			$(".submit").click(function(){
+				var username = $("#username").val();
+				var password = $ ("#password").val();
+				var vertify = $("#vertify").val();
+
+				if (!username) {
+					alert("用户名必填！");
+					return;
+				}else if (!password) {
+					alert("密码必填！")
+					return;
+				}else if (!vertify) {
+					alert("验证码必须！")
+					return;
+				}
+				$.post("/do_login",{"username":username,"password":password,"vertify":vertify},function(data){
+					if (data.success) {
+						location.href = "/homePage";
+					}else {
+						alert(data.message);
+						$("#vertify").val("");
+						change_picture();
+					}
+				});
+
+			});
+
 		});
 	</script>
   </body>

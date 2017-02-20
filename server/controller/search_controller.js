@@ -3,6 +3,7 @@ const uu_request = require('../utils/uu_request');
 ﻿var industries = require('../utils/industries.js');
 var eventproxy = require('eventproxy');
 const uuidV1 = require('uuid/v1');
+var service_info = "web service";
 var do_get_method = function(url,cb){
 	uu_request.get(url, function(err, response, body){
 		if (!err && response.statusCode === 200) {
@@ -34,11 +35,22 @@ var get_cookie_person = function(request){
 	var person_id;
 	if (request.state && request.state.cookie) {
 		state = request.state.cookie;
-		if (state.person_id_mb) {
-			person_id = state.person_id_mb;
+		if (state.person_id) {
+			person_id = state.person_id;
 		}
 	}
 	return person_id;
+};
+//获取当前cookie cookie_id
+var get_cookie_id = function(request){
+	var cookie_id;
+	if (request.state && request.state.cookie) {
+		var cookie = request.state.cookie;
+		if (cookie.cookie_id) {
+			cookie_id = cookie.cookie_id;
+		}
+	}
+	return cookie_id;
 };
 //cooke cart_code
 var get_cookie_cart_code = function(request){
@@ -226,6 +238,31 @@ var search_cart_code = function(data,cb){
 var search_shopping_cart = function(data,cb){
 	var url = "http://127.0.0.1:8030/search_shopping_cart";
 	do_post_method(url,data,cb)
+};
+//获取验证图片
+var get_captcha = function(cookie_id,cb){
+	var url = "http://139.196.148.40:11111/api/captcha.png?cookie_id="+cookie_id;
+	do_get_method(url,cb);
+};
+//验证码验证
+var check_captcha = function(vertify,cookie_id,cb){
+	var url = "http://139.196.148.40:11111/api/verify?cookie_id=" +cookie_id + "&text=" + vertify;
+	do_get_method(url,cb);
+};
+//登入账号验证
+var do_login = function(data, cb){
+	var url = "http://139.196.148.40:18666/user/login_check";
+	do_post_method(url,data,cb);
+};
+//合并购物车
+var combine_shopping_cart = function(cart_code,person_id,cb){
+	var url = "http://127.0.0.1:8030/combine_shopping_cart?person_id=";
+	url = url + person_id + "&cart_code=" + cart_code;
+	do_get_method(url,cb);
+}
+var do_register = function(data, cb){
+	var url = "http://139.196.148.40:18666/user/register";
+	do_post_method(url,data,cb);
 };
 exports.register = function(server, options, next){
 	server.route([
@@ -470,10 +507,11 @@ exports.register = function(server, options, next){
 				var product_id = request.query.product_id;
 				var product_price = request.query.product_price;
 				var person_id = get_cookie_person(request);
-				// var person_id = 1;
 				var cart_code = get_cookie_cart_code(request);
 				//判断是否登入
+				console.log("person_id:"+person_id);
 				if (!person_id) {
+					console.log("1233");
 					//判断cookie是否有存在  并查数据库购物车信息,如果不存在，自动生成新建购物车，有合并
 					if (!cart_code) {
 						cart_code = uuidV1();
@@ -488,7 +526,7 @@ exports.register = function(server, options, next){
 						if (!err) {
 							if (result.param == 0) {
 								var state;
-								if (!request.state && !request.state.cookie) {
+								if (request.state && request.state.cookie) {
 									state = request.state.cookie;
 									state.cart_code = cart_code;
 								}else {
@@ -510,6 +548,7 @@ exports.register = function(server, options, next){
 						"product_price" : product_price
 					};
 					search_shopping_cart(data,function(err,result){
+						console.log("result:"+JSON.stringify(result));
 						if (!err) {
 							return reply({"success":true,"all_items":result.all_items});
 						}else {
@@ -920,6 +959,28 @@ exports.register = function(server, options, next){
 				return reply.view("chat_register");
 			}
 		},
+		//微信注册功能 http://139.196.148.40:18666/user/register
+		{
+			method: 'GET',
+			path: '/do_register',
+			handler: function(request, reply){
+				var data = {};
+				data.mobile = request.query.mobile;
+				data.password = request.query.password;
+				data.username = request.query.username;
+				if (!data.password || !data.username || !data.mobile) {
+					return reply({"success":false,"message":"param wrong","service_info":service_info});
+				}
+				data.org_code = "ioio";
+				do_register(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"service_info":service_info});
+					}else {
+						return reply({"success":false,"message":result.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//微信注册存在
 		{
 			method: 'GET',
@@ -941,7 +1002,84 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/chat_login',
 			handler: function(request, reply){
-				return reply.view("chat_login");
+				var cookie_id = get_cookie_id(request);
+				if (!cookie_id) {
+					cookie_id = uuidV1();
+				}
+				var state = request.state.cookie;
+				if (!state) {
+					state = {};
+				}
+				state.cookie_id = cookie_id;
+				return reply.view("chat_login").state('cookie', state, {ttl:10*365*24*60*60*1000});
+			}
+		},
+		//验证码获取
+		{
+			method: 'GET',
+			path: '/captcha',
+			handler: function(request, reply){
+				var cookie_id = get_cookie_id(request);
+				if (!cookie_id) {
+					return reply({"success":false});
+				}
+				get_captcha(cookie_id,function(err, content){
+					if (!err) {
+						return reply({"success":true,"image":content.image,"service_info":service_info});
+					}else {
+
+					}
+				});
+			}
+		},
+		//登入验证
+		{
+			method: 'POST',
+			path: '/do_login',
+			handler: function(request, reply){
+				var data = {};
+				data.username = request.payload.username;
+				data.password = request.payload.password;
+				var vertify = request.payload.vertify;
+				data.org_code = "ioio";
+
+				var cookie_id = get_cookie_id(request);
+				if (!cookie_id) {
+					return reply({"success":false});
+				}
+				check_captcha(vertify,cookie_id,function(err, content){
+					if (!err) {
+						do_login(data, function(err,content){
+							if (!err) {
+								if (!content.success) {
+									return reply({"success":false,"message":"password wrong"});
+								}
+								var person_id = content.row.login_id;
+								if (!person_id) {
+									return reply({"success":false,"message":"no account"});
+								}
+								var state;
+								if (request.state && request.state.cookie) {
+									state = request.state.cookie;
+									state.person_id = person_id;
+								}else {
+									state = {person_id:person_id};
+								}
+								console.log("state:"+JSON.stringify(state));
+								var cart_code = get_cookie_cart_code(request);
+								if (cart_code) {
+									console.log("person_id:"+person_id);
+									combine_shopping_cart(cart_code,person_id,function(err,result){
+
+									});
+								}
+								return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+							}
+						});
+					}else {
+
+					}
+				});
 			}
 		},
 		//微信个人中心
@@ -968,7 +1106,15 @@ exports.register = function(server, options, next){
 				return reply.view("chat_receipt");
 			}
 		},
+		//登入首页
+		{
+			method: 'GET',
+			path: '/homePage',
+			handler: function(request, reply){
 
+				return reply.view("homePage");
+			}
+		},
 
 
     ]);
