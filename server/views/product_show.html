@@ -921,7 +921,7 @@
 				var product_price = {{product.product_sale_price | safe}};
 				$.get("/shopping_cart",{product_id:product_id,product_price:product_price},function(data){
 					if (data.success) {
-						// alert(data.all_items);
+						location.href = "/cart_infos";
 					}else {
 						alert(data.message);
 					}

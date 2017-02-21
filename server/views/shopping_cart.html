@@ -275,73 +275,18 @@
         </li>
       </ul>
     </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-    <div class="list">
-      <span class="circle"></span>
-      <span class="img"><img src="images/shuijao.jpg" alt=""></span>
-      <div class="infor">
-        <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
-        <p class="infor-two"></p>
-        <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span>1</span><span>+</span></p></div>
-        <p class="infor-four">删除</p>
-
-      </div>
-    </div>
-
+	{% for shopping_cart in shopping_carts %}
+	    <div class="list">
+	      <span class="circle"></span>
+	      <span class="img"><img src="images/{{products[shopping_cart.product_id].img.location}}" alt=""></span>
+	      <div class="infor">
+	        <p class="infor-one">{{products[shopping_cart.product_id].product_name}}</p>
+	        <p class="infor-two"></p>
+	        <div class="infor-three"><span class="price">￥</span><span class="price red">{{shopping_cart.total_prices}}</span><p class="add"><span>-</span><span>{{shopping_cart.total_items}}</span><span>+</span></p></div>
+	        <p class="infor-four">删除</p>
+	      </div>
+	    </div>
+	{% endfor %}
     <div style="width:100%;height:68px;background:#fff;"></div>
     <div class="footer">
       <div class="footer-left">

@@ -248,7 +248,7 @@
 			</div>
 			<ul class="main-product-ul">
 				<% _.forEach(sorts[level2.id], function(level3) { %>
-				<li><a href="/search"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
+				<li><a href="/search?sort_id=<%- level3.id %>"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
 				<% }); %>
 			</ul>
 			<% }); %>

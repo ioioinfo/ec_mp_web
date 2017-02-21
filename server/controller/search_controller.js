@@ -155,7 +155,7 @@ var find_saidans_pictures = function(comments_ids, cb){
 };
 //好评，差评，总数
 var find_total_comments = function(product_id, cb){
-	var url = "http://139.196.148.40:16001/get_product_comments_summary?product_id=";
+	var url = "http://139.196.148.40:16001/get_products_comment_summary?product_ids=";
 	url = url + product_id;
 	do_get_method(url,cb);
 };
@@ -264,6 +264,14 @@ var do_register = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/register";
 	do_post_method(url,data,cb);
 };
+var search_all_products = function(search_object,cb){
+	var url = "http://127.0.0.1:8050/search_products";
+	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
+};
+var find_none_person_cart = function(cart_code,cb){
+	var url = "http://127.0.0.1:8030/find_none_person_cart?cart_code="+cart_code;
+	do_get_method(url,cb);
+};
 exports.register = function(server, options, next){
 	server.route([
 		//desc,需要服务器地址
@@ -306,7 +314,31 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/search',
 			handler: function(request, reply){
-				return reply.view("search");
+				var search_object = {};
+				search_object.sort = request.query.sort;
+				search_object.q = request.query.q;
+				search_all_products(search_object,function(err,results){
+					if (!err) {
+						var product_ids = [];
+						for (var i = 0; i < results.rows.length; i++) {
+							product_ids.push(results.rows[i].id);
+						}
+						console.log("product_ids:"+JSON.stringify(product_ids));
+						find_total_comments(JSON.stringify(product_ids),function(err,content){
+							if (!err) {
+								var comments_map = {};
+								for (var i = 0; i < content.rows.length; i++) {
+									comments_map[content.rows[i].product_id] = content.rows[i];
+								}
+								return reply.view("search",{"products":results.rows,"comments":comments_map,"search_object":JSON.stringify(search_object)});
+							}else {
+								return reply({"success":false,"message":content.message});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
 			}
 		},
 		//查询搜索
@@ -329,6 +361,7 @@ exports.register = function(server, options, next){
 				}
 				var is_active = 0;
 				find_product_info(product_id, function(err, content){
+					console.log("content:"+JSON.stringify(content));
 					if (!err) {
 						var industry_id = content.product.industry_id;
 						var industry = industries[industry_id];
@@ -343,6 +376,7 @@ exports.register = function(server, options, next){
 							}
 						});
 					}else {
+						return reply(content.message);
 					}
 				});
 				// return reply.view("product_show");
@@ -437,10 +471,14 @@ exports.register = function(server, options, next){
 						return reply.view("product_comment",{"comments":comments,"again_comments":again_comments,"comment_data":comment_data});
 					}
 				});
-				find_total_comments(product_id,function(err,results){
+				find_total_comments(JSON.stringify([product_id]),function(err,results){
 					if (!err) {
-						var comment_data = results.row;
-						ep.emit("comment_data", comment_data);
+						if (results.rows.length >0) {
+							var comment_data = results.rows[0];
+							ep.emit("comment_data", comment_data);
+						}else {
+							ep.emit("comment_data", []);
+						}
 					}else {
 						ep.emit("comment_data", []);
 					}
@@ -511,7 +549,6 @@ exports.register = function(server, options, next){
 				//判断是否登入
 				console.log("person_id:"+person_id);
 				if (!person_id) {
-					console.log("1233");
 					//判断cookie是否有存在  并查数据库购物车信息,如果不存在，自动生成新建购物车，有合并
 					if (!cart_code) {
 						cart_code = uuidV1();
@@ -558,6 +595,32 @@ exports.register = function(server, options, next){
 				}
 			}
 		},
+		//购物车展示
+		{
+			method: 'GET',
+			path: '/cart_infos',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+				console.log("cart_code:"+cart_code);
+				if (!person_id) {
+					if (cart_code) {
+						find_none_person_cart(cart_code,function(err,results){
+							console.log("results:"+JSON.stringify(results));
+							if (!err) {
+								return reply.view("shopping_cart",{"success":true,"shopping_carts":results.shopping_carts,"products":results.products});
+							}else {
+								return reply({"success":false,"message":results.message});
+							}
+						});
+					}else {
+						return reply.view("shopping_cart",{"shopping_cart":{}});
+					}
+				}else {
+
+				}
+			}
+		},
 		//订单
 		{
 			method: 'GET',
@@ -572,9 +635,7 @@ exports.register = function(server, options, next){
 			path: '/person_center',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					person_id = 1;
-				}
+				person_id = 1;
 				var ep =  eventproxy.create("persons","personsVip",
 					function(persons,personsVip){
 					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip});
