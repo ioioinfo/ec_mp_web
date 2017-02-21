@@ -319,11 +319,14 @@ exports.register = function(server, options, next){
 				search_object.q = request.query.q;
 				search_all_products(search_object,function(err,results){
 					if (!err) {
+						if (results.rows.length == 0) {
+							return reply.view("search",{"products":[],"comments":{},"search_object":JSON.stringify(search_object)});
+						}
 						var product_ids = [];
 						for (var i = 0; i < results.rows.length; i++) {
 							product_ids.push(results.rows[i].id);
 						}
-						console.log("product_ids:"+JSON.stringify(product_ids));
+
 						find_total_comments(JSON.stringify(product_ids),function(err,content){
 							if (!err) {
 								var comments_map = {};
