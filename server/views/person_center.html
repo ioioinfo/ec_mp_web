@@ -289,7 +289,11 @@
 	 <!--       头部      -->
 	 <header class="header">
 	   <div class="person-details">
-		 <img src="{{ image_host }}/images/{{persons[0].avatar_url}}" alt="">
+		{% if persons.length >0  %}
+		 	<img src="{{ image_host }}/images/{{persons[0].avatar_url}}" alt="">
+		 {% else %}
+		 	<img src="images/header.png" alt="">
+		 {% endif %}
 	   </div>
 		<input type="text" name="" value="" placeholder="物品搜索" class="web-input">
 		<span class="configure">设置</span>
@@ -671,7 +675,15 @@
 	 <!--    底部      -->
 	 <div class="footer">
 	   <ul class="footer-top">
-		 <li><a href="#">{{persons[0].nickname}}</a></li>
+		 <li>
+			 <a href="#">
+			{% if persons.length >0  %}
+			 	{{persons[0].nickname}}
+			{% else %}
+	   		 	无名氏
+	   		 {% endif %}
+		 	</a>
+		</li>
 		 <li class="logout"><a>退出</a></li>
 		 <li><a href="#">意见反馈</a></li>
 		 <li><a href="#">电脑版</a></li>

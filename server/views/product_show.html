@@ -875,7 +875,7 @@
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/cart_infos">
             <p class="footer-top"><img src="images/car.png" alt=""></p>
             <p class="footer-bottom">购物车</p>
           </a>
@@ -921,7 +921,7 @@
 				var product_price = {{product.product_sale_price | safe}};
 				$.get("/shopping_cart",{product_id:product_id,product_price:product_price},function(data){
 					if (data.success) {
-						location.href = "/cart_infos";
+						alert("添加成功！");
 					}else {
 						alert(data.message);
 					}

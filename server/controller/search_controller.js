@@ -260,16 +260,57 @@ var combine_shopping_cart = function(cart_code,person_id,cb){
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 }
+//注册
 var do_register = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/register";
 	do_post_method(url,data,cb);
 };
+//查询
 var search_all_products = function(search_object,cb){
 	var url = "http://127.0.0.1:8050/search_products";
 	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
 };
+//发现无人购物车
 var find_none_person_cart = function(cart_code,cb){
 	var url = "http://127.0.0.1:8030/find_none_person_cart?cart_code="+cart_code;
+	do_get_method(url,cb);
+};
+//发现有人购物才
+var find_person_cart = function(person_id,cb){
+	var url = "http://127.0.0.1:8030/find_person_cart?person_id="+person_id;
+	do_get_method(url,cb);
+}
+//更新购物车商品状态
+var update_selected = function(data,cb){
+	var url = "http://127.0.0.1:8030/update_selected";
+	do_post_method(url,data,cb);
+};
+//查询地址，取默认的
+var search_addresses = function(person_id,cb){
+	var url = "http://139.196.148.40:18003/address/list_by_person?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+//开票接口
+var search_ec_invoices = function(person_id,cb){
+	var url = "http://139.196.148.40:18006/invoice/list_by_person?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+//物流运费
+var logistics_payment = function(data,cb){
+	var url = "http://211.149.248.241:18013/freightage/compute";
+	do_post_method(url,data,cb);
+};
+//保存订单信息
+var save_order_infos = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_order_infos";
+	do_post_method(url,data,cb);
+}
+//根据id查购物车
+var search_selected_carts = function(person_id,ids,cb){
+	var url = "http://127.0.0.1:8030/search_selected_carts?person_id=";
+	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
 exports.register = function(server, options, next){
@@ -382,7 +423,6 @@ exports.register = function(server, options, next){
 						return reply(content.message);
 					}
 				});
-				// return reply.view("product_show");
 			}
 		},
 		//产品图文参数
@@ -611,7 +651,9 @@ exports.register = function(server, options, next){
 						find_none_person_cart(cart_code,function(err,results){
 							console.log("results:"+JSON.stringify(results));
 							if (!err) {
-								return reply.view("shopping_cart",{"success":true,"shopping_carts":results.shopping_carts,"products":results.products});
+								var update_ids = [];
+								var total_data = {};
+								return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}
@@ -620,30 +662,178 @@ exports.register = function(server, options, next){
 						return reply.view("shopping_cart",{"shopping_cart":{}});
 					}
 				}else {
-
+					find_person_cart(person_id,function(err,results){
+						if (!err) {
+							console.log("results:"+JSON.stringify(results));
+							console.log("total_data:"+JSON.stringify(results.total_data));
+							var total_data = {};
+							if(results.total_data){
+								total_data = results.total_data;
+							}
+							return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(results.update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(results.total_data)});
+						}else {
+							return reply({"success":false,"message":results.message});
+						}
+					});
 				}
 			}
 		},
-		//订单
+		//选中购物车
 		{
 			method: 'GET',
-			path: '/order_pay',
+			path: '/update_cart',
 			handler: function(request, reply){
-				return reply.view("order_pay");
+				var person_id = get_cookie_person(request);
+				var ids = request.query.ids;
+				var selected = request.query.selected;
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var data = {
+					"ids" : ids,
+					"selected" : selected,
+					"person_id" : person_id
+				};
+				console.log("data:"+JSON.stringify(data));
+				update_selected(data,function(err,results){
+					console.log("results:"+JSON.stringify(results));
+					if (!err) {
+						var total_data = {};
+						if(results.total_data){
+							total_data = results.total_data;
+						}
+						return reply({"success":true,"shopping_carts":results.shopping_carts,"total_data":results.total_data});
+					}else {
+						return reply({"success":false,"message":results.message});
+					}
+				});
 			}
 		},
+		//下订单
+		{
+			method: 'GET',
+			path: '/place_order',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var ids = request.query.ids;
+				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data",function(shopping_carts,products,addresses,invoices,total_data){
+					logistics_payment(data,function(err,result){
+						if (!err) {
+							total_data.lgtic_pay = result.row.user_amount;
+							return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data)});
+						}else {
+							return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data)});
+						}
+					});
+
+				});
+				var data = {
+					"end_area" : "广东省",
+					"weight" : 0,
+					"order_amount" : 0
+				};
+				search_selected_carts(person_id,ids,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var shopping_carts = results.shopping_carts;
+							var products = results.products;
+							var total_data = results.total_data;
+							if (total_data.total_items) {
+								data.order_amount = total_data.total_items;
+							}
+							if (total_data.total_weight) {
+								data.weight = total_data.total_weight/1000;
+							}
+							ep.emit("shopping_carts", shopping_carts);
+							ep.emit("products", products);
+							ep.emit("total_data", total_data);
+						}else {
+							ep.emit("shopping_carts", []);
+							ep.emit("products", {});
+							ep.emit("total_data", {});
+						}
+					}else {
+						ep.emit("shopping_carts", []);
+						ep.emit("products", {});
+						ep.emit("total_data", {});
+					}
+				});
+				search_addresses(person_id,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var addresses = results.rows;
+							for (var i = 0; i < addresses.length; i++) {
+								if (addresses[i].is_default) {
+
+								}
+							}
+							ep.emit("addresses", addresses);
+						}else {
+							ep.emit("addresses", []);
+						}
+					}else {
+						ep.emit("addresses", []);
+					}
+				});
+				search_ec_invoices(person_id,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var invoices = results.rows;
+							ep.emit("invoices", invoices);
+						}else {
+							ep.emit("invoices", []);
+						}
+					}else {
+						ep.emit("invoices", []);
+					}
+				});
+			}
+		},
+		//保存订单,核实订单信息
+		{
+			method: 'POST',
+			path: '/order_save',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				if (!request.payload.total_data || !request.payload.shopping_carts) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+				var total_data = request.payload.total_data;
+				var shopping_carts = request.payload.shopping_carts;
+
+				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts};
+				save_order_infos(data,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
+
 		//个人中心
 		{
 			method: 'GET',
 			path: '/person_center',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
-				person_id = 1;
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
 				var ep =  eventproxy.create("persons","personsVip",
 					function(persons,personsVip){
 					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip});
 				});
-				find_persons(person_id, function(err, content){
+				var person_ids = [person_id];
+				console.log("person_ids:"+person_id);
+				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var persons = content.rows;
 						ep.emit("persons", persons);
@@ -651,7 +841,7 @@ exports.register = function(server, options, next){
 						ep.emit("persons", []);
 					}
 				});
-				find_personsVip(person_id, function(err, content){
+				find_personsVip(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var personsVip = content.rows;
 						ep.emit("personsVip", personsVip);
@@ -699,13 +889,14 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
+				var person_ids = [person_id];
 				var ep =  eventproxy.create("persons","personsVip",
 					function(persons,personsVip){
 					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip});
 				});
-				find_persons(person_id, function(err, content){
+				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var persons = content.rows;
 						ep.emit("persons", persons);
@@ -713,7 +904,7 @@ exports.register = function(server, options, next){
 						ep.emit("persons", []);
 					}
 				});
-				find_personsVip(person_id, function(err, content){
+				find_personsVip(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var personsVip = content.rows;
 						ep.emit("personsVip", personsVip);
@@ -1118,7 +1309,7 @@ exports.register = function(server, options, next){
 								if (!content.success) {
 									return reply({"success":false,"message":"password wrong"});
 								}
-								var person_id = content.row.login_id;
+								var person_id = content.row.person_id;
 								if (!person_id) {
 									return reply({"success":false,"message":"no account"});
 								}
