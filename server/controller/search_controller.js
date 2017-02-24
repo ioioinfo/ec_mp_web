@@ -313,6 +313,12 @@ var search_selected_carts = function(person_id,ids,cb){
 	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
+//
+var check_cart_number = function(person_id,cart_code,cb){
+	var url = "http://127.0.0.1:8030/check_cart_number?person_id=";
+	url = url + person_id + "&cart_code=" + cart_code;
+	do_get_method(url,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
 		//desc,需要服务器地址
@@ -401,7 +407,7 @@ exports.register = function(server, options, next){
 				var product_id = request.query.product_id;
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var is_active = 0;
 				find_product_info(product_id, function(err, content){
@@ -559,7 +565,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var is_active = 0
 				if (request.payload.is_active == 0) {
@@ -952,7 +958,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				search_person_address(person_id,function(err,results){
 					if (!err) {
@@ -971,7 +977,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var address_id = request.query.address_id;
 				var data = {
@@ -992,7 +998,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var address_id = request.query.address_id;
 				var data = {
@@ -1021,7 +1027,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var address_id = request.query.address_id;
 				search_address(address_id,person_id,function(err,result){
@@ -1039,7 +1045,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var data = {};
 				var info = JSON.parse(request.query.info);
@@ -1079,7 +1085,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				search_favorite_list(person_id,function(err,results){
 					if (!err) {
@@ -1149,6 +1155,22 @@ exports.register = function(server, options, next){
 				return reply.view("yue");
 			}
 		},
+		//查询购物车里面商品
+		{
+			method: 'GET',
+			path: '/check_cart_number',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+				check_cart_number(person_id,cart_code,function(err,row){
+					if (!err) {
+						return reply({"success":true,"message":"ok","number":row.number,"service_info":service_info});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//订单详情
 		{
 			method: 'GET',
@@ -1156,7 +1178,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
-					person_id = 1;
+					return reply.redirect("/chat_login");
 				}
 				var order_id = request.query.order_id;
 

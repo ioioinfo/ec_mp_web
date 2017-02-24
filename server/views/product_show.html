@@ -877,7 +877,7 @@
         <li>
           <a href="/cart_infos">
             <p class="footer-top"><img src="images/car.png" alt=""></p>
-            <p class="footer-bottom">购物车</p>
+            <p class="footer-bottom" id="cart">购物车</p>
           </a>
         </li>
         <li>
@@ -894,6 +894,14 @@
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 		$(function() {
+			var check_cart_number = function(){
+				$.get("/check_cart_number",function(data){
+					if (data.success) {
+						$("#cart").html("购物车"+data.number);
+					}
+				})
+			};
+			check_cart_number();
 			$(".details").click(function(){
 				location.href = "/product_text_configure?product_id={{product.id}}";
 			});
@@ -921,7 +929,7 @@
 				var product_price = {{product.product_sale_price | safe}};
 				$.get("/shopping_cart",{product_id:product_id,product_price:product_price},function(data){
 					if (data.success) {
-						alert("添加成功！");
+						check_cart_number();
 					}else {
 						alert(data.message);
 					}
