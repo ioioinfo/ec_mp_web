@@ -64,7 +64,7 @@ server.register([
       register: require('./server/assets/index.js')
     },
 	{
-	  register: require('./server/controller/search_controller.js')
+	  register: require('./server/controller/main_controller.js')
 	},
 
 

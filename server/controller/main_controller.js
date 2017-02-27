@@ -275,11 +275,35 @@ var find_none_person_cart = function(cart_code,cb){
 	var url = "http://127.0.0.1:8030/find_none_person_cart?cart_code="+cart_code;
 	do_get_method(url,cb);
 };
-//发现有人购物才
+//删除购物车
+var delete_shopping_carts = function(ids,cb){
+	var url = "http://127.0.0.1:8030/delete_shopping_carts?ids=";
+	url = url + ids;
+	do_get_method(url,cb);
+};
+//购物车  商品数量+1
+var plus_shopping_carts = function(ids,cb){
+	var url = "http://127.0.0.1:8030/plus_shopping_carts?ids=";
+	url = url + ids;
+	do_get_method(url,cb);
+};
+//购物车  商品数量-1
+var reduce_shopping_carts = function(ids,cb){
+	var url = "http://127.0.0.1:8030/reduce_shopping_carts?ids=";
+	url = url + ids;
+	do_get_method(url,cb);
+};
+//查询购物车
+var sarch_cart_infos = function(person_id,cart_code,cb){
+	var url = "http://127.0.0.1:8030/sarch_cart_infos?person_id=";
+	url = url + person_id + "&cart_code=" + cart_code;
+	do_get_method(url,cb);
+};
+//发现有人购物车
 var find_person_cart = function(person_id,cb){
 	var url = "http://127.0.0.1:8030/find_person_cart?person_id="+person_id;
 	do_get_method(url,cb);
-}
+};
 //更新购物车商品状态
 var update_selected = function(data,cb){
 	var url = "http://127.0.0.1:8030/update_selected";
@@ -406,9 +430,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var product_id = request.query.product_id;
 				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
+
 				var is_active = 0;
 				find_product_info(product_id, function(err, content){
 					console.log("content:"+JSON.stringify(content));
@@ -653,35 +675,184 @@ exports.register = function(server, options, next){
 				var cart_code = get_cookie_cart_code(request);
 				console.log("cart_code:"+cart_code);
 				if (!person_id) {
-					if (cart_code) {
-						find_none_person_cart(cart_code,function(err,results){
-							console.log("results:"+JSON.stringify(results));
+					person_id = "";
+				}
+				if (!cart_code) {
+					cart_code = "";
+				}
+				//查询购物车信息
+				sarch_cart_infos(person_id,cart_code,function(err,results){
+					if (!err) {
+						console.log("results:"+JSON.stringify(results));
+						var update_ids = [];
+						var total_data = results.total_data;
+						return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+					}else {
+						return reply({"success":false,"message":results.message});
+					}
+				});
+			}
+		},
+		//购物车删除
+		{
+			method: 'GET',
+			path: '/delete_cart',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+
+				if (!person_id) {
+					person_id = "";
+				}
+				var id = request.query.id;
+				var ids = [];
+				ids.push(id);
+				ids = JSON.stringify(ids);
+
+				console.log(ids);
+				delete_shopping_carts(ids,function(err,content){
+					if (!err) {
+						//查询购物车信息
+						sarch_cart_infos(person_id,cart_code,function(err,results){
 							if (!err) {
 								var update_ids = [];
-								var total_data = {};
-								return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+								var total_data = results.total_data;
+								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}
 						});
 					}else {
-						return reply.view("shopping_cart",{"shopping_cart":{}});
+						return reply({"success":false,"message":results.message,"service_info":service_info});
 					}
-				}else {
-					find_person_cart(person_id,function(err,results){
-						if (!err) {
-							console.log("results:"+JSON.stringify(results));
-							console.log("total_data:"+JSON.stringify(results.total_data));
-							var total_data = {};
-							if(results.total_data){
-								total_data = results.total_data;
-							}
-							return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(results.update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(results.total_data)});
-						}else {
-							return reply({"success":false,"message":results.message});
-						}
-					});
+				});
+			}
+		},
+		//购物车商品数量+1
+		{
+			method: 'POST',
+			path: '/plus_cart',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+				var id = request.payload.id;
+				var ids = [];
+				ids.push(id);
+				ids = JSON.stringify(ids);
+				if (!person_id) {
+					person_id = "";
 				}
+				if (!cart_code) {
+					cart_code = "";
+				}
+				plus_shopping_carts(ids,function(err,content){
+					if (!err) {
+						//查询购物车信息
+						sarch_cart_infos(person_id,cart_code,function(err,results){
+							if (!err) {
+								var update_ids = [];
+								var total_data = results.total_data;
+								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+							}else {
+								return reply({"success":false,"message":results.message});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":results.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//购物车商品数量-1
+		{
+			method: 'POST',
+			path: '/reduce_cart',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+				var id = request.payload.id;
+				var ids = [];
+				ids.push(id);
+				ids = JSON.stringify(ids);
+				if (!person_id) {
+					person_id = "";
+				}
+				if (!cart_code) {
+					cart_code = "";
+				}
+				reduce_shopping_carts(ids,function(err,content){
+					if (!err) {
+						//查询购物车信息
+						sarch_cart_infos(person_id,cart_code,function(err,results){
+							if (!err) {
+								var update_ids = [];
+								var total_data = results.total_data;
+								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+							}else {
+								return reply({"success":false,"message":results.message});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":results.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//购物车增加
+		{
+			method: 'GET',
+			path: '/plus_cart2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
+				var id = request.query.id;
+				var ids = [];
+				ids.push(id);
+				ids = JSON.stringify(ids);
+				plus_shopping_carts(ids,function(err,content){
+					if (!err) {
+						if (!person_id) {
+							if (cart_code) {
+								find_none_person_cart(cart_code,function(err,results){
+									console.log("results:"+JSON.stringify(results));
+									if (!err) {
+										var update_ids = [];
+										var total_data = {};
+										var products = {};
+										if (results.products) {
+											products = results.products;
+										}
+										return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(products),"total_data":JSON.stringify(total_data)});
+									}else {
+										return reply({"success":false,"message":results.message});
+									}
+								});
+							}else {
+								return reply.view("shopping_cart",{"shopping_cart":{}});
+							}
+						}else {
+							find_person_cart(person_id,function(err,results){
+								if (!err) {
+									console.log("results:"+JSON.stringify(results));
+									console.log("total_data:"+JSON.stringify(results.total_data));
+									var total_data = {};
+									if(results.total_data){
+										total_data = results.total_data;
+									}
+									var products = {};
+									if (results.products) {
+										products = results.products;
+									}
+									return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(results.update_ids),"products":JSON.stringify(products),"total_data":JSON.stringify(results.total_data)});
+								}else {
+									return reply({"success":false,"message":results.message});
+								}
+							});
+						}
+					}else {
+						return reply({"success":false,"message":results.message,"service_info":service_info});
+					}
+				});
 			}
 		},
 		//选中购物车
@@ -823,7 +994,6 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
-
 		//个人中心
 		{
 			method: 'GET',
@@ -1162,6 +1332,9 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				var cart_code = get_cookie_cart_code(request);
+				if (!person_id) {
+					person_id = "";
+				}
 				check_cart_number(person_id,cart_code,function(err,row){
 					if (!err) {
 						return reply({"success":true,"message":"ok","number":row.number,"service_info":service_info});

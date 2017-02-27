@@ -106,6 +106,9 @@
           font-weight: bold;
           color: #fff;
         }
+		#color{
+			color:#DEDEDE;
+		}
         .list{
           position: relative;
           overflow: hidden;
@@ -279,10 +282,7 @@
       </ul>
     </div>
 	<div id="carts">
-
 	</div>
-
-
 	<script id="cart_infos" type="text/template">
 		<% _.forEach(shopping_carts, function(shopping_cart) {  %>
 			<div class="list">
@@ -294,9 +294,9 @@
 			  <div class="infor">
 				<p class="infor-one"><%- products[shopping_cart.product_id].product_name %></p>
 				<p class="infor-two"></p>
-				<div class="infor-three"><span class="price">￥</span><span class="price red"><%- shopping_cart.total_prices %></span><p class="add"><span>-</span><span><%- shopping_cart.total_items %></span><span>+</span></p></div>
+				<div class="infor-three"><span class="price">￥</span><span class="price red"><%- shopping_cart.total_prices %></span><p class="add"><span  <% if(shopping_cart.total_items <= 1){ %> id="color" <% } %> class="reduce"  data-id="<%- shopping_cart.id %>">-</span><span><%- shopping_cart.total_items %></span><span class="plus" data-id="<%- shopping_cart.id %>">+</span></p></div>
 				<% if(update_ids[shopping_cart.product_id]){ %>
-				 <p class="" style="padding-top: 10px;float: left;">该商品价格已变动</p><% } %>	<p class="infor-four">删除</p>
+				 <p class="" style="padding-top: 10px;float: left;">该商品价格已变动</p><% } %>	<p class="infor-four delete" data-id="<%- shopping_cart.id %>">删除</p>
 			  </div>
 			</div>
 			<div style="width:100%;height:68px;background:#fff;"></div>
@@ -321,15 +321,11 @@
 			var shopping_carts = {{shopping_carts | safe}};
 			var products = {{products | safe}};
 			var total_data = {{total_data|safe}};
-
 			var update_ids = {{update_ids | safe}};
-
 			var selected = 0;
-
 			var fresh_carts = function(){
 				var t = _.template($("#cart_infos").html());
 				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data}));
-
 				$(".circle").click(function(){
 					var selected = $(this).data("select");
 					var id = $(this).data("id");
@@ -356,6 +352,35 @@
 				   });
 				   ids = JSON.stringify(ids);
 					location.href = "/place_order?ids="+ids;
+				});
+				$(".delete").click(function(){
+					var id = $(this).data("id");
+					$.get("/delete_cart",{id:id},function(data){
+						if (data.success) {
+							shopping_carts = JSON.parse(data.shopping_carts);
+							fresh_carts();
+						}
+					});
+				});
+				$(".plus").click(function(){
+					var id = $(this).data("id");
+					console.log(id);
+					$.post("/plus_cart",{id:id},function(data){
+						if (data.success) {
+							shopping_carts = JSON.parse(data.shopping_carts);
+							fresh_carts();
+						}
+					});
+				});
+				$(".reduce").click(function(){
+					var id = $(this).data("id");
+					console.log(id);
+					$.post("/reduce_cart",{id:id},function(data){
+						if (data.success) {
+							shopping_carts = JSON.parse(data.shopping_carts);
+							fresh_carts();
+						}
+					});
 				});
 			};
 			fresh_carts();
