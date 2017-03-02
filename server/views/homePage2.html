@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale-1,maximum-scale-1,user-scalable=no"/>
+   <title>首页</title>
+	 <style media="screen">
+	   @media screen and (max-width:640px){
+		 *{
+			 padding: 0;
+			 margin: 0;
+		   }
+		   html,body{
+			 margin: 0;
+			 padding: 0;
+			 width: 100%;
+			 height: 100%;
+			 background:url(images/back-1.png) no-repeat 0 0;
+			 background-size: cover;
+
+		   }
+		   .search{
+            width: 100%;
+            height: 45px;
+            margin-top: 10px;
+          }
+          a{
+            color: #888888;
+            text-decoration: none;
+            font-size: 14px;
+          }
+
+          img{
+            width: 8%;
+            vertical-align: middle;
+          }
+          input{
+            width: 74.9333333%;
+            height: 32px;
+            line-height: 32px;
+            border: none;
+            border: 2px solid #ebe8eb;
+            outline: none;
+            -webkit-appearance : none ;
+          }
+		  .header-nav{
+
+	  	  }
+		  .nav-ul{
+			width: 100%;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -ms-flex;
+			display: -o-flex;
+			display: flex;
+			font-size: 12px;
+			}
+		  .nav-ul li{
+			-webkit-flex: 1;
+			-moz-flex: 1;
+			-ms-flex: 1;
+			-o-flex: 1;
+			box-flex: 1;
+			float: left;
+			text-align: center;
+			list-style: none;
+			margin-top: 20px;
+		  }
+		  .nav-img-daifukuan{
+			height: 23px;
+			width: 27px;
+			margin: 0 auto;
+		  }
+		  .nav-img-daifukuan img{
+			height: 23px;
+			width: 27px;
+			display: block;
+		  }
+		  .nav-ul li p{
+			margin-top: 5px;
+
+		  }
+	 </style>
+ </head>
+ <body>
+	<div class="search">
+		<img src="images/jiantou.png" alt="">
+		<input type="text" name="" value="" placeholder="搜索" id="search_area">
+		<span class="cancle">取消</span>
+	</div>
+	<div class="header-nav">
+		<ul class="nav-ul">
+			<li><a href="#">
+			  <div class="nav-img-daifukuan">
+				<img src="images/daifukuan.png" alt="">
+			  </div>
+			  <p>首页</p></a>
+			</li>
+			<li><a href="/sort">
+			  <div class="nav-img-daifukuan">
+				<img src="images/daifahuo.png" alt="">
+			  </div>
+			  <p>分类</p></a>
+			</li>
+			<li><a href="/search_area">
+			  <div class="nav-img-daifukuan">
+				<img src="images/daishouhuo.png" alt="">
+			  </div>
+			  <p>搜索</p></a>
+			</li>
+			<li><a href="/cart_infos">
+			  <div class="nav-img-daifukuan">
+				<img src="images/daipingjia.png" alt="">
+			  </div>
+			  <p>购物车</p></a>
+			</li>
+			<li><a href="/person_center">
+			  <div class="nav-img-daifukuan">
+				<img src="images/tuikuan.png" alt="">
+			  </div>
+			  <p>我的</p></a>
+			</li>
+		</ul>
+	</div>
+	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+	<script>
+		$(function() {
+			$("#search_area").click(function(){
+				location.href = "/search_area";
+			});
+		});
+	</script>
+ </body>
+</html>

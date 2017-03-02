@@ -311,21 +311,27 @@
 	  {% for detail in details[order.order_id] %}
 	      <div class="product-infor " data-id="{{detail.order_id}}">
 	        <div class="all">
-	          <div class="product-infor-left"><img src="images/{{products[detail.product_id].img.location}}" alt=""></div>
+	          <div class="product-infor-left">
+				  {% if products[detail.product_id].img %}
+				  	<img src="images/{{products[detail.product_id].img.location}}" alt="">
+				  {% else %}
+					 <img src="images/no_picture.png" alt="">
+				  {% endif %}
+			  </div>
 	          <div class="product-infor-middle">
 	            <p class="p1">{{products[detail.product_id].product_name}}</p>
-	            <p class="p2">{{products[detail.product_id].product_describe}}&nbsp;颜色:{{products[detail.product_id].color}}</p>
+	            <p class="p2">颜色:{{products[detail.product_id].color}}</p>
 	            <p class="p3">7天退换</p>
 	          </div>
 	          <div class="product-infor-right">
 	            <p>￥ {{detail.price}}</p>
-	            <p class="yuanjia"><s>￥{{detail.marketing_price}}</s></p>
+	            <p class="yuanjia"><s>￥{{detail.price}}</s></p>
 	            <p>x{{detail.number}}</p>
 	          </div>
 	        </div>
 	      </div>
 	  {% endfor %}
-      <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥0</span></p>
+      <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥{{order.logistics_price}}</span></p>
       <p class="product-submit">
 		  <span>
 			  <a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
@@ -354,7 +360,7 @@
 				if (data.success) {
 					location.href = "/order_center";
 				}else {
-					
+
 				}
 			})
 		});

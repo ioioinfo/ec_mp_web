@@ -30,6 +30,23 @@ var find_sorts = function(cb){
 	var url = "http://127.0.0.1:8050/search_sorts";
 	do_get_method(url,cb);
 };
+//登入，合并设置cookie
+var login_set_cookie = function(request,person_id){
+	var state;
+	if (request.state && request.state.cookie) {
+		state = request.state.cookie;
+		state.person_id = person_id;
+	}else {
+		state = {person_id:person_id};
+	}
+	var cart_code = get_cookie_cart_code(request);
+	if (cart_code) {
+		console.log("person_id:"+person_id);
+		combine_shopping_cart(cart_code,person_id,function(err,result){
+		});
+	}
+	return state;
+};
 //cooke person
 var get_cookie_person = function(request){
 	var person_id;
@@ -106,8 +123,8 @@ var find_personsVip = function(persons, cb){
 	do_get_method(url,cb);
 };
 //得到所有订单
-var get_ec_orders = function(cb){
-	var url = "http://127.0.0.1:18010/get_ec_orders";
+var get_ec_orders = function(person_id,cb){
+	var url = "http://127.0.0.1:18010/get_ec_orders?person_id="+person_id;
 	do_get_method(url,cb);
 };
 //得到单个订单
@@ -265,6 +282,21 @@ var do_register = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/register";
 	do_post_method(url,data,cb);
 };
+//得到验证码
+var get_vertify = function(mobile,cb){
+	var url = "http://139.196.148.40:11111/api/mobile_sms?mobile="+mobile;
+	do_get_method(url,cb);
+};
+//做验证
+var do_vertify = function(data,cb){
+	var url = "http://139.196.148.40:11111/api/dy_login";
+	do_post_method(url,data,cb);
+};
+//vip注册
+var do_vip = function(data, cb){
+	var url = "http://139.196.148.40:18003/vip/add_vip";
+	do_post_method(url,data,cb);
+};
 //查询
 var search_all_products = function(search_object,cb){
 	var url = "http://127.0.0.1:8050/search_products";
@@ -353,6 +385,31 @@ exports.register = function(server, options, next){
 				return reply({"success":"ok","server":"ec_search server, ec_interaction server, ec_shopping_cart server, ec_product server, ec_order server, ec_web server"});
 			}
 		},
+		{
+			method: 'GET',
+			path: '/search_sorts',
+			handler: function(request, reply){
+				find_sorts(function(err, content){
+					if (!err) {
+						var  sorts = content.rows;
+						console.log("sorts: "+sorts);
+						var level_map = {};
+						for (var i = 0; i < sorts.length; i++) {
+							var parent_id = sorts[i].parent.toString() ;
+							var level_sorts = [];
+							if (level_map[parent_id]) {
+								level_sorts = level_map[parent_id];
+							}
+							level_sorts.push(sorts[i]);
+							level_map[parent_id] = level_sorts;
+						}
+						console.log("level_map: "+JSON.stringify(level_map));
+						return reply({"sorts":level_map});
+					}else {
+					}
+				});
+			}
+		},
 		//分类
 		{
 			method: 'GET',
@@ -378,6 +435,14 @@ exports.register = function(server, options, next){
 					}else {
 					}
 				});
+			}
+		},
+		//分类
+		{
+			method: 'GET',
+			path: '/sort2',
+			handler: function(request, reply){
+				return reply.view("sort2",{});
 			}
 		},
 		//查询
@@ -609,12 +674,12 @@ exports.register = function(server, options, next){
 		},
 		//购物车
 		{
-			method: 'GET',
+			method: 'POST',
 			path: '/shopping_cart',
 			handler: function(request, reply){
 				var product_num = 1;
-				var product_id = request.query.product_id;
-				var product_price = request.query.product_price;
+				var product_id = request.payload.product_id;
+				var product_price = request.payload.product_price;
 				var person_id = get_cookie_person(request);
 				var cart_code = get_cookie_cart_code(request);
 				//判断是否登入
@@ -678,7 +743,7 @@ exports.register = function(server, options, next){
 					person_id = "";
 				}
 				if (!cart_code) {
-					cart_code = "";
+					cart_code = uuidV1();
 				}
 				//查询购物车信息
 				sarch_cart_infos(person_id,cart_code,function(err,results){
@@ -796,6 +861,22 @@ exports.register = function(server, options, next){
 						return reply({"success":false,"message":results.message,"service_info":service_info});
 					}
 				});
+			}
+		},
+		//购物车商品数量改改
+		{
+			method: 'POST',
+			path: '/update_cart_number',
+			handler: function(request, reply){
+				return reply.view("configure");
+			}
+		},
+		//空购物车
+		{
+			method: 'get',
+			path: '/empty_cart',
+			handler: function(request, reply){
+				return reply.view("empty_cart");
 			}
 		},
 		//购物车增加
@@ -1035,6 +1116,14 @@ exports.register = function(server, options, next){
 				return reply({"success":true}).state('cookie', {});
 			}
 		},
+		//浏览历史
+		{
+			method: 'GET',
+			path: '/history',
+			handler: function(request, reply){
+				return reply.view("history");
+			}
+		},
 		//个人设置
 		{
 			method: 'GET',
@@ -1095,7 +1184,11 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/order_center',
 			handler: function(request, reply){
-				get_ec_orders(function(err,results){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				get_ec_orders(person_id,function(err,results){
 					if (!err) {
 						if (true) {
 							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
@@ -1409,22 +1502,78 @@ exports.register = function(server, options, next){
 				return reply.view("chat_register");
 			}
 		},
+		//获取验证
+		{
+			method: 'POST',
+			path: '/get_vertify',
+			handler: function(request, reply){
+				var mobile = request.payload.phone;
+				if (!mobile) {
+					return reply({"success":false,"message":"param wrong"});
+				}
+				get_vertify(mobile,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
+		//手机验证
+		{
+			method: 'POST',
+			path: '/do_vertify',
+			handler: function(request, reply){
+
+				var mobile = request.payload.mobile;
+				var password = request.payload.password;
+				if (!mobile || !password) {
+					return reply({"success":false,"message":"param wrong"});
+				}
+				var data = {
+					"mobile" : mobile,
+					"password" : password
+				};
+				do_vertify(data,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				})
+			}
+		},
 		//微信注册功能 http://139.196.148.40:18666/user/register
 		{
-			method: 'GET',
+			method: 'POST',
 			path: '/do_register',
 			handler: function(request, reply){
 				var data = {};
-				data.mobile = request.query.mobile;
-				data.password = request.query.password;
-				data.username = request.query.username;
+				data.mobile = request.payload.mobile;
+				data.password = request.payload.password;
+				data.username = request.payload.username;
+				data.org_code = "ioio";
+
 				if (!data.password || !data.username || !data.mobile) {
 					return reply({"success":false,"message":"param wrong","service_info":service_info});
 				}
-				data.org_code = "ioio";
 				do_register(data,function(err,result){
+					console.log("result:"+JSON.stringify(result));
 					if (!err) {
-						return reply({"success":true,"service_info":service_info});
+						var info = {};
+						info.person_id = result.person_id;
+						info.scope_code = "ec_shopping";
+						info.person_name = data.username;
+						info.mobile = data.mobile;
+						do_vip(info,function(err,result){
+							if (true) {
+								var state = login_set_cookie(request,info.person_id);
+								return reply({"success":true,"message":"ok","service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+							}else {
+								return reply({"success":false,"message":result.message,"service_info":service_info});
+							}
+						})
 					}else {
 						return reply({"success":false,"message":result.message,"service_info":service_info});
 					}
@@ -1444,7 +1593,8 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/set_password',
 			handler: function(request, reply){
-				return reply.view("set_password");
+				var phone = request.query.acc;
+				return reply.view("set_password",{"phone":phone});
 			}
 		},
 		//微信账号登入
@@ -1493,9 +1643,12 @@ exports.register = function(server, options, next){
 				var vertify = request.payload.vertify;
 				data.org_code = "ioio";
 
+				if (!data.username||!data.password||!vertify) {
+					return reply({"success":false,"message":"params wrong"});
+				}
 				var cookie_id = get_cookie_id(request);
 				if (!cookie_id) {
-					return reply({"success":false});
+					return reply({"success":false,"message":"vertify wrong"});
 				}
 				check_captcha(vertify,cookie_id,function(err, content){
 					if (!err) {
@@ -1508,26 +1661,14 @@ exports.register = function(server, options, next){
 								if (!person_id) {
 									return reply({"success":false,"message":"no account"});
 								}
-								var state;
-								if (request.state && request.state.cookie) {
-									state = request.state.cookie;
-									state.person_id = person_id;
-								}else {
-									state = {person_id:person_id};
-								}
-								console.log("state:"+JSON.stringify(state));
-								var cart_code = get_cookie_cart_code(request);
-								if (cart_code) {
-									console.log("person_id:"+person_id);
-									combine_shopping_cart(cart_code,person_id,function(err,result){
 
-									});
-								}
+								var state = login_set_cookie(request,person_id);
+
 								return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
 							}
 						});
 					}else {
-
+						return reply({"success":false,"message":content.message});
 					}
 				});
 			}

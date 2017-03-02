@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>购物车  </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+        }
+        p{
+          padding: 0;
+          margin: 0;
+        }
+        li{
+          list-style: none;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        .head{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 7px;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
+        }
+        .line{
+          width: 100%;
+          height: 10px;
+          background: #bbbbbb;
+          opacity: 0.5;
+        }
+        .nav{
+          width: 100%;
+          display: none;
+        }
+        .nav ul{
+          width: 100%;
+          display: flex;
+          text-align: center;
+          background: #404042;
+        }
+        .nav ul li{
+          flex: 1;
+          height: 70px;
+          font-size: 12px;
+
+        }
+        .nav ul li .nav-top{
+          width:40px;
+          height:30px;
+          margin: 0 auto;
+          text-align: center;
+          line-height: 40px;
+        }
+        .nav ul li img{
+          width:25px;
+          height:25px;
+          vertical-align: bottom;
+        }
+        .nav ul li .nav-bottom{
+          display: inline-block;
+
+          line-height: 40px;
+        }
+        .nav ul li .nav-bottom a{
+          color: #fff;
+        }
+        .nav .nav-car{
+          line-height: 57px;
+          font-size: 12px;
+          font-weight: bold;
+          color: #fff;
+        }
+        .none{
+          width: 100%;
+          height: 300px;;
+          font-size: 14px;
+          color: #666;
+          text-align: center;
+          line-height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="head">
+      <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+      <span class="title">购物车(0)</span>
+      <span class="menu"><img src="images/menu.png" alt=""></span>
+    </div>
+    <div class="line"></div>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">首页</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/search-1.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">搜索</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/car-1.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">购物车</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/header-3.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">我的账户</a></p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <p class="none">购物车暂时为空</p>
+    <!-- nav点击显示隐藏 -->
+    <script type="text/javascript">
+      $(".head .menu").click(function(){
+        $(".nav").toggle();
+      })
+    </script>
+
+  </body>
+</html>

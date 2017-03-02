@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>浏览历史</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <style media="screen">
+      @media screen and (max-width:640px) {
+        *{
+            padding: 0;
+            margin: 0;
+          }
+          html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+          }
+          /*隐藏滚动条*/
+          ::-webkit-scrollbar {
+              display: none;
+          }
+
+          a{
+            text-decoration: none;
+            color: #fff;
+          }
+          .top{
+           width: 100%;
+           height: 47px;
+           overflow: hidden;
+           border-bottom: 1px solid #e7e7e7;
+           box-shadow: 0 2px 5px #e7e7e7;
+           background: #fff;
+         }
+         .top .back{
+           width: 12.5333333%;
+           height: 47px;
+           float: left;
+           display: inline-block;
+           text-align: center;
+           line-height: 47px;
+
+         }
+         .top .back img{
+           width: 25px;
+           height: 25px;
+           vertical-align: middle;
+         }
+         .top .top-right{
+           width: 12.5333333%;
+           height: 47px;
+           float: right;
+           display: inline-block;
+           text-align: center;
+           line-height: 47px;
+           position: relative;
+         }
+         .top .top-right p{
+           display: inline-block;
+           width: 18px;
+           height: 14px;
+           line-height: 14px;
+           color: #fff;
+           position: absolute;
+           left: 19px;
+           top: 10px;
+           font-size: 12px;
+           background: #D81E06;
+           border-radius: 7px;
+           text-align: center;
+         }
+         .top .top-right img{
+           width: 25px;
+           height: 25px;
+           vertical-align: middle;
+         }
+         .top .top-title{
+           float: left;
+           width: 74.93333333%;
+           height: 47px;
+           line-height: 47px;
+           text-align: center;
+           color: #666;
+         }
+        .content{
+          width: 100%;
+          overflow: hidden;
+        }
+
+        .background{
+          width: 100%;
+          height: 10px;
+          background: #EBEBEB;
+        }
+
+        .content .product-infor{
+          width: 100%;
+          margin-bottom: 25px;
+          overflow: hidden;
+          background: #fff;
+          padding: 5px 0;
+        }
+        .content .product-infor .all{
+          width: 96%;
+          padding: 15px 0 5px 0;
+          overflow: hidden;
+          margin: 0 auto;
+          border-bottom: 1px solid #eee;
+        }
+        .content .product-infor .p0{
+          width: 100%;
+          padding: 5px 0;
+          overflow: hidden;
+          background: #F5F5F5;
+          font-size: 14px;
+          text-indent: 2%;
+        }
+        .product-infor .product-infor-left{
+          float: left;
+          width: 27.77777%;
+          height: 100px;
+          margin-right: 2.77777%;
+
+        }
+        .product-infor .product-infor-left img{
+          width: 100px;
+          height: 100px;
+        }
+        .product-infor .product-infor-middle{
+          float: left;
+          width: 69.44444%;
+
+        }
+        .product-infor .product-infor-middle .p1{
+          width: 100%;
+          font-size: 14px;
+          height: 35px;
+          line-height: 17px;
+          color: #223541;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          -moz-line-clamp: 2;
+          -ms-line-clamp: 2;
+          -o-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          -moz-box-orient: vertical;
+          -ms-box-orient: vertical;
+          -o-box-orient: vertical;
+          box-orient: vertical;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-box;
+          display: -o-box;
+          display: box;
+          word-break: break-all;
+        }
+        .product-infor .product-infor-middle .p2{
+          margin-top: 5px;
+          font-size: 12px;
+          padding: 5px 0;
+          overflow: hidden;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span1{
+          color: #FF5810;
+          margin-top: 5px;
+          font-size: 12px;
+          float: left;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span2{
+          color: #1296DB;
+          margin-top: 5px;
+          font-size: 12px;
+          float: right;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span2 img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+        .product-infor .product-infor-middle .p3{
+          text-align: right;
+          padding-top: 15px;
+        }
+        .product-infor .product-infor-middle .p3 img{
+          width: 16px;
+          height: 16px;
+
+        }
+        .footer{
+          width: 100%;
+          height: 46px;
+          line-height: 46px;
+          background: #eee;
+          color: #999;
+          text-align: center;
+        }
+
+
+
+
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 头部 -->
+    <div class="top">
+      <div class="back">
+        <img src="images/back.png" alt="">
+      </div>
+      <p class="top-title">浏览历史</p>
+      <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+    </div>
+
+    <!-- 中间 -->
+    <div class="content">
+
+      <div class="product-infor">
+        <p class="p0">2017-2-15</p>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_6.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_7.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_8.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-infor">
+        <p class="p0">2017-2-15</p>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_9.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_3.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-infor">
+        <p class="p0">2017-2-15</p>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_2.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+        <div class="all">
+
+          <div class="product-infor-left"><img src="images/c_1.jpg" alt=""></div>
+          <div class="product-infor-middle">
+            <p class="p1">海天酱油，天然大豆酿造,750g笑嘻嘻笑嘻嘻笑嘻嘻搜房网服ssssss务</p>
+            <p class="p2"><span class="p2-span1">￥88.00</span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+            <p class="p3"><img src="images/select.png" alt=""></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      没有更多！！！
+    </div>
+    
+  </body>
+</html>

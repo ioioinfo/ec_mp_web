@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>忘记密码</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          background: url(images/web-login1.jpg) no-repeat 0 0;
+          background-size: cover;
+        }
+        a{
+          text-decoration: none;
+        }
+        .wrap{
+          width: 100%;
+          height: 100%;
+          padding-top: 134px;
+          text-align: center;
+        }
+        .login div{
+          width: 220px;
+          padding: 2px 0;
+          border-radius: 4px;
+          display: inline-block;
+          margin-top: 15px;
+          position: relative;
+        }
+        .login div .position{
+          position: absolute;
+          top: 11px;
+          left: 5px;
+        }
+        .login div input{
+          width: 100%;
+          text-indent: 30px;
+          height: 34px;
+          line-height: 34px;
+          outline-style: none;
+          border: none;
+        }
+        .account{
+          margin-top: 14px;
+        }
+        .verificationCode{
+          position: absolute;
+          top: 11px;
+          right: 8px;
+        }
+        .verification span{
+          display: inline-block;
+        }
+        .login .checkbox{
+          border: none;
+        }
+        .checkbox span{
+          display: inline-block;
+          width: 110px;
+          font-size: 12px;
+          color: #666;
+        }
+        .login .checkbox .checkboxNum{
+          display: inline-block;
+          width: 10px;
+          vertical-align: middle;
+        }
+        .checkboxone{
+          text-align: left;
+        }
+        .checkboxtwo{
+          text-align: right;
+        }
+        .login .submit{
+          border: none;
+          text-align: center;
+
+        }
+        .login .submit input{
+          text-indent: 0;
+        }
+        .login p{
+          display: inline-block;
+          width: 220px;
+          text-align: left;
+          color: #000;
+          font-size: 14px;
+        }
+        .login p span:last-child{
+          float: right;
+        }
+        .login1{
+          position: absolute;
+          top: 134px;
+          left: 0;
+          z-index: 99;
+        }
+      }
+    </style>
+</head>
+<body>
+  <div id="example"></div>
+  <script type="text/babel">
+  // 框架
+  class Warp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.submitMain1 = this.submitMain1.bind(this);
+        this.state = {"show":1};
+    }
+    submitMain1(show) {
+      this.setState({"show":show});
+    }
+    render() {
+      var show = (<div></div>);
+      if (this.state.show == 1) {
+        show = (<Main1 submitMain1={this.submitMain1} />);
+      }
+      if (this.state.show == 2) {
+        show = (<Main />);
+      }
+      return (
+        <div className="wrap">
+          {show}
+        </div>
+      );
+    }
+  };
+
+  // 中间内容  忘记密码第一步
+  class Main1 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleSubmit(e){
+        this.props.submitMain1(2);
+    }
+    render() {
+        return (
+          <div className="login login1">
+            <div className="account">
+            <input type="text" value="" placeholder="请输入手机号" className="accountNum" />
+            </div>
+
+            <div className="verification">
+            <input type="text" value="" placeholder="请输入验证码" className="verificationNum" />
+              <span className="verificationCode">| 获取验证码</span>
+            </div>
+            <div className="submit">
+              <input type="submit" value="下一步" className="submitNum" onClick={this.handleSubmit} />
+            </div>
+          </div>
+        );
+    }
+  };
+// 中间内容  忘记密码第二步
+  class Main extends React.Component {
+    render() {
+        return (
+          <div className="login ">
+            <div className="password">
+              <input type="text" value="" placeholder="请输入新密码" className="passwordNum" />
+            </div>
+            <div className="verification">
+              <input type="text" value="" placeholder="请在输入一次" className="verificationNum" />
+            </div>
+
+            <div className="submit">
+              <input type="submit" value="确 定"  className="verificationNum" />
+            </div>
+          </div>
+        );
+    }
+  };
+    ReactDOM.render(
+        <Warp />,
+        document.getElementById('example')
+    );
+    </script>
+</body>
+</html>

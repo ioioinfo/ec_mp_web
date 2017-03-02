@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>首页</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+      *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+        a{
+          text-decoration: none;
+          color: #999;
+        }
+        /*头部搜索框*/
+      .header{
+          width: 100%;
+          height: 146px;
+          overflow: hidden;
+        }
+        .search{
+          width: 100%;
+          height:36px;
+          line-height: 36px;
+          background: #F35152;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .searchfangdaImg{
+          position: absolute;
+          top: 10px;
+          left: 4.26829268%;
+        }
+        input::-webkit-input-placeholder {
+          color:    #fff;
+        }
+        input:-moz-placeholder {
+          color:    #fff;
+        }
+        input::-webkit-input-results {
+          color:    #fff;
+        }
+        input:-moz-results {
+          color:    #fff;
+        }
+        .headersearch{
+          display: inline-block;
+          width: 87.4666666%;
+          height: 25px;
+          line-height: 25px;
+          outline-style: none;
+          border: none;
+          background: #FF8888;
+          border-radius: 6px;
+          text-indent: 20px;
+        }
+        .headernews{
+          display: inline-block;
+          width: 6.6666%;
+          height: 25px;
+          position: relative;
+        }
+        .headernewsnum{
+          position: absolute;
+          top: 8px;
+          left: 14px;
+          font-size: 12px;
+          font-weight: 400;
+          color: #EE0A08;
+          background: #fff;
+          width: 14px;
+          height: 14px;
+          line-height: 14px;
+          border-radius: 7px;
+        }
+        .headernimg{
+          vertical-align: middle;
+          margin-left: 5px;
+        }
+
+
+        /*轮播*/
+      #box {
+         position:relative;
+         width:100%;
+         height:110px;
+         margin:0 auto;
+         overflow: hidden;
+        }
+        #box .imgList{
+         position:relative;
+         width:100%;
+         height:110px;
+         overflow:hidden;
+        }
+        #box .imgList li{
+         position:absolute;
+         top:0;
+         left:0;
+         width:100%;
+         height:110px;
+         list-style: none;
+        }
+        #box .imgList li img{
+          width: 100%;
+          height: 110px;
+        }
+        #box .countNum{
+         width: 75px;
+         height: 20px;
+         position:absolute;
+         right:0;
+         bottom:5px;
+        }
+        #box .countNum li{
+         width:20px;
+         height:20px;
+         line-height: 20px;
+         float:left;
+         color:#fff;
+         border-radius:20px;
+         background:#f90;
+         text-align:center;
+         margin-right:5px;
+         cursor:pointer;
+         list-style: none;
+         opacity:0.7;
+         filter:alpha(opacity=70);
+        }
+        #box .countNum li.current{
+         background:#f60;
+         font-weight:bold;
+         opacity:1;
+         filter:alpha(opacity=70);
+        }
+      }
+      /*中间部分*/
+      .shouyemainimg{
+        width: 100%;
+
+      }
+      /*底部导航*/
+      .footernav{
+        width: 100%;
+        height: 42px;
+        display: flex;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid #eee;
+      }
+      .footernav li{
+        width: 20%;
+        height:42px;
+        box-sizing: border-box;
+        list-style: none;
+        text-align: center;
+        font-size: 14px;
+      }
+      .footernav li p img{
+        width: 22px;
+        height: 22px;
+      }
+      .footernav li:first-child a{
+        color: #d81e06;
+      }
+      .background{
+        width: 100%;
+        height: 46px;
+        background: #fff;
+      }
+    </style>
+</head>
+<body>
+  <div id="example"></div>
+  <script type="text/babel">
+  // 框架
+  class Warp extends React.Component {
+    render() {
+        return (
+          <div className="wrap">
+            <Header/>
+            <Main/>
+            <Footer/>
+            <Background/>
+          </div>
+        );
+    }
+  };
+  // 头部搜索框
+  class Header extends React.Component {
+    render() {
+        return (
+          <div className="header">
+            <div className="search">
+              <input  type="search" value="" placeholder="寻找商品" className="headersearch" />
+              <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
+              <div className="headernews">
+                <img src="images/new.png" alt="" className="headernimg" />
+                <span className="headernewsnum">99</span>
+              </div>
+            </div>
+            <Lunbo/>
+          </div>
+        );
+    }
+  };
+  // 轮播图
+  class Lunbo extends React.Component {
+    render() {
+        return (
+          <div id="box"></div>
+        );
+    }
+  };
+  // 中间部分
+  class Main extends React.Component {
+    render() {
+        return (
+          <div><img src="images/shouyemain.png" alt=" " className="shouyemainimg" /></div>
+        );
+    }
+  };
+  // 底部导航
+  class Footer extends React.Component {
+    render() {
+        return (
+          <ul className="footernav">
+            <li><a href="#"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
+            <li><a href="#"><p><img src="images/fenlei1.png" alt="" /></p><p>分类</p></a></li>
+            <li><a href="#"><p><img src="images/wuliu.png" alt="" /></p><p>物流</p></a></li>
+            <li><a href="#"><p><img src="images/gouwuche1.png" alt="" /></p><p>购物车</p></a></li>
+            <li><a href="#"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
+          </ul>
+        );
+    }
+  };
+  // 底部空白
+  class Background extends React.Component {
+    render() {
+        return (
+          <div className="background"></div>
+        );
+    }
+  };
+    ReactDOM.render(
+        <Warp />,
+        document.getElementById('example')
+    );
+    </script>
+
+  <script>
+
+     function runImg(){}
+     runImg.prototype={
+      bigbox:null,//最外层容器
+      boxul:null,//子容器ul
+      imglist:null,//子容器img
+      numlist:null,//子容器countNum
+      index:0,//当前显示项
+      timer:null,//控制图片转变效果
+      play:null,//控制自动播放
+      imgurl:[],//存放图片
+      count:0,//存放的个数
+      $:function(obj)
+      {
+       if(typeof(obj)=="string")
+       {
+        if(obj.indexOf("#")>=0)
+        {
+         obj=obj.replace("#","");
+         if(document.getElementById(obj))
+         {
+          return document.getElementById(obj);
+         }
+         else
+         {
+          alert("没有容器"+obj);
+          return null;
+         }
+        }
+        else
+        {
+         return document.createElement(obj);
+        }
+       }
+       else
+       {
+        return obj;
+       }
+      },
+      //初始化
+      info:function(id)
+      {
+       this.count=this.count<=5?this.count:5;
+       this.bigbox=this.$(id);
+       for(var i=0;i<2;i++)
+       {
+        var ul=this.$("ul");
+        for(var j=1;j<=this.count;j++)
+        {
+         var li=this.$("li");
+         li.innerHTML=i==0?this.imgurl[j-1]:j;
+         ul.appendChild(li);
+        }
+        this.bigbox.appendChild(ul);
+       }
+       this.boxul=this.bigbox.getElementsByTagName("ul");
+       this.boxul[0].className="imgList";
+       this.boxul[1].className="countNum";
+       this.imglist=this.boxul[0].getElementsByTagName("li");
+       this.numlist=this.boxul[1].getElementsByTagName("li");
+       this.numlist[0].className="current";
+      },
+      //封装程序入口
+      action:function(id)
+      {
+       this.imgshow(this.index,this.numlist,this.imglist);
+       this.autoplay();
+       this.mouseoverout(this.bigbox,this.numlist);
+      },
+      //图片切换效果
+      imgshow:function(num,numlist,imglist)
+      {
+       this.index=num;
+       var alpha=80;
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].className="";
+       }
+       numlist[this.index].className="current";
+       clearInterval(this.timer);
+       for(var j=0;j<imglist.length;j++)
+       {
+        imglist[j].style.opacity=0;
+        imglist[j].style.filter="alpha(opacity=0)";
+       }
+       var $this=this;
+       imglist[$this.index].style.opacity=alpha;
+       imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
+
+       //利用透明度来实现切换图片
+       this.timer=setInterval(function(){
+        alpha+=2;
+        if(alpha>100){alpha=100};//不能大于100
+        //为兼容性赋样式
+        imglist[$this.index].style.opacity=alpha/100;
+        imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
+        if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
+      },40)//经测试20是我认为最合适的值
+      },
+      //自动播放
+      autoplay:function(){
+       var $this=this;
+       this.play=setInterval(function(){
+        $this.index++;
+        if($this.index>$this.imglist.length-1){$this.index=0};
+        $this.imgshow($this.index,$this.numlist,$this.imglist);
+      },4000)
+      },
+      //处理鼠标事件
+      mouseoverout:function(box,numlist)
+      {
+       var $this=this;
+       box.onmouseover=function()
+       {
+        clearInterval($this.play);
+       }
+       box.onmouseout=function()
+       {
+        $this.autoplay($this.index);
+       }
+       for(var i=0;i<numlist.length;i++)
+       {
+        numlist[i].index=i;
+        numlist[i].onmouseover=function(){
+         $this.imgshow(this.index,$this.numlist,$this.imglist);
+        }
+       }
+      }
+     }
+     window.onload=function(){
+      var runimg=new runImg();
+      runimg.count=3;
+      runimg.imgurl=[
+      "<img src=\"images/i-99.png\"/>",
+      "<img src=\"images/i-88.png\"/>",
+      "<img src=\"images/i-77.png\"/>"];
+      runimg.info("#box");
+      runimg.action("#box");
+     }
+
+    </script>
+</body>
+</html>

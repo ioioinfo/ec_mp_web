@@ -72,7 +72,7 @@
   <body>
     <div class="search">
       <img src="images/jiantou.png" alt="">
-      <input type="text" name="" value="" placeholder="搜索">
+      <input type="text" name="" value="" placeholder="搜索" class="search_content">
       <span class="cancle">取消</span>
     </div>
     <p class="word">大家都在搜</p>
@@ -91,9 +91,28 @@
 	<script>
 		$(function() {
 			$(".cancle").click(function(){
-				location.href = "/sort";
+				window.history.back();
 			});
-
+			var object = {};
+			var change_url = function(){
+				var arr = [];
+				var url = "/search?";
+				if (object.sort) {
+					arr.push("sort=" + object.sort);
+				}
+				if (object.q) {
+					arr.push("q=" + object.q);
+				}
+				return url+arr.join("&");
+			};
+			$(".search_content").keypress(function(e){
+				var key = e.which;
+				if (key == 13) {
+					var q = encodeURI($(this).val());
+					object.q = q;
+					location.href = change_url();
+				}
+			});
 		});
 	</script>
   </body>

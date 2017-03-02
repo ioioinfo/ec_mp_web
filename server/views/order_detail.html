@@ -413,10 +413,16 @@
 	  	{% for detail in details[order.order_id] %}
 	      <div class="product-infor" data-id="{{detail.product_id}}">
 	        <div class="all">
-	          <div class="product-infor-left"><img src="images/{{products[detail.product_id].img.location}}" alt=""></div>
+	          <div class="product-infor-left">
+					 {% if products[detail.product_id].img %}
+					   <img src="images/{{products[detail.product_id].img.location}}" alt="">
+					 {% else %}
+						<img src="images/no_picture.png" alt="">
+					 {% endif %}
+			  </div>
 	          <div class="product-infor-middle">
 	            <p class="p1">{{products[detail.product_id].product_name}}</p>
-	            <p class="p2">{{products[detail.product_id].product_describe}}&nbsp;颜色:{{products[detail.product_id].color}}</p>
+	            <p class="p2">颜色:{{products[detail.product_id].color}}</p>
 	            <!-- <p class="p3">7天退换</p> -->
 	          </div>
 	          <div class="product-infor-right">
@@ -441,16 +447,16 @@
       </div>
       <div class="pay">
         <span>发票信息</span>
-        <span>{{invoices[order.order_id].invoice_name}}</span>
+        <span>{% if invoices[order.order_id] %}  {{invoices[order.order_id].invoice_name}}  {% endif %}</span>
       </div>
       <div class="background"></div>
       <div class="pay price">
         <span>商品价格：</span>
-        <span>￥{{order.actual_price}}</span>
+        <span>￥{{order.products_price}}</span>
       </div>
       <div class="pay">
         <span>运费：</span>
-        <span>￥00.00</span>
+        <span>￥{{order.logistics_price}}</span>
       </div>
       <div class="real-price">
         <span>实付款：￥{{order.actual_price}}</span>

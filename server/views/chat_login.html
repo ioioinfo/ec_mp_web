@@ -1,155 +1,265 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale-1,maximum-scale-1,user-scalable=no"/>
-    <title>微信公众号登入</title>
-      <style media="screen">
-        @media screen and (max-width:640px){
-          *{
-              padding: 0;
-              margin: 0;
-            }
-            html,body{
-              margin: 0;
-              padding: 0;
-              width: 100%;
-              height: 100%;
-              background:url(images/back-1.png) no-repeat 0 0;
-              background-size: cover;
-
-            }
-            /*隐藏滚动条*/
-            ::-webkit-scrollbar {
-                display: none;
-            }
-            .warp{
-              width: 94.933333%;
-              height: 292px;
-              margin: 62px auto;
-              background: #fff;
-              text-align: center;
-            }
-
-            .password{
-              height: 40px;
-              outline: none;
-              -webkit-appearance : none ;
-              border: 2px solid #e8e1e8;
-              text-indent: 10px;
-              font-size: 14px;
-              border-radius: 2px;
-              width: 93.2584269%;
-              margin: 30px 0 0;
-            }
-            .submit{
-              width: 93.2584269%;
-              background: #29b6f6;
-              border: none;
-              height: 40px;
-              outline: none;
-              -webkit-appearance : none ;
-              border: 2px solid #29b6f6#;
-              text-indent: 10px;
-              font-size: 14px;
-              border-radius: 2px;
-              color: #fff;
-              font-weight: bold;
-            }
-            .auth-code{
-              width: 93.2584269%;
-              margin: 25px auto;
-              overflow: hidden;
-            }
-            .auth-code-left{
-              width: 60.2409638%;
-              height: 40px;
-              outline: none;
-              -webkit-appearance : none ;
-              border: 2px solid #e8e1e8;
-              text-indent: 10px;
-              font-size: 14px;
-              border-radius: 2px;
-              float: left;
-            }
-            .auth-code-right{
-              width: 35.8433734%;
-              border: 2px solid #e8e1e8;
-              float:right;
-              height: 40px;
-              font-size: 12px;
-              text-align: center;
-            }
-            .welcome{
-              width: 192px;
-              height: 80px;
-              background:url(images/welcome.png) no-repeat 0 0;
-              background-size: contain;
-              margin: 0 auto;
-            }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>登录</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
         }
-      </style>
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          background: url(images/web-login1.jpg) no-repeat 0 0;
+          background-size: cover;
+        }
+        a{
+          text-decoration: none;
+        }
+        .wrap{
+          width: 100%;
+          height: 100%;
+          padding-top: 80px;
+          text-align: center;
+        }
+        .person{
+          width: 94px;
+          height: 94px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+        .personImg{
+          width: 94px;
+          height: 94px;
+          border-radius: 50%;
+        }
+        .login div{
+          width: 220px;
+
+          padding: 2px 0;
+          border-radius: 4px;
+          display: inline-block;
+          margin-top: 15px;
+          position: relative;
+        }
+        .login div img{
+          position: absolute;
+          top: 11px;
+          left: 5px;
+        }
+		.login div .position{
+          position: absolute;
+          top: 11px;
+          left: 5px;
+	  }
+        .login div input{
+          width: 100%;
+          text-indent: 30px;
+		  height: 34px;
+          line-height: 20px;
+          outline-style: none;
+          border: none;
+        }
+        .account{
+          margin-top: 14px;
+        }
+        .verificationCode{
+          position: absolute;
+          top: 11px;
+          right: 8px;
+        }
+        .login .checkbox{
+          border: none;
+        }
+        .checkbox span{
+          display: inline-block;
+          width: 110px;
+          font-size: 12px;
+          color: #666;
+        }
+        .login .checkbox .checkboxNum{
+          display: inline-block;
+          width: 10px;
+          vertical-align: middle;
+        }
+        .checkboxone{
+          text-align: left;
+        }
+        .checkboxtwo{
+          text-align: right;
+        }
+        .login .submit{
+          border: none;
+          text-align: center;
+
+        }
+        .login .submit input{
+          text-indent: 0;
+        }
+        .login p{
+          display: inline-block;
+          width: 220px;
+          text-align: left;
+          color: #000;
+          font-size: 14px;
+        }
+        .login p span:last-child{
+          float: right;
+        }
+		.verificationimg{
+          position: absolute;
+          top: -8px;
+          right:96px;
+        }
+        #img{
+          width: 90px;
+          height: 34px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="warp">
-        <input type="text" placeholder="请输入已有帐号" value="" name=""  class="password" id="username">
-        <input type="password" placeholder="输入登录密码" name="" value="" class="password" id="password">
-        <div class="auth-code">
-          <input type="text" placeholder="请输入验证码" name="" value="" class="auth-code-left" id="vertify">
-          <!-- <input type="text" name="" value="1 2 3 4" class="auth-code-right"> -->
-		  <img id="img" src=""/>
-        </div>
-        <input type="submit" name="" value="立即登录" class="submit">
-    </div>
-    <div class="welcome">
+    <div id="example"></div>
+    <script type="text/babel">
+    // 框架
+    class Warp extends React.Component {
+      render() {
+          return (
+            <div className="wrap">
+              <Header/>
+              <Main login_url="/do_login" vertify_url="/captcha" register_url="/chat_register"/>
+            </div>
+          );
+      }
+    };
+    // 上部头像
+    class Header extends React.Component {
+      render() {
+          return (
+            <div className="person">
+              <img src="images/personImg.jpg" alt="" className="personImg" />
+            </div>
+          );
+      }
+    };
+    // 中间内容
+    class Main extends React.Component {
+		constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+            this.handleLogin = this.handleLogin.bind(this);
+			this.handleVertify = this.handleVertify.bind(this);
+			this.handleRegiser = this.handleRegiser.bind(this);
+            this.state = {"username":"","password":"","vertify":""};
+        }
+		handleRegiser(e){
+			location.href = this.props.register_url;
+		}
 
-    </div>
-	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-	<script type="text/javascript">
-		$(function() {
-			var change_picture = function(){
-				$.get("/captcha", function(data){
-					if (data.success) {
-						$("#img").attr("src","data:image/png;base64,"+data.image);
-					}else {
-						alert("fail");
-					}
-				});
-			};
-			change_picture();
+		handleChange(e) {
+			var name = e.target.id;
+			if (name == "username") {
+				this.setState({username: e.target.value});
+			} else if (name == "password") {
+				this.setState({password: e.target.value});
+			} else if (name == "vertify") {
+				this.setState({vertify: e.target.value});
+			}
 
-			$("#img").click(function(){
-				change_picture();
-			});
+	    }
 
-			$(".submit").click(function(){
-				var username = $("#username").val();
-				var password = $ ("#password").val();
-				var vertify = $("#vertify").val();
-
-				if (!username) {
-					alert("用户名必填！");
-					return;
-				}else if (!password) {
-					alert("密码必填！")
-					return;
-				}else if (!vertify) {
-					alert("验证码必须！")
-					return;
-				}
-				$.post("/do_login",{"username":username,"password":password,"vertify":vertify},function(data){
-					if (data.success) {
+		handleLogin(e) {
+			if (!this.state.username) {
+				alert("用户名不能为空！");
+				return;
+			}else if (!this.state.password) {
+				alert("密码不能为空！");
+				return;
+			}else if (!this.state.vertify) {
+				alert("验证码不能为空！");
+				return;
+			}
+			$.ajax({
+				url: this.props.login_url,
+				dataType: 'json',
+				type: 'POST',
+				data: this.state,
+				success: function(data) {
+					this.setState({data: data});
+					if (this.state.data.success) {
 						location.href = "/homePage";
 					}else {
-						alert(data.message);
-						$("#vertify").val("");
-						change_picture();
+						alert(this.state.data.message);
+						this.handleVertify();
+						this.setState({vertify: ""});
 					}
-				});
-
+				}.bind(this),
+				error: function(xhr, status, err) {
+					this.setState({data: comments});
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
 			});
+		}
 
-		});
-	</script>
+		handleVertify(e) {
+			$.ajax({
+				url: this.props.vertify_url,
+				dataType: 'json',
+				type: 'GET',
+				success: function(data) {
+					this.setState({src: "data:image/png;base64,"+data.image});
+				}.bind(this),
+				error: function(xhr, status, err) {
+				}.bind(this)
+			});
+		}
+
+		componentDidMount() {
+	  	  this.handleVertify();
+	    }
+      render() {
+          return (
+            <div className="login">
+              <div className="account">
+                <img src="images/account.png"alt="" className="accountdImg" />
+                <input type="text" value={this.state.username} placeholder="请输入帐号" id="username" className="accountNum" onChange={this.handleChange} />
+              </div>
+              <div className="password">
+                <img src="images/password.png"alt="" className="passwordImg" />
+                <input type="password" value={this.state.password} placeholder="请输入密码" id="password" className="passwordNum" onChange={this.handleChange} />
+              </div>
+              <div className="verification">
+                <img src="images/verification.png" alt="" className="verificationImg" />
+                <input type="text" value={this.state.vertify} placeholder="请输入验证码" id="vertify" className="verificationNum" onChange={this.handleChange} />
+                <span className="verificationimg"><img id="img"  src={this.state.src} onClick = {this.handleVertify}/></span>
+              </div>
+              <div className="checkbox">
+                <span className="checkboxone"><input type="checkbox" value=""  className="checkboxNum" />记住密码</span>
+                <span className="checkboxtwo"><input type="checkbox" value=""  className="checkboxNum" />自动登录</span>
+              </div>
+              <div className="submit">
+                <input type="submit" value="登 录" placeholder="请输入验证码" className="verificationNum" onClick = {this.handleLogin}/>
+              </div>
+              <p><span>忘记密码？</span><span onClick = {this.handleRegiser}>点击注册</span></p>
+            </div>
+          );
+      }
+    };
+    ReactDOM.render(
+      <Warp/>,
+      document.getElementById("example")
+    );
+    </script>
+<img src="" alt="">
   </body>
 </html>
