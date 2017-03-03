@@ -142,6 +142,7 @@
           font-size: 12px;
           vertical-align: top;
           max-width: 53.3333333%;
+		  width: 53.3333333%;
         }
         .infor .infor-three .price{
           display: inline-block;
@@ -243,6 +244,14 @@
           font-size: 14px;
           vertical-align: bottom;
         }
+		.none{
+		  width: 100%;
+		  height: 300px;;
+		  font-size: 14px;
+		  color: #666;
+		  text-align: center;
+		  line-height: 300px;
+		}
       }
     </style>
   </head>
@@ -283,6 +292,9 @@
     </div>
 	<div id="carts">
 	</div>
+	<script id="empty_cart" type="text/template">
+		<p class="none">购物车暂时为空</p>
+	</script>
 	<script id="cart_infos" type="text/template">
 		<% _.forEach(shopping_carts, function(shopping_cart) {  %>
 			<div class="list">
@@ -330,6 +342,11 @@
 			var update_ids = {{update_ids | safe}};
 			var selected = 0;
 			var fresh_carts = function(){
+				if (shopping_carts.length ==0) {
+					var t = _.template($("#empty_cart").html());
+					$("#carts").html(t());
+					return;
+				}
 				var t = _.template($("#cart_infos").html());
 				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data}));
 				$(".circle").click(function(){
@@ -364,6 +381,7 @@
 					$.get("/delete_cart",{id:id},function(data){
 						if (data.success) {
 							shopping_carts = JSON.parse(data.shopping_carts);
+							total_data = JSON.parse(data.total_data);
 							fresh_carts();
 						}
 					});

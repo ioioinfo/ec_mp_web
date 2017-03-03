@@ -1116,9 +1116,9 @@
                 <span class="middle-span3">数量</span>
                 <div class="middle-number-right">
                   <input type="hidden" name="" value="" class="middle-number-input1">
-                  <a href="#" class="middle-a3"><em class="middle-em">-</em></a>
-                  <input type="tel" name="" value="" class="middle-number-input2">
-                  <a href="#" class="middle-a3"><em class="middle-em push">+</em></a>
+                  <a id="reduce" class="middle-a3"><em class="middle-em">-</em></a>
+                  <input type="tel" name="" value="1" class="middle-number-input2">
+                  <a id="plus" class="middle-a3"><em class="middle-em push">+</em></a>
                 </div>
               </div>
             </div>
@@ -1574,7 +1574,7 @@
             <p class="footer-bottom">客服</p>
           </a>
         </li>
-        <li>
+        <li class="favorite">
             <p class="footer-top">{% if is_active==1 %}<img src="images/shoucangjia.png" alt="">{% else %}<img src="images/shoucang.png" alt="">{% endif %}</p>
             <p class="footer-bottom">收藏</p>
         </li>
@@ -1582,11 +1582,11 @@
           <a href="/cart_infos">
             <p class="footer-top"><img src="images/car.png" alt=""></p>
             <p class="footer-bottom">购物车</p>
-            <span id="cart" style="display:inline-block;width:16px;height:16px;border-radius:8px;background:red;color:#fff;text-align:center;line-height:16px;position:absolute;top:13px;;left:40px;">99</span>
+            <span id="cart" style="display:inline-block;width:16px;height:16px;border-radius:8px;background:red;color:#fff;text-align:center;line-height:16px;position:absolute;top:13px;;left:40px;"></span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a>
 
             <p class="footer-car yellow" id="shopping_cart">加入购物车</p>
           </a>
@@ -1615,6 +1615,23 @@
     </script>
 	<script>
 		$(function() {
+			var operation = "";
+			//数量加减
+			var change_num = function(num,operation){
+				if (operation == "update") {
+					return;
+				}else if (operation == "plus") {
+					num = parseInt(num) + 1;
+					 $(".middle-number-input2").val(num);
+				}else {
+					if (num == 1) {
+						return;
+					}
+					num = num -1;
+					$(".middle-number-input2").val(num);
+				}
+			};
+			//购物车里商品数量显示
 			var check_cart_number = function(){
 				$.get("/check_cart_number",function(data){
 					if (data.success) {
@@ -1650,9 +1667,10 @@
 				});
 			});
 			$("#shopping_cart").click(function(){
+				var num = $(".middle-number-input2").val();
 				var product_id = "{{product.id}}";
 				var product_price = "{{product.product_sale_price || 999999}}";
-				$.post("/shopping_cart",{product_id:product_id,product_price:product_price},function(data){
+				$.post("/shopping_cart",{product_id:product_id,product_price:product_price,num:num},function(data){
 					if (data.success) {
 						check_cart_number();
 					}else {
@@ -1660,7 +1678,16 @@
 					}
 				})
 			});
-
+			$("#reduce").click(function(){
+				var num = $(".middle-number-input2").val();
+				operation = "reduce";
+				change_num(num,operation);
+			});
+			$("#plus").click(function(){
+				var num = $(".middle-number-input2").val();
+				operation = "plus";
+				change_num(num,operation);
+			});
 		});
 	</script>
   </body>

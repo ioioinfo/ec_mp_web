@@ -677,7 +677,7 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/shopping_cart',
 			handler: function(request, reply){
-				var product_num = 1;
+				var product_num = request.payload.num;
 				var product_id = request.payload.product_id;
 				var product_price = request.payload.product_price;
 				var person_id = get_cookie_person(request);
@@ -1059,13 +1059,15 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				if (!request.payload.total_data || !request.payload.shopping_carts) {
+				if (!request.payload.total_data || !request.payload.shopping_carts || !request.payload.send_seller || !request.payload.address) {
 					return reply({"success":false,"message":"params wrong"});
 				}
 				var total_data = request.payload.total_data;
 				var shopping_carts = request.payload.shopping_carts;
+				var send_seller = request.payload.send_seller;
+				var address = request.payload.address;
 
-				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts};
+				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts,"send_seller":send_seller,"address":address};
 				save_order_infos(data,function(err,content){
 					if (!err) {
 						return reply({"success":true,"message":"ok"});
@@ -1681,6 +1683,14 @@ exports.register = function(server, options, next){
 				return reply.view("chat_person_center");
 			}
 		},
+		//消息页面
+		{
+			method: 'GET',
+			path: '/messages',
+			handler: function(request, reply){
+				return reply.view("messages");
+			}
+		},
 		//微信充值中心
 		{
 			method: 'GET',
@@ -1706,7 +1716,15 @@ exports.register = function(server, options, next){
 				return reply.view("homePage");
 			}
 		},
+		//登入忘记密码
+		{
+			method: 'GET',
+			path: '/forget_password',
+			handler: function(request, reply){
 
+				return reply.view("forget_password");
+			}
+		},
 
     ]);
 

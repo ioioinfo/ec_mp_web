@@ -750,8 +750,8 @@
 			<% if(address.is_default ==1) { %>
 				<div class="address">
 				  <div class="address-infor">
-					<div class="address-infor-warp"><span class="address-infor-name"><%- address.linkname %></span><p class="address-infor-right"><span><%- address.mobile %></span><span>默认</span></p></div>
-					<p><span><img src="images/address.png" alt=""></span><span><%- address.detail_address %></span></p>
+					<div class="address-infor-warp"><span class="address-infor-name" data-id="<%- address.linkname %>"><%- address.linkname %></span><p class="address-infor-right"><span class="address-infor-mobile" data-id="<%- address.mobile %>"><%- address.mobile %></span><span>默认</span></p></div>
+					<p><span><img src="images/address.png" alt=""></span><span class="address-infor-address" data-id="<%- address.detail_address %>"><%- address.detail_address %></span></p>
 				  </div>
 				  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
 				</div>
@@ -810,7 +810,7 @@
 		<div class="min-line"></div>
 		<div class="leave">
 		  <span style="margin-top:20px;display:inline-block;text-indent:10px;">买家留言：</span>
-		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input">
+		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
 		</div>
 		<div class="invoice">
 		  <span class="public-name">可用积分：</span><span>100</span>
@@ -838,6 +838,11 @@
 	</script>
 	<script>
 		$(function() {
+			var address = {
+				"name"   : "",
+				"mobile" : "",
+				"location": ""
+			};
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
 			var addresses = {{addresses|safe}};
@@ -847,7 +852,11 @@
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,addresses:addresses,total_data:total_data}));
 				$(".footer-right").click(function(){
-					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts)},function(data){
+					address.name =	$(".address-infor-name").data("id");
+					address.mobile = $(".address-infor-mobile").data("id");
+					address.location = $(".address-infor-address").data("id");
+					var send_seller = $("#send_seller").val();
+					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
 							alert("结算成功！");
 						}else {

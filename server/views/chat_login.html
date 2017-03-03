@@ -137,7 +137,7 @@
           return (
             <div className="wrap">
               <Header/>
-              <Main login_url="/do_login" vertify_url="/captcha" register_url="/chat_register"/>
+              <Main login_url="/do_login" vertify_url="/captcha" register_url="/chat_register" forget_url="/forget_password"/>
             </div>
           );
       }
@@ -160,12 +160,15 @@
             this.handleLogin = this.handleLogin.bind(this);
 			this.handleVertify = this.handleVertify.bind(this);
 			this.handleRegiser = this.handleRegiser.bind(this);
+			this.handleForget = this.handleForget.bind(this);
             this.state = {"username":"","password":"","vertify":""};
         }
 		handleRegiser(e){
 			location.href = this.props.register_url;
 		}
-
+		handleForget(e){
+			location.href = this.props.forget_url;
+		}
 		handleChange(e) {
 			var name = e.target.id;
 			if (name == "username") {
@@ -244,13 +247,13 @@
                 <span className="verificationimg"><img id="img"  src={this.state.src} onClick = {this.handleVertify}/></span>
               </div>
               <div className="checkbox">
-                <span className="checkboxone"><input type="checkbox" value=""  className="checkboxNum" />记住密码</span>
+                <span className="checkboxone"></span>
                 <span className="checkboxtwo"><input type="checkbox" value=""  className="checkboxNum" />自动登录</span>
               </div>
               <div className="submit">
                 <input type="submit" value="登 录" placeholder="请输入验证码" className="verificationNum" onClick = {this.handleLogin}/>
               </div>
-              <p><span>忘记密码？</span><span onClick = {this.handleRegiser}>点击注册</span></p>
+              <p><span onClick = {this.handleForget}>忘记密码？</span><span onClick = {this.handleRegiser}>点击注册</span></p>
             </div>
           );
       }
