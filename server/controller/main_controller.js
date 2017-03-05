@@ -207,6 +207,11 @@ var update_default_address = function(data,cb){
 	var url = "http://139.196.148.40:18003/address/set_default_address";
 	do_post_method(url,data,cb);
 };
+//查询message数量
+var check_message_number = function(person_id,platform_code,cb){
+	var url = "http://139.196.148.40:18005/get_notify_count?platform_code=" + platform_code + "&person_id=" + person_id;
+	do_get_method(url,cb);
+};
 //删除地址
 var delete_address = function(data,cb){
 	var url = "http://139.196.148.40:18003/address/delete_address";
@@ -295,6 +300,11 @@ var do_vertify = function(data,cb){
 //vip注册
 var do_vip = function(data, cb){
 	var url = "http://139.196.148.40:18003/vip/add_vip";
+	do_post_method(url,data,cb);
+};
+//修改密码
+var change_password = function(data,cb){
+	var url = "http://139.196.148.40:18666/password/change";
 	do_post_method(url,data,cb);
 };
 //查询
@@ -977,6 +987,9 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var ids = request.query.ids;
+				if (!ids) {
+					return reply.redirect("/homePage");
+				}
 				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data",function(shopping_carts,products,addresses,invoices,total_data){
 					logistics_payment(data,function(err,result){
 						if (!err) {
@@ -986,7 +999,6 @@ exports.register = function(server, options, next){
 							return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data)});
 						}
 					});
-
 				});
 				var data = {
 					"end_area" : "广东省",
@@ -1024,8 +1036,9 @@ exports.register = function(server, options, next){
 						if (results.success) {
 							var addresses = results.rows;
 							for (var i = 0; i < addresses.length; i++) {
-								if (addresses[i].is_default) {
-
+								if (addresses[i].is_default ==1) {
+									console.log("123");
+									data.end_area = addresses[i].province;
 								}
 							}
 							ep.emit("addresses", addresses);
@@ -1059,14 +1072,13 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				if (!request.payload.total_data || !request.payload.shopping_carts || !request.payload.send_seller || !request.payload.address) {
+				if (!request.payload.total_data || !request.payload.shopping_carts || !request.payload.address) {
 					return reply({"success":false,"message":"params wrong"});
 				}
 				var total_data = request.payload.total_data;
 				var shopping_carts = request.payload.shopping_carts;
 				var send_seller = request.payload.send_seller;
 				var address = request.payload.address;
-
 				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts,"send_seller":send_seller,"address":address};
 				save_order_infos(data,function(err,content){
 					if (!err) {
@@ -1707,6 +1719,25 @@ exports.register = function(server, options, next){
 				return reply.view("chat_receipt");
 			}
 		},
+		//查询message数量
+		{
+			method: 'POST',
+			path: '/check_message_number',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply({"success":true,"message":"ok","count":0});
+				}
+				var platform_code = "ioio";
+				check_message_number(person_id,platform_code,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok","count":content.count});
+					}else {
+						return reply({"success":false,"message":content.message,"count":0});
+					}
+				});
+			}
+		},
 		//登入首页
 		{
 			method: 'GET',
@@ -1725,7 +1756,28 @@ exports.register = function(server, options, next){
 				return reply.view("forget_password");
 			}
 		},
-
+		//修改密码密码
+		{
+			method: 'POST',
+			path: '/change_password',
+			handler: function(request, reply){
+				var data = {};
+				data.mobile = request.payload.mobile;
+				data.password = request.payload.password;
+				var cookie_id = get_cookie_id(request);
+				if (!cookie_id) {
+					cookie_id = uuidV1();
+				}
+				data.request_id = cookie_id;
+				change_password(data,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":data.message});
+					}
+				});
+			}
+		},
     ]);
 
     next();
