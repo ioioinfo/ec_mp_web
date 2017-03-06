@@ -27,7 +27,7 @@ var do_post_method = function(url,data,cb){
 };
 //查找商品分类
 var find_sorts = function(cb){
-	var url = "http://127.0.0.1:8050/search_sorts";
+	var url = "http://127.0.0.1:18016/search_sorts";
 	do_get_method(url,cb);
 };
 //登入，合并设置cookie
@@ -154,19 +154,19 @@ var search_person_address = function(person_id,cb){
 };
 //产品id找评论
 var find_comments_info = function(product_id, cb){
-	var url = "http://127.0.0.1:8060/comments_show?product_id=";
+	var url = "http://127.0.0.1:18014/comments_show?product_id=";
 	url = url + product_id;
 	do_get_method(url,cb);
 };
 //根据id找到追评
 var find_again_comments = function(product_id, cb){
-	var url = "http://127.0.0.1:8060/again_comments?product_id=";
+	var url = "http://127.0.0.1:18014/again_comments?product_id=";
 	url = url + product_id;
 	do_get_method(url,cb);
 }
 //根据评论找晒单
 var find_saidans_pictures = function(comments_ids, cb){
-	var url = "http://127.0.0.1:8060/comments_saidan?comments_ids=";
+	var url = "http://127.0.0.1:18014/comments_saidan?comments_ids=";
 	url = url + comments_ids;
 	do_get_method(url,cb);
 };
@@ -248,17 +248,17 @@ var get_invoice_info = function(person_id,order_ids,cb){
 };
 //新建无人购物车
 var new_mb_shopping_cart = function(data,cb){
-	var url = "http://127.0.0.1:8030/new_none_person_cart";
+	var url = "http://127.0.0.1:18015/new_none_person_cart";
 	do_post_method(url,data,cb);
 };
 //是否存在cart_code
 var search_cart_code = function(data,cb){
-	var url = "http://127.0.0.1:8030/search_cart_code";
+	var url = "http://127.0.0.1:18015/search_cart_code";
 	do_post_method(url,data,cb)
 };
 //是否存在个人shopping_cart
 var search_shopping_cart = function(data,cb){
-	var url = "http://127.0.0.1:8030/search_shopping_cart";
+	var url = "http://127.0.0.1:18015/search_shopping_cart";
 	do_post_method(url,data,cb)
 };
 //获取验证图片
@@ -278,7 +278,7 @@ var do_login = function(data, cb){
 };
 //合并购物车
 var combine_shopping_cart = function(cart_code,person_id,cb){
-	var url = "http://127.0.0.1:8030/combine_shopping_cart?person_id=";
+	var url = "http://127.0.0.1:18015/combine_shopping_cart?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 }
@@ -309,46 +309,46 @@ var change_password = function(data,cb){
 };
 //查询
 var search_all_products = function(search_object,cb){
-	var url = "http://127.0.0.1:8050/search_products";
+	var url = "http://127.0.0.1:18016/search_products";
 	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
 };
 //发现无人购物车
 var find_none_person_cart = function(cart_code,cb){
-	var url = "http://127.0.0.1:8030/find_none_person_cart?cart_code="+cart_code;
+	var url = "http://127.0.0.1:18015/find_none_person_cart?cart_code="+cart_code;
 	do_get_method(url,cb);
 };
 //删除购物车
 var delete_shopping_carts = function(ids,cb){
-	var url = "http://127.0.0.1:8030/delete_shopping_carts?ids=";
+	var url = "http://127.0.0.1:18015/delete_shopping_carts?ids=";
 	url = url + ids;
 	do_get_method(url,cb);
 };
 //购物车  商品数量+1
 var plus_shopping_carts = function(ids,cb){
-	var url = "http://127.0.0.1:8030/plus_shopping_carts?ids=";
+	var url = "http://127.0.0.1:18015/plus_shopping_carts?ids=";
 	url = url + ids;
 	do_get_method(url,cb);
 };
 //购物车  商品数量-1
 var reduce_shopping_carts = function(ids,cb){
-	var url = "http://127.0.0.1:8030/reduce_shopping_carts?ids=";
+	var url = "http://127.0.0.1:18015/reduce_shopping_carts?ids=";
 	url = url + ids;
 	do_get_method(url,cb);
 };
 //查询购物车
 var sarch_cart_infos = function(person_id,cart_code,cb){
-	var url = "http://127.0.0.1:8030/sarch_cart_infos?person_id=";
+	var url = "http://127.0.0.1:18015/sarch_cart_infos?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 };
 //发现有人购物车
 var find_person_cart = function(person_id,cb){
-	var url = "http://127.0.0.1:8030/find_person_cart?person_id="+person_id;
+	var url = "http://127.0.0.1:18015/find_person_cart?person_id="+person_id;
 	do_get_method(url,cb);
 };
 //更新购物车商品状态
 var update_selected = function(data,cb){
-	var url = "http://127.0.0.1:8030/update_selected";
+	var url = "http://127.0.0.1:18015/update_selected";
 	do_post_method(url,data,cb);
 };
 //查询地址，取默认的
@@ -375,13 +375,13 @@ var save_order_infos = function(data,cb){
 }
 //根据id查购物车
 var search_selected_carts = function(person_id,ids,cb){
-	var url = "http://127.0.0.1:8030/search_selected_carts?person_id=";
+	var url = "http://127.0.0.1:18015/search_selected_carts?person_id=";
 	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
 //
 var check_cart_number = function(person_id,cart_code,cb){
-	var url = "http://127.0.0.1:8030/check_cart_number?person_id=";
+	var url = "http://127.0.0.1:18015/check_cart_number?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 }
