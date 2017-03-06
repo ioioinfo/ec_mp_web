@@ -7,7 +7,7 @@
     <title>首页</title>
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
-    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="js/browser.min.js"></script>
 	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
     <style media="screen">
       @media screen and (max-width:640px){
@@ -68,7 +68,7 @@
           border: none;
           background: #FF8888;
           border-radius: 6px;
-          text-indent: 20px;
+          text-indent: 26px;
         }
         .headernews{
           display: inline-block;
@@ -213,7 +213,7 @@
 	  	super(props);
 	  	this.handleSearch = this.handleSearch.bind(this);
 		this.handMessage_number = this.handMessage_number.bind(this);
-		this.state = {"check_message_url":"/check_message_number"};
+		this.state = {"check_message_url":"/check_message_number","message_number":0};
 	  }
 
 	  handMessage_number(e){
@@ -222,8 +222,7 @@
   		   dataType: 'json',
   		   type: 'POST',
   		   success: function(data) {
-  			   this.setState({data: data});
-			   $(".headernewsnum").html(this.state.data.count);
+  			   this.setState({message_number: data.count});
   		   }.bind(this),
   		   error: function(xhr, status, err) {
   		   }.bind(this)
@@ -239,15 +238,19 @@
 	}
 
     render() {
+		var headernewsnum = <span></span>;
+		if (this.state.message_number != 0) {
+			headernewsnum = <span className="headernewsnum">{this.state.message_number}</span>;
+		}
         return (
           <div className="header">
             <div className="search">
-              <input  type="search" value="" placeholder="寻找商品" className="headersearch" onClick ={this.handleSearch}/>
+              <input  type="search" value="" placeholder="搜索" className="headersearch" onClick ={this.handleSearch}/>
               <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
               <div className="headernews">
 				  <a href="/messages">
 		            <img src="images/new.png" alt="" className="headernimg" />
-		            <span className="headernewsnum"></span>
+		            {headernewsnum}
 				  </a>
               </div>
             </div>
@@ -296,7 +299,7 @@
     render() {
         return (
           <ul className="footernav">
-            <li><a href="#"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
+            <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
             <li><a href="/sort"><p><img src="images/fenlei1.png" alt="" onClick={this.handleSort}/></p><p>分类</p></a></li>
             <li><a href="#"><p><img src="images/wuliu.png" alt="" onClick={this.handleLogistics}/></p><p>物流</p></a></li>
             <li><a href="/cart_infos"><p><img src="images/gouwuche1.png" alt="" onClick={this.handleCart}/></p><p>购物车</p></a></li>

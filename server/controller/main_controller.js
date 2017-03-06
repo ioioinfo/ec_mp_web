@@ -86,9 +86,10 @@ var find_favorite = function(product_id,person_id,cb){
 	url = url + product_id +"&person_id=" + person_id;
 	do_get_method(url,cb);
 };
-//查询商品信息
-var find_product_info = function(id,cb){
-	var url = "http://127.0.0.1:8080/mp_product_info?product_id="+id;
+//通过商品id找到图片
+var find_pictures_byId = function(product_id, cb){
+	var url = "http://127.0.0.1:18002/get_product_pictures?product_id=";
+	url = url + product_id;
 	do_get_method(url,cb);
 };
 //处理结果
@@ -240,6 +241,18 @@ var search_products_list = function(product_ids,cb){
 	url = url + product_ids;
 	do_get_method(url,cb);
 };
+//通过商品id，行业id找到行业信息
+var find_industry = function(industry_id,product_id, cb){
+	var url = "http://127.0.0.1:18002/products_industries?product_id=";
+	url = url + product_id + "&industry_id=" + industry_id;
+	do_get_method(url,cb);
+};
+//通过商品id查找到商品
+var find_product_byId = function(product_id, cb){
+	var url = "http://127.0.0.1:18002/product_info?product_id=";
+	url = url + product_id;
+	do_get_method(url,cb);
+};
 //开票信息
 var get_invoice_info = function(person_id,order_ids,cb){
 	var url = "http://127.0.0.1:18010/search_ec_invoices?order_id=";
@@ -271,6 +284,12 @@ var check_captcha = function(vertify,cookie_id,cb){
 	var url = "http://139.196.148.40:11111/api/verify?cookie_id=" +cookie_id + "&text=" + vertify;
 	do_get_method(url,cb);
 };
+//根据产品id找产品详细
+var find_product_details = function(product_id, cb){
+	var url = "http://127.0.0.1:18002/get_product_details?product_id=";
+	url = url + product_id;
+	do_get_method(url,cb);
+};
 //登入账号验证
 var do_login = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/login_check";
@@ -286,6 +305,12 @@ var combine_shopping_cart = function(cart_code,person_id,cb){
 var do_register = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/register";
 	do_post_method(url,data,cb);
+};
+//根据id找到商品小图片
+var find_samll_picture = function(same_product_ids, cb){
+	var url = "http://127.0.0.1:18002/get_products_picture?product_ids=";
+	url = url + JSON.stringify(same_product_ids);
+	do_get_method(url,cb);
 };
 //得到验证码
 var get_vertify = function(mobile,cb){
@@ -312,6 +337,12 @@ var search_all_products = function(search_object,cb){
 	var url = "http://127.0.0.1:18016/search_products";
 	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
 };
+//查询库存
+var find_stock = function(industry_id,product_id,stock_options,cb){
+	var url = "http://211.149.248.241:12001/get_product_stock_for_view?product_id=";
+	url = url + product_id + "&industry_id=" + industry_id + "&stock_options=" +JSON.stringify(stock_options);
+	do_get_method(url,cb);
+};
 //发现无人购物车
 var find_none_person_cart = function(cart_code,cb){
 	var url = "http://127.0.0.1:18015/find_none_person_cart?cart_code="+cart_code;
@@ -329,6 +360,13 @@ var plus_shopping_carts = function(ids,cb){
 	url = url + ids;
 	do_get_method(url,cb);
 };
+//查询同类商品
+var find_same_products = function(product_id, same_code, cb){
+	console.log("same_code:"+same_code);
+	var url = "http://127.0.0.1:18002/get_same_products?product_id=";
+	url = url + product_id + "&same_code=" + same_code;
+	do_get_method(url,cb);
+};
 //购物车  商品数量-1
 var reduce_shopping_carts = function(ids,cb){
 	var url = "http://127.0.0.1:18015/reduce_shopping_carts?ids=";
@@ -339,6 +377,12 @@ var reduce_shopping_carts = function(ids,cb){
 var sarch_cart_infos = function(person_id,cart_code,cb){
 	var url = "http://127.0.0.1:18015/sarch_cart_infos?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
+	do_get_method(url,cb);
+};
+//查询销售量
+var find_product_sales = function(product_id,cb){
+	var url = "http://139.196.148.40:16001/get_product_sales?product_id=";
+	url = url + product_id;
 	do_get_method(url,cb);
 };
 //发现有人购物车
@@ -495,7 +539,8 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/search_area',
 			handler: function(request, reply){
-				return reply.view("search_area");
+				var q = request.query.q;
+				return reply.view("search_area",{"q":q});
 			}
 		},
 		//产品展示
@@ -507,23 +552,199 @@ exports.register = function(server, options, next){
 				var person_id = get_cookie_person(request);
 
 				var is_active = 0;
-				find_product_info(product_id, function(err, content){
-					console.log("content:"+JSON.stringify(content));
-					if (!err) {
-						var industry_id = content.product.industry_id;
-						var industry = industries[industry_id];
-						find_favorite(product_id,person_id,function(err,result){
-							if (!err) {
-								if (result.row && result.row.is_active) {
-									is_active = result.row.is_active;
-								}
-								return reply.view(industry.view_name,{"product":content.product,"is_active":is_active});
-							}else {
 
+				find_product_byId(product_id, function(err, content){
+					if (!err) {
+						var product = content.row;
+						if (!product) {
+							return reply({"success":false,"message":"产品不存在"});
+						}
+						var industry_id = product.industry_id;
+						var same_code = product.same_code;
+						var industry = industries[industry_id];
+						if (!industry) {
+							return reply({"success":false,"message":"行业不存在"});
+						}
+						var stock_options = {"region_id":"1"};
+						var page_name = industry["view_name"];
+
+						var ep =  eventproxy.create("pictures","stock","sales","same_pictures","total_comments","comments","persons","saidans","product_details","again_comments","personsVip",
+							function(pictures,stock,sales,same_pictures,total_comments,comments,persons,saidans,product_details,again_comments,personsVip){
+							product.mp_pictures = pictures;
+							product.mp_industry = industry;
+							product.mp_stock = stock;
+							product.mp_sales = sales;
+							product.mp_same_pictures = same_pictures;
+							product.mp_total_comments = total_comments;
+							product.mp_comments = comments;
+							product.mp_persons = persons;
+							product.mp_personsVip = personsVip;
+							product.mp_saidans = saidans;
+							product.mp_product_details = product_details;
+							product.mp_page_name = page_name;
+							product.again_comments = again_comments;
+							return reply.view(industry.view_name,{"product":product});
+						});
+						find_stock(industry_id,product_id,stock_options,function(err, content){
+							if (!err) {
+								var stocks = content.stocks;
+								var properties = content.properties;
+								ep.emit("stock",{"properties":properties,"stocks":stocks});
+							}else {
+								ep.emit("stock",{"properties":{},"stocks":{}});
+							}
+						});
+						find_pictures_byId(product_id, function(err, content){
+							if (!err) {
+								var pictures = content.rows;
+								ep.emit("pictures", pictures);
+							}else {
+								ep.emit("pictures", {});
+							}
+						});
+						find_product_sales(product_id, function(err, content){
+							if (!err) {
+								var sales = content.row;
+								ep.emit("sales", sales);
+							}else {
+								ep.emit("sales", {});
+							}
+						});
+						find_total_comments(JSON.stringify([product_id]), function(err, content){
+							if (!err) {
+								if (content.rows.length >0) {
+									var total_comments = content.rows[0];
+									ep.emit("total_comments", total_comments);
+								}else {
+									ep.emit("total_comments", []);
+								}
+
+							}else {
+								ep.emit("total_comments", {});
+							}
+						});
+						find_same_products(product_id, same_code, function(err, content){
+							if (!err) {
+								var same_products = content.rows;
+								var same_product_ids = [];
+								if (same_products) {
+									for (var i = 0; i < same_products.length; i++) {
+										same_product_ids.push(same_products[i].id);
+									}
+									console.log("same_product_ids: "+same_product_ids);
+									find_samll_picture(same_product_ids, function(err, content){
+										if (!err) {
+											var same_pictures = content.rows;
+											console.log(same_pictures);
+											ep.emit("same_pictures", same_pictures);
+										} else {
+											ep.emit("same_pictures", []);
+										}
+									});
+								}else {
+									ep.emit("same_pictures", []);
+								}
+							}else {
+								ep.emit("same_pictures", []);
+							}
+						});
+						find_comments_info(product_id, function(err, content){
+							if (!err) {
+								var comments = content.rows;
+								var comments_ids = [];
+								var comments_persons = [];
+								if (comments) {
+									for (var i = 0; i < comments.length; i++) {
+										comments_ids.push(comments[i].id);
+										comments_persons.push(comments[i].person_id);
+									}
+									comments_persons = JSON.stringify(comments_persons);
+									comments_ids = JSON.stringify(comments_ids);
+									var eproxy =  eventproxy.create("persons","saidans","personsVip",
+										function(persons,saidans,personsVip){
+											ep.emit("comments", comments);
+											var person_map = {};
+											var saidan_map = {};
+											for (var i = 0; i < persons.length; i++) {
+												person_map[persons[i].person_id] = persons[i];
+											}
+											var personVip_map = {};
+											for (var i = 0; i < personsVip.length; i++) {
+												personVip_map[personsVip[i].person_id] = personsVip[i];
+											}
+											if (saidans) {
+												for (var i = 0; i < saidans.length; i++) {
+													var saidan = saidans[i]; //一个晒单对象
+													var comment_saidans = [];
+													if (saidan_map[saidan.product_comments_id]) { //晒单评论id对应的不存在
+														comment_saidans = saidan_map[saidan.product_comments_id]; //晒单 = 晒单产品id
+													}
+													comment_saidans.push(saidan); //晒单添加 晒单对象
+													saidan_map[saidan.product_comments_id] = comment_saidans; //晒单评论id = 晒单
+												}
+											}
+											ep.emit("personsVip", personVip_map);
+											ep.emit("persons", person_map);
+											ep.emit("saidans", saidan_map);
+									});
+									find_comments_persons(comments_persons, function(err, content){
+										console.log("find_comments_persons"+JSON.stringify(content));
+										if (!err) {
+											var persons = content.rows;
+											eproxy.emit("persons", persons);
+										}else {
+											eproxy.emit("persons", []);
+										}
+									});
+									find_comments_personsVip(comments_persons, function(err, content){
+										console.log("find_comments_personsVip"+JSON.stringify(content));
+										if (!err) {
+											var personsVip = content.rows;
+											eproxy.emit("personsVip", personsVip);
+										}else {
+											eproxy.emit("personsVip", []);
+										}
+									});
+									find_saidans_pictures(comments_ids, function(err, content){
+										console.log("find_saidans_pictures"+JSON.stringify(content));
+										if (!err) {
+											var saidans = content.rows;
+											eproxy.emit("saidans", saidans);
+										}else {
+											eproxy.emit("saidans", []);
+										}
+									});
+								}else {
+									ep.emit("comments", []);
+									ep.emit("personsVip", {});
+									ep.emit("persons", []);
+									ep.emit("saidans", []);
+								}
+							} else {
+								ep.emit("comments", []);
+								ep.emit("personsVip", {});
+								ep.emit("persons", []);
+								ep.emit("saidans", []);
+							}
+						});
+						find_product_details(product_id, function(err, content){
+							if (!err) {
+								var  product_details = content.rows;
+								ep.emit("product_details", product_details);
+							}else {
+								ep.emit("product_details", []);
+							}
+						});
+						find_again_comments(product_id, function(err, content){
+							if (!err) {
+								var again_comments = content.rows;
+								ep.emit("again_comments", again_comments);
+							}else {
+								ep.emit("again_comments", []);
 							}
 						});
 					}else {
-						return reply(content.message);
+						return reply("404");
 					}
 				});
 			}
@@ -952,15 +1173,14 @@ exports.register = function(server, options, next){
 			path: '/update_cart',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
+				var cart_code = get_cookie_cart_code(request);
 				var ids = request.query.ids;
 				var selected = request.query.selected;
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
 				var data = {
 					"ids" : ids,
 					"selected" : selected,
-					"person_id" : person_id
+					"person_id" : person_id,
+					"cart_code" : cart_code
 				};
 				console.log("data:"+JSON.stringify(data));
 				update_selected(data,function(err,results){
@@ -988,7 +1208,7 @@ exports.register = function(server, options, next){
 				}
 				var ids = request.query.ids;
 				if (!ids) {
-					return reply.redirect("/homePage");
+					return reply.redirect("//");
 				}
 				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data",function(shopping_carts,products,addresses,invoices,total_data){
 					logistics_payment(data,function(err,result){
@@ -1741,7 +1961,7 @@ exports.register = function(server, options, next){
 		//登入首页
 		{
 			method: 'GET',
-			path: '/homePage',
+			path: '/',
 			handler: function(request, reply){
 
 				return reply.view("homePage");

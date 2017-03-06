@@ -70,7 +70,8 @@
           border: none;
           background: #FF8888;
           border-radius: 6px;
-          text-indent: 20px;
+          text-indent: 26px;
+		  color: #888;
         }
         .headernews{
           display: inline-block;
@@ -195,9 +196,14 @@
         }
         .shaixuanline input{
           width: 55px;
+		  height: 23px;
+		  line-height: 18px;
           text-align: center;
           outline-style: none;
+		  border-color: #888;
+
         }
+
         .shaixuanlineInput{
           float: right;
         }
@@ -269,24 +275,32 @@
           background: #FF5004;
           color: #fff;
         }
+		input::-webkit-input-placeholder {
+        color:    #888;
+       font-size: 12px;
+      }
+      input:-moz-placeholder {
+          color:    #888;
+         font-size: 12px;
+      }
       }
     </style>
   </head>
   <body>
     <div class="search">
-      <input  type="search" value="" placeholder="寻找商品" class="headersearch" />
+      <input  type="search" value="" placeholder="搜索" class="headersearch" />
       <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
       <div class="headernews">
         <img src="images/new.png" alt="" class="headernimg" />
-        <span class="headernewsnum">99</span>
+        <span class="headernewsnum"></span>
       </div>
     </div>
     <div class="word">
       <ul class="word-next">
-        <li class="red"><a href="#"><span>综合</span><span><img src="images/jiantou-down-2.png" alt=""></span></a></li>
-        <li><a href="#"><span>销量优先</span></a></li>
-        <li class="price"><span>价格</span><span><img src="images/jiantou-two.png" alt=""></span></li>
-        <li class="word-nextshaixuan"><a href="#"><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+        <li class="red"><a ><span>综合</span><span><img src="images/jiantou-down-2.png" alt=""></span></a></li>
+        <li><a ><span>销量优先</span></a></li>
+        <li class="price"><a><span>价格</span><span><img src="images/jiantou-two.png" alt=""></span></a></li>
+        <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
       </ul>
     </div>
 	{% for product in products %}
@@ -299,7 +313,7 @@
             </div>
             <div class="infor-right">
               <p class="infor-right-one">{{product.product_name}}</p>
-              <p class="infor-right-two"><span>{{product.weight}}g</span><span>{{product.color}}</span></p>
+              <p class="infor-right-two"><span>{{product.weight}}kg</span> {% if product.color %}<span>{{product.color}}</span>{% endif %}</p>
               <p class="infor-right-three">￥{{product.product_sale_price}}</p>
               <p class="infor-right-four"><span>自营</span>{% if comments[product.id] %}<span>{{comments[product.id].total_number}}条评论</span><span>好评率{{comments[product.id].good_rate_text}}</span>{% else %}<span>0条评论</span><span>好评率100%</span>{% endif %}</p>
             </div>
@@ -312,53 +326,53 @@
     <!-- 筛选 -->
     <div class="shaixuan">
       <div class="shaixuanline">
-        <span>价格区间(元)</span><span class="shaixuanlineInput"><input type="text" name="" value="" placeholder="最低价">&nbsp;-&nbsp;<input type="text" name="" value="" placeholder="最高价"></span>
+        <span>价格区间(元)</span><span class="shaixuanlineInput" style="margin-right:5px;"><input type="num" name="" value="" placeholder="最低价">&nbsp;-&nbsp;<input type="text" name="" value="" placeholder="最高价"></span>
       </div>
       <div class="shaixuanline shaixuanline1">
         <span>区域</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
         <ul class="shaixuanlineblock shaixuanlineblock1">
-          <li><a href="#">浙江沪</a></li>
-          <li><a href="#">珠三角</a></li>
-          <li><a href="#">北京</a></li>
-          <li><a href="#">上海</a></li>
-          <li><a href="#">广州</a></li>
-          <li><a href="#">深圳</a></li>
+          <li><a >浙江沪</a></li>
+          <li><a >珠三角</a></li>
+          <li><a >北京</a></li>
+          <li><a >上海</a></li>
+          <li><a >广州</a></li>
+          <li><a >深圳</a></li>
         </ul>
       </div>
       <div class="shaixuanline shaixuanline1">
         <span>城市</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
         <ul class="shaixuanlineblock shaixuanlineblock2">
-          <li><a href="#">上海</a></li>
+          <li><a >上海</a></li>
         </ul>
       </div>
       <div class="shaixuanline shaixuanline1">
         <span>省份</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
         <ul class="shaixuanlineblock shaixuanlineblock3">
-          <li><a href="#">浙江</a></li>
-          <li><a href="#">上海</a></li>
-          <li><a href="#">江苏</a></li>
-          <li><a href="#">安徽</a></li>
-          <li><a href="#">河南</a></li>
-          <li><a href="#">河北</a></li>
-          <li><a href="#">湖南</a></li>
-          <li><a href="#">湖北</a></li>
-          <li><a href="#">新疆</a></li>
-          <li><a href="#">广东</a></li>
-          <li><a href="#">广西</a></li>
-          <li><a href="#">云南</a></li>
-          <li><a href="#">贵州</a></li>
-          <li><a href="#">内蒙古</a></li>
-          <li><a href="#">山东</a></li>
-          <li><a href="#">山西</a></li>
-          <li><a href="#">陕西</a></li>
-          <li><a href="#">辽宁</a></li>
-          <li><a href="#">云南</a></li>
-          <li><a href="#">贵州</a></li>
-          <li><a href="#">内蒙古</a></li>
-          <li><a href="#">山东</a></li>
-          <li><a href="#">山西</a></li>
-          <li><a href="#">陕西</a></li>
-          <li><a href="#">辽宁</a></li>
+          <li><a >浙江</a></li>
+          <li><a >上海</a></li>
+          <li><a >江苏</a></li>
+          <li><a >安徽</a></li>
+          <li><a >河南</a></li>
+          <li><a >河北</a></li>
+          <li><a >湖南</a></li>
+          <li><a >湖北</a></li>
+          <li><a >新疆</a></li>
+          <li><a >广东</a></li>
+          <li><a >广西</a></li>
+          <li><a >云南</a></li>
+          <li><a >贵州</a></li>
+          <li><a >内蒙古</a></li>
+          <li><a >山东</a></li>
+          <li><a >山西</a></li>
+          <li><a >陕西</a></li>
+          <li><a >辽宁</a></li>
+          <li><a >云南</a></li>
+          <li><a >贵州</a></li>
+          <li><a >内蒙古</a></li>
+          <li><a >山东</a></li>
+          <li><a >山西</a></li>
+          <li><a >陕西</a></li>
+          <li><a >辽宁</a></li>
         </ul>
       </div>
       <div class="shaixuansubmit">
@@ -404,6 +418,19 @@
     </script>
 	<script>
 	$(function() {
+		$.ajax({
+			url: "/check_message_number",
+			dataType: 'json',
+			type: 'POST',
+			success: function(data) {
+				$(".headernewsnum").html(data.count);
+				if (data.count == 0) {
+					$(".headernewsnum").hide();
+				}
+			},
+			error: function(xhr, status, err) {
+			}
+		});
 		var object = {{search_object | safe}};
 		var change_url = function(){
 			var arr = [];
@@ -425,7 +452,11 @@
 			location.href = change_url();
 		});
 		$(".headersearch").click(function(){
-			location.href = "/search_area";
+			if (object.q) {
+				location.href = "/search_area?q=" + object.q;
+			}else {
+				location.href = "/search_area";
+			}
 		});
 		// $(".headersearch").keypress(function(e){
 		// 	var key = e.which;

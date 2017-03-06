@@ -25,19 +25,22 @@
           text-decoration: none;
           font-size: 14px;
         }
-
+		.search .search_img{
+			width: 8%;
+		}
         img{
-          width: 8%;
+          width: 80%;
           vertical-align: middle;
         }
         input{
           width: 74.9333333%;
-          height: 32px;
-          line-height: 32px;
+          height: 25px;
+		  font-size: 12px;
           border: none;
           border: 2px solid #ebe8eb;
           outline: none;
           -webkit-appearance : none ;
+		  text-indent: 10px;
         }
         .search span{
           display: inline-block;
@@ -49,7 +52,7 @@
           height: 20px;
           line-height: 20px;
           margin: 0 auto;
-          text-indent: 10px;
+          text-indent: 20px;
           background:#f5edf5;
         }
         .infor{
@@ -71,8 +74,8 @@
   </head>
   <body>
     <div class="search">
-      <img src="images/jiantou.png" alt="">
-      <input type="text" name="" value="" placeholder="搜索" class="search_content">
+      <span class="search_img"><img src="images/jiantou.png" alt=""></span>
+      <input type="text" name="" value="{{q}}" placeholder="搜索" class="search_content">
       <span class="cancle">取消</span>
     </div>
     <p class="word">大家都在搜</p>
@@ -89,8 +92,11 @@
       <span><a href="#">移动电源</a></span>
     </div>
 	<script>
-		$(function() {
+		var focus_input = function(){
 			$(".search_content").focus();
+		};
+		$(function() {
+			setTimeout("focus_input()", 200);
 			$(".cancle").click(function(){
 				window.history.back();
 			});

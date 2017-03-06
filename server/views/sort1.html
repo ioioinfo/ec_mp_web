@@ -3,10 +3,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>商品展示</title>
 	<script src="js/lodash.min.js" type="text/javascript"></script>
+    <title>商品展示</title>
 <style>
-@media screen and (max-width:640px){
+ @media screen and (max-width:640px){
   *{
       padding: 0;
       margin: 0;
@@ -28,7 +28,7 @@
         display: none;
     }
 
-/*----  t  o   p-----*/
+ /*----  t  o   p-----*/
     .warp{
       position: relative;
       height: 100%;
@@ -96,6 +96,7 @@
 
     /*-------m   a    i     n---------*/
     .main{
+      
       position: absolute;
       top: 0;
       left: 0;
@@ -110,7 +111,7 @@
       left: 0;
       right: 77%;
       bottom: 0;
-      overflow: auto;
+
     }
     .main-ul li{
       height: 45px;
@@ -178,18 +179,15 @@
       width: 100%;
       list-style: none;
       margin-bottom: 5px;
-      overflow: hidden;
       display: flex;
-	  flex-wrap:wrap;
       justify-content:space-between;
+	  flex-wrap:wrap;
     }
     .main-product-ul li{
       width: 30%;
       height: 80px;
       /*background: #eee;*/
-      float: left;
       padding: 2px;
-      box-sizing: border-box;
       margin: 5px 0;
       background: #fff;
     }
@@ -241,13 +239,11 @@
     text-align: center;
     font-size: 14px;
   }
-  .footernav li:nth-child(5n+2) a{
-    color: #d81e06;
-  }
   .footernav li p img{
     width: 22px;
     height: 22px;
   }
+
 
 
   }
@@ -264,17 +260,15 @@
     </div>
   <div class="warp">
 		<div class="main">
-      <ul class="main-ul" >
-		{% for sort in sorts["0"] %}
-        	<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
-        {% endfor %}
-      </ul>
+			<ul class="main-ul" >
+	  		  {% for sort in sorts["0"] %}
+	  			  <li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
+	  		  {% endfor %}
+	  	  </ul>
 
       <div class="main-right ">
 
       </div>
-
-
       <div class="main-bottom"></div>
     </div>
 
@@ -282,74 +276,57 @@
   </div>
   <ul class="footernav">
     <li><a href="/"><p><img src="images/shouye1.png" alt="" /></p><p>首页</p></a></li>
-    <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
+    <li><a href="#"><p><img src="images/fenlei1.png" alt="" /></p><p>分类</p></a></li>
     <li><a href="#"><p><img src="images/wuliu.png" alt="" /></p><p>物流</p></a></li>
     <li><a href="/cart_infos"><p><img src="images/gouwuche1.png" alt="" /></p><p>购物车</p></a></li>
     <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
   </ul>
-
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script id="sort_infos" type="text/template">
 		<div class="main-img ">
-          <img src="images/<%- parent.img_location %>" alt="">
-        </div>
-
-        <div class="main-product ">
+			<img src="images/<%- parent.img_location %>" alt="">
+		</div>
+		<div class="main-product ">
 			<% _.forEach(sorts[sort_id], function(level2) { %>
-            <div class="product-title"><span class="right-name"><%- level2.sort_name %></span><span class="right-triangle"><img src="images/jiantou-right.png" alt=""></span></div>
-
+			<div class="product-title main-product-title-1"><%- level2.sort_name %>
+				<span class="right-triangle">></span>
+			</div>
 			<ul class="main-product-ul">
 				<% _.forEach(sorts[level2.id], function(level3) { %>
-	              <li><a href="/search?sort_id=<%- level3.id %>"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
+				<li><a href="/search?sort_id=<%- level3.id %>"><img src="images/<%- level3.img_location %>" alt=""><p><%- level3.sort_name %></p></a></li>
 				<% }); %>
-            </ul>
-            <ul class="main-product-ul">
-            </ul>
-		<% }); %>
-        </div>
+			</ul>
+			<% }); %>
 
-
+		</div>
 	</script>
-  <script>
-  $(function() {
-		$.ajax({
-			url: "/check_message_number",
-			dataType: 'json',
-			type: 'POST',
-			success: function(data) {
-				$(".headernewsnum").html(data.count);
-				if (data.count == 0) {
-					$(".headernewsnum").hide();
-				}
-			},
-			error: function(xhr, status, err) {
-			}
+	<script>
+	$(function() {
+		$(".headersearch").click(function(){
+			location.href = "/search_area";
 		});
-	  $(".headersearch").click(function(){
-		  location.href = "/search_area";
-	  });
-	  var sorts = {{sorts_infos|safe}};
-	  var click_levelone = function(sort_id){
-		  if (!sort_id) {
-			  return;
-		  }
-		  var parent = {};
-		   _.forEach(sorts["0"], function(sort) {
-			   if (sort.id == sort_id ) {
-				  parent = sort;
-			   }
-		  });
-		  var t = _.template($("#sort_infos").html());
-		  $(".main-right").html(t({sorts:sorts,sort_id:sort_id,parent:parent}));
-	  };
-	  $(".main-ul li").click(function(){
-		  $(".main-ul li").removeClass("active");
-		  $(this).addClass("active");
-		  var sortid = $(this).data("id");
-		  click_levelone(sortid);
-	  });
-	  click_levelone(1);
-  });
-  </script>
+		var sorts = {{sorts_infos|safe}};
+		var click_levelone = function(sort_id){
+			if (!sort_id) {
+				return;
+			}
+			var parent = {};
+			 _.forEach(sorts["0"], function(sort) {
+				 if (sort.id == sort_id ) {
+					parent = sort;
+				 }
+			});
+			var t = _.template($("#sort_infos").html());
+			$(".main-right").html(t({sorts:sorts,sort_id:sort_id,parent:parent}));
+		};
+		$(".main-ul li").click(function(){
+			$(".main-ul li").removeClass("active");
+			$(this).addClass("active");
+			var sortid = $(this).data("id");
+			click_levelone(sortid);
+		});
+		click_levelone(1);
+	});
+	</script>
   </body>
 </html>

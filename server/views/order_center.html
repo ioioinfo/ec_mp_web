@@ -291,7 +291,7 @@
         <img src="images/back.png" alt="">
       </div>
       <p class="top-title">我的订单</p>
-      <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+      <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum">15</p></div>
     </div>
     <div class="nav">
       <ul class="nav-ul">
@@ -350,6 +350,20 @@
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 	$(function() {
+		$.ajax({
+			url: "/check_message_number",
+			dataType: 'json',
+			type: 'POST',
+			success: function(data) {
+				if (data.count == 0) {
+					$(".headernewsnum").hide();
+				}else {
+					$(".headernewsnum").html(data.count);
+				}
+			},
+			error: function(xhr, status, err) {
+			}
+		});
 		$(".product-infor").click(function(){
 			var order_id = $(this).data("id");
 			location.href = "/order_detail?order_id=" + order_id;
