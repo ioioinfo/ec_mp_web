@@ -575,40 +575,54 @@
           padding: 3px 9px;
           border-radius: 3px;
         }
+		.address1{
+		  width: 96%;
+		  height: 63px;
+		  line-height: 31.5px;
+		  text-align: center;
+		  font-size: 30px;
+		  font-weight: bold;
+		  margin: 0 auto;
+		  position: relative;
+		}
+		.address1 p:last-child{
+		  font-size: 16px;
+		}
       }
-    </style>
+	</style>
   </head>
   <body>
     <div class="head">
       <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
       <span class="title">填写订单</span>
+
       <span class="menu"><img src="images/menu.png" alt=""></span>
     </div>
     <div class="line"></div>
     <div class="nav">
       <ul>
         <li>
-          <a href="#">
+          <a href="/">
             <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
-            <p class="nav-bottom"><a href="#">首页</a></p>
+            <p class="nav-bottom"><a>首页</a></p>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/search_area">
             <p class="nav-top"><img src="images/search-1.png" alt=""></p>
-            <p class="nav-bottom"><a href="#">搜索</a></p>
+            <p class="nav-bottom"><a>搜索</a></p>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/cart_infos">
             <p class="nav-top"><img src="images/car-1.png" alt=""></p>
-            <p class="nav-bottom"><a href="#">购物车</a></p>
+            <p class="nav-bottom"><a>购物车</a></p>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/person_center">
             <p class="nav-top"><img src="images/header-3.png" alt=""></p>
-            <p class="nav-bottom"><a href="#">我的账户</a></p>
+            <p class="nav-bottom"><a>我的账户</a></p>
           </a>
         </li>
       </ul>
@@ -652,18 +666,17 @@
     <div class="partone partone3" style="overflow:auto;" id="change_address">
 
     </div>
-
     <!-- 新建地址 -->
     <div class="opacity"></div>
     <div class="new-address">
       <div class="middle">
         <div class="middle-shouhuoren">
-          <span class="span1">收货人</span><input type="text" name="" value="" class="input1">
+          <span class="span1">收货人</span><input type="text" name="" value="" class="input1 linkname">
         </div>
       </div>
       <div class="middle">
         <div class="middle-shouhuoren">
-          <span class="span1">联系电话</span><input type="text"  name="" value="" class="input1">
+          <span class="span1">联系电话</span><input type="text"  name="" value="" class="input1 mobile">
         </div>
       </div>
       <div class="middle">
@@ -679,26 +692,21 @@
       </div>
       <div class="middle">
         <div class="middle-shouhuoren">
-          <textarea  placeholder="详细地址" class="input2"></textarea>
+          <textarea  placeholder="详细地址" class="input2 detail_address"></textarea>
         </div>
       </div>
       <div style="width:100%;height:10px;background:#f8f5f5"></div>
       <div class="middle bottom">
         <div class="middle-shouhuoren">
-          <span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3">
+          <span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3 is_default">
         </div>
         <div class="middle-shouhuoren sure-submit">
-          <input type="submit" name="" value="确 定" class="input3">
+          <input type="submit" name="" value="确 定" class="input3 save_address">
           <input type="submit" name="" value="取 消" class="input3">
 
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      $(function(){
-
-      });
-    </script>
     <!-- nav点击显示隐藏 -->
     <script type="text/javascript">
       $(".head .menu").click(function(){
@@ -725,6 +733,7 @@
 	</script>
 	<script id="place_order_infos" type="text/template">
 		<div class="address">
+		<% if(address.linkname){ %>
 		  <div class="address-infor">
 			<div class="address-infor-warp"><span class="address-infor-name" data-id="<%- address.linkname %>"><%- address.linkname %></span><p class="address-infor-right"><span class="address-infor-mobile" data-id="<%- address.mobile %>"><%- address.mobile %></span><span>默认</span></p></div>
 			<p><span><img src="images/address.png" alt=""></span><span class="address-infor-address" data-id="<%- address.detail_address %>"><%- address.detail_address %></span></p>
@@ -732,6 +741,12 @@
 			<input value="<%- address.city %>" style="display:none;" class="address_city">
 			<input value="<%- address.district %>" style="display:none;" class="address_district">
 		  </div>
+		  	<% }else{ %>
+			<div class="address1">
+				<p>+</p>
+				<p>添加新地址或者更换地址</p>
+			</div>
+			<% } %>
 		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
 		</div>
 		<div class="line"></div>
@@ -749,7 +764,7 @@
 				</div>
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
-				  <p class="p2"><span class="p2-span1">￥<%- shopping_cart.total_prices %></span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
+				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
 				  <p class="p3">x<%- shopping_cart.total_items %></p>
 				</div>
 			  </div>
@@ -790,7 +805,7 @@
 		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
 		</div>
 		<div class="invoice">
-		  <span class="public-name">可用积分：</span><span>100</span>
+		  <span class="public-name">可用积分：</span><span><%- jifen %></span>
 		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
 		</div>
 		<div class="invoice">
@@ -809,7 +824,7 @@
 		  </div>
 
 		  <div class="footer-right">
-			<span>去结算</span><span>(1)</span>
+			<span>去结算</span><span>(<%- total_data.total_items %>)</span>
 		  </div>
 		</div>
 	</script>
@@ -823,6 +838,7 @@
 				"city"	   : "",
 				"district" : ""
 			};
+			var jifen = {{jifen||0}};
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
 			var addresses = {{addresses|safe}};
@@ -835,7 +851,7 @@
 			var total_data = {{total_data|safe}};
 			var place_order = function(){
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data}));
+				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
 				$(".footer-right").click(function(){
 					address = {};
 					address.linkname =	$(".address-infor-name").data("id");
@@ -864,9 +880,43 @@
 					  $(".opacity").css("display","block");
 					  $(".new-address").css("display","block");
 					});
-					$(".input3").click(function(){
+					$(".save_address").click(function(){
 					  // $(".opacity").css("display","none");
-					  $(".new-address").css("display","none");
+					  var data = {};
+					  data.linkname = $(".linkname").val();
+					  data.mobile = $(".mobile").val();
+					  data.alias = "";
+					  data.detail_address = $(".detail_address").val();
+					  data.province = "上海";
+					  data.city = "市";
+					  data.district = "宝山区";
+					  	if (!data.linkname) {
+						  	alert("收货人必填！")
+							return;
+					  	}else if (!data.mobile) {
+				  			alert("电话必填！")
+							return;
+						}else if (!data.detail_address) {
+							alert("详细地址必填！")
+							return;
+						}
+					  if($(".is_default").is(":checked")){
+						  data.is_default = 1;
+					  }
+					  $.get("/new_address",{info:JSON.stringify(data)},function(content){
+						  if (content.success) {
+							  data.address_id = content.address_id;
+							  addresses.push(data);
+							  address = data;
+							  place_order();
+						  	$(".new-address").css("display","none");
+						  	$(".partone3").css("display","none");
+  							$(".opacity").css("display","none");
+							$(".linkname").val("");
+							$(".mobile").val("");
+							$(".detail_address").val("");
+						  }
+					  });
 					})
 					//确认
 					$(".close3 .submit2").click(function(){

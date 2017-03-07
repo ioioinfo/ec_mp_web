@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>购物车</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+        }
+        p{
+          padding: 0;
+          margin: 0;
+        }
+        li{
+          list-style: none;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        .head{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 7px;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
+        }
+        .line{
+          width: 100%;
+          height: 10px;
+          background: #bbbbbb;
+          opacity: 0.5;
+        }
+        .nav{
+          width: 100%;
+          display: none;
+        }
+        .nav ul{
+          width: 100%;
+          display: flex;
+          text-align: center;
+          background: #404042;
+        }
+        .nav ul li{
+          flex: 1;
+          height: 70px;
+          font-size: 12px;
+
+        }
+        .nav ul li .nav-top{
+          width:40px;
+          height:30px;
+          margin: 0 auto;
+          text-align: center;
+          line-height: 40px;
+        }
+        .nav ul li img{
+          width:25px;
+          height:25px;
+          vertical-align: bottom;
+        }
+        .nav ul li .nav-bottom{
+          display: inline-block;
+		      width: 100%;
+          line-height: 40px;
+        }
+        .nav ul li a{
+          color: #fff;
+        }
+        .nav .nav-car{
+          line-height: 57px;
+          font-size: 12px;
+          font-weight: bold;
+          color: #fff;
+        }
+        .list{
+          width: 100%;
+          overflow: hidden;
+          margin: 10px 0;
+        }
+        .list li{
+          width: 100%;
+          height: 84px;
+          position: relative;
+          margin-bottom: 15px;
+        }
+        .circle{
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+
+          position: absolute;
+          top: 32px;
+          left: 6px;
+        }
+        .circle img{
+          width: 16px;
+          height: 16px;
+        }
+        .list_infor{
+          background: #f4f4f4;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 99;
+          overflow: hidden;
+        }
+      .list .img{
+          display: inline-block;
+          width: 23.4666%;
+          height: 88px;
+          padding-left:10.66666%;
+        }
+        .list .img img{
+          width: 100%;
+          height: 88px;
+          vertical-align: middle;
+        }
+        .infor{
+          display: inline-block;
+          font-size: 12px;
+          vertical-align: top;
+          max-width: 60.3333333%;
+          width: 60.3333333%;
+        }
+        .infor .infor-three .price{
+          display: inline-block;
+          font-size: 12px;
+          color: red;
+
+          overflow: hidden;
+          vertical-align: middle;
+        }
+
+        .infor .infor-three .add{
+          display: inline-block;
+          vertical-align: middle;
+          float: right;
+          overflow: hidden;
+		      width: 60px;
+        }
+        .infor .infor-one{
+          height: 35px;
+          font-size: 13px;
+          vertical-align: top;
+          width: 100%;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+
+        }
+        .infor .infor-two{
+          font-size: 13px;
+          height: 20px;
+          line-height: 20px;
+        }
+        .infor .infor-three .red{
+          font-size: 16px;
+          font-weight: 400;
+        }
+
+        .infor .infor-three .add span{
+    			box-sizing: border-box;
+    			float: left;
+
+
+        }
+        .infor .infor-three .add span:first-child{
+         border: 1px solid #bbbbbb;
+    		 display: inline-block;
+    		 width: 20px;
+    		 height:20px;
+         line-height: 20px;
+    		 text-align: center;
+    		 border-right: 0;
+        }
+        .infor .infor-three .add span:last-child{
+          border: 1px solid #bbbbbb;
+		      display: inline-block;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+    		  text-align: center;
+    		  border-left: 0px;
+        }
+        input{
+          width: 20px;
+          height: 20px;
+          line-height: 14px;
+          border: 1px solid #bbbbbb;
+          vertical-align:top;
+          box-sizing: border-box;
+          text-align: center;
+        }
+        input {
+    			-webkit-appearance: none;
+    			border-radius: 0;
+    			-webkit-border-radius:0;
+    		}
+        .footer{
+          font-size: 0;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: #fff;
+          border-top: 1px solid #999;
+          height: 57px;
+        }
+        .footer .footer-left .bottom{
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+
+          vertical-align: middle;
+          margin:0 6px;
+        }
+        .footer .footer-left .bottom img{
+          width: 16px;
+          height: 16px;
+        }
+        .footer .footer-left .all{
+          vertical-align: middle;
+          font-size: 16px;
+
+        }
+        .footer .footer-left{
+          width: 25%;
+          height: 40px;
+          display: inline-block;
+          vertical-align: bottom;
+
+        }
+        .footer .footer-center{
+          width: 50%;
+          display: inline-block;
+          vertical-align: middle;
+          /*margin-top: 10px;*/
+        }
+        .footer .footer-right{
+          width: 25%;
+          display: inline-block;
+        }
+        .footer-center .footer-center-top span{
+          font-size: 16px;
+        }
+        .footer-center .footer-center-bottom span{
+          font-size: 12px;
+          display: inline-block;
+          line-height: 30px;
+          padding-right: 10px;
+        }
+        .footer-right{
+          display: inline-block;
+          width: 25%;
+          text-align: center;
+          line-height: 58px;
+          background: #D81E06;
+          color: #fff;
+          font-size: 14px;
+          vertical-align: bottom;
+        }
+        .behind {
+            width: 68px;
+            height: 84px;
+            line-height: 84px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background: #D81E06;
+            text-align: center;
+            color: #fff;
+        }
+      }
+	</style>
+  </head>
+  <body>
+    <div class="head">
+      <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+      <span class="title">购物车</span>
+      <span class="menu"><img src="images/menu.png" alt=""></span>
+    </div>
+    <div class="line"></div>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">首页</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/search-1.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">搜索</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/car-1.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">购物车</a></p>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p class="nav-top"><img src="images/header-3.png" alt=""></p>
+            <p class="nav-bottom"><a href="#">我的账户</a></p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <ul class="list">
+        <li>
+          <div class="behind">
+            删除
+          </div>
+          <div class="list_infor">
+            <span class="circle"><img src="images/circle.png" alt=""></span>
+            <span class="img"><img src="images/shuijao.jpg" alt=""></span>
+            <div class="infor">
+              <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
+              <p class="infor-two"></p>
+              <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span><input type="number" maxlength="2" name="" value="1"  ></span><span>+</span></p></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="behind">
+            删除
+          </div>
+          <div class="list_infor">
+            <span class="circle"><img src="images/circle.png" alt=""></span>
+            <span class="img"><img src="images/shuijao.jpg" alt=""></span>
+            <div class="infor">
+              <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
+              <p class="infor-two"></p>
+              <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span><input type="number" maxlength="2" name="" value="1"  ></span><span>+</span></p></div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="behind">
+            删除
+          </div>
+          <div class="list_infor">
+            <span class="circle"><img src="images/circle.png" alt=""></span>
+            <span class="img"><img src="images/shuijao.jpg" alt=""></span>
+            <div class="infor">
+              <p class="infor-one">APPLE iPhone6（128G  白色 4.7英寸）sdsdsd</p>
+              <p class="infor-two"></p>
+              <div class="infor-three"><span class="price">￥</span><span class="price red">5666</span><p class="add"><span>-</span><span><input type="number" maxlength="2" name="" value="1"  ></span><span>+</span></p></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div style="width:100%;height:68px;background:#fff;"></div>
+    <div class="footer">
+      <div class="footer-left">
+        <span class="bottom"><img src="images/circle.png" alt=""></span>
+        <span class="all">全选</span>
+      </div>
+      <div class="footer-center">
+        <p class="footer-center-top"><span>合计：</span><span>￥</span><span>111111 </span></p>
+        <p class="footer-center-bottom"><span>总金额：￥111111</span><span>立减：0</span></p>
+      </div>
+
+      <div class="footer-right">
+        <span>去结算</span><span>(1)</span>
+      </div>
+    </div>
+
+    <!-- nav点击显示隐藏 -->
+    <script type="text/javascript">
+      $(".head .menu").click(function(){
+        $(".nav").toggle();
+      })
+    </script>
+
+    <!-- 点击circle更换图片地址 -->
+    <script type="text/javascript">
+      $(function(){
+        $(".circle img").on("touchstart",function(e){
+          var circleImg=$(this).attr("src");
+          if(circleImg=="images/circle.png"){
+            $(this).attr("src","images/xuanzhong.png");
+          }else {
+            $(this).attr("src","images/circle.png");
+          };
+        });
+        $(".footer .footer-left").click(function(){
+          var allImg=$(".footer .footer-left img").attr("src");
+
+            if(allImg=="images/circle.png"){
+              $(".footer .footer-left img").attr("src","images/xuanzhong.png");
+                $(".circle img").attr("src","images/xuanzhong.png");
+            }else {
+              $(".footer .footer-left img").attr("src","images/circle.png");
+                $(".circle img").attr("src","images/circle.png");
+            }
+
+        })
+      })
+    </script>
+
+    <!-- 滑动删除 -->
+    <script type="text/javascript">
+      $(function(){
+        $(".list_infor").css("max-width",$(window).width());
+        var touchPage;
+        var change = 0;
+        $(".list_infor")
+        .on("touchstart",function(e){
+            var touch = e.targetTouches[0];//touches数组对象获得屏幕上所有的touch，取第一个touch
+            touchPage=e.targetTouches[0].pageX; //获取第一个点的X坐标
+            // alert(touchPage);
+        })
+        .on("touchmove",function(e){
+          e.preventDefault();
+          var touch = e.targetTouches[0];//touches数组对象获得屏幕上所有的touch，取第一个touch
+          change=touch.pageX-touchPage;
+          console.log(change);
+          if(change<-160){
+            change=-160;
+          }
+          $(this).css("left",change);
+
+        })
+        .on("touchend",function(){
+          if(change>-20){
+            $(this).animate({"left":"0"},200);
+          }else {
+            $(this).animate({"left":"-68px"},50);
+          }
+        });
+
+        $('.behind').on('click', function(e) {
+            e.preventDefault()
+            $(this).parents('li').slideUp('fast', function() {
+                $(this).remove()
+            })
+        })
+
+      })
+    </script>
+  </body>
+</html>

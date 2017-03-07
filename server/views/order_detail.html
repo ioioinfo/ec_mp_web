@@ -389,7 +389,7 @@
         <img src="images/back.png" alt="">
       </div>
       <p class="top-title">订单详情</p>
-      <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+      <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum">99</p></div>
     </div>
 
     <!-- 中间 -->
@@ -399,11 +399,11 @@
         <span><a href="/check_logistics?order_id={{order.order_id}}">></a></span>
       </div>
       <div class="Delivery-infor">
-        <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order_address.receive_name}}</span>
-        <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order_address.telephone}}</span>
+        <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order.linkname}}</span>
+        <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}}</span>
       </div>
       <div class="Delivery-infor-bottom">
-        <span>{{order_address.address}}</span>
+        <span>{{order.detail_address}}</span>
       </div>
       <div class="background"></div>
       <div class="shop-infor">
@@ -422,7 +422,7 @@
 			  </div>
 	          <div class="product-infor-middle">
 	            <p class="p1">{{products[detail.product_id].product_name}}</p>
-	            <p class="p2">颜色:{{products[detail.product_id].color}}</p>
+	            <p class="p2">{% if products[detail.product_id].color %}颜色:{{products[detail.product_id].color}}{% endif %}{% if products[detail.product_id].weight %}重量:{{products[detail.product_id].weight}}kg{% endif %}&nbsp;</p>
 	            <!-- <p class="p3">7天退换</p> -->
 	          </div>
 	          <div class="product-infor-right">
@@ -486,6 +486,20 @@
 	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 	$(function() {
+		$.ajax({
+			url: "/check_message_number",
+			dataType: 'json',
+			type: 'POST',
+			success: function(data) {
+				if (data.count == 0) {
+					$(".headernewsnum").hide();
+				}else {
+					$(".headernewsnum").html(data.count);
+				}
+			},
+			error: function(xhr, status, err) {
+			}
+		});
 		$(".product-infor").click(function(){
 			var product_id = $(this).data("id");
 			location.href = "/product_show?product_id=" + product_id;

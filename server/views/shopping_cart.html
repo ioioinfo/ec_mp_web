@@ -4,255 +4,318 @@
     <meta charset="utf-8">
     <title>购物车</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
-	<script src="js/lodash.min.js" type="text/javascript"></script>
+    <meta name="format-detection" content="telephone=no" />
+    <script src="js/jquery-3.1.1.min.js"></script>
     <style media="screen">
-      @media screen and (max-width:640px){
-        *{
-          padding: 0;
-          margin: 0;
-        }
-        html,body{
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-        }
-        p{
-          padding: 0;
-          margin: 0;
-        }
-        li{
-          list-style: none;
-        }
-        a{
-          text-decoration: none;
-          color: #000;
-        }
-        .head{
-          width: 100%;
-          height: 46px;
-          font-size: 0;
-          position: relative;
-          overflow: hidden;
-        }
-        .jiantou{
-          display: inline-block;
-          width: 32px;
-          position: absolute;
-          left: 10px;
-          top: 7px;
-        }
-        .title{
-          display:block;
-          width: 200px;
-          line-height: 46px;
-          font-size: 16px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .menu{
-          width: 32px;
-          display: inline-block;
-          position: absolute;
-          right: 10px;
-          top: 13px;
-        }
-        .line{
-          width: 100%;
-          height: 10px;
-          background: #bbbbbb;
-          opacity: 0.5;
-        }
-        .nav{
-          width: 100%;
-          display: none;
-        }
-        .nav ul{
-          width: 100%;
-          display: flex;
-          text-align: center;
-          background: #404042;
-        }
-        .nav ul li{
-          flex: 1;
-          height: 70px;
-          font-size: 12px;
+	@media screen and (max-width:640px){
+	  *{
+		padding: 0;
+		margin: 0;
+	  }
+	  html,body{
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+	  }
+	  p{
+		padding: 0;
+		margin: 0;
+	  }
+	  li{
+		list-style: none;
+	  }
+	  a{
+		text-decoration: none;
+		color: #000;
+	  }
+	  .head{
+		width: 100%;
+		height: 46px;
+		font-size: 0;
+		position: relative;
+		overflow: hidden;
+	  }
+	  .jiantou{
+		display: inline-block;
+		width: 32px;
+		position: absolute;
+		left: 10px;
+		top: 7px;
+	  }
+	  .title{
+		display:block;
+		width: 200px;
+		line-height: 46px;
+		font-size: 16px;
+		margin: 0 auto;
+		text-align: center;
+	  }
+	  .menu{
+		width: 32px;
+		display: inline-block;
+		position: absolute;
+		right: 10px;
+		top: 13px;
+	  }
+	  .line{
+		width: 100%;
+		height: 10px;
+		background: #bbbbbb;
+		opacity: 0.5;
+	  }
+	  .nav{
+		width: 100%;
+		display: none;
+	  }
+	  .nav ul{
+		width: 100%;
+		display: flex;
+		text-align: center;
+		background: #404042;
+	  }
+	  .nav ul li{
+		flex: 1;
+		height: 70px;
+		font-size: 12px;
 
-        }
-        .nav ul li .nav-top{
-          width:40px;
-          height:30px;
-          margin: 0 auto;
-          text-align: center;
-          line-height: 40px;
-        }
-        .nav ul li img{
-          width:25px;
-          height:25px;
-          vertical-align: bottom;
-        }
-        .nav ul li .nav-bottom{
-          display: inline-block;
+	  }
+	  .nav ul li .nav-top{
+		width:40px;
+		height:30px;
+		margin: 0 auto;
+		text-align: center;
+		line-height: 40px;
+	  }
+	  .nav ul li img{
+		width:25px;
+		height:25px;
+		vertical-align: bottom;
+	  }
+	  .nav ul li .nav-bottom{
+		display: inline-block;
+		   width: 100%;
+		line-height: 40px;
+	  }
+	  .nav ul li a{
+		color: #fff;
+	  }
+	  .nav .nav-car{
+		line-height: 57px;
+		font-size: 12px;
+		font-weight: bold;
+		color: #fff;
+	  }
+	  .list{
+		width: 100%;
+		overflow: hidden;
+		margin: 10px 0;
+	  }
+	  .list li{
+		width: 100%;
+		height: 88px;
+		position: relative;
+		margin-bottom: 15px;
+		background: #f4f4f4;
+	  }
+	  .circle{
+		display: inline-block;
+		width: 16px;
+		height: 16px;
 
-          line-height: 40px;
-        }
-        .nav ul li .nav-bottom a{
-          color: #fff;
-        }
-        .nav .nav-car{
-          line-height: 57px;
-          font-size: 12px;
-          font-weight: bold;
-          color: #fff;
-        }
-		#color{
-			color:#DEDEDE;
-		}
-        .list{
-          position: relative;
-          overflow: hidden;
-          margin: 10px 0
-        }
-        .circle{
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          background: url(images/circle.png) no-repeat 0 0;
-          position: absolute;
-          top: 32px;
-          left: 6px;
-        }
-		.circle.selected{
-		  background: url(images/i-2.png) no-repeat 0 0;
-		}
-        .list .img{
-          display: inline-block;
-          width: 88px;
-          height: 88px;
-          padding-left:40px;
-        }
-        .list .img img{
-          width: 100%;
-          height: 88px;
-          vertical-align: middle;
-        }
-        .infor{
-          display: inline-block;
-          font-size: 12px;
-          vertical-align: top;
-          max-width: 53.3333333%;
-		  width: 53.3333333%;
-        }
-        .infor .infor-three .price{
-          display: inline-block;
-          font-size: 12px;
-          color: red;
+		position: absolute;
+		top: 32px;
+		left: 6px;
+	  }
+	  .circle img{
+		width: 16px;
+		height: 16px;
+	  }
+	  .list_infor{
+		background: #f4f4f4;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 99;
+		overflow: hidden;
+	  }
+	.list .img{
+		display: inline-block;
+		width: 23.4666%;
+		height: 88px;
+		padding-left:10.66666%;
+	  }
+	  .list .img img{
+		width: 100%;
+		height: 88px;
+		vertical-align: middle;
+	  }
+	  .infor{
+		display: inline-block;
+		font-size: 12px;
+		vertical-align: top;
+		max-width: 60.3333333%;
+		width: 60.3333333%;
+	  }
+	  .infor .infor-three .price{
+		display: inline-block;
+		font-size: 12px;
+		color: red;
 
-          overflow: hidden;
-          vertical-align: middle;
-        }
+		overflow: hidden;
+		vertical-align: middle;
+	  }
 
-        .infor .infor-three .add{
-          display: inline-block;
-          vertical-align: middle;
-          float: right;
-          overflow: hidden;
-        }
-        .infor .infor-one{
-          height: 30px;
-          font-size: 13px;
-          vertical-align: top;
-          width: 100%;
-        }
-        .infor .infor-two{
-          font-size: 13px;
-          height: 35px;
-          line-height: 35px;
-        }
-        .infor .infor-three .red{
-          font-size: 16px;
-          font-weight: 400;
-        }
+	  .infor .infor-three .add{
+		display: inline-block;
+		vertical-align: middle;
+		float: right;
+		overflow: hidden;
+		   width: 60px;
+	  }
+	  .infor .infor-one{
+		height: 35px;
+		font-size: 13px;
+		vertical-align: top;
+		width: 100%;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
 
-        .infor .infor-three .add span{
-          display: inline-block;
-          padding: 1px 10px;
-          border: 1px solid #bbbbbb;
+	  }
+	  .infor .infor-two{
+		font-size: 13px;
+		height: 20px;
+		line-height: 20px;
+	  }
+	  .infor .infor-three .red{
+		font-size: 16px;
+		font-weight: 400;
+	  }
 
-        }
-        .infor .infor-four{
-          font-size: 12px;
-          display: inline-block;
-          padding-top: 10px;
-          float: right;
-        }
-        .footer{
-          font-size: 0;
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: #fff;
-        }
-        .footer .footer-left .bottom{
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          background: url(images/circle.png) no-repeat 0 0;
-          vertical-align: middle;
-          margin:0 6px;
-        }
-        .footer .footer-left .all{
-          vertical-align: middle;
-          font-size: 16px;
+	  .infor .infor-three .add span{
+			 box-sizing: border-box;
+			 float: left;
 
-        }
-        .footer .footer-left{
-          width: 25%;
-          height: 40px;
-          display: inline-block;
-          vertical-align: bottom;
 
-        }
-        .footer .footer-center{
-          width: 50%;
-          display: inline-block;
-          vertical-align: middle;
-          margin-top: 10px;
-        }
-        .footer .footer-right{
-          width: 25%;
-          display: inline-block;
-        }
-        .footer-center .footer-center-top span{
-          font-size: 16px;
-        }
-        .footer-center .footer-center-bottom span{
-          font-size: 12px;
-          display: inline-block;
-          line-height: 30px;
-          padding-right: 10px;
-        }
-        .footer-right{
-          display: inline-block;
-          width: 25%;
-          text-align: center;
-          line-height: 58px;
-          background: #ff7043;
-          color: #fff;
-          font-size: 14px;
-          vertical-align: bottom;
-        }
-		.none{
-		  width: 100%;
-		  height: 300px;;
-		  font-size: 14px;
-		  color: #666;
+	  }
+	  .infor .infor-three .add span:first-child{
+	   border: 1px solid #bbbbbb;
+		  display: inline-block;
+		  width: 20px;
+		  height:20px;
+	   line-height: 20px;
 		  text-align: center;
-		  line-height: 300px;
-		}
-      }
+		  border-right: 0;
+	  }
+	  .infor .infor-three .add span:last-child{
+		border: 1px solid #bbbbbb;
+		   display: inline-block;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		   text-align: center;
+		   border-left: 0px;
+	  }
+	  input{
+		width: 20px;
+		height: 20px;
+		line-height: 14px;
+		border: 1px solid #bbbbbb;
+		vertical-align:top;
+		box-sizing: border-box;
+		text-align: center;
+	  }
+	  input {
+			 -webkit-appearance: none;
+			 border-radius: 0;
+			 -webkit-border-radius:0;
+		 }
+	  .footer{
+		font-size: 0;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: #fff;
+		border-top: 1px solid #999;
+		height: 57px;
+	  }
+	  .footer .footer-left .bottom{
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+
+		vertical-align: middle;
+		margin:0 6px;
+	  }
+	  .footer .footer-left .bottom img{
+		width: 16px;
+		height: 16px;
+	  }
+	  .footer .footer-left .all{
+		vertical-align: middle;
+		font-size: 16px;
+
+	  }
+	  .footer .footer-left{
+		width: 25%;
+		height: 40px;
+		display: inline-block;
+		vertical-align: bottom;
+
+	  }
+	  .footer .footer-center{
+		width: 50%;
+		display: inline-block;
+		vertical-align: middle;
+		/*margin-top: 10px;*/
+	  }
+	  .footer .footer-right{
+		width: 25%;
+		display: inline-block;
+	  }
+	  .footer-center .footer-center-top span{
+		font-size: 16px;
+	  }
+	  .footer-center .footer-center-bottom span{
+		font-size: 12px;
+		display: inline-block;
+		line-height: 30px;
+		padding-right: 10px;
+	  }
+	  .footer-right{
+		display: inline-block;
+		width: 25%;
+		text-align: center;
+		line-height: 58px;
+		background: #D81E06;
+		color: #fff;
+		font-size: 14px;
+		vertical-align: bottom;
+	  }
+	  .behind {
+		  width: 68px;
+		  height: 88px;
+		  line-height: 88px;
+		  position: absolute;
+		  top: 0;
+		  right: 0;
+		  bottom: 0;
+		  background: #D81E06;
+		  text-align: center;
+		  color: #fff;
+	  }
+	  .none{
+		width: 100%;
+		height: 300px;;
+		font-size: 14px;
+		color: #666;
+		text-align: center;
+		line-height: 300px;
+	  }
+	}
     </style>
   </head>
   <body>
@@ -265,90 +328,197 @@
     <div class="nav">
       <ul>
         <li>
-          <a href="/">
+          <a href="/" style="block:inline-block;">
             <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
-            <p class="nav-bottom"><a href="/">首页</a></p>
+            <p class="nav-bottom">首页</p>
           </a>
         </li>
         <li>
           <a href="/search_area">
             <p class="nav-top"><img src="images/search-1.png" alt=""></p>
-            <p class="nav-bottom"><a href="/search_area">搜索</a></p>
+            <p class="nav-bottom">搜索</p>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/sort">
             <p class="nav-top"><img src="images/car-1.png" alt=""></p>
-            <p class="nav-bottom"><a href="/cart_infos">购物车</a></p>
+            <p class="nav-bottom">分类</p>
           </a>
         </li>
         <li>
           <a href="/person_center">
             <p class="nav-top"><img src="images/header-3.png" alt=""></p>
-            <p class="nav-bottom"><a href="person_center">我的</a></p>
+            <p class="nav-bottom">我的</p>
           </a>
         </li>
       </ul>
     </div>
 	<div id="carts">
+
 	</div>
+    <!-- 点击circle更换图片地址 -->
+    <script type="text/javascript">
+      $(function(){
+        $(".circle img").click(function(){
+          var circleImg=$(this).attr("src");
+          if(circleImg=="images/circle.png"){
+            $(this).attr("src","images/xuanzhong.png");
+          }else {
+            $(this).attr("src","images/circle.png");
+          };
+        });
+        $(".footer .footer-left").click(function(){
+          var allImg=$(".footer .footer-left img").attr("src");
+
+            if(allImg=="images/circle.png"){
+              $(".footer .footer-left img").attr("src","images/xuanzhong.png");
+                $(".circle img").attr("src","images/xuanzhong.png");
+            }else {
+              $(".footer .footer-left img").attr("src","images/circle.png");
+                $(".circle img").attr("src","images/circle.png");
+            }
+
+        })
+      })
+    </script>
+	<script src="js/lodash.min.js" type="text/javascript"></script>
 	<script id="empty_cart" type="text/template">
 		<p class="none">购物车暂时为空</p>
 	</script>
 	<script id="cart_infos" type="text/template">
+		<ul class="list">
 		<% _.forEach(shopping_carts, function(shopping_cart) {  %>
-			<div class="list">
-			  <% if(shopping_cart.is_selected == 0){ %>
-				<span class="circle" data-id="<%- shopping_cart.id %>" data-select="<%- shopping_cart.is_selected %>"></span>
-				<% }else{ %> <span class="circle selected" data-id="<%- shopping_cart.id %>" data-select="<%- shopping_cart.is_selected %>"></span>
-			  <% } %>
+		  <li>
+			<div class="behind delete" data-id="<%- shopping_cart.id %>">
+			  删除
+			</div>
+			<div class="list_infor">
+			  <span class="circle" data-id="<%- shopping_cart.id %>" data-select="<%- shopping_cart.is_selected %>">
+			   <% if(shopping_cart.is_selected == 0){ %>
+				  <img src="images/circle.png" alt="">
+			   <% }else{ %>
+				  <img src="images/xuanzhong.png" alt="">
+			   <% } %>
+		      </span>
+
 			  <span class="img">
-				  <% if(products[shopping_cart.product_id].img){ %>
-				  	  <img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
-				  <% }else{ %>
-					  <img src="images/no_picture.png" alt="">
-				  <% } %>
-			  </span>
+				<% if(products[shopping_cart.product_id].img){ %>
+				   <img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
+			   <% }else{ %>
+				   <img src="images/no_picture.png" alt="">
+			   <% } %>
+		       </span>
+
 			  <div class="infor">
 				<p class="infor-one"><%- products[shopping_cart.product_id].product_name %></p>
 				<p class="infor-two"></p>
-				<div class="infor-three"><span class="price">￥</span><span class="price red"><%- shopping_cart.total_prices %></span><p class="add"><span  <% if(shopping_cart.total_items <= 1){ %> id="color" <% } %> class="reduce"  data-id="<%- shopping_cart.id %>">-</span><span><%- shopping_cart.total_items %></span><span class="plus" data-id="<%- shopping_cart.id %>">+</span></p></div>
-				<% if(update_ids[shopping_cart.product_id]){ %>
-				 <p class="" style="padding-top: 10px;float: left;">该商品价格已变动</p><% } %>	<p class="infor-four delete" data-id="<%- shopping_cart.id %>">删除</p>
+				<div class="infor-three">
+					<span class="price">￥</span>
+					<span class="price red"><%- products[shopping_cart.product_id].product_sale_price %></span>
+					<p class="add">
+						<span  <% if(shopping_cart.total_items <= 1){ %> id="color" <% } %> class="reduce"  data-id="<%- shopping_cart.id %>">-</span>
+						<span>
+							<input type="number" class="update_num" maxlength="2" name="" value="<%- shopping_cart.total_items %>" data-id="<%- shopping_cart.id %>">
+						</span>
+						<span class="plus" data-id="<%- shopping_cart.id %>">+</span>
+					</p>
+					<% if(update_ids[shopping_cart.product_id]){ %>
+					 <p class="" style="padding-top: 10px;float: left;">该商品价格已变动</p>
+					 <% } %>
+				</div>
 			  </div>
 			</div>
-			<div style="width:100%;height:68px;background:#fff;"></div>
-			<div class="footer">
-			  <div class="footer-left">
-				<span class="bottom"></span>
-				<span class="all">全选</span>
-			  </div>
-			  <div class="footer-center">
-				<p class="footer-center-top"><span>合计：</span><span>￥</span><span><%- total_data.total_prices %> </span></p>
-				<p class="footer-center-bottom"><span>总金额：￥<%- total_data.total_prices %></span><span>立减：0</span></p>
-			  </div>
-			  <div class="footer-right">
-				<span>去结算</span><span></span>
-			  </div>
-			</div>
+		  </li>
 		<% }); %>
+		</ul>
+
+		<div style="width:100%;height:68px;background:#fff;"></div>
+		<div class="footer">
+		  <div class="footer-left">
+			  <span class="bottom">
+			 	<% if(selected == 1){ %>
+					<img src="images/xuanzhong.png" alt="">
+				<% }else{ %>
+					<img src="images/circle.png" alt="">
+				<% } %>
+			  </span>
+			<span class="all">全选</span>
+		  </div>
+		  <div class="footer-center">
+			<p class="footer-center-top"><span>合计：</span><span>￥</span><span><%- total_data.total_prices %> </span></p>
+			<p class="footer-center-bottom"><span>总金额：￥<%- total_data.total_prices %></span><span>立减：0</span></p>
+		  </div>
+
+		  <div class="footer-right">
+			<span>去结算</span><span>(<%- total_data.total_items %>)</span>
+		  </div>
+		</div>
 	</script>
-    <!-- nav点击显示隐藏 -->
-    <script type="text/javascript">
+	<script type="text/javascript">
+		var delete_model = function(){
+			var window_width = $(window).width();
+			$(".list_infor").css("max-width",window_width);
+			$(".list_infor").css("width",window_width);
+			var touchPage;
+			var change = 0;
+			$(".list_infor")
+			.on("touchstart",function(e){
+				var touch = e.targetTouches[0];//touches数组对象获得屏幕上所有的touch，取第一个touch
+				touchPage=e.targetTouches[0].pageX; //获取第一个点的X坐标
+				// alert(touchPage);
+			})
+			.on("touchmove",function(e){
+			  e.preventDefault();
+			  var touch = e.targetTouches[0];//touches数组对象获得屏幕上所有的touch，取第一个touch
+			  change=touch.pageX-touchPage;
+			  console.log(change);
+			  if(change<-100){
+				change=-100;
+			  }
+			  $(this).css("left",change);
+
+			})
+			.on("touchend",function(){
+			  if(change>-20){
+				$(this).animate({"left":"0"},200);
+			  }else {
+				$(this).animate({"left":"-68px"},50);
+			  }
+			});
+
+			$('.behind').on('click', function(e) {
+				e.preventDefault()
+				$(this).parents('li').slideUp('fast', function() {
+					$(this).remove()
+				})
+			})
+		};
 		$(function() {
 			var shopping_carts = {{shopping_carts | safe}};
 			var products = {{products | safe}};
 			var total_data = {{total_data|safe}};
 			var update_ids = {{update_ids | safe}};
 			var selected = 0;
+
+			var all_carts_status = function(){
+				var all_selected = 1;
+				_.each(shopping_carts,function(shopping_cart) {
+					if (shopping_cart.is_selected != 1) {
+						all_selected = 0;
+					}
+				});
+				selected = all_selected;
+			};
 			var fresh_carts = function(){
 				if (shopping_carts.length ==0) {
 					var t = _.template($("#empty_cart").html());
 					$("#carts").html(t());
 					return;
 				}
+				all_carts_status();
 				var t = _.template($("#cart_infos").html());
-				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data}));
+				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data,selected:selected}));
+				delete_model();
 				$(".circle").click(function(){
 					var selected = $(this).data("select");
 					var id = $(this).data("id");
@@ -408,8 +578,32 @@
 						}
 					});
 				});
+				$(".update_num").click(function(){
+					$(this).select();
+					$(this).keypress(function(e){
+						var id = $(this).data("id");
+						var key = e.which; //e.which是按键的值
+						if (key == 13) {
+							var num = $(this).val();
+							if (!num || !id) {
+								return;
+							}
+							if (num <= 0) {
+								alert("数量输入有误");
+							}
+							$.post("/update_cart_number",{id:id,num:num},function(data){
+								if (data.success) {
+									shopping_carts = JSON.parse(data.shopping_carts);
+									total_data = JSON.parse(data.total_data);
+									fresh_carts();
+								}
+							});
+						}
+					});
+				});
 			};
 			fresh_carts();
+			//单选
 			var update_selected = function(selected,id){
 				var ids = [];
 				ids.push(id.toString());
@@ -427,6 +621,7 @@
 					}
 				});
 			};
+			//多选
 			var update_selected2 = function(selected,ids){
 				$.get("/update_cart",{ids:JSON.stringify(ids),selected:selected},function(data){
 					if (data.success) {
@@ -442,6 +637,5 @@
 			})
   		});
     </script>
-
   </body>
 </html>

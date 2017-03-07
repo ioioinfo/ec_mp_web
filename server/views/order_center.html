@@ -320,7 +320,7 @@
 			  </div>
 	          <div class="product-infor-middle">
 	            <p class="p1">{{products[detail.product_id].product_name}}</p>
-	            <p class="p2">颜色:{{products[detail.product_id].color}}</p>
+	            <p class="p2">{% if products[detail.product_id].color %}颜色:{{products[detail.product_id].color}} {% endif %}{% if products[detail.product_id].weight %}重量:{{products[detail.product_id].weight}}kg{% endif %}&nbsp;&nbsp;</p>
 	            <p class="p3">7天退换</p>
 	          </div>
 	          <div class="product-infor-right">

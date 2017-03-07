@@ -141,11 +141,15 @@
 		<a href="/product_show?product_id={{product.id}}">
 	       	<div class="main-list">
 	        <div class="main-list-left">
+			{% if product.img %}
 	          <img src="images/{{product.img.location}}" alt="">
+			{% else %}
+			  <img src="images/no_picture.png" alt="">
+			{% endif %}
 	        </div>
 	        <div class="main-list-middle">
 	          <p>{{product.product_name}}{{product.product_describe}}</p>
-	          <span>颜色：{{product.color}}&nbsp;重量：{{product.weight}}g</span>
+	          <span>{% if product.color %}颜色：{{product.color}}&nbsp;{% endif %}{% if product.weight %}重量：{{product.weight}}kg {% endif %}</span>
 	           <p class="price">￥{{product.product_sale_price}}</p>
 	        </div>
 	        <div class="main-list-right">
