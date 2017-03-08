@@ -30,6 +30,13 @@ var find_sorts = function(cb){
 	var url = "http://127.0.0.1:18016/search_sorts";
 	do_get_method(url,cb);
 };
+//查询订单
+var search_order = function(order_id,cb) {
+        var url = "http://211.149.248.241:18010/search_order_infos?order_id="+order_id;
+        uu_request.do_get_method(url,function(err,content){
+            cb(false,content.row);
+        });
+    };
 //登入，合并设置cookie
 var login_set_cookie = function(request,person_id){
 	var state;
@@ -86,6 +93,25 @@ var find_favorite = function(product_id,person_id,cb){
 	url = url + product_id +"&person_id=" + person_id;
 	do_get_method(url,cb);
 };
+//推荐
+var get_recommend_products = function(person_id,cb){
+	var url = "http://139.196.148.40:16001/get_recommend_products?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+//热销
+var get_hot_sale_products = function(person_id,cb){
+	var url = "http://139.196.148.40:16001/get_hot_sale_products?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+//新品
+var get_new_arrival_products = function(person_id,cb){
+	var url = "http://139.196.148.40:16001/get_new_arrival_products?person_id=";
+	url = url + person_id;
+	do_get_method(url,cb);
+};
+
 //通过商品id找到图片
 var find_pictures_byId = function(product_id, cb){
 	var url = "http://127.0.0.1:18002/get_product_pictures?product_id=";
@@ -882,6 +908,54 @@ exports.register = function(server, options, next){
 				return reply.view("go_comment");
 			}
 		},
+		//推荐
+		{
+			method: 'GET',
+			path: '/get_recommend_products',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				get_recommend_products(person_id,function(err,content){
+					if (!err) {
+						var products = content.rows;
+						return reply({"success":true,"products":products,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
+		//热销
+		{
+			method: 'GET',
+			path: '/get_hot_sale_products',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				get_hot_sale_products(person_id,function(err,content){
+					if (!err) {
+						var products = content.rows;
+						return reply({"success":true,"products":products,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
+		//新品
+		{
+			method: 'GET',
+			path: '/get_new_arrival_products',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				get_new_arrival_products(person_id,function(err,content){
+					if (!err) {
+						var products = content.rows;
+						return reply({"success":true,"products":products,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
 		//修改收藏
 		{
 			method: 'POST',
@@ -904,7 +978,7 @@ exports.register = function(server, options, next){
 					if (!err) {
 						return reply({"success":true});
 					}else {
-							return reply({"success":false});
+						return reply({"success":false});
 					}
 				});
 			}
@@ -1403,6 +1477,25 @@ exports.register = function(server, options, next){
 				return reply.view("history");
 			}
 		},
+		//浏览历史
+		{
+			method: 'GET',
+			path: '/find_favorite',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var product_id = request.query.product_id;
+				if (!person_id) {
+					return reply({"success":false});
+				}
+				find_favorite(product_id,person_id,function(err,content){
+					if (!err) {
+						return reply({"success":true,"is_active":content.row.is_active});
+					}else {
+						return reply({"success":false});
+					}
+				});
+			}
+		},
 		//个人设置
 		{
 			method: 'GET',
@@ -1781,6 +1874,30 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//订单查看页面
+        {
+            method: 'GET',
+            path: '/order_view',
+            handler: function(request,reply) {
+                var order_id = request.query.order_id;
+                if (!order_id) {
+                    return reply({"success":false,"message":"param order_id is null"});
+                }
+                //查询订单接口
+                search_order(order_id,function(err,row) {
+                    if (!row) {
+                        return reply("收银小票不存在");
+                    }
+                    //结算方式
+                    var pay_ways = [];
+                    _.each(row.pay_infos,function(pay_info){
+                        pay_ways.push(pay_info.pay_way);
+                    });
+                    row.pay_ways = _.join(pay_ways,",");
+                    return reply.view(get_view("order_infos"),{"row":row});
+                });
+            }
+        },
 		//微信注册
 		{
 			method: 'GET',

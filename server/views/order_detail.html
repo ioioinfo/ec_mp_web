@@ -123,7 +123,7 @@
         }
         .Delivery-infor span:first-child{
           font-size: 12px;
-          padding-left: 10px;
+          padding-left: 15px;
         }
         .Delivery-infor span:last-child{
           float: right;
@@ -211,7 +211,7 @@
         }
         .product-infor .product-infor-middle .p1{
           width: 100%;
-          font-size: 12px;
+          font-size: 14px;
           height: 35px;
           line-height: 17px;
           color: #223541;
@@ -347,9 +347,10 @@
         .footer ul li{
           flex: 1;
           width: 74px;
-          height: 35px;
-          line-height: 35px;
+          height: 26px;
+          line-height: 26px;
           list-style: none;
+		  font-size: 14px;
         }
         .footer ul li p{
           width: 74px;
@@ -394,10 +395,6 @@
 
     <!-- 中间 -->
     <div class="content">
-      <div class="Delivery-status">
-        <span>{{logistics_info.detail_desc | safe}}</span>
-        <span><a href="/check_logistics?order_id={{order.order_id}}">></a></span>
-      </div>
       <div class="Delivery-infor">
         <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order.linkname}}</span>
         <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}}</span>
@@ -448,6 +445,11 @@
       <div class="pay">
         <span>发票信息</span>
         <span>{% if invoices[order.order_id] %}  {{invoices[order.order_id].invoice_name}}  {% endif %}</span>
+      </div>
+      <div class="background"></div>
+	  <div class="pay">
+        <span>备注：</span>
+        <span>{{order.send_seller}}</span>
       </div>
       <div class="background"></div>
       <div class="pay price">

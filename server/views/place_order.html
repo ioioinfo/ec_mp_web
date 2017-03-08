@@ -18,6 +18,12 @@
           height: 100%;
           position: relative;
         }
+		input, textarea {
+			  font-size: 14px;
+		  }
+		input[type="submit"],input[type="reset"],input[type="button"],button {
+		   -webkit-appearance: none;
+		}
         p{
           padding: 0;
           margin: 0;
@@ -218,8 +224,8 @@
         .product-infor .product-infor-middle .p1{
           width: 100%;
           font-size: 14px;
-          height: 35px;
-          line-height: 17px;
+		  height: 65px;
+          line-height: 24px;
           color: #223541;
           overflow: hidden;
           -webkit-line-clamp: 2;
@@ -252,7 +258,7 @@
           float: left;
         }
         .product-infor .product-infor-middle .p2 .p2-span2{
-          color: #1296DB;
+          color: #FF5810;
           margin-top: 5px;
           font-size: 12px;
           float: right;
@@ -285,14 +291,15 @@
         }
 
         .invoice{
-          width: 100%;
-          line-height: 45px;
-          overflow: hidden;
-          background: #eee;
+			width: 100%;
+            line-height: 45px;
+            overflow: hidden;
+            background: #eee;
+            font-size: 14px;
         }
         .invoice .public-name{
           display: inline-block;
-          font-size: 16px;
+          font-size: 14px;
           text-indent: 10px;
         }
         .invoice .add-num{
@@ -323,71 +330,62 @@
           -webkit-appearance : none ;
           margin: 10px auto 10px;
         }
-        .footer{
-          font-size: 0;
+		.footer{
+          width: 100%;
+          height: 52px;
+          overflow: hidden;
           position: fixed;
           bottom: 0;
           left: 0;
           right: 0;
+          color: #707070;
+          border-top: 1px solid #eee;
           background: #fff;
-          border-top:1px solid #eee;
-
         }
-        .footer .footer-left .bottom1{
-          display: inline-block;
-          width: 15px;
-          height:15px;
-          background: url(images/circle.png) no-repeat 0 0;
-          background-size: cover;
-          vertical-align: middle;
-          margin:0 6px;
-        }
-        .footer .footer-left .all{
-          vertical-align: middle;
-          font-size: 16px;
-
-        }
-        .footer .footer-left{
+        .footer-left{
+          float: left;
+          text-indent: 10px;
           width: 25%;
-          height: 40px;
-          display: inline-block;
-          vertical-align: bottom;
-
-        }
-        .footer .footer-center{
-          width: 50%;
-          display: inline-block;
-          vertical-align: middle;
-          text-align: center;
-        }
-        .footer .footer-center p span{
-          color: red;
-        }
-        .footer .footer-right{
-          width: 25%;
-          display: inline-block;
-        }
-        .footer-center .footer-center-top span{
-          font-size: 16px;
-          display: inline-block;
-          line-height: 63px;
-
-
-        }
-
-
-        .footer-right{
-          display: inline-block;
-          width: 25%;
-          text-align: center;
-          line-height: 58px;
-          background: #ff7043;
-
-          vertical-align: bottom;
-        }
-        .footer-right span{
-          color: #fff;
+          height: 52px;
+          line-height: 52px;
           font-size: 14px;
+        }
+        .footer-left .bottom img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+        .footer-center{
+          float: left;
+          width: 50%;
+          height: 52px;
+          line-height: 52px;
+          overflow: hidden;
+        }
+        .footer-center .footer-span1{
+          font-size: 12px;
+        }
+
+        .footer-center .footer-center-top .footer-span2{
+          font-size: 16px;
+          color: #D81E06;
+        }
+        .footer-center .footer-center-bottom span:last-child{
+          margin-left: 5px;
+        }
+        .footer-center p{
+          /*line-height: 26px;*/
+          box-sizing: border-box;
+        }
+        .footer-right{
+          float: right;
+          width:25%;
+          height: 52px;
+          line-height: 52px;
+          background: #D81E06;
+          text-align: center;
+          font-size: 16px;
+          color: #fff;
         }
         /*配送方式*/
         .partone{
@@ -581,13 +579,141 @@
 		  line-height: 31.5px;
 		  text-align: center;
 		  font-size: 30px;
-		  font-weight: bold;
 		  margin: 0 auto;
 		  position: relative;
 		}
 		.address1 p:last-child{
-		  font-size: 16px;
+		  font-size: 14px;
 		}
+		/*发票弹出层*/
+        .fapiao{
+          width: 94%;
+          /*height: 207px;*/
+          background: #fff;
+          position: fixed;
+          top: 175px;
+          left: 3%;
+          right: 3%;
+          border-top: 1px solid #eee;
+          z-index: 99999999;
+          display: none;
+        }
+        .fapiao p{
+          width: 100%;
+          margin: 0 auto;
+          line-height: 20px;
+          font-size: 16px;
+          color: #000;
+          overflow: hidden;
+          text-indent: 10px;
+          margin-top: 10px;
+          background: #F3F3F3;
+        }
+        .fapiao .fapiao-infor .fapiao-title{
+          width: 90%;
+          display: flex;
+          justify-content:space-between;
+          margin: 10px auto 0;
+        }
+        .fapiao .fapiao-infor .fapiao-title li{
+          width: 30%;
+          font-size: 14px;
+          line-height: 20px;
+          height: 20px;
+          text-align: center;
+        }
+        .fapiao .fapiao-infor .fapiao-title li:first-child{
+          border: 1px solid #E1383B;
+        }
+        .fapiao .fapiaotaitou{
+          width: 90%;
+          margin: 0 auto;
+          box-sizing: border-box;
+          background: #fff;
+          margin-top: 20px;
+        }
+        .fapiao .fapiaotaitou1{
+          border: 1px solid #666;
+          position: relative;
+          padding: 4px 8px;
+        }
+        .fapiao .fapiaotaitou-span1{
+          display: inline-block;
+          box-sizing: border-box;
+          width: 30%;
+          font-size: 14px;
+          float: left;
+          text-align: left;
+        }
+        .fapiao .fapiaotaitou .fapiaotaitou-span2{
+          display: inline-block;
+          box-sizing: border-box;
+          width: 66%;
+          border: 1px solid #E1383B;
+        }
+        .fapiao .fapiao-infor .fapiaotaitou-span3{
+          display: inline-block;
+          width: 100%;
+          display: flex;
+          justify-content:space-between;
+          margin-top: 10px;
+          border: none;
+        }
+        .fapiao .fapiao-infor .fapiaotaitou-span3 span{
+          width: 20%;
+          font-size: 14px;
+          text-align: center;
+          box-sizing: border-box;
+        }
+        .fapiao .fapiao-infor .fapiaotaitou-span3 .spancolor{
+          border: 1px solid #E1383B;
+        }
+        .fapiao .fapiaotaitou1 input{
+          width: 100%;
+          border: none;
+          height: 22px;
+          line-height: 22px;
+        }
+        .fapiao .fapiaotaitou-span4{
+          display: inline-block;
+          box-sizing: border-box;
+          width: 100%;
+          font-size: 14px;
+          text-align: left;
+        }
+        .fapiao .fapiaosubmit{
+          width: 90%;
+          margin: 20px auto;
+        }
+        .fapiao .fapiaosubmit input{
+          width: 52px;
+          height: 24px;
+          border-radius: 4px;
+          color: #fff;
+
+          border: none;
+        }
+        .fapiao .fapiaosubmit .fapiaosubmit1{
+          background: #E1383B;
+          margin-right: 15px;
+        }
+        .fapiao .fapiaosubmit .fapiaosubmit2{
+          color: #666;
+        }
+		.tanchuceng{
+          width: 100%;
+          height: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #000;
+          opacity: 0.5;
+          z-index: 9;
+          display: none;
+        }
+
       }
 	</style>
   </head>
@@ -622,7 +748,7 @@
         <li>
           <a href="/person_center">
             <p class="nav-top"><img src="images/header-3.png" alt=""></p>
-            <p class="nav-bottom"><a>我的账户</a></p>
+            <p class="nav-bottom"><a>我的</a></p>
           </a>
         </li>
       </ul>
@@ -702,7 +828,7 @@
         </div>
         <div class="middle-shouhuoren sure-submit">
           <input type="submit" name="" value="确 定" class="input3 save_address">
-          <input type="submit" name="" value="取 消" class="input3">
+          <input type="submit" name="" value="取 消" class="input3 cancel_new">
 
         </div>
       </div>
@@ -719,7 +845,7 @@
 		<% _.forEach(addresses, function(address) {  %>
 			<p class="partone-p partone3-p">
 			  <span><%- address.detail_address %> &nbsp;<%- address.mobile %>&nbsp;<%- address.linkname %></span><span>
-			  <input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" class="selected"></span>
+			  	<input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" class="selected" <% if(selected && selected.address_id==address.address_id){ %>checked<% } %>></span>
 			</p>
 		<% }); %>
 		<p class="partone-p partone3-p" style="height:37px;">
@@ -764,14 +890,13 @@
 				</div>
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
-				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">分享 <img src="images/share.png" alt=""></span></p>
-				  <p class="p3">x<%- shopping_cart.total_items %></p>
+				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
 				</div>
 			  </div>
 			<% }); %>
 		</div>
 
-		<div class="invoice">
+		<div class="invoice invoice1">
 		  <span class="public-name">发票信息</span>
 		  <p class="add-num"><span>电子发票-个人</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
@@ -814,19 +939,18 @@
 		</div>
 		<div style="width:100%;height:68px;background:#fff;"></div>
 		<div class="footer">
-		  <div class="footer-left">
-			<span class="bottom1"></span>
-			<span class="all">全选</span>
-		  </div>
-		  <div class="footer-center">
-			<p class="footer-center-top"><span>合计：</span><span>￥</span><span><%- total_data.total_prices+total_data.lgtic_pay %> </span></p>
+	      <div class="footer-left">
+	        <span>共x<%- total_data.total_items %>件</span>
+	      </div>
+	      <div class="footer-center">
+	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay %> </span></p>
 
-		  </div>
+	      </div>
 
-		  <div class="footer-right">
-			<span>去结算</span><span>(<%- total_data.total_items %>)</span>
-		  </div>
-		</div>
+	      <div class="footer-right">
+	        提交订单
+	      </div>
+	    </div>
 	</script>
 	<script>
 		$(function() {
@@ -861,6 +985,9 @@
 					address.city = $(".address_city").val();
 					address.district = $(".address_province").val();
 					var send_seller = $("#send_seller").val();
+					if (!address.detail_address) {
+						alert("没有地址！");
+					}
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
 							alert("结算成功！");
@@ -872,7 +999,7 @@
 				//地址选择
 				$(".address").click(function(){
 					var t = _.template($("#change_address_infos").html());
-					$("#change_address").html(t({addresses:addresses}));
+					$("#change_address").html(t({addresses:addresses,selected:address}));
 					$(".partone3").css("display","block");
 					$(".opacity").css("display","block");
 					$(".submit1").click(function(){
@@ -918,6 +1045,10 @@
 						  }
 					  });
 					})
+					$(".cancel_new").click(function(){
+						$(".tanchuceng").css("display","none");
+			            $(".new-address").css("display","none");
+					});
 					//确认
 					$(".close3 .submit2").click(function(){
 						$(".partone3").css("display","none");
@@ -975,5 +1106,52 @@
 			place_order();
 		});
 	</script>
+	<!-- 发票弹出层 -->
+  <div class="fapiao">
+	<p>发票信息: &nbsp;普通发票</p>
+	<div class="fapiao-infor">
+	  <p class="fapiaotaitou"><span class="fapiaotaitou-span1">发票抬头：</span><span class="fapiaotaitou-span2">个人</span></p>
+	  <div class="fapiaotaitou fapiaotaitou1"><input type="text" name="" value="上海佑佑信息科技有限公司"></div>
+	  <div class="fapiaotaitou">
+		<span class="fapiaotaitou-span4">发票抬头：</span>
+		<div class="fapiaotaitou-span2 fapiaotaitou-span3">
+		  <span class="spancolor">明细</span>
+		  <span>办公用品</span>
+		  <span>电脑配件</span>
+		  <span>耗材</span>
+		</div>
+	  </div>
+	</div>
+	<div class="fapiaosubmit">
+	  <input type="submit" name="" value="保存" class="fapiaosubmit1">
+	  <input type="submit" name="" value="取消" class="fapiaosubmit2">
+	</div>
+  </div>
+  <div class="tanchuceng"></div>
+  <script type="text/javascript">
+	$(function(){
+	  $(".invoice1").click(function(){
+		$(".fapiao").show();
+		$(".tanchuceng").show();
+
+	  });
+	  $(".fapiaotaitou-span3 span").click(function(){
+		$(".fapiaotaitou-span3 span").removeClass("spancolor");
+		$(this).addClass("spancolor");
+	  });
+	  $(".fapiaosubmit .fapiaosubmit1").click(function(){
+		$(".fapiao").hide();
+		$(".tanchuceng").hide();
+	  });
+	  $(".fapiaosubmit .fapiaosubmit2").click(function(){
+		$(".fapiao").hide();
+		$(".tanchuceng").hide();
+	  });
+	  $(".tanchuceng").click(function(){
+		$(".fapiao").hide();
+		$(".tanchuceng").hide();
+	  })
+	})
+  </script>
   </body>
 </html>

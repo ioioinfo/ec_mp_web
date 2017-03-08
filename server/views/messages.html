@@ -135,10 +135,17 @@
     };
     // 头部
     class Header extends React.Component {
+		constructor(props) {
+  		  super(props);
+  		  this.handleBack = this.handleBack.bind(this);
+	  	}
+		handleBack() {
+  		  window.history.back();
+  	    }
       render() {
           return (
             <div className="header">
-              <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+              <span className="jiantou"><img src="images/jiantou.png" alt="" onClick={this.handleBack} /></span>
               <span className="title">消息(<span>999</span>)</span>
               <span className="menu"><img src="images/shouye1.png" alt="" /></span>
             </div>

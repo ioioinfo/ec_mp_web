@@ -113,10 +113,9 @@
 	  }
 	  .list li{
 		width: 100%;
-		height: 88px;
+		height: 84px;
 		position: relative;
 		margin-bottom: 15px;
-		background: #f4f4f4;
 	  }
 	  .circle{
 		display: inline-block;
@@ -142,12 +141,12 @@
 	.list .img{
 		display: inline-block;
 		width: 23.4666%;
-		height: 88px;
+		height: 84px;
 		padding-left:10.66666%;
 	  }
 	  .list .img img{
 		width: 100%;
-		height: 88px;
+		height: 84px;
 		vertical-align: middle;
 	  }
 	  .infor{
@@ -175,6 +174,7 @@
 	  }
 	  .infor .infor-one{
 		height: 35px;
+		line-height: 20px;
 		font-size: 13px;
 		vertical-align: top;
 		width: 100%;
@@ -232,73 +232,67 @@
 			 border-radius: 0;
 			 -webkit-border-radius:0;
 		 }
-	  .footer{
-		font-size: 0;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: #fff;
-		border-top: 1px solid #999;
-		height: 57px;
-	  }
-	  .footer .footer-left .bottom{
-		display: inline-block;
-		width: 16px;
-		height: 16px;
-
-		vertical-align: middle;
-		margin:0 6px;
-	  }
-	  .footer .footer-left .bottom img{
-		width: 16px;
-		height: 16px;
-	  }
-	  .footer .footer-left .all{
-		vertical-align: middle;
-		font-size: 16px;
-
-	  }
-	  .footer .footer-left{
-		width: 25%;
-		height: 40px;
-		display: inline-block;
-		vertical-align: bottom;
-
-	  }
-	  .footer .footer-center{
-		width: 50%;
-		display: inline-block;
-		vertical-align: middle;
-		/*margin-top: 10px;*/
-	  }
-	  .footer .footer-right{
-		width: 25%;
-		display: inline-block;
-	  }
-	  .footer-center .footer-center-top span{
-		font-size: 16px;
-	  }
-	  .footer-center .footer-center-bottom span{
-		font-size: 12px;
-		display: inline-block;
-		line-height: 30px;
-		padding-right: 10px;
-	  }
-	  .footer-right{
-		display: inline-block;
-		width: 25%;
-		text-align: center;
-		line-height: 58px;
-		background: #D81E06;
-		color: #fff;
-		font-size: 14px;
-		vertical-align: bottom;
-	  }
+		 .footer{
+			 border-top: 1px solid #eee;
+             width: 100%;
+             height: 52px;
+             overflow: hidden;
+             position: fixed;
+             bottom: 0;
+             left: 0;
+             right: 0;
+             color: #707070;
+           }
+           .footer-left{
+             float: left;
+             text-indent: 10px;
+             width: 25%;
+             height: 52px;
+             line-height: 52px;
+             font-size: 14px;
+           }
+           .footer-left .bottom img{
+             width: 16px;
+             height: 16px;
+             vertical-align: middle;
+           }
+           .footer-center{
+             float: left;
+             width: 50%;
+             height: 52px;
+             overflow: hidden;
+           }
+           .footer-center .footer-span1{
+             font-size: 12px;
+           }
+           .footer-center .footer-center-top{
+             margin-top: 5px;
+           }
+           .footer-center .footer-center-top .footer-span2{
+             font-size: 16px;
+             color: #D81E06;
+           }
+           .footer-center .footer-center-bottom span:last-child{
+             margin-left: 5px;
+           }
+           .footer-center p{
+             /*line-height: 26px;*/
+             box-sizing: border-box;
+           }
+           .footer-right{
+             float: right;
+             width:25%;
+             height: 52px;
+             line-height: 52px;
+             background: #D81E06;
+             text-align: center;
+             font-size: 16px;
+             color: #fff;
+           }
 	  .behind {
 		  width: 68px;
-		  height: 88px;
-		  line-height: 88px;
+		  height: 84px;
+		  line-height: 84px;
 		  position: absolute;
 		  top: 0;
 		  right: 0;
@@ -445,8 +439,8 @@
 			<span class="all">全选</span>
 		  </div>
 		  <div class="footer-center">
-			<p class="footer-center-top"><span>合计：</span><span>￥</span><span><%- total_data.total_prices %> </span></p>
-			<p class="footer-center-bottom"><span>总金额：￥<%- total_data.total_prices %></span><span>立减：0</span></p>
+			<p class="footer-center-top"><span>合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices %> </span></p>
+			<p class="footer-center-bottom"><span class="footer-span1">总金额：￥<%- total_data.total_prices %></span><span class="footer-span1">立减：0</span></p>
 		  </div>
 
 		  <div class="footer-right">
