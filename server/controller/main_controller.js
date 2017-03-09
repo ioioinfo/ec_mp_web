@@ -579,9 +579,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var product_id = request.query.product_id;
 				var person_id = get_cookie_person(request);
-
 				var is_active = 0;
-
 				find_product_byId(product_id, function(err, content){
 					if (!err) {
 						var product = content.row;
@@ -596,6 +594,8 @@ exports.register = function(server, options, next){
 						}
 						var stock_options = {"region_id":"1"};
 						var page_name = industry["view_name"];
+						//行业属性
+						var industry_properties = industry["properties"];
 
 						var ep =  eventproxy.create("pictures","stock","sales","same_pictures","total_comments","comments","persons","saidans","product_details","again_comments","personsVip",
 							function(pictures,stock,sales,same_pictures,total_comments,comments,persons,saidans,product_details,again_comments,personsVip){
@@ -612,7 +612,7 @@ exports.register = function(server, options, next){
 							product.mp_product_details = product_details;
 							product.mp_page_name = page_name;
 							product.again_comments = again_comments;
-							return reply.view(industry.view_name,{"product":product});
+							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties});
 						});
 						find_stock(industry_id,product_id,stock_options,function(err, content){
 							if (!err) {
@@ -1329,9 +1329,15 @@ exports.register = function(server, options, next){
 					});
 				});
 				var data = {
-					"end_area" : "广东省",
 					"weight" : 0,
-					"order_amount" : 0
+					"order_amount" : 0,
+					"type" : "common",
+					"store_id" : 1,
+					"point_id" : null,
+					"end_province" :"广东省" ,
+					"end_city" : "",
+					"end_district" : ""
+
 				};
 				search_selected_carts(person_id,ids,function(err,results){
 					if (!err) {
@@ -1365,8 +1371,10 @@ exports.register = function(server, options, next){
 							var addresses = results.rows;
 							for (var i = 0; i < addresses.length; i++) {
 								if (addresses[i].is_default ==1) {
-									console.log("123");
-									data.end_area = addresses[i].province;
+									console.log("addresses[i]:"+JSON.stringify(addresses[i]));
+									data.end_province = addresses[i].province;
+									data.end_city = addresses[i].city;
+									data.end_district = addresses[i].district;
 								}
 							}
 							ep.emit("addresses", addresses);

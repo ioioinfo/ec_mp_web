@@ -383,6 +383,7 @@
 		<ul class="list">
 		<% _.forEach(shopping_carts, function(shopping_cart) {  %>
 		  <li>
+
 			<div class="behind delete" data-id="<%- shopping_cart.id %>">
 			  删除
 			</div>
@@ -396,11 +397,13 @@
 		      </span>
 
 			  <span class="img">
-				<% if(products[shopping_cart.product_id].img){ %>
-				   <img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
-			   <% }else{ %>
-				   <img src="images/no_picture.png" alt="">
-			   <% } %>
+					<a href="/product_show?product_id=<%- shopping_cart.product_id %>">
+						<% if(products[shopping_cart.product_id].img){ %>
+						   <img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
+					   <% }else{ %>
+						   <img src="images/no_picture.png" alt="">
+					   <% } %>
+				   </a>
 		       </span>
 
 			  <div class="infor">
