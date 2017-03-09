@@ -4,6 +4,7 @@ const uu_request = require('../utils/uu_request');
 var eventproxy = require('eventproxy');
 const uuidV1 = require('uuid/v1');
 var service_info = "web service";
+var org_code = "ioio";
 var do_get_method = function(url,cb){
 	uu_request.get(url, function(err, response, body){
 		if (!err && response.statusCode === 200) {
@@ -137,16 +138,14 @@ var update_favorite = function(data,cb){
 };
 //根据personid找头像
 var find_persons = function(persons, cb){
-	var platform_id = "ec_shopping";
 	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
-	url = url + persons + "&scope_code=" +platform_id;
+	url = url + persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
 //根据personid找vip
 var find_personsVip = function(persons, cb){
-	var platform_id = "ec_shopping"
 	var url = "http://139.196.148.40:18003/vip/list_by_scope_persons?person_ids=";
-	url = url + persons + "&scope_code=" +platform_id;
+	url = url + persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
 //得到所有订单
@@ -200,16 +199,14 @@ var find_total_comments = function(product_id, cb){
 };
 //根据personid找头像
 var find_comments_persons = function(person_id, cb){
-	var platform_id = "ec_shopping";
 	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
-	url = url + person_id + "&scope_code=" +platform_id;
+	url = url + person_id + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
 //根据personid找vip
 var find_comments_personsVip = function(comments_persons, cb){
-	var platform_id = "ec_shopping"
 	var url = "http://139.196.148.40:18003/vip/list_by_scope_persons?person_ids=";
-	url = url + comments_persons + "&scope_code=" +platform_id;
+	url = url + comments_persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
 //通过商品id查找到商品
@@ -318,7 +315,7 @@ var do_login = function(data, cb){
 };
 //发现vip
 var get_person_vip = function(person_id,cb){
-	var url = "http://139.196.148.40:18666/vip/get_by_person_id=" + person_id;
+	var url = "http://139.196.148.40:18666/vip/get_by_person_id?person_id=" + person_id + "&org_code=" + org_code;
 	do_get_method(url,cb);
 };
 //合并购物车
@@ -1402,6 +1399,25 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//查询积分
+		{
+			method: 'GET',
+			path: '/find_jifen',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply({"success":false,"messsage":"person_id null"});
+				}
+				get_person_vip(person_id,function(err,content){
+					if (!err) {
+						var jifen = content.row.integral;
+						return reply({"success":true,"messsage":"ok","jifen":jifen});
+					}else {
+						return reply({"success":false,"messsage":content.messsage});
+					}
+				});
+			}
+		},
 		//保存订单,核实订单信息
 		{
 			method: 'POST',
@@ -1957,7 +1973,7 @@ exports.register = function(server, options, next){
 				data.mobile = request.payload.mobile;
 				data.password = request.payload.password;
 				data.username = request.payload.username;
-				data.org_code = "ioio";
+				data.org_code = org_code;
 
 				if (!data.password || !data.username || !data.mobile) {
 					return reply({"success":false,"message":"param wrong","service_info":service_info});
@@ -1967,7 +1983,7 @@ exports.register = function(server, options, next){
 					if (!err) {
 						var info = {};
 						info.person_id = result.person_id;
-						info.scope_code = "ec_shopping";
+						info.scope_code = org_code;
 						info.person_name = data.username;
 						info.mobile = data.mobile;
 						do_vip(info,function(err,result){
@@ -2045,7 +2061,7 @@ exports.register = function(server, options, next){
 				data.username = request.payload.username;
 				data.password = request.payload.password;
 				var vertify = request.payload.vertify;
-				data.org_code = "ioio";
+				data.org_code = org_code;
 
 				if (!data.username||!data.password||!vertify) {
 					return reply({"success":false,"message":"params wrong"});
