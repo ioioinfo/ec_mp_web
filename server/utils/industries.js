@@ -32,7 +32,7 @@ var industries = {
 		 {"field_name":"color_name","name":"颜色"}
 		]
 	},
-	"4" : {"name":"善淘","table_name":"industry_santao","view_name":"product_show","properties":
+	"101" : {"name":"善淘","table_name":"industry_santao","view_name":"product_show","properties":
 		[{"field_name":"is_new","name":"成色"},
 		 {"field_name":"row_materials","name":"材质"},
 		 {"field_name":"size_name","name":"尺码/尺寸"},

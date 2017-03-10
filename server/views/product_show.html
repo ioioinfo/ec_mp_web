@@ -989,6 +989,9 @@
 	   z-index: 9;
 	   display: none;
 	 }
+	 #has_stock{
+		 font-weight: 700;
+	 }
 	}
     </style>
     <script>
@@ -1188,27 +1191,17 @@
 
             </div>
             <div class="middle-2">
-              <div class="middle-2-0ne">
-                <span class="middle-span3">颜色</span>
-                <p class="middle-color"><a href="#" class="middle-a1">青色</a><a href="#" class="middle-a1 middle-a2">黄色</a></p>
+			{% for property in product.mp_stock.properties  %}
+	              <div class="middle-2-0ne">
+	                <span class="middle-span3">{{property.name}}</span>
+	                <p class="middle-color">
+					{% for value in property.all_value %}
 
-              </div>
-              <div class="middle-2-0ne">
-                <span class="middle-span3">重量</span>
-                <p class="middle-color"><a href="#" class="middle-a1">5kg</a><a href="#" class="middle-a1 middle-a2">10kg</a><a href="#" class="middle-a1">15kg</a><a href="#" class="middle-a1">20kg</a><a href="#" class="middle-a1">25kg</a></p>
-
-              </div>
-              <div class="middle-2-0ne">
-                <span class="middle-span3">季节</span>
-                <p class="middle-color"><a href="#" class="middle-a1">一月</a><a href="#" class="middle-a1 middle-a2">二月</a><a href="#" class="middle-a1">三月</a><a href="#" class="middle-a1">四月</a><a href="#" class="middle-a1">五月</a></p>
-
-              </div>
-
-              <div class="middle-2-0ne">
-                <span class="middle-span3">重量</span>
-                <p class="middle-color"><a href="#" class="middle-a1">5kg</a><a href="#" class="middle-a1 middle-a2">10kg</a><a href="#" class="middle-a1">15kg</a><a href="#" class="middle-a1">20kg</a><a href="#" class="middle-a1">25kg</a></p>
-
-              </div>
+						<a class="middle-a1" {% if product.mp_stock.stocks[value] %} id="has_stock" {% endif %}>{{value}}</a>
+					{% endfor %}
+					</p>
+	              </div>
+			{% endfor %}
               <div class="middle-2-0ne" style="float:right;margin-right:20px;">
                 <span class="middle-span3">数量</span>
                 <div class="middle-number-right">
@@ -1250,7 +1243,7 @@
 		  	  {% if again_comment.parent ==comment.id%}
 		  	  <div class="evaluate">
 		  		追加评论：
-		  		<p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
+		  		<p class="evaluate-top"><span></span><span>2016-12-22</p>
 		  		<p class="evaluate-middle">{{again_comment.content}}</p>
 		  		<p class="evaluate-bottom">
 		  			{% for saidan in product.mp_saidans[again_comment.id] %}
@@ -1290,7 +1283,7 @@
       <div class="content">
         <ul>
 		{% for industry in industry_properties %}
-          <li><p class="p1">{{ industry.name }}</p><p class="p2">其他</p></li>
+          <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value }} {% endif %}</p></li>
 		{% endfor %}
         </ul>
       </div>
@@ -1582,9 +1575,6 @@
 			};
 			check_cart_number();
 			get_recommend_products();
-			$(".details").click(function(){
-				location.href = "/product_text_configure?product_id={{product.id}}";
-			});
 			$(".comment").click(function(){
 				location.href = "/product_comment?product_id={{product.id}}";
 			});

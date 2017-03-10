@@ -335,6 +335,11 @@ var find_samll_picture = function(same_product_ids, cb){
 	url = url + JSON.stringify(same_product_ids);
 	do_get_method(url,cb);
 };
+//
+var get_logistics_type = function(cb){
+	var url = "http://211.149.248.241:18013/freightage/type";
+	do_get_method(url,cb);
+};
 //得到验证码
 var get_vertify = function(mobile,cb){
 	var url = "http://139.196.148.40:11111/api/mobile_sms?mobile="+mobile;
@@ -597,8 +602,8 @@ exports.register = function(server, options, next){
 						//行业属性
 						var industry_properties = industry["properties"];
 
-						var ep =  eventproxy.create("pictures","stock","sales","same_pictures","total_comments","comments","persons","saidans","product_details","again_comments","personsVip",
-							function(pictures,stock,sales,same_pictures,total_comments,comments,persons,saidans,product_details,again_comments,personsVip){
+						var ep =  eventproxy.create("pictures","stock","sales","same_pictures","total_comments","comments","persons","saidans","product_details","again_comments","personsVip","property",
+							function(pictures,stock,sales,same_pictures,total_comments,comments,persons,saidans,product_details,again_comments,personsVip,property){
 							product.mp_pictures = pictures;
 							product.mp_industry = industry;
 							product.mp_stock = stock;
@@ -612,7 +617,7 @@ exports.register = function(server, options, next){
 							product.mp_product_details = product_details;
 							product.mp_page_name = page_name;
 							product.again_comments = again_comments;
-							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties});
+							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties,"property":property});
 						});
 						find_stock(industry_id,product_id,stock_options,function(err, content){
 							if (!err) {
@@ -691,7 +696,6 @@ exports.register = function(server, options, next){
 									comments_ids = JSON.stringify(comments_ids);
 									var eproxy =  eventproxy.create("persons","saidans","personsVip",
 										function(persons,saidans,personsVip){
-											ep.emit("comments", comments);
 											var person_map = {};
 											var saidan_map = {};
 											for (var i = 0; i < persons.length; i++) {
@@ -712,6 +716,7 @@ exports.register = function(server, options, next){
 													saidan_map[saidan.product_comments_id] = comment_saidans; //晒单评论id = 晒单
 												}
 											}
+											ep.emit("comments", comments);
 											ep.emit("personsVip", personVip_map);
 											ep.emit("persons", person_map);
 											ep.emit("saidans", saidan_map);
@@ -772,6 +777,19 @@ exports.register = function(server, options, next){
 								ep.emit("again_comments", []);
 							}
 						});
+						find_properties_by_product(product_id, function(err, result){
+							if (!err) {
+								var properties = result.properties;
+								var property = {};
+								for (var i = 0; i < properties.length; i++) {
+									property[properties[i].name] = properties[i];
+								}
+								ep.emit("property", property);
+							}else {
+								ep.emit("property", {});
+							}
+						});
+
 					}else {
 						return reply("404");
 					}
@@ -784,11 +802,20 @@ exports.register = function(server, options, next){
 			path: '/product_text_configure',
 			handler: function(request, reply){
 				var product_id = request.query.product_id;
+				if (!product_id) {
+					return reply({"success":false,"message":"param null"});
+				}
 				find_properties_by_product(product_id, function(err, result){
+					console.log("result:"+JSON.stringify(result));
 					if (!err) {
-						return reply.view("product_text_configure",{"rows":result.properties});
+						var properties = result.properties;
+						var property = {};
+						for (var i = 0; i < properties.length; i++) {
+							property[properties[i].name] = properties[i];
+						}
+						return reply({"success":true,"property":property,"message":"ok"});
 					}else {
-
+						return reply({"success":false,"message":result.message});
 					}
 				});
 			}
@@ -1316,17 +1343,18 @@ exports.register = function(server, options, next){
 				}
 				var ids = request.query.ids;
 				if (!ids) {
-					return reply.redirect("//");
+					return reply.redirect("/");
 				}
-				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", function(shopping_carts,products,addresses,invoices,total_data,jifen){
-					logistics_payment(data,function(err,result){
-						if (!err) {
-							total_data.lgtic_pay = result.row.user_amount;
-							return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen});
-						}else {
-							return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data)});
-						}
-					});
+				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
+					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
+						logistics_payment(data,function(err,result){
+							if (!err) {
+								total_data.lgtic_pay = result.row.user_amount;
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type});
+							}else {
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
+							}
+						});
 				});
 				var data = {
 					"weight" : 0,
@@ -1403,6 +1431,14 @@ exports.register = function(server, options, next){
 						ep.emit("jifen", jifen);
 					}else {
 						ep.emit("jifen", "");
+					}
+				});
+				get_logistics_type(function(err,content){
+					if (!err) {
+						var logistics_type = content.rows
+						ep.emit("logistics_type", logistics_type);
+					}else {
+						ep.emit("logistics_type", []);
 					}
 				});
 			}
@@ -1501,7 +1537,7 @@ exports.register = function(server, options, next){
 				return reply.view("history");
 			}
 		},
-		//浏览历史
+		//最爱收藏
 		{
 			method: 'GET',
 			path: '/find_favorite',

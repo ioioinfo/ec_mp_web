@@ -759,8 +759,15 @@
     <!-- 快递配送方式 -->
     <div class="partone partone0">
       <p>配送方式</p>
-      <p class="partone-p"><span>快递 免邮</span><span><input type="checkbox" name="" value=""></span></p>
-      <div class="close close0">
+	  {% for logistics in logistics_type %}
+	      <p class="partone-p">
+			  <span>{{logistics.name}}</span>
+			  <span>
+				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" data-id="{{logistics.id}}">
+			  </span>
+		  </p>
+	  {% endfor %}
+	  <div class="close close0">
         关 闭
       </div>
     </div>
@@ -903,7 +910,12 @@
 		<div class="min-line"></div>
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
-		  <p class="add-num click1"><span>快递免邮</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+		  <p class="add-num click1">
+			  <span class="logistics_type">普通快递</span>
+			  <span>
+				  <img src="images/jiantou-right.png" alt="" class="img">
+			  </span>
+		  </p>
 		</div>
 		<div class="min-line"></div>
 		<div class="invoice">
@@ -1078,9 +1090,18 @@
 		          $(".partone0").css("display","block");
 		          $(".opacity").css("display","block");
 		        });
+
+				$(".is_selected").click(function(){
+					$(".is_selected").not($(this)).removeAttr("checked");
+				});
+				var logistics;
 		        $(".close0").click(function(){
-		          $(".partone0").css("display","none");
-		          $(".opacity").css("display","none");
+					$.each($('.is_selected:checkbox:checked'),function(){
+						logistics = $(this).val();
+					});
+					$(".logistics_type").html(logistics);
+					$(".partone0").css("display","none");
+					$(".opacity").css("display","none");
 		        });
 				//运费险
 				$(".click2").click(function(){
