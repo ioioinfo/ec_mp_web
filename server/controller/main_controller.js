@@ -1756,11 +1756,14 @@ exports.register = function(server, options, next){
 				if (info.address_id) {
 					data.address_id = info.address_id;
 				}
+				if (!data.province || !data.city || !data.district) {
+					return reply({"success":false,"messsage":"没有省市区信息 "});
+				}
 				save_address(data,function(err,result){
 					if (!err) {
 						return reply({"success":true,"address_id":result.address_id});
 					}else {
-
+						return reply({"success":false,"messsage":result.messsage});
 					}
 				});
 			}

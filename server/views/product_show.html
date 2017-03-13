@@ -1283,7 +1283,7 @@
       <div class="content">
         <ul>
 		{% for industry in industry_properties %}
-          <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value }} {% endif %}</p></li>
+          <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
 		{% endfor %}
         </ul>
       </div>
@@ -1426,8 +1426,8 @@
 		<li class="footernavLi"><a href="/"><p class="footernav_p1"><img src="images/shouye1.png" alt="" /></p><p class="footernav-word">首页</p></a></li>
         <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="images/shoucang.png" alt="" /></p><p class="footernav-word">收藏</p></a></li>
         <li class="footernavLi"><a href="/cart_infos"><p class="footernav_p1"><img src="images/car.png" alt="" /></p><p class="footernav-word">购物车<span class="footernav-wordnum">99</span></p></a></li>
-        <li class="footernavLi1 footernavLi2" id="shopping_cart"><a href="#"><p>加入购物车</p></a></li>
-        <li class="footernavLi1 footernavLi3"><a href="#"><p>立即购买</p></a></li>
+        <li class="footernavLi1 footernavLi2" id="shopping_cart"><a><p>加入购物车</p></a></li>
+        <li class="footernavLi1 footernavLi3"><a><p>立即购买</p></a></li>
 
 	</ul>
 

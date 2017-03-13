@@ -85,7 +85,7 @@
           background: #fff;
           margin: 0 auto;
         }
-        .nav{
+		.nav{
           width: 100%;
           display: none;
         }
@@ -115,11 +115,12 @@
         }
         .nav ul li .nav-bottom{
           display: inline-block;
-
+		      width: 100%;
           line-height: 40px;
         }
-        .nav ul li .nav-bottom a{
+        .nav ul li a{
           color: #fff;
+		  display: block;
         }
         .nav .nav-car{
           line-height: 57px;
@@ -730,25 +731,25 @@
         <li>
           <a href="/">
             <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
-            <p class="nav-bottom"><a>首页</a></p>
+            <p class="nav-bottom">首页</p>
           </a>
         </li>
         <li>
           <a href="/search_area">
             <p class="nav-top"><img src="images/search-1.png" alt=""></p>
-            <p class="nav-bottom"><a>搜索</a></p>
+            <p class="nav-bottom">搜索</p>
           </a>
         </li>
         <li>
           <a href="/cart_infos">
             <p class="nav-top"><img src="images/car-1.png" alt=""></p>
-            <p class="nav-bottom"><a>购物车</a></p>
+            <p class="nav-bottom">购物车</p>
           </a>
         </li>
         <li>
           <a href="/person_center">
             <p class="nav-top"><img src="images/header-3.png" alt=""></p>
-            <p class="nav-bottom"><a>我的</a></p>
+            <p class="nav-bottom">我的</p>
           </a>
         </li>
       </ul>
@@ -1070,6 +1071,9 @@
 							address_id = $(this).data("id");
 						});
 						if (address_id) {
+							if (address.address_id == address_id) {
+								return;
+							}
 							for (var i = 0; i < addresses.length; i++) {
 								if (addresses[i].address_id == address_id) {
 									address = addresses[i];

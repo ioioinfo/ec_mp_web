@@ -201,7 +201,7 @@
           <div className="wrap">
             <Header search_url="/search_area"/>
             <Main/>
-            <Footer person_url="/person_center" logistics_url="" cart_url="/cart_infos" sort_url="/sort"/>
+            <Footer person_url="/person_center" logistics_url="" cart_url="/cart_infos" sort_url="/sort" order_url="/order_center"/>
             <Background/>
           </div>
         );
@@ -288,7 +288,7 @@
 		  location.href = this.props.sort_url;
 	  }
 	  handleLogistics(e){
-		  location.href = this.props.logistics_url;
+		  location.href = this.props.order_url;
 	  }
 	  handleCart(e){
 		  location.href = this.props.cart_url;
