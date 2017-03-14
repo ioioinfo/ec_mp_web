@@ -541,11 +541,15 @@ exports.register = function(server, options, next){
 				var search_object = {};
 				search_object.sort = request.query.sort;
 				search_object.q = request.query.q;
+				search_object.sort_id = request.query.sort_id;
 				search_all_products(search_object,function(err,results){
 					if (!err) {
 						if (results.rows.length == 0) {
 							return reply.view("search",{"products":[],"comments":{},"search_object":JSON.stringify(search_object)});
 						}
+						var industry_id = results.rows[0].industry_id;
+						var saixuans = industries[industry_id].saixuan;
+						console.log("saixuans:"+JSON.stringify(saixuans));
 						var product_ids = [];
 						for (var i = 0; i < results.rows.length; i++) {
 							product_ids.push(results.rows[i].id);
@@ -557,7 +561,7 @@ exports.register = function(server, options, next){
 								for (var i = 0; i < content.rows.length; i++) {
 									comments_map[content.rows[i].product_id] = content.rows[i];
 								}
-								return reply.view("search",{"products":results.rows,"comments":comments_map,"search_object":JSON.stringify(search_object)});
+								return reply.view("search",{"products":results.rows,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
@@ -1000,7 +1004,7 @@ exports.register = function(server, options, next){
 				};
 				update_favorite(data,function(err,result){
 					if (!err) {
-						return reply({"success":true});
+						return reply({"success":true,"product_id":data.product_id});
 					}else {
 						return reply({"success":false});
 					}
@@ -1537,6 +1541,14 @@ exports.register = function(server, options, next){
 				return reply.view("history");
 			}
 		},
+		//优惠券
+		{
+			method: 'GET',
+			path: '/discount_cards',
+			handler: function(request, reply){
+				return reply.view("discount_cards");
+			}
+		},
 		//最爱收藏
 		{
 			method: 'GET',
@@ -1796,7 +1808,7 @@ exports.register = function(server, options, next){
 							console.log("results:"+JSON.stringify(results));
 							if (!err) {
 								console.log("products"+JSON.stringify(results.products));
-								return reply.view("favorite_list",{"products":results.products});
+								return reply.view("favorite_list",{"products":JSON.stringify(results.products)});
 							}else {
 								return reply.view("favorite_list",{"products":{}});
 							}
@@ -1949,7 +1961,7 @@ exports.register = function(server, options, next){
                 //查询订单接口
                 search_order(order_id,function(err,row) {
                     if (!row) {
-                        return reply("收银小票不存在");
+						return reply({"success":false,"message":"收银小票不存在"});
                     }
                     //结算方式
                     var pay_ways = [];

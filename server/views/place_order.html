@@ -991,6 +991,9 @@
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
 				$(".footer-right").click(function(){
 					address = {};
+					address.type = "common";
+					address.store_id = 1;
+					address.point_id = 1;
 					address.linkname =	$(".address-infor-name").data("id");
 					address.mobile = $(".address-infor-mobile").data("id");
 					address.detail_address = $(".address-infor-address").data("id");

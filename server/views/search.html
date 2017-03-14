@@ -330,53 +330,16 @@
       <div class="shaixuanline">
         <span>价格区间(元)</span><span class="shaixuanlineInput" style="margin-right:5px;"><input type="num" name="" value="" placeholder="最低价">&nbsp;-&nbsp;<input type="text" name="" value="" placeholder="最高价"></span>
       </div>
-      <div class="shaixuanline shaixuanline1">
-        <span>区域</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
-        <ul class="shaixuanlineblock shaixuanlineblock1">
-          <li><a >浙江沪</a></li>
-          <li><a >珠三角</a></li>
-          <li><a >北京</a></li>
-          <li><a >上海</a></li>
-          <li><a >广州</a></li>
-          <li><a >深圳</a></li>
-        </ul>
-      </div>
-      <div class="shaixuanline shaixuanline1">
-        <span>城市</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
-        <ul class="shaixuanlineblock shaixuanlineblock2">
-          <li><a >上海</a></li>
-        </ul>
-      </div>
-      <div class="shaixuanline shaixuanline1">
-        <span>省份</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
-        <ul class="shaixuanlineblock shaixuanlineblock3">
-          <li><a >浙江</a></li>
-          <li><a >上海</a></li>
-          <li><a >江苏</a></li>
-          <li><a >安徽</a></li>
-          <li><a >河南</a></li>
-          <li><a >河北</a></li>
-          <li><a >湖南</a></li>
-          <li><a >湖北</a></li>
-          <li><a >新疆</a></li>
-          <li><a >广东</a></li>
-          <li><a >广西</a></li>
-          <li><a >云南</a></li>
-          <li><a >贵州</a></li>
-          <li><a >内蒙古</a></li>
-          <li><a >山东</a></li>
-          <li><a >山西</a></li>
-          <li><a >陕西</a></li>
-          <li><a >辽宁</a></li>
-          <li><a >云南</a></li>
-          <li><a >贵州</a></li>
-          <li><a >内蒙古</a></li>
-          <li><a >山东</a></li>
-          <li><a >山西</a></li>
-          <li><a >陕西</a></li>
-          <li><a >辽宁</a></li>
-        </ul>
-      </div>
+	  {% for saixuan in saixuans %}
+	      <div class="shaixuanline shaixuanline1">
+	        <span>{{saixuan.name}}</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
+	        <ul class="shaixuanlineblock shaixuanlineblock{{saixuan.number}}">
+			{% for val in saixuan.value %}
+			  <li data-name="{{saixuan.field_name}}" data-val="{{val}}"><a>{{val}}</a></li>
+			{% endfor %}
+	        </ul>
+	      </div>
+	  {% endfor %}
       <div class="shaixuansubmit">
         <p class="shaixuanNo">重置</p>
         <p class="shaixuanYes">确定</p>
@@ -397,6 +360,7 @@
           $("body").css("overflow","hidden");
         });
         $(".shaixuanYes").click(function(){
+
           $(".shaixuan").hide();
           $(".zhezhaoceng").hide();
         });
@@ -415,7 +379,7 @@
         $(".shaixuanNo").click(function(){
             $(".shaixuan .shaixuanlineblock li").removeClass("on");
         })
-
+		
       })
     </script>
 	<script>

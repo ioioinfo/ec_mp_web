@@ -335,12 +335,68 @@
 	      </div>
 	  {% endfor %}
       <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥{{order.logistics_price}}</span></p>
-      <p class="product-submit">
-		  <span>
-			  <a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
-		  </span>
-		  <span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
-	  </p>
+	  {% if order.order_status=="等待买家付款" %}
+		  <p class="product-submit">
+			  <span> 不想买了</span>
+			  <span>
+				  立即付款
+			  </span>
+		  </p>
+	  	{% elseif order.order_status=="付款确认中" %}
+			<p class="product-submit">
+				正在确认付款中。。。
+			</p>
+		{% elseif order.order_status=="买家已付款" %}
+			<p class="product-submit">
+				<span>
+					催单
+				</span>
+			</p>
+		{% elseif order.order_status=="等待卖家发货" %}
+			<p class="product-submit">
+				<span>
+					催货
+				</span>
+			</p>
+		{% elseif order.order_status=="卖家已发货" %}
+			<p class="product-submit">
+				<span>
+					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+				</span>
+			</p>
+		{% elseif order.order_status=="等待买家收货" %}
+			<p class="product-submit">
+				<span>
+					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+				</span>
+				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
+			</p>
+		{% elseif order.order_status=="交易成功" %}
+			<p class="product-submit">
+				<span>
+					我要评价
+				</span>
+				<span> 申请售后</span>
+			</p>
+		{% elseif order.order_status=="交易关闭" %}
+			<p class="product-submit">
+				<span>
+					再次购买
+				</span>
+			</p>
+		{% elseif order.order_status=="退款中订单" %}
+			<p class="product-submit">
+				<span>
+					查看流程
+				</span>
+			</p>
+		{% elseif order.order_status=="退款完成" %}
+			<p class="product-submit">
+				<span>
+					我不服
+				</span>
+			</p>
+		{% endif %}
       <div class="background"></div>
       <div class="background"></div>
 

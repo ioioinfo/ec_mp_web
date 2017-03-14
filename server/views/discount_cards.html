@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>优惠券</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        li{
+          list-style: none;
+        }
+        html,body{
+          width: 100%;
+          height: 100%;
+          font: helvetica;
+
+        }
+         .top{
+          width: 100%;
+          height: 47px;
+          overflow: hidden;
+          border-bottom: 1px solid #e7e7e7;
+          box-shadow: 0 2px 5px #e7e7e7;
+          background: #fff;
+        }
+        .top .back{
+          width: 12.5333333%;
+          height: 47px;
+          float: left;
+          display: inline-block;
+          text-align: center;
+          line-height: 47px;
+
+        }
+        .top .back img{
+          width: 25px;
+          height: 25px;
+          vertical-align: middle;
+        }
+        .top .top-right{
+          width: 12.5333333%;
+          height: 47px;
+          float: right;
+          display: inline-block;
+          text-align: center;
+          line-height: 47px;
+          position: relative;
+        }
+        .top .top-right p{
+          display: inline-block;
+          width: 18px;
+          height: 14px;
+          line-height: 14px;
+          color: #fff;
+          position: absolute;
+          left: 19px;
+          top: 10px;
+          font-size: 12px;
+          background: #D81E06;
+          border-radius: 7px;
+          text-align: center;
+        }
+        .top .top-right img{
+          width: 25px;
+          height: 25px;
+          vertical-align: middle;
+        }
+        .top .top-title{
+          float: left;
+          width: 74.93333333%;
+          height: 47px;
+          line-height: 47px;
+          text-align: left;
+          color: #666;
+        }
+        /*具体内容*/
+        .content{
+          width: 100%;
+          overflow: hidden;
+        }
+        .content .nav-ul{
+          width: 89%;
+          margin: 15px auto 12px;
+          display: flex;
+        }
+        .content .nav-ul li{
+          flex: 1;
+          height: 36px;
+          line-height: 36px;
+          text-align: center;
+        }
+        .content .nav-ul .nav-li1{
+          text-align: left;
+        }
+        .content .nav-ul .nav-li3{
+          text-align: right;
+        }
+        .content .nav-ul li span{
+          display: inline-block;
+
+          height: 36px;
+          font-size: 14px;
+        }
+        .spancolor{
+          border-bottom: 2px solid red;
+        }
+        .content .nav-ul li .nav-span1{
+          width: 60%;
+
+          box-sizing: border-box;
+        }
+        .content .nav-ul li .nav-span2{
+          display: inline-block;
+          width: 75%;
+          box-sizing: border-box;
+        }
+        .content .nav-ul li .nav-span3{
+          width: 70%;
+          box-sizing: border-box;
+        }
+
+        .footer{
+          width: 100%;
+          height: 46px;
+          line-height: 46px;
+          text-align: center;
+          background: #eee;
+          color: #999;
+          margin-top: 25px;
+        }
+        .content .quan{
+          width: 94%;
+          margin: 0 auto;
+          overflow: hidden;
+        }
+        .content .contentone{
+          border-top: 10px solid #eee;
+        }
+        .content .quan .quanleft{
+          width: 47.659574%;
+          height: 115px;
+          float: left;
+          line-height: 115px;
+        }
+        .content .quan .quanleft img{
+          width: 100%;
+          vertical-align: middle;
+          box-sizing: border-box;
+        }
+        .content .quan .quanright{
+          width: 52.340425%;
+          float: right;
+          box-sizing: border-box;
+          position: relative;
+        }
+        .content .quan .quanright .title-name{
+          width: 100%;
+          font-size: 12px;
+          line-height: 18px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          padding: 12px 0 0 5px;
+        }
+        .color{
+          color: #999;
+        }
+        .color1{
+          color: #CB274E;
+        }
+
+        .yishiyong{
+          display: none;
+        }
+        .yiguoqi{
+          display: none;
+        }
+        .state{
+          position: absolute;
+          top: 31px;
+          left: 41px;
+          width: 131px;
+          height: 46px;
+        }
+        .state img{
+          width: 131px;
+          height: 46px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="back">
+        <img src="images/back.png" alt="">
+      </div>
+      <p class="top-title">优惠券</p>
+      <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+    </div>
+
+    <!-- 具体内容 -->
+    <div class="content">
+      <div class="content-nav">
+        <ul class="nav-ul">
+          <li data-role="weishiyong" class="nav-li1 nav"><span class="nav-span1">未使用(1)</span></li>
+          <li data-role="yishiyong" class="nav-li2 nav"><span class="nav-span2">使用记录(1)</span></li>
+          <li data-role="yiguoqi" class="nav-li3 nav"><span class="nav-span3">已过期(3)</span></li>
+        </ul>
+      </div>
+
+      <div class="weishiyong">
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yishiyong">
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state1.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state1.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state1.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state1.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan3.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state1.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yiguoqi">
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state2.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state2.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state2.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state2.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+        <div class="contentone">
+          <div class="quan">
+            <div class="quanleft">
+              <img src="images/youhuiquan2.png" alt="">
+            </div>
+            <div class="quanright">
+              <p class="title-name">VANS 男女情侣经典基本款 ERA半月头开口笑黑白帆布 休闲运动鞋asda</p>
+              <p class="title-name color">领取日期：2017/2/18 11:27</p>
+              <p class="title-name color1">有效期至：2017/2/19 11:27</p>
+              <p class="state"><img src="images/state2.png" alt=""></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      没有更多内容
+    </div>
+    <script type="text/javascript">
+      $(function(){
+        $(".nav-ul li").click(function(){
+          $(".weishiyong").hide();
+          $(".yishiyong").hide();
+          $(".yiguoqi").hide();
+          var role = $(this).data("role");
+          $("."+role).show();
+
+          $(".nav-ul li span").removeClass("spancolor");
+          // $("span",this).addClass("spancolor");
+          $(this).children("span").addClass("spancolor");
+        });
+      })
+    </script>
+  </body>
+</html>
