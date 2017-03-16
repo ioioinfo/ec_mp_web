@@ -335,7 +335,7 @@
 	        <span>{{saixuan.name}}</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
 	        <ul class="shaixuanlineblock shaixuanlineblock{{saixuan.number}}">
 			{% for val in saixuan.value %}
-			  <li data-name="{{saixuan.field_name}}" data-val="{{val}}"><a>{{val}}</a></li>
+			  <li data-name="{{saixuan.field_name}}" data-val="{{val}}" {% if select_saixuans[saixuan.field_name] == val %} class="on" {% endif %}><a>{{val}}</a></li>
 			{% endfor %}
 	        </ul>
 	      </div>
@@ -349,41 +349,9 @@
     <!-- 遮罩层 -->
     <div class="zhezhaoceng"></div>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-    <script type="text/javascript">
-      $(function(){
-        $(".word .word-nextshaixuan").click(function(){
-          $("body").css("height",$(window).height());
-          $(".shaixuan").hide();
-          $(".zhezhaoceng").hide();
-          $(".shaixuan").show();
-          $(".zhezhaoceng").show();
-          $("body").css("overflow","hidden");
-        });
-        $(".shaixuanYes").click(function(){
-
-          $(".shaixuan").hide();
-          $(".zhezhaoceng").hide();
-        });
-        $(".shaixuan .shaixuanlineblock1 li").click(function(){
-          $(".shaixuan .shaixuanlineblock1 li").removeClass("on");
-          $(this).addClass("on");
-        });
-        $(".shaixuan .shaixuanlineblock2 li").click(function(){
-          $(".shaixuan .shaixuanlineblock2 li").removeClass("on");
-          $(this).addClass("on");
-        });
-        $(".shaixuan .shaixuanlineblock3 li").click(function(){
-          $(".shaixuan .shaixuanlineblock3 li").removeClass("on");
-          $(this).addClass("on");
-        });
-        $(".shaixuanNo").click(function(){
-            $(".shaixuan .shaixuanlineblock li").removeClass("on");
-        })
-		
-      })
-    </script>
 	<script>
 	$(function() {
+		//页面显示消息
 		$.ajax({
 			url: "/check_message_number",
 			dataType: 'json',
@@ -401,14 +369,24 @@
 		var change_url = function(){
 			var arr = [];
 			var url = "/search?";
-			if (object.sort) {
-				arr.push("sort=" + object.sort);
+			if (object.sort_id) {
+				arr.push("sort_id=" + object.sort_id);
 			}
 			if (object.q) {
 				arr.push("q=" + object.q);
 			}
+			if (object.is_new) {
+				arr.push("is_new=" + object.is_new);
+			}
+			if (object.row_materials) {
+				arr.push("row_materials=" + object.row_materials);
+			}
+			if (object.size_name) {
+				arr.push("size_name=" + object.size_name);
+			}
 			return url+arr.join("&");
 		};
+		//价格排序
 		$(".price").click(function(){
 			if (object.sort == "price_desc") {
 				object.sort = "price_asc";
@@ -424,14 +402,6 @@
 				location.href = "/search_area";
 			}
 		});
-		// $(".headersearch").keypress(function(e){
-		// 	var key = e.which;
-		// 	if (key == 13) {
-		// 		var q = encodeURI($(this).val());
-		// 		object.q = q;
-		// 		location.href = change_url();
-		// 	}
-		// });
 		//滚动显示
 		$(".headersearch").val(object.q);
 		var docTop = $(document).scrollTop();
@@ -440,7 +410,6 @@
 			docTop = $(document).scrollTop();
 			img_show();
 		});
-
 		var img_show = function(){
 			$(".infor-left .loading").each(function(index) {
 				var imgHeight = $(this).offset().top;
@@ -453,8 +422,43 @@
 				}
 			});
 		};
-
 		img_show();
+		//筛选信息
+		$(".word .word-nextshaixuan").click(function(){
+          $("body").css("height",$(window).height());
+          $(".shaixuan").hide();
+          $(".zhezhaoceng").hide();
+          $(".shaixuan").show();
+          $(".zhezhaoceng").show();
+          $("body").css("overflow","hidden");
+        });
+        $(".shaixuanYes").click(function(){
+			$(".shaixuanlineblock li").each(function(key,value){
+				var name = $(this).data("name");
+				delete object[name];
+			});
+			$(".shaixuanlineblock li.on").each(function(key,value){
+				var name = $(this).data("name");
+				var value = $(this).data("val");
+				object[name] = value;
+			});
+			location.href = change_url();
+        });
+        $(".shaixuan .shaixuanlineblock1 li").click(function(){
+          $(".shaixuan .shaixuanlineblock1 li").removeClass("on");
+          $(this).addClass("on");
+        });
+        $(".shaixuan .shaixuanlineblock2 li").click(function(){
+          $(".shaixuan .shaixuanlineblock2 li").removeClass("on");
+          $(this).addClass("on");
+        });
+        $(".shaixuan .shaixuanlineblock3 li").click(function(){
+          $(".shaixuan .shaixuanlineblock3 li").removeClass("on");
+          $(this).addClass("on");
+        });
+        $(".shaixuanNo").click(function(){
+            $(".shaixuan .shaixuanlineblock li").removeClass("on");
+        })
 	});
 	</script>
   </body>

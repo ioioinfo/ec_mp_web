@@ -1207,7 +1207,7 @@
                 <div class="middle-number-right">
                   <input type="hidden" name="" value="" class="middle-number-input1">
                   <a id="reduce" class="middle-a3"><em class="middle-em">-</em></a>
-                  <input type="tel" name="" value="1" class="middle-number-input2">
+                  <input type="tel" name="" value="1" class="middle-number-input2 ">
                   <a id="plus" class="middle-a3"><em class="middle-em push">+</em></a>
                 </div>
               </div>
@@ -1427,7 +1427,7 @@
         <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="images/shoucang.png" alt="" /></p><p class="footernav-word">收藏</p></a></li>
         <li class="footernavLi"><a href="/cart_infos"><p class="footernav_p1"><img src="images/car.png" alt="" /></p><p class="footernav-word">购物车<span class="footernav-wordnum">99</span></p></a></li>
         <li class="footernavLi1 footernavLi2" id="shopping_cart"><a><p>加入购物车</p></a></li>
-        <li class="footernavLi1 footernavLi3"><a><p>立即购买</p></a></li>
+        <li class="footernavLi1 footernavLi3"><a><p id="buy_immediate">立即购买</p></a></li>
 
 	</ul>
 
@@ -1606,6 +1606,13 @@
 					}
 				})
 			});
+
+			$("#buy_immediate").click(function(){
+				var num = $(".middle-number-input2").val();
+				var product_id = "{{product.id}}";
+				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num;
+			});
+
 			$("#reduce").click(function(){
 				var num = $(".middle-number-input2").val();
 				operation = "reduce";

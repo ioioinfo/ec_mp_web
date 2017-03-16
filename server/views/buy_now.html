@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>填写订单</title>
+    <title>立即购买</title>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -753,8 +753,89 @@
         </li>
       </ul>
     </div>
-	<div id="place_order">
+	<div>
+		<div class="address" id="place_order">
+		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
+		</div>
+		<div class="line"></div>
+		<div class="white"></div>
+		<div class="product-infor">
+		  <p class="p0">2017-2-15</p>
+		  <div class="all">
+			<div class="product-infor-left">
+				{% if product.img %}
+					<img src="images/{{product.img.location}}" alt="">
+				{% else %}
+					<img src="images/no_picture.png" alt="">
+				{% endif %}
+			</div>
+			<div class="product-infor-middle">
+			  <p class="p1">{{product.product_name}}</p>
+			  <p class="p2"><span class="p2-span1">￥{{product.product_sale_price}}</span><span class="p2-span2">x{{total_data.total_items}}</span></p>
+			</div>
+		  </div>
+		</div>
 
+		<div class="invoice invoice1">
+		  <span class="public-name">发票信息</span>
+		  <p class="add-num"><span>电子发票-个人</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+		</div>
+		<div class="min-line"></div>
+		<div class="invoice">
+		  <span class="public-name">配送方式</span>
+		  <p class="add-num click1">
+			  <span class="logistics_type">普通快递</span>
+			  <span>
+				  <img src="images/jiantou-right.png" alt="" class="img">
+			  </span>
+		  </p>
+		</div>
+		<div class="min-line"></div>
+		<div class="invoice">
+		  <span class="public-name">运费险</span>
+		  <p class="add-num click2"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+		</div>
+		<div class="min-line"></div>
+		<div class="invoice">
+		  <span class="public-name">优惠券</span>&nbsp<span style="color:red;">0张可用</span>
+		  <p class="add-num click3"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+		</div>
+		<div class="min-line"></div>
+		<div class="invoice">
+		  <span class="public-name">商品金额</span>
+		  <p class="add-num"><span class="red">￥{{total_data.total_prices}}</span></span></p>
+		</div>
+		<div class="invoice">
+		  <span class="public-name">运费</span>
+		  <p class="add-num"><span class="red">￥{{total_data.lgtic_pay}}</span><span class="img"></span></p>
+		</div>
+		<div class="min-line"></div>
+		<div class="leave">
+		  <span style="margin-top:20px;display:inline-block;text-indent:10px;">买家留言：</span>
+		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
+		</div>
+		<div class="invoice">
+		  <span class="public-name">可用积分：</span><span>{{jifen}}</span>
+		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
+		</div>
+		<div class="invoice">
+		  <span class="public-name">朋友代付</span><span>100</span>
+		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
+		</div>
+		<div style="width:100%;height:68px;background:#fff;"></div>
+		<div class="footer">
+	      <div class="footer-left">
+	        <span>共x{{total_data.total_items}}件</span>
+	      </div>
+	      <div class="footer-center">
+	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2">{{total_data.total_prices+total_data.lgtic_pay}} </span></p>
+
+	      </div>
+
+	      <div class="footer-right">
+	        提交订单
+	      </div>
+	    </div>
 	</div>
     <!-- 快递配送方式 -->
     <div class="partone partone0">
@@ -865,7 +946,6 @@
 		</div>
 	</script>
 	<script id="place_order_infos" type="text/template">
-		<div class="address">
 		<% if(address.linkname){ %>
 		  <div class="address-infor">
 			<div class="address-infor-warp"><span class="address-infor-name" data-id="<%- address.linkname %>"><%- address.linkname %></span><p class="address-infor-right"><span class="address-infor-mobile" data-id="<%- address.mobile %>"><%- address.mobile %></span><span>默认</span></p></div>
@@ -879,90 +959,7 @@
 				<p>+</p>
 				<p>添加新地址或者更换地址</p>
 			</div>
-			<% } %>
-		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
-		</div>
-		<div class="line"></div>
-		<div class="white"></div>
-		<div class="product-infor">
-		  <p class="p0">2017-2-15</p>
-		  <% _.forEach(shopping_carts, function(shopping_cart) {  %>
-			  <div class="all">
-				<div class="product-infor-left">
-					<% if(products[shopping_cart.product_id].img){ %>
-						<img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
-					<% }else{ %>
-						<img src="images/no_picture.png" alt="">
-					<% } %>
-				</div>
-				<div class="product-infor-middle">
-				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
-				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-				</div>
-			  </div>
-			<% }); %>
-		</div>
-
-		<div class="invoice invoice1">
-		  <span class="public-name">发票信息</span>
-		  <p class="add-num"><span>电子发票-个人</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">配送方式</span>
-		  <p class="add-num click1">
-			  <span class="logistics_type">普通快递</span>
-			  <span>
-				  <img src="images/jiantou-right.png" alt="" class="img">
-			  </span>
-		  </p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">运费险</span>
-		  <p class="add-num click2"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">优惠券</span>&nbsp<span style="color:red;">0张可用</span>
-		  <p class="add-num click3"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">商品金额</span>
-		  <p class="add-num"><span class="product-number">共<%- total_data.total_items %>件</span><span class="red">￥<%- total_data.total_prices %></span></span></p>
-		</div>
-		<div class="invoice">
-		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="red">￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="leave">
-		  <span style="margin-top:20px;display:inline-block;text-indent:10px;">买家留言：</span>
-		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
-		</div>
-		<div class="invoice">
-		  <span class="public-name">可用积分：</span><span><%- jifen %></span>
-		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
-		</div>
-		<div class="invoice">
-		  <span class="public-name">朋友代付</span><span>100</span>
-		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
-		</div>
-		<div style="width:100%;height:68px;background:#fff;"></div>
-		<div class="footer">
-	      <div class="footer-left">
-	        <span>共x<%- total_data.total_items %>件</span>
-	      </div>
-	      <div class="footer-center">
-	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay %> </span></p>
-
-	      </div>
-
-	      <div class="footer-right">
-	        提交订单
-	      </div>
-	    </div>
+		  <% } %>
 	</script>
 	<script>
 		$(function() {
@@ -974,43 +971,15 @@
 				"city"	   : "",
 				"district" : ""
 			};
-			var jifen = {{jifen||0}};
-			var shopping_carts = {{shopping_carts|safe}};
-			var products = {{products|safe}};
 			var addresses = {{addresses|safe}};
 			for (var i = 0; i < addresses.length; i++) {
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
 				}
 			}
-			var invoices = {{invoices|safe}};
-			var total_data = {{total_data|safe}};
 			var place_order = function(){
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
-				$(".footer-right").click(function(){
-					address = {};
-					address.type = "common";
-					address.store_id = 1;
-					address.point_id = 1;
-					address.linkname =	$(".address-infor-name").data("id");
-					address.mobile = $(".address-infor-mobile").data("id");
-					address.detail_address = $(".address-infor-address").data("id");
-					address.province = $(".address_province").val();
-					address.city = $(".address_city").val();
-					address.district = $(".address_province").val();
-					var send_seller = $("#send_seller").val();
-					if (!address.detail_address) {
-						alert("没有地址！");
-					}
-					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
-						if (data.success) {
-							alert("结算成功！");
-						}else {
-							alert(data.message);
-						}
-					});
-				});
+				$("#place_order").html(t({address:address}));
 				//地址选择
 				$(".address").click(function(){
 					var t = _.template($("#change_address_infos").html());
@@ -1089,48 +1058,68 @@
 						$(".selected").not($(this)).removeAttr("checked");
 					});
 		        });
-
-				//配送方式
-				$(".opacity").css("height",$(document).height());
-		        $(".click1").click(function(){
-		          $(".partone0").css("display","block");
-		          $(".opacity").css("display","block");
-		        });
-
-				$(".is_selected").click(function(){
-					$(".is_selected").not($(this)).removeAttr("checked");
-				});
-				var logistics;
-		        $(".close0").click(function(){
-					$.each($('.is_selected:checkbox:checked'),function(){
-						logistics = $(this).val();
-					});
-					$(".logistics_type").html(logistics);
-					$(".partone0").css("display","none");
-					$(".opacity").css("display","none");
-		        });
-				//运费险
-				$(".click2").click(function(){
-				  $(".partone1").css("display","block");
-				  $(".opacity").css("display","block");
-				});
-				$(".close1").click(function(){
-				  $(".partone1").css("display","none");
-				  $(".opacity").css("display","none");
-				});
-				//优惠卷
-				$(".click3").click(function(){
-				  $(".partone2").css("display","block");
-				  $(".opacity").css("display","block");
-				});
-				$(".close2").click(function(){
-				  $(".partone2").css("display","none");
-				  $(".opacity").css("display","none");
-				});
-
-
 			}
 			place_order();
+			$(".footer-right").click(function(){
+				address = {};
+				address.type = "common";
+				address.store_id = 1;
+				address.point_id = 1;
+				address.linkname =	$(".address-infor-name").data("id");
+				address.mobile = $(".address-infor-mobile").data("id");
+				address.detail_address = $(".address-infor-address").data("id");
+				address.province = $(".address_province").val();
+				address.city = $(".address_city").val();
+				address.district = $(".address_province").val();
+				var send_seller = $("#send_seller").val();
+				if (!address.detail_address) {
+					alert("没有地址！");
+				}
+				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller},function(data){
+					if (data.success) {
+						alert("结算成功！");
+					}else {
+						alert(data.message);
+					}
+				});
+			});
+			//配送方式
+			$(".opacity").css("height",$(document).height());
+			$(".click1").click(function(){
+			  $(".partone0").css("display","block");
+			  $(".opacity").css("display","block");
+			});
+
+			$(".is_selected").click(function(){
+				$(".is_selected").not($(this)).removeAttr("checked");
+			});
+			var logistics;
+			$(".close0").click(function(){
+				$.each($('.is_selected:checkbox:checked'),function(){
+					logistics = $(this).val();
+				});
+				$(".logistics_type").html(logistics);
+				$(".partone0").css("display","none");
+				$(".opacity").css("display","none");
+			});
+			//运费险
+			$(".click2").click(function(){
+			  $(".partone1").css("display","block");
+			  $(".opacity").css("display","block");
+			});
+			$(".close1").click(function(){
+			  $(".partone1").css("display","none");
+			  $(".opacity").css("display","none");
+			});
+			//优惠卷
+			$(".click3").click(function(){
+			  $(".partone2").css("display","block");
+			  $(".opacity").css("display","block");
+			});
+			$(".close2").click(function(){
+			  $(".partone2").css("display","none");
+			  $(".opacity").css("display","none");
+			});
 		});
 	</script>
 	<!-- 发票弹出层 -->
