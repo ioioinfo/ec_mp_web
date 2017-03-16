@@ -58,21 +58,22 @@
          }
          .top .top-right p{
            display: inline-block;
-           width: 18px;
+		   display: none;
+           width: 14px;
            height: 14px;
            line-height: 14px;
            color: #fff;
            position: absolute;
-           left: 19px;
-           top: 10px;
+           left: 25px;
+           top: 11px;
            font-size: 12px;
            background: #D81E06;
-           border-radius: 7px;
+           border-radius: 50%;
            text-align: center;
          }
          .top .top-right img{
-           width: 25px;
-           height: 25px;
+           width: 20px;
+           height: 20px;
            vertical-align: middle;
          }
          .top .top-title{
@@ -390,7 +391,7 @@
         <img src="images/back.png" alt="">
       </div>
       <p class="top-title">订单详情</p>
-      <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum">99</p></div>
+      <div class="top-right"><img src="images/new3.png" alt=""><p class="headernewsnum"></p></div>
     </div>
 
     <!-- 中间 -->
@@ -496,11 +497,15 @@
 				if (data.count == 0) {
 					$(".headernewsnum").hide();
 				}else {
+					$(".headernewsnum").show();
 					$(".headernewsnum").html(data.count);
 				}
 			},
 			error: function(xhr, status, err) {
 			}
+		});
+		$(".back").click(function(){
+			window.history.back();
 		});
 		$(".product-infor").click(function(){
 			var product_id = $(this).data("id");

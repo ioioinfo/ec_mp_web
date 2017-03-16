@@ -23,7 +23,7 @@
 	   }
 	   a{
 		 text-decoration: none;
-		 color: #101010;
+		 color: #999;
 	   }
 	   ::-webkit-scrollbar {
 		   display: none;
@@ -69,6 +69,7 @@
 	   .person-details{
 		 width: 45px;
 		 height: 45px;
+		  border-radius: 50%;
 		 display: inline-block;
 		 vertical-align: middle;
 
@@ -76,6 +77,7 @@
 	   .person-details img{
 		 width: 45px;
 		 height: 45px;
+		 border-radius: 50%;
 	   }
 	   /*导                  航*/
 	   .header-nav{
@@ -123,14 +125,14 @@
 	   .main-list{
 		 padding-left: 5.3333%;
 		 overflow: hidden;
-		 height: 50px;
+		 height: 46px;
 
 	   }
 	   .mian-left{
 		 width: 4.53333%;
-		 height: 36px;
+		 height: 46px;
 		 float: left;
-		 line-height: 48px;
+		 line-height: 58px;
 	   }
 	   .mian-left img{
 		 width: 17px;
@@ -144,7 +146,7 @@
 		 font-size: 14px;
 		 color: #051b28;
 		 font-weight: 400;
-		 line-height: 36px;
+		 line-height: 46px;
 		 margin-left: 2.6667%;
 		 border-bottom: 1px solid #f5e9f5;
 	   }
@@ -283,36 +285,43 @@
 	   }
 
 	           /*底部导航*/
-	           .footerposition .footernav{
-	             width: 100%;
-	             height: 42px;
-	             display: flex;
-	             padding-top: 5px;
-	             padding-bottom: 5px;
-	             position: fixed;
-	             bottom: 0;
-	             left: 0;
-	             right: 0;
-	             background: #fff;
-	             border-top: 1px solid #eee;
-	           }
-	           .footerposition .footernav li{
-	             width: 20%;
-	             height:42px;
-	             box-sizing: border-box;
-	             list-style: none;
-	             text-align: center;
-	             font-size: 14px;
-	           }
-	           .footerposition .footernav li p img{
-	             width: 22px;
-	             height: 22px;
-	           }
-
+			   /*底部导航*/
+		       .footernav{
+		         width: 100%;
+		         height: 42px;
+		         display: flex;
+		         padding-top: 5px;
+		         padding-bottom: 5px;
+		         position: fixed;
+		         bottom: 0;
+		         left: 0;
+		         right: 0;
+		         background: #fff;
+		         border-top: 1px solid #eee;
+		       }
+		       .footernav li{
+		         width: 20%;
+		         height:42px;
+		         box-sizing: border-box;
+		         list-style: none;
+		         text-align: center;
+		         font-size: 14px;
+		       }
+		 	  .footernav li p{
+		 		  height: 22px;
+		 		  box-sizing: border-box;
+		 	  }
+		       .footernav li p img{
+		         width: 22px;
+		         height: 22px;
+		       }
+		 	  /*.footernav li:first-child a{
+		 		  color: #d81e06;
+		 		}*/
 	           .background{
 	             width: 100%;
-	             height: 90px;
-	             background: #fff;
+	             height: 46px;
+	             background: #eee;
 	           }
 			   .main-center-right img{
 				   width: 14px;
@@ -460,7 +469,7 @@
 		 </div>
 		 <div class="main-center">
 		   <span class="main-center-left">合并开票</span>
-		   <span class="main-center-right">></span>
+		   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
 		 </div>
 	   </div>
 
@@ -470,7 +479,7 @@
 		 </div>
 		 <div class="main-center">
 		   <span class="main-center-left">门店信息</span>
-		   <span class="main-center-right">></span>
+		   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
 		 </div>
 	   </div>
 
@@ -524,11 +533,11 @@
 <!-- 底部导航 -->
 <div class="footerposition">
 <ul class="footernav">
-<li><a href="/"><p><img src="images/shouye1.png" alt="" /></p><p>首页</p></a></li>
-<li><a href="/sort"><p><img src="images/fenlei1.png" alt="" /></p><p>分类</p></a></li>
-<li><a href="#"><p><img src="images/wuliu.png" alt="" /></p><p>物流</p></a></li>
-<li><a href="/cart_infos"><p><img src="images/gouwuche1.png" alt="" /></p><p>购物车</p></a></li>
-<li><a href="/person_center"><p><img src="images/wode.jpg" alt="" /></p><p style="color:#d81e06;">我的</p></a></li>
+<li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
+<li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
+<li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
+<li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
+<li><a href="/person_center"><p><img src="images/wode3.png" alt="" /></p><p style="color:#d81e06;">我的</p></a></li>
 </ul>
 <div class="background">
 

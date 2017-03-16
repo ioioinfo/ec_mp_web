@@ -78,8 +78,8 @@
         }
         .headernewsnum{
           position: absolute;
-          top: 8px;
-          left: 14px;
+          top: 6px;
+          left: 17px;
           font-size: 12px;
           font-weight: 400;
           color: #EE0A08;
@@ -92,6 +92,8 @@
         .headernimg{
           vertical-align: middle;
           margin-left: 5px;
+		  width: 20px;
+		  height: 20px;
         }
 
 
@@ -137,15 +139,15 @@
           }
 		  .lunbo_dian span{
 			 display: inline-block;
-			 width: 10px;
-			 height: 10px;
+			 width: 4px;
+			 height:4px;
 			 border-radius: 50%;
-			 border: 2px solid #3DB21F;
+			 border: 1px solid #3DB21F;
 			 margin: 0 4px;
 
 		   }
 		   .lunbo_dian span.on{
-			 background: #3DB21F;
+			 background: #fff;
 
 		   }
 
@@ -176,6 +178,10 @@
         text-align: center;
         font-size: 14px;
       }
+	  .footernav li p{
+		  height: 22px;
+		  box-sizing: border-box;
+	  }
       .footernav li p img{
         width: 22px;
         height: 22px;
@@ -273,7 +279,7 @@
               <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
               <div className="headernews">
 				  <a href="/messages">
-		            <img src="images/new.png" alt="" className="headernimg" />
+		            <img src="images/new2.png" alt="" className="headernimg" />
 		            {headernewsnum}
 				  </a>
               </div>
@@ -356,9 +362,9 @@
         return (
           <ul className="footernav">
             <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
-            <li><a href="/sort"><p><img src="images/fenlei1.png" alt="" onClick={this.handleSort}/></p><p>分类</p></a></li>
-            <li><a href="/order_center"><p><img src="images/wuliu.png" alt="" onClick={this.handleLogistics}/></p><p>物流</p></a></li>
-            <li><a href="/cart_infos"><p><img src="images/gouwuche1.png" alt="" onClick={this.handleCart}/></p><p>购物车</p></a></li>
+            <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" onClick={this.handleSort}/></p><p>分类</p></a></li>
+            <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" onClick={this.handleLogistics}/></p><p>物流</p></a></li>
+            <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" onClick={this.handleCart}/></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" onClick={this.handlePerson}/></p><p>我的</p></a></li>
           </ul>
         );
