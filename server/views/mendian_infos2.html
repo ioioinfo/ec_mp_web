@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>消息</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          font-family: "\5FAE\8F6F\96C5\9ED1", Tahoma, Verdana, sans-serif, STHeiTi;
+          background: #EEEEEE;
+        }
+        a{
+          text-decoration: none;
+        }
+        .wrap{
+          width: 100%;
+          height: 100%;
+        }
+        .header{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+          background: #FAFAFA;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 7px;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
+        }
+        .title span{
+          color: #D81E06;
+        }
+        .middle .news{
+          width: 96%;
+          margin: 0 auto;
+          overflow: hidden;
+        }
+        .newsTime{
+          width: 100%;
+          text-align: center;
+          margin: 10px 0;
+        }
+        .newsTime span{
+          display: inline-block;
+          padding: 3px 9px;
+          background: #BEBEBE;
+          color: #fff;
+          border-radius: 3px;
+        }
+        .newsInfor{
+          background: #fff;
+          border-radius: 4px;
+          padding: 10px;
+          margin: 15px;
+        }
+        .newsTitle{
+          width: 80%;
+          padding: 10px 0;
+          font-size: 16px;
+          color: #000;
+          font-weight: 400;
+          display:block;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+        .newsimg{
+          display: inline-block;
+          width: 14.444%;
+          height: 48px;
+        }
+        .newsimg img{
+          width: 100%;
+          height: 48px;
+        }
+        .newsword{
+          display: inline-block;
+          width: 82%;
+          vertical-align: top;
+          padding-left: 10px;
+          font-size: 12px;
+          line-height: 20px;
+          height: 48px;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+        .newsword span{
+          display: block;
+          height: 24px;
+          line-height: 24px;
+        }
+        .newscontent{
+          position: relative;
+        }
+        .newscontent .zuji{
+          position: absolute;
+          top: 6px;
+          right: 0;
+        }
+        .newscontent .zuji img{
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+    // 框架
+    class Warp extends React.Component {
+      render() {
+          return (
+            <div className="wrap">
+              <Header/>
+              <Middle/>
+            </div>
+          );
+      }
+    };
+    // 头部
+    class Header extends React.Component {
+      render() {
+          return (
+            <div className="header">
+              <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+              <span className="title">线下店</span>
+              <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+            </div>
+          );
+      }
+    };
+    // 中间部分
+    class Middle extends React.Component {
+      // 2
+      constructor(props) {
+          super(props);
+          this.state = {items: []};
+      }
+      // 3
+      componentDidMount() {
+        var hh = [{img:'images/i-9.png',word1:'宝山呼兰路善淘一店',word2:'宝山区呼兰路911弄11号博济智慧园',img1:'images/zuji.png'}
+          ,{img:'images/i-9.png',word1:'宝山呼兰路善淘一店',word2:'宝山区呼兰路911弄11号博济智慧园',img1:'images/zuji.png'}
+          ,{img:'images/i-9.png',word1:'宝山呼兰路善淘一店',word2:'宝山区呼兰路911弄11号博济智慧园',img1:'images/zuji.png'}];
+        this.setState({items:hh});
+      }
+      // 1
+      render() {
+          return (
+            <div className="middle">
+              {this.state.items.map(item => (
+                  <News item={item} />
+                ))
+              }
+            </div>
+          );
+      }
+    };
+    // 中间消息
+    class News extends React.Component {
+      render() {
+          return (
+            <div className="news">
+              <div className="newsInfor">
+                <div className="newscontent">
+                  <p className="newsimg"><img src={this.props.item.img} alt="" /></p>
+                  <p className="newsword"><span>{this.props.item.word1}</span>
+                  <span>{this.props.item.word2}</span></p>
+                  <p className="zuji"><img src={this.props.item.img1} alt="" /></p>
+                </div>
+              </div>
+            </div>
+          );
+      }
+    };
+    ReactDOM.render(
+      <Warp/>,
+      document.getElementById("example")
+    );
+    </script>
+
+
+
+  </body>
+</html>

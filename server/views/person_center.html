@@ -31,8 +31,8 @@
 	   /*----头                  部----*/
 	   .header{
 		 width:100%;
-		 height: 80px;
-		 line-height: 80px;
+		 height: 55px;
+		 line-height: 55px;
 		 background-image:url(images/header.jpg);
 		 background-repeat: no-repeat;
 		 text-align: center;
@@ -51,32 +51,35 @@
 
 	   /*-----搜    索     框----*/
 	   .web-input{
-		 width: 63%;;
+		 width: 63%;
+		 height: 21px;
+		 line-height: 21px;
 		 background: #e8e1e8;
-		 font-size: 14px;
-		 color: #8B8B83;
+		 font-size: 12px;
+		 color: #999;
 		 font-weight: 300;
 		 text-indent: 10px;
-		 padding: 10px  5px 10px 0;
+		 /*padding: 10px  5px 10px 0;*/
 		 vertical-align: middle;
 		 border-radius: 4px;
-		 margin-right: 10px;
+		 margin-right: 17px;
 		 border: 2px solid #ebe8eb;
 		 outline: none;
 		 -webkit-appearance : none ;
 
 	   }
 	   .person-details{
-		 width: 45px;
-		 height: 45px;
+		 width: 40px;
+		 height: 40px;
 		  border-radius: 50%;
 		 display: inline-block;
 		 vertical-align: middle;
-
+		 margin-left: 0px;
+		 margin-right:17px;
 	   }
 	   .person-details img{
-		 width: 45px;
-		 height: 45px;
+		 width: 40px;
+		 height: 40px;
 		 border-radius: 50%;
 	   }
 	   /*导                  航*/
@@ -119,9 +122,7 @@
 
 	   }
 /*-----中    间    部   分-----*/
-	   .main{
-		 margin-top: 20px;
-	   }
+
 	   .main-list{
 		 padding-left: 5.3333%;
 		 overflow: hidden;
@@ -135,8 +136,8 @@
 		 line-height: 58px;
 	   }
 	   .mian-left img{
-		 width: 17px;
-		 height: 22px;
+		 width: 20x;
+		 height: 20px;
 
 
 	   }
@@ -153,7 +154,10 @@
 	   .main-center-right{
 		 float: right;
 	   }
-
+	   /*.main-center-right img{
+		   width: 20px;
+		   height: 20px;
+	   }*/
 	   /*-----为您推荐------*/
 	   .main-recommend{
 		 width: 75.73333%;
@@ -263,8 +267,8 @@
 	   }
 	   .footer .footer-top{
 		 width: 100%;
-		 height: 86px;
-		 line-height: 86px;
+		 height:35px;
+		 line-height: 35px;
 		 display: -webkit-flex;
 		 display: -moz-flex;
 		 display: -ms-flex;
@@ -320,13 +324,16 @@
 		 		}*/
 	           .background{
 	             width: 100%;
-	             height: 46px;
+	             height: 68px;
 	             background: #eee;
 	           }
 			   .main-center-right img{
-				   width: 14px;
-				   height: 14px;
+				   width: 9px;
+				   height: 9px;
 				   vertical-align: middle;
+			   }
+			   .background-color{
+				   background: #fff;
 			   }
 	 }
    </style>
@@ -385,112 +392,101 @@
 		 <a href="/order_center">
 		   <div class="main-list">
 			 <div class="mian-left">
-			   <img src="images/quanbudingdan.png" alt="">
+			   <img src="images/wodedingdan.png" alt="">
 			 </div>
 			 <div class="main-center">
 			   <span class="main-center-left">我的订单</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
+			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
 			 </div>
 	  	 </a>
 	   </div>
+	   <a href="/account_yue">
+		  <div class="main-list">
+			<div class="mian-left">
+			  <img src="images/zhanghuyuer.png" alt="">
+			</div>
+			<div class="main-center">
+			  <span class="main-center-left">我的余额</span>
+			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+			</div>
+
+		  </div>
+	  </a>
+ 	 <a href="/jifen">
+ 		<div class="main-list">
+ 		  <div class="mian-left">
+ 			<img src="images/jinbi.png" alt="">
+ 		  </div>
+ 		  <div class="main-center">
+ 			<span class="main-center-left">我的积分</span>
+ 			<span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+ 		  </div>
+ 		</div>
+ 	 </a>
+	 <a href="/discount_cards">
+	   <div class="main-list">
+		 <div class="mian-left">
+		   <img src="images/youhuiquan.png" alt="">
+		 </div>
+		 <div class="main-center">
+		   <span class="main-center-left">我的卡券</span>
+		   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+		 </div>
+	   </div>
+	 </a>
 	   <a href="/favorite_list">
 		   <div class="main-list">
 			 <div class="mian-left">
 			   <img src="images/shoucangjia.png" alt="">
 			 </div>
 			 <div class="main-center">
-			   <span class="main-center-left">收藏夹</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-			 </div>
-		   </div>
-	   </a>
-	   <a href="/cart_infos">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/gouwuche.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">购物车</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-			 </div>
-		   </div>
-		 </a>
-		<a href="/history">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/liulanlishi.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">浏览历史</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
+			   <span class="main-center-left">我的收藏</span>
+			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
 			 </div>
 		   </div>
 	   </a>
 
-	 	<a href="/discount_cards">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/youhuiquan.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">优惠券</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-			 </div>
-		   </div>
-		 </a>
-	   	<a href="/jifen">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/jinbi.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">积分</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-			 </div>
-		   </div>
-	   	</a>
-	    <a href="/account_yue">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/zhanghuyuer.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">帐户余额</span>
-			   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-			 </div>
-
-		   </div>
-	   </a>
+	   <a href="/history">
+		  <div class="main-list">
+			<div class="mian-left">
+			  <img src="images/liulanlishi.png" alt="">
+			</div>
+			<div class="main-center">
+			  <span class="main-center-left">浏览历史</span>
+			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+			</div>
+		  </div>
+	  </a>
 
 	   <div class="background"></div>
 	   <div class="main-list">
 		 <div class="mian-left">
-		   <img src="images/zhanghuyuer.png" alt="">
+		   <img src="images/hebingkaipiao.png" alt="">
 		 </div>
 		 <div class="main-center">
 		   <span class="main-center-left">合并开票</span>
-		   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
+		   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
 		 </div>
 	   </div>
-
-	   <div class="main-list">
-		 <div class="mian-left">
-		   <img src="images/zhanghuyuer.png" alt="">
-		 </div>
-		 <div class="main-center">
-		   <span class="main-center-left">门店信息</span>
-		   <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
-		 </div>
-	   </div>
-
+	   <a href="/mendian_infos">
+		   <div class="main-list">
+			 <div class="mian-left">
+			   <img src="images/mendian.png" alt="">
+			 </div>
+			 <div class="main-center">
+			   <span class="main-center-left">门店信息</span>
+			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+			 </div>
+		   </div>
+	   	</a>
 	   <a href="/order_view">
 		  <div class="main-list">
 			<div class="mian-left">
-			  <img src="images/zhanghuyuer.png" alt="">
+			  <img src="images/shouyinxiaopiao.png" alt="">
 			</div>
 			<div class="main-center">
 			  <span class="main-center-left">收银小票</span>
-			  <span class="main-center-right"><img src="images/jiantou-right.png" alt=""></span>
+			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
 			</div>
 
 		  </div>
@@ -525,7 +521,7 @@
 		</li>
 		 <li class="logout"><a>退出</a></li>
 	   </ul>
-	   <div class="" style="text-align:center;">
+	   <div class="" style="text-align:center;height:28px;font-size:12px;">
 		 网络备案号
 	   </div>
 	 </div>
@@ -539,7 +535,7 @@
 <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
 <li><a href="/person_center"><p><img src="images/wode3.png" alt="" /></p><p style="color:#d81e06;">我的</p></a></li>
 </ul>
-<div class="background">
+<div class="background background-color">
 
 </div>
  </div>

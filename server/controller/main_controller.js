@@ -259,6 +259,18 @@ var search_products_list = function(product_ids,cb){
 	url = url + product_ids;
 	do_get_method(url,cb);
 };
+//门店列表
+var get_store_list = function(org_code,cb){
+	var url = "http://211.149.248.241:19999/store/list?org_code=";
+	url = url + org_code;
+	do_get_method(url,cb);
+};
+//常去门店
+var get_visited_stores = function(org_code,person_id,cb){
+	var url = "http://139.196.148.40:16001/list_visited_stores?org_code=";
+	url = url + org_code + "&person_id=" + person_id;
+	do_get_method(url,cb);
+};
 //通过商品id，行业id找到行业信息
 var find_industry = function(industry_id,product_id, cb){
 	var url = "http://127.0.0.1:18002/products_industries?product_id=";
@@ -1923,6 +1935,55 @@ exports.register = function(server, options, next){
 				return reply.view("edit_address");
 			}
 		},
+		//门店信息
+		{
+			method: 'GET',
+			path: '/mendian_infos',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var ep =  eventproxy.create("store_list","visited_stores",
+					function(store_list,visited_stores){
+						var stores = [],selected=[];
+						for (var i = 0; i < store_list.length; i++) {
+							var store = store_list[i];
+							var address = "";
+							if (store.points[0]) {
+								address = store.points[0].province+store.points[0].city+store.points[0].district+store.points[0].detail_address;
+							}
+							var img = "";
+							if (store.pictures[0]) {
+								img = "images/"+store.pictures[0].location;
+							}
+							stores.push({"img":img,"word1":store.org_store_name,"word2":address});
+							for (var j = 0; j < visited_stores.length; j++) {
+								if (visited_stores[j].store_id == store.org_store_id) {
+									selected.push(store.org_store_name);
+								}
+							}
+						}
+					return reply.view("mendian_infos",{"success":true,"store_list":JSON.stringify(stores),"visited_stores":JSON.stringify(selected)});
+				});
+				get_store_list(org_code,function(err,rows){
+					if (!err) {
+						var store_list = rows.rows;
+						ep.emit("store_list", store_list);
+					}else {
+						ep.emit("store_list", []);
+					}
+				});
+				get_visited_stores(org_code,person_id,function(err,rows){
+					if (!err) {
+						var visited_stores = rows.rows;
+						ep.emit("visited_stores", visited_stores);
+					}else {
+						ep.emit("visited_stores", []);
+					}
+				});
+			}
+		},
 		//收藏
 		{
 			method: 'GET',
@@ -1949,7 +2010,7 @@ exports.register = function(server, options, next){
 							}
 						});
 					}else {
-
+						return reply({"success":false,"messsage":results.messsage});
 					}
 				});
 			}

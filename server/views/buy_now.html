@@ -138,12 +138,16 @@
           line-height: 30px;
           position: relative;
         }
+		.address .address-infor-address{
+			text-indent: 15px;
+			display: inline-block;
+		}
         .address .address-infor .address-infor-warp span{
           display: inline-block;
           font-size: 16px;
         }
         .address .address-infor .address-infor-warp .address-infor-name{
-          font-weight: bold;
+          font-size: 14px;
           position: absolute;
           left: 16px;
           top: 1px;
@@ -755,12 +759,12 @@
     </div>
 	<div>
 		<div class="address" id="place_order">
-		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
+
 		</div>
+
 		<div class="line"></div>
 		<div class="white"></div>
 		<div class="product-infor">
-		  <p class="p0">2017-2-15</p>
 		  <div class="all">
 			<div class="product-infor-left">
 				{% if product.img %}
@@ -849,7 +853,7 @@
 		  </p>
 	  {% endfor %}
 	  <div class="close close0">
-        关 闭
+        确 定
       </div>
     </div>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
@@ -948,8 +952,14 @@
 	<script id="place_order_infos" type="text/template">
 		<% if(address.linkname){ %>
 		  <div class="address-infor">
-			<div class="address-infor-warp"><span class="address-infor-name" data-id="<%- address.linkname %>"><%- address.linkname %></span><p class="address-infor-right"><span class="address-infor-mobile" data-id="<%- address.mobile %>"><%- address.mobile %></span><span>默认</span></p></div>
-			<p><span><img src="images/address.png" alt=""></span><span class="address-infor-address" data-id="<%- address.detail_address %>"><%- address.detail_address %></span></p>
+			<div class="address-infor-warp">
+				<span class="address-infor-name" data-id="<%- address.linkname %>"><%- address.linkname %></span>
+				<p class="address-infor-right">
+					<span class="address-infor-mobile" data-id="<%- address.mobile %>"><%- address.mobile %></span>
+					<span><% if (address.is_default == 1) { %>默认<% } %></span>
+				</p>
+			</div>
+			<p><span class="address-infor-address" data-id="<%- address.detail_address %>"><%- address.detail_address %></span></p>
 			<input value="<%- address.province %>" style="display:none;" class="address_province">
 			<input value="<%- address.city %>" style="display:none;" class="address_city">
 			<input value="<%- address.district %>" style="display:none;" class="address_district">
@@ -960,6 +970,7 @@
 				<p>添加新地址或者更换地址</p>
 			</div>
 		  <% } %>
+		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
 	</script>
 	<script>
 		$(function() {
@@ -1118,6 +1129,14 @@
 			});
 			$(".close2").click(function(){
 			  $(".partone2").css("display","none");
+			  $(".opacity").css("display","none");
+			});
+			$(".opacity").click(function(){
+				$(".new-address").css("display","none");
+				$(".partone0").css("display","none");
+				$(".partone1").css("display","none");
+			  $(".partone2").css("display","none");
+			  $(".partone3").css("display","none");
 			  $(".opacity").css("display","none");
 			});
 		});

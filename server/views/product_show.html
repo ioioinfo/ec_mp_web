@@ -211,11 +211,16 @@
 		-webkit-border-radius: 2px 0 0 2px;
 	  }
 	  .middle-number-right .middle-a3 .middle-em{
-		background: url("images/reduce.png") no-repeat;
+		background: url("images/reduce3.png") no-repeat;
+		background-size: 12px 12px;
 		height: 12px;
 		width: 12px;
 		display: block;
 		margin: 6px;
+	  }
+	  .middle-number-right .middle-a3 .middle-em.reduce{
+		background: url("images/reduce.png") no-repeat;
+		background-size: 12px 12px;
 	  }
 	  .middle-number-right .middle-a3 .push{
 		background: url("images/product-detail-sprites-mjs.png") no-repeat;
@@ -1306,7 +1311,7 @@
                 <span class="middle-span3">数量</span>
                 <div class="middle-number-right" style="float:right;">
                   <input type="hidden" name="" value="" class="middle-number-input1">
-                  <a id="reduce" class="middle-a3"><em class="middle-em">-</em></a>
+                  <a id="reduce" class="middle-a3"><em class="middle-em reduce">-</em></a>
                   <input type="tel" name="" value="1" class="middle-number-input2 ">
                   <a id="plus" class="middle-a3"><em class="middle-em push">+</em></a>
                 </div>
@@ -1584,16 +1589,22 @@
 			//数量加减
 			var change_num = function(num,operation){
 				if (operation == "update") {
-					return;
+					num = parseInt(num);
 				}else if (operation == "plus") {
 					num = parseInt(num) + 1;
-					 $(".middle-number-input2").val(num);
-				}else {
-					if (num == 1) {
-						return;
-					}
-					num = num -1;
 					$(".middle-number-input2").val(num);
+				}else {
+					if (num > 1) {
+						num = num -1;
+
+						$(".middle-number-input2").val(num);
+					}
+				}
+
+				if (num > 1) {
+					$("#reduce em").removeClass("reduce");
+				} else {
+					$("#reduce em").addClass("reduce");
 				}
 			};
 			//购物车里商品数量显示
@@ -1661,7 +1672,11 @@
 				var product_id = "{{product.id}}";
 				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num;
 			});
-
+			$(".middle-number-input2").change(function(){
+				var num = $(".middle-number-input2").val();
+				operation = "update";
+				change_num(num,operation);
+			});
 			$("#reduce").click(function(){
 				var num = $(".middle-number-input2").val();
 				operation = "reduce";
