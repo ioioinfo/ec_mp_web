@@ -33,8 +33,7 @@
 		 width:100%;
 		 height: 55px;
 		 line-height: 55px;
-		 background-image:url(images/header.jpg);
-		 background-repeat: no-repeat;
+		 background:rgb(112,180,44);
 		 text-align: center;
 
 	   }
@@ -46,7 +45,7 @@
 		 font-size: 14px;
 		 color: #fff;
 		 border-radius: 8px;
-		 background: #EE7621;
+		 background: #44a338;
 	   }
 
 	   /*-----搜    索     框----*/
@@ -174,6 +173,10 @@
 	   .main-recommend-center{
 		 font-size: 14px;
 		 color:#051b28;
+		 padding: 10px;
+	   }
+	   .main-recommend-top{
+		   padding-top: 30px;
 	   }
 	   /*----为你推荐图片展示部分----*/
 
@@ -458,16 +461,20 @@
 		  </div>
 	  </a>
 
-	   <div class="background"></div>
-	   <div class="main-list">
-		 <div class="mian-left">
-		   <img src="images/hebingkaipiao.png" alt="">
-		 </div>
-		 <div class="main-center">
-		   <span class="main-center-left">合并开票</span>
-		   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-		 </div>
-	   </div>
+	   <div class="background"> <div class="main-recommend main-recommend-top">
+ 		 <span class="main-recommend-line"></span><span class="main-recommend-center ">实体店功能</span><span class="main-recommend-line"></span>
+ 	   </div></div>
+	   <a href="/combine_receipts">
+		   <div class="main-list">
+			 <div class="mian-left">
+			   <img src="images/hebingkaipiao.png" alt="">
+			 </div>
+			 <div class="main-center">
+			   <span class="main-center-left">合并开票</span>
+			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+			 </div>
+		   </div>
+	   </a>
 	   <a href="/mendian_infos">
 		   <div class="main-list">
 			 <div class="mian-left">
@@ -479,7 +486,7 @@
 			 </div>
 		   </div>
 	   	</a>
-	   <a href="/order_view">
+	   <a href="/small_receipts">
 		  <div class="main-list">
 			<div class="mian-left">
 			  <img src="images/shouyinxiaopiao.png" alt="">
@@ -488,9 +495,19 @@
 			  <span class="main-center-left">收银小票</span>
 			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
 			</div>
-
 		  </div>
 	  </a>
+	  <a href="/order_view">
+		 <div class="main-list">
+		   <div class="mian-left">
+			 <img src="images/huiyuanchongzhi.png" alt="">
+		   </div>
+		   <div class="main-center">
+			 <span class="main-center-left">会员充值</span>
+			 <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+		   </div>
+		 </div>
+	 </a>
 	   <!-- 中间下面部分 -->
 	   <div class="main-recommend">
 		 <span class="main-recommend-line"></span><span class="main-recommend-center">为您推荐</span><span class="main-recommend-line"></span>

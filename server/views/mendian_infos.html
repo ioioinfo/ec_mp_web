@@ -26,6 +26,7 @@
         }
         a{
           text-decoration: none;
+		  color: #999;
         }
         .wrap{
           width: 100%;
@@ -213,14 +214,16 @@
         }
         return (
           <div className="news">
-            <div className="newsInfor">
-              <div className="newscontent">
-                <p className="newsimg"><img src={this.props.item.img} alt="" /></p>
-                <p className="newsword"><span>{this.props.item.word1}</span>
-                <span>{this.props.item.word2}</span></p>
-                <p className="zuji">{d}</p>
-              </div>
-            </div>
+		  	<a href="/mendian_detail">
+	            <div className="newsInfor">
+	              <div className="newscontent">
+	                <p className="newsimg"><img src={this.props.item.img} alt="" /></p>
+	                <p className="newsword"><span>{this.props.item.word1}</span>
+	                <span>{this.props.item.word2}</span></p>
+	                <p className="zuji">{d}</p>
+	              </div>
+	            </div>
+			 </a>
           </div>
         );
       }

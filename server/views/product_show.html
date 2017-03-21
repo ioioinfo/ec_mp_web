@@ -49,7 +49,6 @@
 	  .price{
 		width: 100%;
 		height: 29px;
-		border-bottom: 1px solid #dcdcdc;
 	  }
 	  .price-top{
 		font-size: 15px;
@@ -333,19 +332,19 @@
 		width: 100%;
 		height: 45px;
 		margin: 0px;
-		background: #e84e40;
+		background: rgb(112,180,44);
 		font-size: 0;
 	  }
 
 	  .top-infor p{
 		display: inline-block;
 		width: 25%;
-		height: 45px;
 		line-height: 45px;
 		color: #fff;
 		font-size: 16px;
 		font-weight: bold;
 		text-align: center;
+		margin-right: 20px;
 	  }
 	  .top-infor p:nth-child(4n+2){
 		text-align: left;
@@ -1264,8 +1263,8 @@
         </div>
         <div class="top-infor">
           <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
-          <p class="ad"><span><s>{{product.product_marketing_price}}</s></span></p>
-          <p class="ad"><span>销量：{{product.mp_sales.total_sales || 0}}</span></p>
+          <p class="ad"><span>￥</span><span><s>{{product.product_marketing_price}}</s></span></p>
+          <p class="ad"><span></span></p>
         </div>
       </div>
       <div class="top-center">

@@ -20,8 +20,7 @@
           padding: 0;
           width: 100%;
           height: 100%;
-          background: url(images/web-login1.jpg) no-repeat 0 0;
-          background-size: cover;
+          background: #44a338;
         }
         a{
           text-decoration: none;
@@ -29,7 +28,7 @@
 		.wrap{
 		  width: 100%;
 		  height: 100%;
-		  padding-top: 170px;
+		  padding-top: 115px;
 		  text-align: center;
 		}
 		.person{
@@ -69,14 +68,17 @@
 		  line-height: 20px;
 		  outline-style: none;
 		  border: none;
+		  border-radius: 4px;
 		}
 		.account{
 		  margin-top: 14px;
 		}
 		.verificationCode{
 		  position: absolute;
-		  top: 11px;
+		  top: 10px;
 		  right: 8px;
+		  font-size: 12px;
+		  color: #999;
 		}
 		.login .checkbox{
 		  border: none;
@@ -101,11 +103,15 @@
 		.login .submit{
 		  border: none;
 		  text-align: center;
-
+		}
+		input[type="submit"],input[type="checkbox"],input[type="reset"],input[type="button"],button {
+		   -webkit-appearance: none;
 		}
 		.login .submit input{
-		  text-indent: 0;
-		}
+          text-indent: 0;
+		  background: rgb(112,180,44);
+		  color: #fff;
+        }
 		.login p{
 		  display: inline-block;
 		  width: 220px;
@@ -151,7 +157,18 @@
           }
           return (
             <div className="wrap">
+			  <Header/>
               {show}
+            </div>
+          );
+      }
+    };
+	// 上部头像
+    class Header extends React.Component {
+      render() {
+          return (
+            <div className="person">
+              <img src="images/shouyeshequ.png" alt="" className="personImg" />
             </div>
           );
       }

@@ -36,7 +36,7 @@
           width: 100%;
           height:36px;
           line-height: 36px;
-          background: #F35152;
+          background: rgb(112,180,44);
           text-align: center;
           position: relative;
           overflow: hidden;
@@ -66,7 +66,7 @@
           line-height: 25px;
           outline-style: none;
           border: none;
-          background: #FF8888;
+          background: #44a338;
           border-radius: 6px;
           text-indent: 26px;
         }
@@ -139,8 +139,8 @@
           }
 		  .lunbo_dian span{
 			 display: inline-block;
-			 width: 4px;
-			 height:4px;
+			 width: 8px;
+		 	 height: 8px;
 			 border-radius: 50%;
 			 border: 1px solid #3DB21F;
 			 margin: 0 4px;
@@ -177,7 +177,26 @@
         list-style: none;
         text-align: center;
         font-size: 14px;
+		position: relative;
       }
+	  .footerCenter{
+
+	 }
+	 .footernav .footerCenter img{
+	   width: 44px;
+	   height: 44px;
+	   position: absolute;
+	   top: -20px;
+	   left: 20.66666%;
+	 }
+	 .footernav .footerCenternext{
+	   width: 48px;
+	   font-size: 16px;
+	   position: absolute;
+	   top: 22px;
+	   left: 13%;
+	   color: rgb(112,180,44);
+	 }
 	  .footernav li p{
 		  height: 22px;
 		  box-sizing: border-box;
@@ -189,6 +208,15 @@
 	  .footernav li:first-child a{
 		  color: #d81e06;
 		}
+	  .background0{
+	   width: 100%;
+	   font-size: 12px;
+	   height: 36px;
+	   background: #fff;
+	   line-height: 36px;
+	   text-align: center;
+	   color: #999;
+	 }
       .background{
         width: 100%;
         height: 46px;
@@ -212,6 +240,85 @@
       .navUl .homeNavli img{
         width: 45%;
       }
+	  /*滚动新闻样式*/
+      .HomeNews{
+        width: 100%;
+        font-size: 12px;
+        height: 25px;
+        overflow: hidden;
+        text-align: center;
+      }
+      .HomeNews li{
+        height: 25px;
+        line-height: 25px;
+      }
+
+      /*猜你喜欢*/
+      .homeLike{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      .homeLikeLi{
+        width: 46.26666%;
+        height: 254.5px;
+        border: 1px solid #e1e4e5;
+        margin-bottom: 8px;
+        list-style: none;
+      }
+      .homeLikeLi img{
+        width: 100%;
+      }
+      .likename{
+        font-size: 12px;
+        padding: 4px 8px;
+        color: #666;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-weight: 400;
+        line-height: 18.25px;
+      }
+      .likeprice{
+        padding: 4px 8px;
+        font-size: 12px;
+        color: #998a81;
+      }
+      .likeprice span{
+        font-size: 14px;
+        color: #d3333b;
+        margin-right: 8px;
+      }
+      .yourLike{
+        line-height: 16px;
+        color: #333;
+        position: relative;
+        margin: 16px 0 8px 0;
+        z-index: 2;
+        border-bottom: 0 none;
+        text-align: center;
+        font-size: 16px;
+      }
+      .yourLike span{
+        margin: 0;
+        padding: 0 15px;
+        background: #fff;
+        display: inline-block;
+      }
+      .yourLike::after{
+        content: "";
+        border-top: 1px solid #e1e4e5;
+        width: 90%;
+        margin-left: 5%;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        z-index: -1;
+
+      }
     }
     </style>
 </head>
@@ -227,7 +334,8 @@
             <Header search_url="/search_area"/>
             <Main/>
             <Footer person_url="/person_center" logistics_url="" cart_url="/cart_infos" sort_url="/sort" order_url="/order_center"/>
-            <Background/>
+			 <Background0/>
+			<Background/>
           </div>
         );
     }
@@ -296,7 +404,8 @@
         return (
 			<div className="main">
              <HomeNav/>
-             <img src="images/shouyemain.png" alt=" " className="shouyemainimg" />
+			 <News/>
+             <Like/>
 
            </div>
         );
@@ -337,6 +446,106 @@
         );
     }
   };
+  // 滚动新闻
+ class News extends React.Component {
+   constructor(props) {
+	   super(props);
+	   this.scroll=this.scroll.bind(this);
+	   this.state={newsitems:[]};
+   }
+   componentDidMount() {
+	 var news = [{word:"善淘网实体店2017-03-25开业"},
+				 {word:"善淘网最新一期招募又开始啦"},
+				 {word:"现在满199，即可获得抽奖机会一次"},
+				 {word:"新品上线啦，"}];
+	 this.setState({newsitems:news});
+
+	 setInterval(this.scroll,2800);
+   }
+   scroll(){
+	 var liTop=$(".HomeNews li").first().css("margin-top");
+
+	 var liparseInt=parseInt(liTop);
+	 console.log(liparseInt);
+
+	   if (liparseInt<-20){
+		 var First=$(".HomeNews li").first();
+		 First.detach().css("margin-top","").appendTo($(".HomeNews"));
+	   }
+
+	 $(".HomeNews li").first().animate({"margin-top":"-25px"},450);
+
+   }
+   render() {
+	   return (
+		   <ul className="HomeNews">
+		   {this.state.newsitems.map(item => (
+			   <NewsLi item={item}  />))
+		   }
+		   </ul>
+	   );
+   }
+ };
+
+ // 猜你喜欢内容
+ class NewsLi extends React.Component {
+
+   render() {
+
+	   return (
+
+		   <li className="newsLi"><a href="#"><u>{this.props.item.word}</u></a></li>
+	   );
+   }
+ };
+ // 猜你喜欢
+ class Like extends React.Component {
+   constructor(props) {
+	   super(props);
+	   this.state={likeitems:[]};
+   }
+   componentDidMount() {
+	 var infor = [{img:"images/c_1.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_2.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_3.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_4.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_5.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_6.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_7.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_8.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_9.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_1.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_2.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
+				  {img:"images/c_3.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"}];
+	 this.setState({likeitems:infor});
+
+	 setInterval(this.scroll,2800);
+   }
+   render() {
+
+	   return (
+		 <div>
+		   <p className="yourLike"><span>猜你喜欢</span></p>
+
+		   <ul className="homeLike">
+			 {this.state.likeitems.map(item => (
+				 <LikeLi item={item}  />))
+			 }
+		   </ul>
+		 </div>
+	   );
+   }
+ };
+ // 猜你喜欢
+ class LikeLi extends React.Component {
+
+   render() {
+	   var img = this.props.item.img;
+	   return (
+		   <li className="homeLikeLi"><a href="#"><img src={img} alt="" /><p className="likename">{this.props.item.word}</p><p className="likeprice">￥<span>{this.props.item.price}</span></p></a></li>
+	   );
+   }
+ };
   // 底部导航
   class Footer extends React.Component {
 	  constructor(props) {
@@ -362,14 +571,22 @@
         return (
           <ul className="footernav">
             <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
-            <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" onClick={this.handleSort}/></p><p>分类</p></a></li>
-            <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" onClick={this.handleLogistics}/></p><p>物流</p></a></li>
-            <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" onClick={this.handleCart}/></p><p>购物车</p></a></li>
+			<li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
+		  <li><a href="/"><p className="footerCenter"><img src="images/shouyeshequ.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
+		  <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" onClick={this.handlePerson}/></p><p>我的</p></a></li>
           </ul>
         );
     }
   };
+  // 没有更多商品！！！
+ class Background0 extends React.Component {
+   render() {
+	   return (
+		 <div className="background0">没有更多商品！！！</div>
+	   );
+   }
+ };
   // 底部空白
   class Background extends React.Component {
     render() {

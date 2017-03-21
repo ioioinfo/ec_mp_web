@@ -33,11 +33,9 @@ var find_sorts = function(cb){
 };
 //查询订单
 var search_order = function(order_id,cb) {
-        var url = "http://211.149.248.241:18010/search_order_infos?order_id="+order_id;
-        uu_request.do_get_method(url,function(err,content){
-            cb(false,content.row);
-        });
-    };
+    var url = "http://211.149.248.241:18010/search_order_infos?order_id="+order_id;
+    do_get_method(url,cb);
+};
 //登入，合并设置cookie
 var login_set_cookie = function(request,person_id){
 	var state;
@@ -259,6 +257,13 @@ var search_products_list = function(product_ids,cb){
 	url = url + product_ids;
 	do_get_method(url,cb);
 };
+//查询所有门店
+var get_store_infos = function(cb){
+	var url = "http://139.196.148.40:18001/store/list_by_org?org_code=";
+	url = url + org_code;
+	do_get_method(url,cb);
+};
+
 //门店列表
 var get_store_list = function(org_code,cb){
 	var url = "http://211.149.248.241:19999/store/list?org_code=";
@@ -462,6 +467,11 @@ var logistics_payment = function(data,cb){
 var save_order_infos = function(data,cb){
 	var url = "http://127.0.0.1:18010/save_order_infos";
 	do_post_method(url,data,cb);
+}
+//得到前台所有订单
+var get_front_orders = function(person_id,cb){
+	var url = "http://127.0.0.1:18010/get_front_orders?person_id="+person_id;
+	do_get_method(url,cb);
 }
 //保存立即购买订单信息
 var save_fast_order_infos = function(data,cb){
@@ -1271,6 +1281,96 @@ exports.register = function(server, options, next){
 			path: '/empty_cart',
 			handler: function(request, reply){
 				return reply.view("empty_cart");
+			}
+		},
+		//合并开票 combine_receipts
+		{
+			method: 'get',
+			path: '/combine_receipts',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				return reply.view("combine_receipts");
+			}
+		},
+		//门店详细信息
+		{
+			method: 'get',
+			path: '/mendian_detail',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				return reply.view("mendian_detail");
+			}
+		},
+		//收银小票
+		{
+			method: 'get',
+			path: '/small_receipts',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				return reply.view("small_receipts");
+			}
+		},
+		//得到订单信息
+		{
+			method: 'get',
+			path: '/get_front_orders',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+
+				var ep =  eventproxy.create("orders","menidans",
+					function(orders,menidans){
+						for (var i = 0; i < orders.length; i++) {
+							var order = orders[i];
+							for (var j = 0; j < menidans.length; j++) {
+								if (order.store_id == menidans[j].org_store_id) {
+									order.org_store_name = menidans[j].org_store_name;
+								}
+							}
+						}
+					return reply({"success":true,"orders":orders,"message":"ok"});
+				});
+
+				get_front_orders(person_id,function(err,rows){
+					if (!err) {
+						var orders = rows.rows;
+						ep.emit("orders", orders);
+					}else {
+						ep.emit("orders", []);
+					}
+				});
+
+				get_store_infos(function(err,rows){
+					if (!err) {
+						var menidans = rows.rows;
+						ep.emit("menidans", menidans);
+					}else {
+						ep.emit("menidans", []);
+					}
+				});
+			}
+		},
+		//收银明细
+		{
+			method: 'get',
+			path: '/small_receipts_details',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				return reply.view("small_receipts_details");
 			}
 		},
 		//购物车增加
@@ -2155,17 +2255,23 @@ exports.register = function(server, options, next){
                     return reply({"success":false,"message":"param order_id is null"});
                 }
                 //查询订单接口
-                search_order(order_id,function(err,row) {
+                search_order(order_id,function(err,content) {
+					var row = content.row;
                     if (!row) {
 						return reply({"success":false,"message":"收银小票不存在"});
                     }
                     //结算方式
-                    var pay_ways = [];
-                    _.each(row.pay_infos,function(pay_info){
-                        pay_ways.push(pay_info.pay_way);
-                    });
-                    row.pay_ways = _.join(pay_ways,",");
-                    return reply.view(get_view("order_infos"),{"row":row});
+					if (row.pay_infos) {
+						var pay_ways = [];
+						for (var i = 0; i < row.pay_infos.length; i++) {
+							pay_ways.push(row.pay_infos[i].pay_way);
+						}
+	                    row.pay_ways = pay_ways.join(",");
+					} else {
+						row.pay_ways = "";
+					}
+
+                    return reply.view("small_receipts_details",{"row":row});
                 });
             }
         },
