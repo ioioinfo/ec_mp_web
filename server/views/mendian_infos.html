@@ -209,12 +209,13 @@
     class News extends React.Component {
       render() {
         var d="";
+		var href = "/mendian_detail?store_id="+this.props.item.id;
         if($.inArray(this.props.item.word1,this.props.selected)!=-1){
           d=<img src="images/zuji.png" alt="" />;
         }
         return (
           <div className="news">
-		  	<a href="/mendian_detail">
+		  	<a href={href}>
 	            <div className="newsInfor">
 	              <div className="newscontent">
 	                <p className="newsimg"><img src={this.props.item.img} alt="" /></p>

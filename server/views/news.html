@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title></title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <style media="screen">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .header{
+      width: 100%;
+      height: 46px;
+      font-size: 0;
+      position: relative;
+      overflow: hidden;
+      background: #FAFAFA;
+    }
+    .jiantou{
+      display: inline-block;
+      width: 32px;
+      position: absolute;
+      left: 10px;
+      top: 7px;
+    }
+    .title{
+      display:block;
+      width: 200px;
+      line-height: 46px;
+      font-size: 16px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .menu{
+      width: 32px;
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 13px;
+    }
+    .title span{
+      color: #D81E06;
+    }
+      /*中间新闻内容*/
+      .newsUl{
+        width: 96%;
+        margin: 0 auto;
+      }
+      .newsLi{
+        margin: 20px auto;
+      }
+      .newsTitle{
+        width: 100%;
+        font-size: 16px;
+        color: #666;
+        font-weight: 400;
+      }
+
+      .newsTime{
+        font-size: 14px;
+        color: #666;
+        background: #fff;
+        line-height: 25px;
+      }
+      .newsWord{
+        font-size: 14px;
+        color: #666;
+        background: #fff;
+        line-height: 25px;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+    class Wrap extends React.Component {
+      render() {
+          return (
+            <div className="wrap">
+              <Header/>
+              <NewsInfor/>
+            </div>
+          );
+      }
+    };
+    // 头部
+    class Header extends React.Component {
+      render() {
+          return (
+            <div className="header">
+              <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+              <span className="title">新闻</span>
+              <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+            </div>
+          );
+      }
+    };
+
+    // 中间新闻部分
+    class NewsInfor extends React.Component {
+      constructor(props) {
+          super(props);
+          this.state = {newsInfor: []};
+      }
+      componentDidMount() {
+        var infor = [{title:"实体店开业啦！！！",time:"2017/3/17",word:"开业啦！身份是身份额外思考法时空访客会更好开据美女健康减肥吗据哦出口拉动看来时间付款世乒赛如果快速开发示范可父母分开吗婆婆为库萨克，商品房i哦佛法僧索赔俄方派开发商破溃破发思考片刻司法考试考"}
+                    ,{title:"实体店重新开业啦！！！",time:"2017/3/17",word:"开业啦！"}
+                    ,{title:"实体店又开业啦！！！",time:"2017/3/17",word:"开业啦！"}
+                    ,{title:"实体店歇业啦！！！",time:"2017/3/17",word:"开业啦！"}
+                    ,{title:"实体店又歇业啦啦！！！",time:"2017/3/17",word:"开业啦！"}
+                    ,{title:"实体店又开业啦！！！",time:"2017/3/17",word:"开业啦！"}];
+                   this.setState({newsInfor:infor});
+      }
+      render() {
+          return (
+            <ul className="newsUl">
+            {this.state.newsInfor.map(item => (
+                <NewsInforLi item={item} />))
+            }
+            </ul>
+          );
+      }
+    };
+    // 具体新闻内容
+    class NewsInforLi extends React.Component {
+      render() {
+          return (
+            <li className="newsLi"><p className="newsTitle"><u>{this.props.item.title}</u></p><p className="newsTime">{this.props.item.time}</p><p className="newsWord">{this.props.item.word}</p></li>
+          );
+      }
+    };
+      // 返回到页面
+      ReactDOM.render(
+        <Wrap/>,
+        document.getElementById("example")
+      );
+    </script>
+  </body>
+</html>

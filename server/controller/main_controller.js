@@ -352,7 +352,7 @@ var find_samll_picture = function(same_product_ids, cb){
 	url = url + JSON.stringify(same_product_ids);
 	do_get_method(url,cb);
 };
-//
+//得到所有运送方式
 var get_logistics_type = function(cb){
 	var url = "http://211.149.248.241:18013/freightage/type";
 	do_get_method(url,cb);
@@ -371,6 +371,11 @@ var do_vertify = function(data,cb){
 var do_vip = function(data, cb){
 	var url = "http://139.196.148.40:18003/vip/add_vip";
 	do_post_method(url,data,cb);
+};
+//根据id得到指定门店信息
+var get_by_id = function(store_id,cb){
+	var url = "http://211.149.248.241:19999/store/get_by_id?id="+store_id+"&org_code="+org_code;
+	do_get_method(url,cb);
 };
 //修改密码
 var change_password = function(data,cb){
@@ -484,7 +489,7 @@ var search_selected_carts = function(person_id,ids,cb){
 	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
-//
+//查询购物车数量
 var check_cart_number = function(person_id,cart_code,cb){
 	var url = "http://127.0.0.1:18015/check_cart_number?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
@@ -1018,6 +1023,14 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//新闻
+		{
+			method: 'GET',
+			path: '/news',
+			handler: function(request, reply){
+				return reply.view("news");
+			}
+		},
 		//修改收藏
 		{
 			method: 'POST',
@@ -1301,10 +1314,18 @@ exports.register = function(server, options, next){
 			path: '/mendian_detail',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
+				var store_id = request.query.store_id;
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				return reply.view("mendian_detail");
+				get_by_id(store_id,function(err,row){
+					if (!err) {
+						var store = row.row;
+						return reply.view("mendian_detail",{"success":true,"message":"ok","store":JSON.stringify(store),"remark":store.remark});
+					}else {
+						return reply({"success":false,"message":row.message});
+					}
+				});
 			}
 		},
 		//收银小票
@@ -2057,7 +2078,7 @@ exports.register = function(server, options, next){
 							if (store.pictures[0]) {
 								img = "images/"+store.pictures[0].location;
 							}
-							stores.push({"img":img,"word1":store.org_store_name,"word2":address});
+							stores.push({"img":img,"word1":store.org_store_name,"word2":address,"id":store.org_store_id});
 							for (var j = 0; j < visited_stores.length; j++) {
 								if (visited_stores[j].store_id == store.org_store_id) {
 									selected.push(store.org_store_name);

@@ -64,28 +64,28 @@
         color: #D81E06;
       }
       .shop-address-name{
-        width: 96%;
+        width: 92%;
         margin: 0 auto;
         line-height: 40px;
         font-size: 16px;
         color: #666;
       }
       .start-businsess{
-        width: 96%;
+        width: 92%;
         margin: 0 auto;
-        line-height: 40px;
-        font-size: 14px;
+        line-height: 25px;
+        font-size: 12px;
         color: #666;
       }
       .business-hours{
-        width: 96%;
+        width: 92%;
         margin: 0 auto;
-        line-height: 40px;
-        font-size: 14px;
+        line-height: 16px;
+        font-size: 12px;
         color: #666;
       }
       .shop-infor{
-        width: 96%;
+        width: 92%;
         margin: 0 auto 14px;
         line-height: 25px;
         font-size: 14px;
@@ -100,23 +100,41 @@
         margin: 20px 0;
         width: 100%;
       }
+	  .business-hours img, .start-businsess img{
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+	  .style_p{
+		  margin:10px auto;
+		  border: 1px dashed rgb(112,180,44);
+		  width: 92%;
+		  height: 1px;
+		  box-sizing: border-box;
+	  }
+	  .MARGIN{
+		  line-height: 40px;
+	  }
     }
     </style>
   </head>
   <body>
     <div id="example"></div>
+
     <script type="text/javascript">
+		var store = {{store|safe}};
+		var imgs = [];
+		for (var i = 0; i < store.pictures.length; i++) {
+			imgs.push("images/"+store.pictures[i].location);
+		}
+		var points = store.points[0];
+		var address = points.province+points.city+points.district+points.detail_address;
       function getAddressData(parmas,cb){
-        var infor={name:"宝山万达旗舰店",time1:"2017-03-20",time2:"8:00 am - 20:00 pm",
-        word:`可爱的亲们，经过两个月的紧张筹备，伊芙坊间已经开张啦热烈欢迎广大亲们前来光顾我将以我最真诚的服务为大家提供最佳
-        的购物体验！！！`,
-        word1:`亲，小店新开可能会有些不周全的地方，欢迎广大亲们提出您宝贵的意见和建议，让我们一起在网购的这条路上越走越好亲，
-        我来介绍一下小铺的基本情况吧：伊芙坊间的衣橱主营服装饰品类，选择与厂家生产直接挂钩，这样亲们在购物的过程中，可以以最实
-        惠的价格买到相同宝贝里最好的品质，我们能够充分保证宝贝一分价钱一分货！由于与厂家直接挂钩，我们的货源充足，并且款式更新
-        及时，能为广大亲们提供更多的宝贝选择~亲通过我上面的介绍，是否能使您对我这个新开店铺信誉空白的小店增加些许的信任呢，我知
-        道新开店铺最大的是信誉问题，广大亲们可能心里会存在一些顾虑，不过我会以我最真诚热情的服务，使您心中的这些顾虑逐渐接除亲，
-        期待您的光临哦`,
-        imgs:['images/back-13.jpg','images/back-16.jpg','images/back-17.jpg']};
+        var infor={name:store.org_store_name,time1:store.open_date_text,time2:"8:00  - 20:00 ",
+        word:store.remark,
+        imgs:imgs,
+		address:address};
         cb({item:infor});
       }
     </script>
@@ -160,11 +178,14 @@
             // var img=this.state.item.imgs;
             return (
               <div className="shop-address">
-                <p className="shop-address-name"><u>{this.state.item.name}</u></p>
-                <p className="start-businsess">开业时间：{this.state.item.time1}</p>
-                <p className="business-hours">营业时间：{this.state.item.time2}</p>
-                <p className="shop-infor">{this.state.item.word}</p>
-                <p className="shop-infor">{this.state.item.word1}</p>
+
+				<p className="shop-address-name">{this.state.item.name}</p>
+
+				<p className="start-businsess">< img src="images/open.png" alt="" />开业时间：{this.state.item.time1}</p>
+                <p className="business-hours">< img src="images/time.png" alt="" />营业时间：{this.state.item.time2}</p>
+				<p className="start-businsess MARGIN">< img src="images/location2.png" alt="" /><u>{this.state.item.address}</u></p>
+				<p className="style_p"></p>
+                <p className="shop-infor">{{remark|safe}}</p>
                 <p className="shop-img">
                 {this.state.item.imgs.map(item => (
                     <img src={item} alt="" />))

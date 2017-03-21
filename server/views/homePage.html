@@ -66,7 +66,6 @@
           line-height: 25px;
           outline-style: none;
           border: none;
-          background: #44a338;
           border-radius: 6px;
           text-indent: 26px;
         }
@@ -260,9 +259,9 @@
         flex-wrap: wrap;
         justify-content: space-around;
       }
-      .homeLikeLi{
+	  .homeLikeLi{
         width: 46.26666%;
-        height: 254.5px;
+        height: 260px;
         border: 1px solid #e1e4e5;
         margin-bottom: 8px;
         list-style: none;
@@ -317,13 +316,52 @@
         left: 0;
         right: 0;
         z-index: -1;
-
       }
+	  /*活动内容*/
+	.activity_ul{
+	  width: 100%;
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: space-around;
+	}
+	.activity_li{
+	  width: 46.26666%;
+	  border: 1px solid #e1e4e5;
+	  margin-bottom: 8px;
+	  list-style: none;
+	}
+	.activity_li img{
+	  width: 100%;
+	}
+	.activity_li p{
+	  font-size: 12px;
+	  padding: 4px 8px;
+	  color: #666;
+	  display: -webkit-box;
+	  -webkit-line-clamp: 2;
+	  -webkit-box-orient: vertical;
+	  overflow: hidden;
+	  font-weight: 400;
+	  line-height: 18.25px;
+	}
     }
     </style>
 </head>
 <body>
   <div id="example"></div>
+  <script type="text/javascript">
+	  function getLikeData(params,cb) {
+
+		  $.get("/get_recommend_products",function(data){
+			  if (data.success) {
+			  		var products = data.products;
+					cb({likeitems:products});
+			  }else {
+				  alert(data.messsage);
+			  }
+		  });
+	  }
+  </script>
   <script src="js/lunbo.min.js"></script>
   <script type="text/babel">
   // 框架
@@ -405,6 +443,7 @@
 			<div className="main">
              <HomeNav/>
 			 <News/>
+			 <Activity/>
              <Like/>
 
            </div>
@@ -486,7 +525,41 @@
 	   );
    }
  };
+ // activity活动
+   class Activity extends React.Component {
+     constructor(props) {
+         super(props);
+         this.state={activityitems:[]};
+     }
+     componentDidMount() {
+       var act = [{acname:"善淘网实体店2017-03-25开业",img:"images/activity_1.jpg"},
+                   {acname:"现在冲会员享特权啦",img:"images/activity_2.jpg"}];
+       this.setState({activityitems:act});
+     }
+     render() {
 
+         return (
+           <div>
+             <p className="yourLike"><span>最新活动</span></p>
+             <ul className="activity_ul">
+               {this.state.activityitems.map(item => (
+                   <Activity_li item={item}  />))
+               }
+             </ul>
+           </div>
+
+         );
+     }
+   };
+   class Activity_li extends React.Component {
+
+     render() {
+
+         return (
+           <li className="activity_li"><img src={this.props.item.img} alt="" /><p>{this.props.item.acname}</p></li>
+         );
+     }
+   };
  // 猜你喜欢内容
  class NewsLi extends React.Component {
 
@@ -505,20 +578,9 @@
 	   this.state={likeitems:[]};
    }
    componentDidMount() {
-	 var infor = [{img:"images/c_1.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_2.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_3.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_4.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_5.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_6.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_7.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_8.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_9.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_1.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_2.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"},
-				  {img:"images/c_3.jpg",word:"短袖t恤女 春夏装韩版学生百搭修身打底衫女圆领黑色欧洲站显瘦女",price:"123"}];
-	 this.setState({likeitems:infor});
-
+	   getLikeData({},function(data) {
+		 this.setState(data);
+	   }.bind(this));
 	 setInterval(this.scroll,2800);
    }
    render() {
@@ -540,9 +602,13 @@
  class LikeLi extends React.Component {
 
    render() {
-	   var img = this.props.item.img;
+	   var img = "images/no_picture.png";
+	   var src = "/product_show?product_id="+this.props.item.id;
+	   if (this.props.item.img) {
+		   img = "images/"+this.props.item.img.location;
+	   }
 	   return (
-		   <li className="homeLikeLi"><a href="#"><img src={img} alt="" /><p className="likename">{this.props.item.word}</p><p className="likeprice">￥<span>{this.props.item.price}</span></p></a></li>
+		   <li className="homeLikeLi"><a href={src}><img src={img} alt="" /><p className="likename">{this.props.item.product_name}</p><p className="likeprice">￥<span>{this.props.item.product_sale_price}</span></p></a></li>
 	   );
    }
  };
@@ -572,7 +638,7 @@
           <ul className="footernav">
             <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
 			<li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
-		  <li><a href="/"><p className="footerCenter"><img src="images/shouyeshequ.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
+		  <li><a href="/news"><p className="footerCenter"><img src="images/shouyeshequ.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
 		  <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" onClick={this.handlePerson}/></p><p>我的</p></a></li>
           </ul>

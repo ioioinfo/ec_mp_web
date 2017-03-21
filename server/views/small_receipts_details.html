@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>商品列表</title>
+    <title>小票明细</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no">
     <style media="screen">
@@ -16,6 +16,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
+			position: relative;
         }
         li{
             list-style: none;
@@ -35,6 +36,13 @@
             overflow: hidden;
             border-bottom: 1px solid #f5f0f5;
         }
+		.goback{
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+          }
         .head-top{
             width: 100%;
             height: 60px;
@@ -85,23 +93,38 @@
             color: #3d3d3d;
             font-weight: 400;
             display: inline-block;
-            line-height: 40px;
 
         }
         .right .red{
             color: red;
             font-size: 16px;
+			display: inline-block;
+            width: 13%;
+			text-align: right;
         }
-        .right p:first-child{
+        /*.right p:first-child{
             text-align: right;
-        }
-        .right p:last-child{
+        }*/
+        /*.right p:last-child{
             text-align: right;
-        }
-        .right p span:first-child{
+        }*/
+		.right .right_p2{
+		   text-align: right;
+		 }
+		.right .right_p2 span{
+            margin-left: 10px;
+			line-height: 30px;
+          }
+		.right .right_p1 span:first-child{
             float: left;
-
-        }
+            display: inline-block;
+            width: 85%;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+			line-height: 20px;
+          }
         .infor{
             width: 89.33333%;
             margin: 0 auto;
@@ -142,8 +165,8 @@
 
         }
         .fish img{
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
         }
         .footer{
             text-align: center;
@@ -158,6 +181,7 @@
 </head>
 <body>
     <div class="head">
+		<a href="/small_receipts"><img src="images/back.png" class="goback" alt="" /></a>
         <div class="head-top">
             <span>{{ row.store.org_store_name }}</span>
         </div>
@@ -172,10 +196,10 @@
             <img src="{{ ec_host }}/images/{{ order_detail.product.img.location }}" alt="">
             {% endif %}
         </div>
-        <div class="right">
-            <p><span>{{ order_detail.product.product_name }}</span><span class="red">X{{ order_detail.number }}</span></p>
-            <p><span>单价：￥{{ order_detail.price }}</span><span>成交价：￥{{ order_detail.total_price }}</span></p>
-        </div>
+		<div class="right">
+			<p class="right_p1"><span>{{ order_detail.product.product_name }}</span><span class="red">X{{ order_detail.number }}</span></p>
+        	<p class="right_p2"><span>单价：￥{{ order_detail.price }}</span><span>成交价：￥{{ order_detail.total_price }}</span></p>
+		</div>
     </div>
     {% endfor %}
     <div class="infor">
@@ -188,7 +212,7 @@
         <p><span>结算：</span><span>￥</span><span class="number">{{ row.actual_price - row.small_change }}</span></p>
         <p><span>获得积分：{{ row.gain_point }}分</span></p>
         <p><span>结算方式：{{ row.pay_ways }}</span></p>
-        <div class="fish"><img src="{{ image_host }}/images/fish-1.png" alt=""></div>
+        <div class="fish"><img src="{{ image_host }}/images/42.png" alt=""></div>
     </div>
     <div class="footer">
         没有更多啦、、、、
