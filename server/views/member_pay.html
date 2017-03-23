@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>充值</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <style media="screen">
+      @media screen and (max-width:640px) {
+        *{
+            margin: 0;
+            padding: 0;
+          }
+          html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background: url(images/chongzhi.jpg) no-repeat;
+            background-size: auto;
+            position: relative;
+            z-index: -11;
+          }
+          a{
+            text-decoration: none;
+            color: #101010;
+          }
+          ::-webkit-scrollbar {
+              display: none;
+          }
+        .header{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 7px;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
+        }
+        .title span{
+          color: #D81E06;
+        }
+        /*中间部分*/
+        .Main{
+          width: 96%;
+          margin: 0 auto;
+
+        }
+        .MainTop_title{
+          width: 100%;
+          display: flex;
+        }
+        .MainTop_title p{
+          width: 50%;
+          text-align: center;
+          color: #666;
+          font-size: 14px;
+          padding: 4px 0;
+        }
+        .MainTop_title .MainTop{
+          border-bottom: 2px solid #E84E40;
+        }
+        .MainBottom_infor{
+          text-align: center;
+          margin-top: 205px;
+          position: relative;
+        }
+        input[type="submit"],input[type="reset"],input[type="button"],button {
+          -webkit-appearance: none;
+        }
+        .MainBottom_infor .cardInput_out{
+          border: 1px solid #666;
+          display: inline-block;
+          border-radius: 4px;
+        }
+        .MainBottom_infor .cardInput{
+          width: 215px;
+          height: 35px;
+          border-radius: 4px;
+          font-size: 14px;
+          border: none;
+          text-indent: 10px;
+        }
+        .MainBottom_infor .recharge{
+          width: 215px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          background: rgb(112,180,44);
+          color: #fff;
+          border-radius: 4px;
+          display: inline-block;
+          margin-top: 30px;
+        }
+        .recharge_ul2{
+            width: 96%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .recharge_ul2 li{
+            width: 20%;
+            margin: 50px auto;
+            list-style: none;
+        }
+        .recharge_ul2 li img{
+            width: 100%;
+        }
+        .recharge_ul1{
+            width: 96%;
+            margin: 120px auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .recharge_ul1 li{
+            width: 30%;
+            height: 50px;
+            text-align: center;
+            line-height: 25px;
+            list-style: none;
+            border: 1px solid rgb(112,180,44);
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: rgb(112,180,44);
+            box-sizing: border-box;
+        }
+        .recharge_ul1 li p:first-child{
+            font-size: 14px;
+        }
+        .recharge_ul1 .liColor{
+            color: #0DB3E7;;
+            border: 1px solid #0DB3E7;
+        }
+		.recharge_ul2 .recharge_li1{
+			border: 2px solid #0CB3E7;
+			box-sizing: border-box;
+			padding: 2px;
+			border-radius: 2px;
+		}
+		.recharge_ul2 .recharge_li2{
+			border: 2px solid #7EBD30;
+			box-sizing: border-box;
+			padding: 2px;
+			border-radius: 2px;
+		}
+      }
+	</style>
+  </head>
+  <body>
+    <div id="example"></div>
+	<script type="text/javascript">
+		var rates = {{rates|safe}};
+		var activity_id = "{{activity_id|safe}}";
+		rates = JSON.parse(rates);
+		function get_recharge_campaign(parmas,cb){
+			cb({priceitems:rates,selected:{price:rates[0].price,price1:rates[0].price1}});
+		}
+	</script>
+    <script type="text/babel">
+    class Warp extends React.Component {
+      render() {
+          return (
+            <div className="wrap">
+              <Header/>
+              <Main/>
+            </div>
+          );
+      }
+    };
+    // 头部
+    class Header extends React.Component {
+      render() {
+          return (
+            <div className="header">
+              <span className="jiantou"><a href="/person_center"><img src="images/jiantou.png" alt="" /></a></span>
+              <span className="title">会员充值</span>
+              <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
+            </div>
+          );
+      }
+    };
+    // 中间部分
+    class Main extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleClick = this.handleClick.bind(this);
+            this.state = {"show":"1"};
+        }
+        handleClick(e){
+            this.setState({"show":e.target.id});
+        }
+        render() {
+            var Recharge=<Recharge1 member_order_url="/add_member_order"/>;
+            var c1 ="MainTop";
+            var c2 ="";
+            if(this.state.show == "2"){
+                Recharge=<Recharge2/>;
+                c1 = "";
+                c2 = "MainTop";
+            }
+          return (
+            <div className="Main">
+              <div className="MainTop_title">
+                <p className={c1} id="1" onClick={this.handleClick}>在线支付</p>
+                <p className={c2} id="2" onClick={this.handleClick}>充值卡充值</p>
+              </div>
+              {Recharge}
+            </div>
+          );
+        }
+    };
+
+    class Recharge2 extends React.Component {
+      render() {
+          return (
+              <div className="MainBottom_infor">
+                <p className="cardInput_out"><input type="text" name="" placeholder="请输入充值卡号" className="cardInput" /></p>
+                <p className="recharge">立即充值</p>
+              </div>
+          );
+      }
+    };
+    class Recharge1 extends React.Component {
+        constructor(props) {
+            super(props);
+            this.setSelected=this.setSelected.bind(this);
+			this.handleClick=this.handleClick.bind(this);
+            this.state = {priceitems:[],selected:{},pay_way:""};
+        }
+
+		handleClick(e){
+            this.setState({pay_way:e.target.id});
+			if(confirm("确定要充值？")){
+				$.ajax({
+					url: this.props.member_order_url,
+					dataType: 'json',
+					type: 'GET',
+					data: ({marketing_price:this.state.selected.price,actual_price:this.state.selected.price1,pay_way:e.target.id,activity_id:activity_id}),
+					success: function(data) {
+
+					}.bind(this),
+					error: function(xhr, status, err) {
+					}.bind(this)
+				});
+			}
+
+        }
+        setSelected(selected){
+            this.setState({selected:selected});
+        }
+        componentDidMount(){
+			get_recharge_campaign({},function(data) {
+              this.setState(data);
+            }.bind(this));
+        }
+        render() {
+			var c="",d="";
+            if(this.state.pay_way=="ali_pay"){
+                c="recharge_li1";
+            } else if(this.state.pay_way=="weinxin_pay"){
+                d="recharge_li2";
+            }
+          return (
+              <div>
+                  <ul className="recharge_ul1">
+                  {this.state.priceitems.map(item => (
+                      <RechargeLi item={item} selected={this.state.selected} setSelected={this.setSelected}/>))
+                  }
+
+                  </ul>
+				  <ul className="recharge_ul2">
+                    <li className={c}><img src="images/zhifubaozhifu.png" alt="" id="ali_pay" onClick={this.handleClick} /></li>
+                    <li className={d}><img src="images/weixinzhifu.png" alt="" id="weinxin_pay" onClick={this.handleClick} /></li>
+                  </ul>
+              </div>
+          );
+        }
+    };
+    class RechargeLi extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleClick=this.handleClick.bind(this);
+        }
+        handleClick(e){
+            this.props.setSelected({price:this.props.item.price,price1:this.props.item.price1});
+        }
+        render() {
+            var c="";
+            if(this.props.selected.price==this.props.item.price){
+                c="liColor";
+            }
+          return (
+              <li className={c} onClick={this.handleClick}><p>￥{this.props.item.price}</p><p>现售价:￥{this.props.item.price1}</p></li>
+          );
+        }
+    };
+    ReactDOM.render(
+      <Warp/>,
+      document.getElementById("example")
+    );
+    </script>
+  </body>
+</html>

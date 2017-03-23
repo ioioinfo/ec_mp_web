@@ -104,6 +104,11 @@ var get_hot_sale_products = function(person_id,cb){
 	url = url + person_id;
 	do_get_method(url,cb);
 };
+//保存充值订单
+var save_recharge_order = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_recharge_order";
+	do_post_method(url,data,cb);
+};
 //新品
 var get_new_arrival_products = function(person_id,cb){
 	var url = "http://139.196.148.40:16001/get_new_arrival_products?person_id=";
@@ -286,6 +291,11 @@ var find_industry = function(industry_id,product_id, cb){
 var find_product_byId = function(product_id, cb){
 	var url = "http://127.0.0.1:18002/product_info?product_id=";
 	url = url + product_id;
+	do_get_method(url,cb);
+};
+//充值比例接口
+var get_recharge_campaign = function(activity_id, cb){
+	var url = "http://211.149.248.241:18004/get_recharge_campaign?campaign_code="+activity_id;
 	do_get_method(url,cb);
 };
 //开票信息
@@ -620,6 +630,60 @@ exports.register = function(server, options, next){
 				return reply.view("search_area",{"q":q});
 			}
 		},
+		//充值订单新建
+		{
+			method: 'GET',
+			path: '/add_member_order',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var pay_way = request.query.pay_way;
+				var activity_id = request.query.activity_id;
+				var marketing_price = request.query.marketing_price;
+				var actual_price = request.query.actual_price;
+				if (!pay_way||!activity_id||!actual_price||!marketing_price) {
+					return reply({"success":false,"message":"params null"});
+				}
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var data = {
+					"marketing_price": marketing_price,
+					"actual_price": actual_price,
+					"activity_id": activity_id,
+					"pay_way": pay_way,
+					"person_id": person_id
+				};
+				save_recharge_order(data,function(err,content){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+
+			}
+		},
+		//会员充值
+		{
+			method: 'GET',
+			path: '/member_pay',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				var activity_id = request.query.activity_id;
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				get_recharge_campaign(activity_id,function(err,row){
+					if (!err) {
+						var rates = row.row.rates;
+						return reply.view("member_pay",{"success":false,"message":"ok","rates":JSON.stringify(rates),"activity_id":activity_id});
+					}else {
+						return reply({"success":false,"message":row.message})
+					}
+				});
+			}
+		},
+
 		//产品展示
 		{
 			method: 'GET',
