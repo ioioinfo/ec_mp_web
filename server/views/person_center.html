@@ -338,6 +338,23 @@
 			   .background-color{
 				   background: #fff;
 			   }
+			   /*返回顶部*/
+        .top{
+          width: 17px;
+          display: inline-block;
+          font-size: 12px;
+          position: fixed;
+          right: 10px;
+          bottom: 50px;
+          display: none;
+          cursor: pointer;
+        }
+        .top img{
+          display: block;
+          width: 10px;
+          height: 15px;
+          margin: 0 auto;
+        }
 	 }
    </style>
  </head>
@@ -613,5 +630,26 @@
 	 });
  });
  </script>
+<!-- 返回顶部 -->
+<!-- 返回顶部 -->
+  <div class="top"><img src="images/top.png" alt="" /><u>top</u></div>
+  <script type="text/javascript">
+      $(function(){
+          $(".top").click(function(){
+               $('body,html').animate({scrollTop:0},400);
+          });
+          $(window).scroll(function(){
+            var topHeight=$(window).scrollTop();
+            console.log(topHeight);
+            if (topHeight>500){
+              //当滚动条的位置处于距顶部1000像素以下时，就是大于1000象数时，跳转出现
+              $(".top").fadeIn(250);
+            }else{ //否则就消失
+              $(".top").fadeOut(250);
+            }
+
+        });
+      })
+  </script>
  </body>
 </html>

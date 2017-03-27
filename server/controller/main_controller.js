@@ -3,8 +3,11 @@ const uu_request = require('../utils/uu_request');
 ﻿var industries = require('../utils/industries.js');
 var eventproxy = require('eventproxy');
 const uuidV1 = require('uuid/v1');
+
 var service_info = "web service";
 var org_code = "ioio";
+var platform_code = "ec_mobile";
+
 var do_get_method = function(url,cb){
 	uu_request.get(url, function(err, response, body){
 		if (!err && response.statusCode === 200) {
@@ -349,6 +352,12 @@ var get_person_vip = function(person_id,cb){
 var combine_shopping_cart = function(cart_code,person_id,cb){
 	var url = "http://127.0.0.1:18015/combine_shopping_cart?person_id=";
 	url = url + person_id + "&cart_code=" + cart_code;
+	do_get_method(url,cb);
+}
+//
+var list_notify_by_person = function(person_id,cb){
+	var url = "http://139.196.148.40:18005/list_notify_by_person?person_id=";
+	url = url + person_id + "&platform_code=common";
 	do_get_method(url,cb);
 }
 //注册
@@ -1133,6 +1142,7 @@ exports.register = function(server, options, next){
 				var product_price = request.payload.product_price;
 				var person_id = get_cookie_person(request);
 				var cart_code = get_cookie_cart_code(request);
+
 				//判断是否登入
 				console.log("person_id:"+person_id);
 				if (!person_id) {
@@ -1148,18 +1158,14 @@ exports.register = function(server, options, next){
 					};
 					search_cart_code(data,function(err,result){
 						if (!err) {
-							if (result.param == 0) {
-								var state;
-								if (request.state && request.state.cookie) {
-									state = request.state.cookie;
-									state.cart_code = cart_code;
-								}else {
-									state = {cart_code:cart_code};
-								}
-								return reply({"success":true,"all_items":result.all_items}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+							var state;
+							if (request.state && request.state.cookie) {
+								state = request.state.cookie;
+								state.cart_code = cart_code;
 							}else {
-								return reply({"success":true,"all_items":result.all_items});
+								state = {cart_code:cart_code};
 							}
+							return reply({"success":true,"all_items":result.all_items}).state('cookie', state, {ttl:10*365*24*60*60*1000});
 						}else {
 							return reply({"success":false,"message":err});
 						}
@@ -2508,8 +2514,8 @@ exports.register = function(server, options, next){
 				data.username = request.payload.username;
 				data.password = request.payload.password;
 				var vertify = request.payload.vertify;
+				data.platform = "ec_mobile";
 				data.org_code = org_code;
-
 				if (!data.username||!data.password||!vertify) {
 					return reply({"success":false,"message":"params wrong"});
 				}
@@ -2553,7 +2559,18 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/messages',
 			handler: function(request, reply){
-				return reply.view("messages");
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				list_notify_by_person(person_id,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows,"service_info":rows.service_info});
+					}else {
+						return reply({"success":false,"messages":rows.message,"service_info":rows.service_info});
+					}
+				});
+
 			}
 		},
 		//微信充值中心

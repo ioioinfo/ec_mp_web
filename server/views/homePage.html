@@ -314,7 +314,6 @@
         color: #333;
         position: relative;
         margin: 16px 0 8px 0;
-        z-index: 2;
         border-bottom: 0 none;
         text-align: center;
         font-size: 16px;
@@ -363,6 +362,23 @@
 	  font-weight: 400;
 	  line-height: 18.25px;
 	}
+	/*返回顶部*/
+      .top{
+        width: 17px;
+        display: inline-block;
+        font-size: 12px;
+        position: fixed;
+        right: 10px;
+        bottom: 76px;
+        display: none;
+        cursor: pointer;
+      }
+      .top img{
+        display: block;
+        width: 10px;
+        height: 15px;
+        margin: 0 auto;
+      }
     }
     </style>
 </head>
@@ -393,6 +409,7 @@
             <Footer person_url="/person_center" logistics_url="" cart_url="/cart_infos" sort_url="/sort" order_url="/order_center"/>
 			 <Background0/>
 			<Background/>
+			<Top/>
           </div>
         );
     }
@@ -664,6 +681,40 @@
 		  <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" onClick={this.handlePerson}/></p><p>我的</p></a></li>
           </ul>
+        );
+    }
+  };
+  // 返回顶部
+  class Top extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick=this.handleClick.bind(this);
+    }
+    // 点击返回顶部
+    handleClick(e){
+       $('body,html').animate({scrollTop:0},400);
+    }
+    // 页面发生变化的时候触发
+    componentDidMount() {
+      $(window).scroll(function(){
+        var topHeight=$(window).scrollTop();
+        console.log(topHeight);
+        if (topHeight>500){
+          //当滚动条的位置处于距顶部1000像素以下时，就是大于1000象数时，跳转出现
+          $(".top").fadeIn(250);
+        }else{ //否则就消失
+          $(".top").fadeOut(250);
+        }
+
+      })
+    }
+
+    render() {
+      var topHeight=$(window).scrollTop();
+      console.log(topHeight);
+
+        return (
+          <div className="top" onClick={this.handleClick}><img src="images/top.png" alt="" /><u>top</u></div>
         );
     }
   };
