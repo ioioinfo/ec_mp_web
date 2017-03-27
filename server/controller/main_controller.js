@@ -589,6 +589,7 @@ exports.register = function(server, options, next){
 				search_object.is_new = request.query.is_new;
 				search_object.row_materials = request.query.row_materials;
 				search_object.size_name = request.query.size_name;
+				search_object.sort_ids = request.query.sort_ids;
 				console.log("search_object:"+JSON.stringify(search_object));
 				search_all_products(search_object,function(err,results){
 					if (!err) {

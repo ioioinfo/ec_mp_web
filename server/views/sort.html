@@ -323,7 +323,12 @@
 
 			<ul class="main-product-ul">
 				<% _.forEach(sorts[level2.id], function(level3) { %>
-	              <li><a href="/search?sort_id=<%- level3.id %>">
+	              <li>
+					  <% if(level3.web_link){ %>
+					  	<a href="/search?sort_ids=<%- level3.web_link %>">
+					  <% }else{ %>
+						<a href="/search?sort_id=<%- level3.id %>">
+					  <% } %>
 					  <% if(level3.img_location){ %>
 						 <img src="images/<%- level3.img_location %>" alt="">
 					 <% }else{ %>

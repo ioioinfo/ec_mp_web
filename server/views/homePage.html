@@ -241,17 +241,36 @@
       }
 	  /*滚动新闻样式*/
       .HomeNews{
-        width: 100%;
+        width: 94%;
         font-size: 12px;
         height: 25px;
         overflow: hidden;
         text-align: center;
+		background: url(images/toutiao.jpg) no-repeat 0 0;
+	   background-size: 100% 25px;
+	   margin: 0 auto;
       }
       .HomeNews li{
         height: 25px;
         line-height: 25px;
       }
+	  .news{
+          position: relative;
+      }
+      .news .newsMore{
+          width: 25px;
+          height: 25px;
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right:6.3333%;
+      }
+      .news .newsMore a{
+          width: 25px;
+          height: 25px;
+          display: inline-block;
 
+      }
       /*猜你喜欢*/
       .homeLike{
         width: 100%;
@@ -517,11 +536,14 @@
    }
    render() {
 	   return (
-		   <ul className="HomeNews">
-		   {this.state.newsitems.map(item => (
-			   <NewsLi item={item}  />))
-		   }
-		   </ul>
+		   <div className="news">
+                <ul className="HomeNews">
+                {this.state.newsitems.map(item => (
+                    <NewsLi item={item}  />))
+                }
+                </ul>
+                <span className="newsMore"><a></a></span>
+            </div>
 	   );
    }
  };
