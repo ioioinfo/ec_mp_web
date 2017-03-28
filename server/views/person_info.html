@@ -92,7 +92,6 @@
             line-height: 47px;
             text-align: center;
             color: #252525;
-            font-weight: bold;
           }
           /*中间部分*/
           .middle{
@@ -317,6 +316,10 @@
             text-indent: 15px;
             border-bottom: 1px solid #eee;
           }
+		  .xingbie .xingbie-infor p input{
+			  border: none;
+			  outline: none;
+		  }
 
 
       }
@@ -326,20 +329,21 @@
     <div class="wrap">
       <div class="top">
         <div class="back">
-          <img src="images/back.png" alt="">
+			<a href="/configure">
+          		<img src="images/back.png" alt="">
+			</a>
         </div>
-        <p class="top-title">账户管理</p>
+        <p class="top-title">个人信息</p>
         <div class="top-right"></div>
       </div>
       <div class="middle">
         <ul class="middle-ul">
           <li class="middle-li"><p class="middle-p1 p">头像</p><p class="middle-p2 p"><span class="header">{% if persons[0] %}<img src="images/{{persons[0].avatar_url}}" alt="">{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span>{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span>无名氏</span><img src="images/rightjiantou.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3"><span>男</span><img src="images/rightjiantou.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="" ></li>
+          <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span></span></p></li>
+          <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span class="nick_name">{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
+          <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3 p4"><span>{{person_info.gender}}</span><img src="images/rightjiantou.png" alt=""></p></li>
+          <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="{{person_info.birthday}}" class="date"></li>
         </ul>
-
       </div>
     </div>
     <div class="footer">
@@ -374,7 +378,7 @@
     <!-- 昵称 -->
     <div class="nicheng-name">
       <div class="nicheng-name-infor">
-        <p class="nicheng-name-p"><input type="text" name="" value="" placeholder="马云"></p>
+        <p class="nicheng-name-p"><input type="text" name="" value="" placeholder="{{person_info.person_name || '输入昵称'}}" class="nickname"></p>
         <p class="nicheng-2">1.仅供场景使用</p>
         <p class="nicheng-2">2.最终解释权归平台所有</p>
         <p class="nicheng-3">保存</p>
@@ -382,6 +386,7 @@
 
     </div>
     <script type="text/javascript">
+	//昵称
       $(function(){
         $(".middle-li .p2").click(function(){
           $(".nicheng-name").css("display","block");
@@ -392,7 +397,15 @@
         $(".nicheng-name-infor").click(function(event){
           event.stopPropagation();
         });
-
+		$(".nicheng-3").click(function(){
+			$(".nicheng-name").css("display","none");
+			$(".nick_name").html($(".nickname").val());
+			$.post("/save_nickname",{nickname:$(".nickname").val()},function(data){
+				if (!data.success) {
+					alert(data.message);
+				}
+			})
+		});
       })
     </script>
 
@@ -400,12 +413,15 @@
     <div class="xingbie">
       <div class="xingbie-infor">
         <p>修改性别</p>
-        <p>男</p>
-        <p>女</p>
+        <p class="man"><input type="text" name="" value="男"></p>
+        <p class="woman"><input type="text" name="" value="女"></p>
       </div>
     </div>
     <script type="text/javascript">
+	//性别,生日
       $(function(){
+		 var gender = "";
+		 var birth_day = "";
         $(".middle-li .p3").click(function(){
           $(".xingbie").css("display","block");
         });
@@ -415,7 +431,35 @@
         $(".xingbie-infor").click(function(event){
           event.stopPropagation();
         });
-
+		$(".man").click(function(){
+			$(".xingbie").css("display","none");
+			gender = $(".man input").val();
+			$(".middle-li .p3.p4").html(gender);
+			save_gender(gender);
+		});
+		$(".woman").click(function(){
+			$(".xingbie").css("display","none");
+			gender = $(".woman input").val();
+			$(".middle-li .p3.p4").html(gender);
+			save_gender(gender);
+		});
+		//性别
+		var save_gender = function(gender){
+			$.post("/save_gender",{gender:gender},function(data){
+				if (!data.success) {
+					alert(data.message);
+				}
+			})
+		};
+		//生日
+		$(".date").change(function(){
+			birth_day = $(this).val();
+			$.post("/save_birthday",{birthday:birth_day},function(data){
+				if (!data.success) {
+					alert(data.message);
+				}
+			})
+		});
       })
     </script>
 

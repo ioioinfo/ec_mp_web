@@ -97,13 +97,13 @@ var find_favorite = function(product_id,person_id,cb){
 };
 //推荐
 var get_recommend_products = function(person_id,cb){
-	var url = "http://139.196.148.40:16001/get_recommend_products?person_id=";
+	var url = "http://211.149.248.241:16001/get_recommend_products?person_id=";
 	url = url + person_id;
 	do_get_method(url,cb);
 };
 //热销
 var get_hot_sale_products = function(person_id,cb){
-	var url = "http://139.196.148.40:16001/get_hot_sale_products?person_id=";
+	var url = "http://211.149.248.241:16001/get_hot_sale_products?person_id=";
 	url = url + person_id;
 	do_get_method(url,cb);
 };
@@ -114,7 +114,7 @@ var save_recharge_order = function(data,cb){
 };
 //新品
 var get_new_arrival_products = function(person_id,cb){
-	var url = "http://139.196.148.40:16001/get_new_arrival_products?person_id=";
+	var url = "http://211.149.248.241:16001/get_new_arrival_products?person_id=";
 	url = url + person_id;
 	do_get_method(url,cb);
 };
@@ -154,6 +154,13 @@ var find_personsVip = function(persons, cb){
 	url = url + persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
+//根据personid找info
+var find_person_info = function(person_id, cb){
+	var url = "http://139.196.148.40:18003/person/get_by_id?person_id=";
+	url = url + person_id + "&scope_code=" +org_code;
+	do_get_method(url,cb);
+};
+
 //得到所有订单
 var get_ec_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_orders?person_id="+person_id;
@@ -199,7 +206,7 @@ var find_saidans_pictures = function(comments_ids, cb){
 };
 //好评，差评，总数
 var find_total_comments = function(product_id, cb){
-	var url = "http://139.196.148.40:16001/get_products_comment_summary?product_ids=";
+	var url = "http://211.149.248.241:16001/get_products_comment_summary?product_ids=";
 	url = url + product_id;
 	do_get_method(url,cb);
 };
@@ -280,7 +287,7 @@ var get_store_list = function(org_code,cb){
 };
 //常去门店
 var get_visited_stores = function(org_code,person_id,cb){
-	var url = "http://139.196.148.40:16001/list_visited_stores?org_code=";
+	var url = "http://211.149.248.241:16001/list_visited_stores?org_code=";
 	url = url + org_code + "&person_id=" + person_id;
 	do_get_method(url,cb);
 };
@@ -456,7 +463,7 @@ var sarch_cart_infos = function(person_id,cart_code,cb){
 };
 //查询销售量
 var find_product_sales = function(product_id,cb){
-	var url = "http://139.196.148.40:16001/get_product_sales?product_id=";
+	var url = "http://211.149.248.241:16001/get_product_sales?product_id=";
 	url = url + product_id;
 	do_get_method(url,cb);
 };
@@ -514,8 +521,83 @@ var check_cart_number = function(person_id,cart_code,cb){
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 }
+//保存昵称
+var save_nickname = function(data,cb){
+	var url = "http://139.196.148.40:18003/person/save_nickname";
+	do_post_method(url,data,cb);
+}
+//保存性别
+var save_gender = function(data,cb){
+	var url = "http://139.196.148.40:18003/person/save_gender";
+	do_post_method(url,data,cb);
+}
+//保存生日
+var save_birthday = function(data,cb){
+	var url = "http://139.196.148.40:18003/person/save_birthday";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//保存昵称
+		{
+			method: 'POST',
+			path: '/save_nickname',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var nickname = request.payload.nickname;
+				var data = {"nickname":nickname,"person_id":person_id,"scope_code":org_code};
+				save_nickname(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//保存性别
+		{
+			method: 'POST',
+			path: '/save_gender',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var gender = request.payload.gender;
+				var data = {"gender":gender,"person_id":person_id,"scope_code":org_code};
+				save_gender(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//保存生日
+		{
+			method: 'POST',
+			path: '/save_birthday',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var birthday = request.payload.birthday;
+				var data = {"birthday":birthday,"person_id":person_id};
+				save_birthday(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//desc,需要服务器地址
 		{
 			method: 'GET',
@@ -626,7 +708,7 @@ exports.register = function(server, options, next){
 							}
 						});
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":results.message});
 					}
 				});
 			}
@@ -1840,9 +1922,9 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				var ep =  eventproxy.create("persons","personsVip",
-					function(persons,personsVip){
-					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip});
+				var ep =  eventproxy.create("persons","personsVip","person_info",
+					function(persons,personsVip,person_info){
+					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info});
 				});
 				var person_ids = [person_id];
 				console.log("person_ids:"+person_id);
@@ -1860,6 +1942,14 @@ exports.register = function(server, options, next){
 						ep.emit("personsVip", personsVip);
 					}else {
 						ep.emit("personsVip", []);
+					}
+				});
+				find_person_info(person_id, function(err, content){
+					if (!err) {
+						var person_info = content.row;
+						ep.emit("person_info", person_info);
+					}else {
+						ep.emit("person_info", []);
 					}
 				});
 			}
@@ -1940,9 +2030,9 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var person_ids = [person_id];
-				var ep =  eventproxy.create("persons","personsVip",
-					function(persons,personsVip){
-					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip});
+				var ep =  eventproxy.create("persons","personsVip","person_info",
+					function(persons,personsVip,person_info){
+					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info});
 				});
 				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
@@ -1958,6 +2048,14 @@ exports.register = function(server, options, next){
 						ep.emit("personsVip", personsVip);
 					}else {
 						ep.emit("personsVip", []);
+					}
+				});
+				find_person_info(person_id, function(err, content){
+					if (!err) {
+						var person_info = content.row;
+						ep.emit("person_info", person_info);
+					}else {
+						ep.emit("person_info", []);
 					}
 				});
 			}
@@ -2427,7 +2525,7 @@ exports.register = function(server, options, next){
 				data.password = request.payload.password;
 				data.username = request.payload.username;
 				data.org_code = org_code;
-
+				data.platform_code = platform_code;
 				if (!data.password || !data.username || !data.mobile) {
 					return reply({"success":false,"message":"param wrong","service_info":service_info});
 				}
@@ -2514,7 +2612,7 @@ exports.register = function(server, options, next){
 				data.username = request.payload.username;
 				data.password = request.payload.password;
 				var vertify = request.payload.vertify;
-				data.platform = "ec_mobile";
+				data.platform_code = platform_code;
 				data.org_code = org_code;
 				if (!data.username||!data.password||!vertify) {
 					return reply({"success":false,"message":"params wrong"});
