@@ -339,7 +339,7 @@
       <div class="middle">
         <ul class="middle-ul">
           <li class="middle-li"><p class="middle-p1 p">头像</p><p class="middle-p2 p"><span class="header">{% if persons[0] %}<img src="images/{{persons[0].avatar_url}}" alt="">{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span></span></p></li>
+          <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span>{{person.username}}</span></p></li>
           <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span class="nick_name">{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
           <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3 p4"><span>{{person_info.gender}}</span><img src="images/rightjiantou.png" alt=""></p></li>
           <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="{{person_info.birthday}}" class="date"></li>
@@ -378,7 +378,7 @@
     <!-- 昵称 -->
     <div class="nicheng-name">
       <div class="nicheng-name-infor">
-        <p class="nicheng-name-p"><input type="text" name="" value="" placeholder="{{person_info.person_name || '输入昵称'}}" class="nickname"></p>
+        <p class="nicheng-name-p"><input type="text" name="" value="{{persons[0].nickname || ''}}" placeholder="输入昵称" class="nickname"></p>
         <p class="nicheng-2">1.仅供场景使用</p>
         <p class="nicheng-2">2.最终解释权归平台所有</p>
         <p class="nicheng-3">保存</p>
@@ -399,8 +399,12 @@
         });
 		$(".nicheng-3").click(function(){
 			$(".nicheng-name").css("display","none");
-			$(".nick_name").html($(".nickname").val());
-			$.post("/save_nickname",{nickname:$(".nickname").val()},function(data){
+			var nickname = $(".nickname").val()
+			if (!nickname) {
+				return;
+			}
+				$(".nick_name").html($(".nickname").val());
+			$.post("/save_nickname",{nickname:nickname},function(data){
 				if (!data.success) {
 					alert(data.message);
 				}
@@ -413,8 +417,8 @@
     <div class="xingbie">
       <div class="xingbie-infor">
         <p>修改性别</p>
-        <p class="man"><input type="text" name="" value="男"></p>
-        <p class="woman"><input type="text" name="" value="女"></p>
+        <p class="man"><span data-id="男">男</span>
+        <p class="woman"><span data-id="女">女</span>
       </div>
     </div>
     <script type="text/javascript">
@@ -433,14 +437,14 @@
         });
 		$(".man").click(function(){
 			$(".xingbie").css("display","none");
-			gender = $(".man input").val();
-			$(".middle-li .p3.p4").html(gender);
+			gender = $(".man span").data("id");
+			$(".middle-li .p3.p4 span").html(gender);
 			save_gender(gender);
 		});
 		$(".woman").click(function(){
 			$(".xingbie").css("display","none");
-			gender = $(".woman input").val();
-			$(".middle-li .p3.p4").html(gender);
+			gender = $(".woman span").data("id");
+			$(".middle-li .p3.p4 span").html(gender);
 			save_gender(gender);
 		});
 		//性别

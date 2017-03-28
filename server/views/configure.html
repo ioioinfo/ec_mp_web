@@ -144,6 +144,9 @@
             left: 0;
             right: 0;
           }
+		  .top-right p.headernewsnum{
+			  display: none;
+		  }
       }
     </style>
   </head>
@@ -151,7 +154,9 @@
     <div class="wrap">
       <div class="top">
         <div class="back">
-          <img src="images/back.png" alt="">
+		  <a href="/person_center">
+          	<img src="images/back.png" alt="">
+		  </a>
         </div>
         <p class="top-title">账户管理</p>
         <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum"></p></div>
@@ -180,6 +185,7 @@
 				if (data.count == 0) {
 					$(".headernewsnum").hide();
 				}else {
+					$(".headernewsnum").show();
 					$(".headernewsnum").html(data.count);
 				}
 			},

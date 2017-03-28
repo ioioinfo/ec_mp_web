@@ -160,7 +160,12 @@ var find_person_info = function(person_id, cb){
 	url = url + person_id + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
-
+//
+var find_person_name = function(person_id, cb){
+	var url = "http://139.196.148.40:18666/user/get_person_login?person_id=";
+	url = url + person_id + "&org_code=" +org_code;
+	do_get_method(url,cb);
+};
 //得到所有订单
 var get_ec_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_orders?person_id="+person_id;
@@ -536,8 +541,42 @@ var save_birthday = function(data,cb){
 	var url = "http://139.196.148.40:18003/person/save_birthday";
 	do_post_method(url,data,cb);
 }
+//简单保存
+var save_product_simple = function(data,cb){
+	var url = "http://127.0.0.1:18002/save_product_simple";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//简单保存
+		{
+			method: 'POST',
+			path: '/save_product_simple',
+			handler: function(request, reply){
+				var product_id = request.payload.product_id;
+				var product_name = request.payload.product_name;
+				var product_sale_price = request.payload.product_sale_price;
+				if (!product_id || !product_name || !product_sale_price) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+
+				var product = {
+					"product_id" : product_id,
+					"product_name" : product_name,
+					"product_sale_price" : product_sale_price,
+					"industry_id" : 101
+				};
+				console.log(JSON.stringify(product));
+				save_product_simple(product,function(err,result){
+					if (!err) {
+						var product_id = result.product_id;
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message});
+					}
+				});
+			}
+		},
 		//保存昵称
 		{
 			method: 'POST',
@@ -2030,9 +2069,9 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var person_ids = [person_id];
-				var ep =  eventproxy.create("persons","personsVip","person_info",
-					function(persons,personsVip,person_info){
-					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info});
+				var ep =  eventproxy.create("persons","personsVip","person_info","person",
+					function(persons,personsVip,person_info,person){
+					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
 				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
@@ -2056,6 +2095,14 @@ exports.register = function(server, options, next){
 						ep.emit("person_info", person_info);
 					}else {
 						ep.emit("person_info", []);
+					}
+				});
+				find_person_name(person_id, function(err, content){
+					if (!err) {
+						var person = content.row;
+						ep.emit("person", person);
+					}else {
+						ep.emit("person", []);
 					}
 				});
 			}
