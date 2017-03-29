@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="css/reset.css">
+        <script src="js/JsBarcode.all.min.js"></script>
+        <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <style media="screen">
+            @media screen and (max-width:640px){
+                body{
+                    background: #9EA8B1;
+                    position: relative;
+                }
+                .wrap{
+                    width: 90%;
+                    height: 147px;
+                    background: #F6F6F8;
+                    text-align: center;
+                    margin: 150px auto 0;
+                    border-radius: 4px;
+                    padding-top: 5px;
+                    box-sizing: border-box;
+                }
+                #barcode rect{
+                    background: none;
+                }
+                /*----头                  部----*/
+                .top{
+                  width: 96%;
+                  height: 46px;
+                  line-height: 46px;
+                  margin: 0 auto;
+                  font-size: 0px;
+                }
+                .top img{
+                  width: 20px;
+                  height: 20px;
+                  vertical-align: middle;
+                }
+                .top span{
+                  display: inline-block;
+                  width:320px;
+                  font-size: 16px;
+                  text-align: center;
+                  line-height: 46px;
+                  vertical-align: middle;
+                  color: #fff;
+                }
+                .time{
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                .sk{
+                    text-align: center;
+                    position: absolute;
+                    bottom: -167px;
+                    left: 24.4%;
+                    font-size: 12px;
+                    color: #eee;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!--       头部      -->
+        <div class="top">
+          <img src="images/back2.png" alt="">
+          <span>管理收货地址</span>
+        </div>
+        <div class="wrap">
+            <img id="barcode"/>
+        </div>
+        <p class="time">当前还有 <span></span> 秒将自动更新使用</p>
+        <p class="sk">佑佑信息科技有限公司提供</p>
+        <script type="text/javascript">
+
+
+        function code(){
+            $.ajax({
+              url: "/vip_card_paycode",
+              dataType: 'json',
+              type: 'POST',
+              success: function(data) {
+                  var row=data.row;
+                    JsBarcode("#barcode", row.paycode, {
+                        format: "CODE128"
+                        ,background: "#F6F6F8"
+                        ,fontSize: 12
+                        ,textMargin: 5
+
+                    });
+
+                  timer(row.left_second);
+              }.bind(this),
+              error: function(xhr, status, err) {
+              }.bind(this)
+          });
+
+
+
+
+        }
+        function timer(intDiff){
+            var t = window.setInterval(function(){
+                 intDiff--;
+                 if(intDiff<=0){
+                     clearInterval(t);
+                    code();
+                 }
+                 console.log(intDiff);
+                 $(".time span").html(intDiff);
+                 if (intDiff>4) {
+                     $(".time span").css("color","#000");
+                 }else if(intDiff<=4&&intDiff>=3){
+                     $(".time span").css("color","#FFC125");
+                 }else if(intDiff>=0&&intDiff<3) {
+                     $(".time span").css("color","#FF0000");
+                 }
+            },1000);
+
+        }
+        $(function(){
+            code();
+        });
+
+        </script>
+    </body>
+</html>

@@ -546,6 +546,11 @@ var save_product_simple = function(data,cb){
 	var url = "http://127.0.0.1:18002/save_product_simple";
 	do_post_method(url,data,cb);
 }
+//获取会员码
+var vip_card_paycode = function(data,cb){
+	var url = "http://139.196.148.40:18008/vip_card_paycode";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
 		//简单保存
@@ -1224,6 +1229,44 @@ exports.register = function(server, options, next){
 			path: '/news',
 			handler: function(request, reply){
 				return reply.view("news");
+			}
+		},
+		//会员支付码页面
+		{
+			method: 'GET',
+			path: '/pay_code',
+			handler: function(request, reply){
+				return reply.view("pay_code");
+			}
+		},
+		//获取会员支付码 vip_card_paycode
+		{
+			method: 'POST',
+			path: '/vip_card_paycode',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var person_ids = [person_id];
+				find_personsVip(JSON.stringify(person_ids), function(err, content){
+					if (!err) {
+						if (content.rows.length==0) {
+							return reply({"success":false,"message":"vip id null"});
+						}
+						var personsVip = content.rows[0].vip_id;
+						var data = {"sob_id":org_code,"operator":person_id,"main_role_id":personsVip};
+						vip_card_paycode(data,function(err,result){
+							if (!err) {
+								return reply({"success":true,"row":result.row});
+							}else {
+								return reply({"success":false,"message":result.message});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
 			}
 		},
 		//修改收藏
