@@ -69,7 +69,7 @@
         <!--       头部      -->
         <div class="top">
           <img src="images/back2.png" alt="">
-          <span>管理收货地址</span>
+          <span>扫码支付</span>
         </div>
         <div class="wrap">
             <img id="barcode"/>
@@ -111,8 +111,8 @@
                      clearInterval(t);
                     code();
                  }
-                 console.log(intDiff);
-                 $(".time span").html(intDiff);
+                 $(".time span").html(Math.ceil(intDiff));
+
                  if (intDiff>4) {
                      $(".time span").css("color","#000");
                  }else if(intDiff<=4&&intDiff>=3){
