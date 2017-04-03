@@ -546,6 +546,15 @@ var save_product_simple = function(data,cb){
 	var url = "http://127.0.0.1:18002/save_product_simple";
 	do_post_method(url,data,cb);
 }
+//复杂保存
+var save_product_complex = function(data,cb){
+	var url = "http://127.0.0.1:18002/save_product_complex";
+	do_post_method(url,data,cb);
+}
+var save_product_picture = function(data,cb){
+	var url = "http://127.0.0.1:18002/save_product_picture";
+	do_post_method(url,data,cb);
+}
 //获取会员码
 var vip_card_paycode = function(data,cb){
 	var url = "http://139.196.148.40:18008/vip_card_paycode";
@@ -553,6 +562,84 @@ var vip_card_paycode = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
+		//上传保存图片
+		{
+			method: 'POST',
+			path: '/save_product_picture',
+			handler: function(request, reply){
+				var product_id = request.payload.product_id;
+				var imgs = request.payload.imgs;
+				if (!product_id || !imgs) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+				var data = {"product_id":product_id,"imgs":imgs};
+				save_product_picture(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message});
+					}
+				});
+			}
+		},
+		//复杂的产品保存
+		{
+			method: 'POST',
+			path: '/save_product_complex',
+			handler: function(request, reply){
+				//3个主要字段
+				var product_id = request.payload.product_id;
+				var product_name = request.payload.product_name;
+				var product_sale_price = request.payload.product_sale_price;
+				var product_marketing_price = request.payload.product_marketing_price;
+				//8个次要字段
+				var sort_id = request.payload.sort_id;
+				var product_brand = request.payload.product_brand;
+				var product_describe = request.payload.product_describe;
+				var time_to_market = request.payload.time_to_market;
+				var color = request.payload.color;
+				var weight = request.payload.weight;
+				var guarantee = request.payload.guarantee;
+				var barcode = request.payload.barcode;
+				// 4个行业属性字段
+				var is_new = request.payload.is_new;
+				var row_materials = request.payload.row_materials;
+				var batch_code = request.payload.batch_code;
+				var size_name = request.payload.size_name;
+
+				if (!product_id || !product_name || !product_sale_price || !sort_id || !barcode) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+
+				var product = {
+					"product_id" : product_id,
+					"product_name" : product_name,
+					"product_sale_price" : product_sale_price,
+					"industry_id" : 101,
+					"sort_id" : sort_id,
+					"product_brand" : product_brand,
+					"product_describe" : product_describe,
+					"time_to_market" : time_to_market,
+					"color" : color,
+					"weight" : weight,
+					"guarantee" : guarantee,
+					"barcode" : barcode,
+					"is_new" : is_new,
+					"row_materials" : row_materials,
+					"batch_code" : batch_code,
+					"size_name" : size_name
+				};
+				console.log(JSON.stringify(product));
+				save_product_complex(product,function(err,result){
+					if (!err) {
+						var product_id = result.product_id;
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message});
+					}
+				});
+			}
+		},
 		//简单保存
 		{
 			method: 'POST',
