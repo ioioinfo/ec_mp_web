@@ -560,8 +560,118 @@ var vip_card_paycode = function(data,cb){
 	var url = "http://139.196.148.40:18008/vip_card_paycode";
 	do_post_method(url,data,cb);
 }
+//更新订单状态
+var update_order_status = function(data,cb){
+	var url = "http://139.196.148.40:18008/vip_card_paycode";
+	do_post_method(url,data,cb);
+}
+//查询事件是否处理
+var search_deal_event = function(data,cb){
+	var url = "http://127.0.0.1:18010/search_deal_event";
+	do_post_method(url,data,cb);
+}
+//保存事件
+var save_event = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_event";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//页面回调，流程 7
+		{
+			method: 'POST',
+			path: '/finish_trade ',
+			handler: function(request, reply){
+				var order_id = request.payload.order_id;
+				var success = request.payload.success;
+
+				var url;
+
+				return reply.view(url);
+			}
+		},
+
+		//支付宝接口 ， 商家id，金额，编号，md5 流程 2
+		{
+			method: 'POST',
+			path: '/use_alipay_interface ',
+			handler: function(request, reply){
+				var order = request.payload.order;
+				order = JSON.parse(order);
+				var url;
+				//拼数据，更新订单状态，根据不同支付方式
+				if (order.pay_way == "ali_pay") {
+
+				}else if (order.pay_way == "chat_pay") {
+
+				}
+
+
+				//修改订单状况
+				var data = {"order_id":order.order_id,"order_status":0};
+				update_order_status(data,function(err,content){
+					if (!err) {
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+				return reply.view(url);
+			}
+		},
+
+		//支付宝回调，通知消息 流程 5  事件ID、时间，is_deal
+		{
+			method: 'POST',
+			path: '/receive_pay_notify ',
+			handler: function(request, reply){
+				var success = request.payload.success;
+				var order_id = request.payload.order_id;
+				//实际保存
+				var info = {"id":order_id};
+				search_deal_event(info,function(err,row){
+					if (!err) {
+						if (row.row) {
+							//有处理的，保存当前事件
+							info.is_deal = 0;
+							save_event(data,function(err,content){
+								if (!err) {
+									//回调阿里接口
+
+									return reply({"success":true});
+								}else {
+									return reply({"success":false,"message":content.message,"service_info":service_info});
+								}
+							});
+						}else {
+							//没处理的更新订单状态，保存事件，传阿里云进去
+							var data = {"order_id":order_id,"order_status":1};
+							//修改订单状态
+							update_order_status(data,function(err,content){
+								if (!err) {
+									//回调函数到支付宝接口
+									info.is_deal = 1;
+									save_event(data,function(err,content){
+										if (!err) {
+											//回调阿里接口
+
+											return reply({"success":true});
+										}else {
+											return reply({"success":false,"message":content.message,"service_info":service_info});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message,"service_info":service_info});
+								}
+							});
+						}
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+
+			}
+		},
+
 
 		//上传保存图片
 		{
@@ -2674,7 +2784,6 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/do_vertify',
 			handler: function(request, reply){
-
 				var mobile = request.payload.mobile;
 				var password = request.payload.password;
 				if (!mobile || !password) {
