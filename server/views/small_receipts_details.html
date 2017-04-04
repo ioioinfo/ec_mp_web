@@ -183,7 +183,9 @@
     <div class="head">
 		<a href="/small_receipts"><img src="images/back.png" class="goback" alt="" /></a>
         <div class="head-top">
-            <span>{{ row.store.org_store_name }}</span>
+			<a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
+              <span>{{ row.store.org_store_name }}</span>
+		    </a>
         </div>
         <div class="head-bottom">
             <span>会员号：123456789</span><span>小票号：{{ row.order_id }}</span>

@@ -562,6 +562,7 @@ var vip_card_paycode = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
+
 		//上传保存图片
 		{
 			method: 'POST',
