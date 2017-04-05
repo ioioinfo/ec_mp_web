@@ -562,7 +562,7 @@ var vip_card_paycode = function(data,cb){
 }
 //更新订单状态
 var update_order_status = function(data,cb){
-	var url = "http://139.196.148.40:18008/vip_card_paycode";
+	var url = "http://127.0.0.1:18010/update_order_status_pay";
 	do_post_method(url,data,cb);
 }
 //查询事件是否处理
@@ -580,32 +580,47 @@ exports.register = function(server, options, next){
 		//页面回调，流程 7
 		{
 			method: 'POST',
-			path: '/finish_trade ',
+			path: '/payment_back',
 			handler: function(request, reply){
 				var order_id = request.payload.order_id;
-				var success = request.payload.success;
+				// var success = request.payload.success;
 
-				var url;
+				var info = {"id":order_id};
+				search_deal_event(info,function(err,rows){
+					console.log("rows:"+JSON.stringify(rows));
+					if (!err) {
+						if (rows.row.length>0) {
+							//付款成功  ， 可以再查一下订单
+							var url = "/payment_result?success=true&order_id=" +order_id;
+							return reply({"success":true,"url":url});
+							//return 
+						}else {
+							//没有查到处理过
+							var url = "/payment_result?success=false&order_id=" +order_id;
+							return reply({"success":true,"url":url});
+						}
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
 
-				return reply.view(url);
 			}
 		},
 
 		//支付宝接口 ， 商家id，金额，编号，md5 流程 2
 		{
 			method: 'POST',
-			path: '/use_alipay_interface ',
+			path: '/use_alipay_interface',
 			handler: function(request, reply){
 				var order = request.payload.order;
 				order = JSON.parse(order);
-				var url;
+				var url = "/payment_page?pay_way=";
 				//拼数据，更新订单状态，根据不同支付方式
 				if (order.pay_way == "ali_pay") {
-
+					url = url + "ali_pay"+"&order_id="+order.order_id;
 				}else if (order.pay_way == "chat_pay") {
-
+					url = url + "chat_pay"+"&order_id="+order.order_id;
 				}
-
 
 				//修改订单状况
 				var data = {"order_id":order.order_id,"order_status":0};
@@ -615,29 +630,31 @@ exports.register = function(server, options, next){
 						return reply({"success":false,"message":content.message,"service_info":service_info});
 					}
 				});
-				return reply.view(url);
+				return reply({"success":true,"url":url});
+				// return reply.view(url);
 			}
 		},
 
 		//支付宝回调，通知消息 流程 5  事件ID、时间，is_deal
 		{
 			method: 'POST',
-			path: '/receive_pay_notify ',
+			path: '/receive_pay_notify',
 			handler: function(request, reply){
 				var success = request.payload.success;
 				var order_id = request.payload.order_id;
 				//实际保存
 				var info = {"id":order_id};
-				search_deal_event(info,function(err,row){
+				search_deal_event(info,function(err,rows){
+					console.log("rows:"+JSON.stringify(rows));
 					if (!err) {
-						if (row.row) {
+						if (rows.row.length>0) {
 							//有处理的，保存当前事件
 							info.is_deal = 0;
-							save_event(data,function(err,content){
+							save_event(info,function(err,content){
 								if (!err) {
 									//回调阿里接口
 
-									return reply({"success":true});
+									return reply({"success":true,"message":"已经处理事件了"});
 								}else {
 									return reply({"success":false,"message":content.message,"service_info":service_info});
 								}
@@ -650,11 +667,11 @@ exports.register = function(server, options, next){
 								if (!err) {
 									//回调函数到支付宝接口
 									info.is_deal = 1;
-									save_event(data,function(err,content){
+									save_event(info,function(err,content){
 										if (!err) {
 											//回调阿里接口
 
-											return reply({"success":true});
+											return reply({"success":true,"message":"订单事件处理完"});
 										}else {
 											return reply({"success":false,"message":content.message,"service_info":service_info});
 										}
