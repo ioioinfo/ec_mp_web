@@ -577,6 +577,17 @@ var save_event = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
+		//付款回调结果页面
+		{
+			method: 'GET',
+			path: '/payment_result',
+			handler: function(request, reply){
+				var order_id = request.query.order_id;
+				var success = request.query.success;
+
+				return reply({"success":true,"order_id":order_id,"pay_result":success});
+			}
+		},
 		//页面回调，流程 7
 		{
 			method: 'POST',
@@ -593,11 +604,12 @@ exports.register = function(server, options, next){
 							//付款成功  ， 可以再查一下订单
 							var url = "/payment_result?success=true&order_id=" +order_id;
 							return reply({"success":true,"url":url});
-							//return 
+							//return reply.redirect("url");
 						}else {
 							//没有查到处理过
 							var url = "/payment_result?success=false&order_id=" +order_id;
 							return reply({"success":true,"url":url});
+							//return reply.redirect("url");
 						}
 					}else {
 						return reply({"success":false,"message":row.message,"service_info":service_info});
@@ -2940,6 +2952,8 @@ exports.register = function(server, options, next){
 								var state = login_set_cookie(request,person_id);
 
 								return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+							}else {
+								return reply({"success":false,"message":content.message});
 							}
 						});
 					}else {

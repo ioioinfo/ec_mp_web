@@ -992,7 +992,7 @@
 		</div>
 		<div class="invoice">
 		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="red">￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
+		  <p class="add-num"><span class="red">￥<%- total_data.lgtic_pay || 150 %></span><span class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="leave">
@@ -1003,17 +1003,13 @@
 		  <span class="public-name">可用积分：</span><span><%- jifen %></span>
 		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
 		</div>
-		<div class="invoice">
-		  <span class="public-name">朋友代付</span><span>100</span>
-		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
-		</div>
 		<div style="width:100%;height:68px;background:#fff;"></div>
 		<div class="footer">
 	      <div class="footer-left">
 	        <span>共x<%- total_data.total_items %>件</span>
 	      </div>
 	      <div class="footer-center">
-	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay %> </span></p>
+	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay || total_data.total_prices+150 %> </span></p>
 
 	      </div>
 
@@ -1070,6 +1066,7 @@
 					});
 				});
 				//地址选择
+				var state = 0;
 				$(".address").click(function(){
 					var t = _.template($("#change_address_infos").html());
 					$("#change_address").html(t({addresses:addresses,selected:address}));
@@ -1082,6 +1079,10 @@
 					});
 					$(".save_address").click(function(){
 					  // $(".opacity").css("display","none");
+					  if (state == 1) {
+					  		return;
+					  }
+					  state = 1;
 					  var data = {};
 					  data.linkname = $(".linkname").val();
 					  data.mobile = $(".mobile").val();
@@ -1104,6 +1105,7 @@
 						  data.is_default = 1;
 					  }
 					  $.get("/new_address",{info:JSON.stringify(data)},function(content){
+						  state = 0;
 						  if (content.success) {
 							  data.address_id = content.address_id;
 							  addresses.push(data);
