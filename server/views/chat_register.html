@@ -280,7 +280,8 @@
           this.submitNum = this.submitNum.bind(this);
 		  this.handleChange = this.handleChange.bind(this);
 		  this.handClick = this.handClick.bind(this);
-		  this.state = {"phone":"","vertify":""};
+          this.timer = this.timer.bind(this);
+		  this.state = {"phone":"","vertify":"","click":1};
       }
       submitNum(e){
 		  if (!this.state.phone) {
@@ -291,22 +292,6 @@
 			  return;
 		  }
 		  this.props.submitMain1(this.state.phone);
-		//   $.ajax({
-		// 	  url: this.props.do_vertify_url,
-		// 	  dataType: 'json',
-		// 	  type: 'POST',
-		// 	  data: {"mobile":this.state.phone,"password":this.state.vertify},
-		// 	  success: function(data) {
-		// 		  this.setState({data: data});
-		// 		  if (this.state.data.success) {
-		// 			  this.props.submitMain1(this.state.phone);
-		// 		  }else {
-		// 			  alert(this.state.data.message);
-		// 		  }
-		// 	  }.bind(this),
-		// 	  error: function(xhr, status, err) {
-		// 	  }.bind(this)
-		//   });
       }
 	  handleChange(e){
 		 var name = e.target.id;
@@ -315,6 +300,20 @@
 		 }else {
 		 	this.setState({vertify: e.target.value});
 		 }
+      }
+      timer(intDiff){
+          this.setState({click:0});
+
+          var t = setInterval(function(){
+               intDiff--;
+               if (intDiff<=0) {
+                   clearInterval(t);
+                   this.setState({click:1});
+                   $(".verificationCode").html("获取验证码");
+               } else {
+                   $(".verificationCode").html(intDiff);
+               }
+          }.bind(this),1000);
       }
 	  handClick(e){
 		  if (!this.state.phone) {
@@ -329,7 +328,7 @@
 			 success: function(data) {
 				 this.setState({data: data});
 				 if (this.state.data.success) {
-					 alert("验证码将在60秒发送到您的手机")
+                     this.timer(60);
 				 }else {
 					 alert(this.state.data.message);
 				 }
@@ -340,6 +339,10 @@
       }
 
 	  render() {
+          var d = (<span className="verificationCode" onClick ={this.handClick}>| 获取验证码</span>);
+          if(this.state.click==0){
+              d = (<span className="verificationCode">| 获取验证码</span>);
+          }
           return (
             <div className="login login1" id="login1">
               <div className="account">
@@ -348,7 +351,7 @@
 
               <div className="verification">
               <input type="tel" value={this.state.vertify} id="vertify" placeholder="请输入验证码" className="verificationNum" onChange = {this.handleChange}/>
-                <span className="verificationCode" onClick ={this.handClick}>| 获取验证码</span>
+                {d}
               </div>
               <div className="submit">
                 <input type="submit" value="下一步" className="submitNum" id="submitNum" onClick={this.submitNum} />
@@ -362,6 +365,5 @@
       document.getElementById("example")
     );
     </script>
-
   </body>
 </html>

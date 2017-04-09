@@ -282,6 +282,25 @@
       document.getElementById("example")
     );
     </script>
-<img src="" alt="">
+
+    <script type="text/javascript">
+    function timer(intDiff){
+        var t = window.setInterval(function(){
+             intDiff--;
+             if(intDiff<=0){
+                 clearInterval(t);
+                 code();
+             }
+             $(".time span").html(intDiff);
+             if (intDiff>4) {
+                 $(".time span").css("color","#000");
+             }else if(intDiff<=4&&intDiff>=3){
+                 $(".time span").css("color","#FFC125");
+             }else if(intDiff>=0&&intDiff<3) {
+                 $(".time span").css("color","#FF0000");
+             }
+        },1000);
+    }
+    </script>
   </body>
 </html>
