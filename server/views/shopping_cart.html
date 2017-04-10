@@ -17,6 +17,7 @@
 		padding: 0;
 		width: 100%;
 		height: 100%;
+        background: #f4f4f4;
 	  }
 	  p{
 		padding: 0;
@@ -131,7 +132,7 @@
 		height: 16px;
 	  }
 	  .list_infor{
-		background: #f4f4f4;
+		background: #fff;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -173,7 +174,7 @@
 		   width: 60px;
 	  }
 	  .infor .infor-one{
-		height: 35px;
+		height: 42px;
 		line-height: 20px;
 		font-size: 13px;
 		vertical-align: top;
@@ -186,8 +187,7 @@
 	  }
 	  .infor .infor-two{
 		font-size: 13px;
-		height: 20px;
-		line-height: 20px;
+		height: 15px;
 	  }
 	  .infor .infor-three .red{
 		font-size: 16px;
@@ -200,38 +200,42 @@
 
 
 	  }
+      input{
+       width: 20px;
+       height: 20px;
+       line-height: 14px;
+       border: 1px solid #bbbbbb;
+       vertical-align:top;
+       box-sizing: border-box;
+       text-align: center;
+     }
+     input {
+            -webkit-appearance: none;
+            border-radius: 0;
+            -webkit-border-radius:0;
+        }
 	  .infor .infor-three .add span:first-child{
-	   border: 1px solid #bbbbbb;
 		  display: inline-block;
 		  width: 20px;
 		  height:20px;
-	   line-height: 20px;
+          line-height: 20px;
 		  text-align: center;
 		  border-right: 0;
+          background: #f5f5f5;
 	  }
 	  .infor .infor-three .add span:last-child{
-		border: 1px solid #bbbbbb;
-		   display: inline-block;
-		width: 20px;
-		height: 20px;
-		line-height: 20px;
-		   text-align: center;
-		   border-left: 0px;
+		  display: inline-block;
+          width: 20px;
+		  height: 20px;
+		  line-height: 20px;
+		  text-align: center;
+		  border-left: 0px;
+          background: #ccc;
 	  }
-	  input{
-		width: 20px;
-		height: 20px;
-		line-height: 14px;
-		border: 1px solid #bbbbbb;
-		vertical-align:top;
-		box-sizing: border-box;
-		text-align: center;
-	  }
-	  input {
-			 -webkit-appearance: none;
-			 border-radius: 0;
-			 -webkit-border-radius:0;
-		 }
+      .update_num{
+          border: none;
+      }
+
 		 .footer{
 			 border-top: 1px solid #eee;
              width: 100%;
@@ -429,7 +433,7 @@
 		<% }); %>
 		</ul>
 
-		<div style="width:100%;height:68px;background:#fff;"></div>
+		<div style="width:100%;height:68px;background:#f4f4f4;"></div>
 		<div class="footer">
 		  <div class="footer-left">
 			  <span class="bottom">
