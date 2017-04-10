@@ -37,6 +37,9 @@
 			position: absolute;
 			top: 10px;
 			right:20px;
+            font-size: 12px;
+            color: #E3E3E3;
+
 		}
 		.person{
 		  width: 94px;
@@ -51,8 +54,6 @@
 		}
 		.login div{
 		  width: 220px;
-
-		  padding: 2px 0;
 		  border-radius: 4px;
 		  display: inline-block;
 		  margin-top: 15px;
@@ -71,8 +72,7 @@
 		.login div input{
 		  width: 100%;
 		  text-indent: 10px;
-		  height: 34px;
-		  line-height: 20px;
+		  padding: 9px 0;
 		  outline-style: none;
 		  border: none;
 		  border-radius: 4px;
@@ -82,7 +82,7 @@
 		}
 		.verificationCode{
 		  position: absolute;
-		  top: 10px;
+		  top: 0px;
 		  right: 8px;
 		  font-size: 12px;
 		  color: #999;
@@ -125,15 +125,28 @@
 		  text-align: left;
 		  color: #000;
 		  font-size: 14px;
+          margin-top: 5px;
 		}
 		.login p span:last-child{
 		  float: right;
+          color: #fff;
+          font-size: 12px;
 		}
 		.verificationimg{
 		  position: absolute;
 		  top: -8px;
 		  right:96px;
 		}
+        .verificationCode_span0{
+            font-size: 12px;
+            display: inline-block;
+            padding: 10px 0;
+        }
+        .verificationCode_span{
+            display: inline-block;
+            width: 60px;
+            padding: 10px 0;
+        }
 		#img{
 		  width: 90px;
 		  height: 34px;
@@ -270,6 +283,7 @@
               <div className="submit">
                 <input type="submit" value="注 册"  className="verificationNum" onClick={this.handleRegiser}/>
               </div>
+              <p><a href="/chat_login"><span onClick = {this.handleRegiser}>返回登录</span></a></p>
             </div>
           );
       }
@@ -309,9 +323,10 @@
                if (intDiff<=0) {
                    clearInterval(t);
                    this.setState({click:1});
-                   $(".verificationCode").html("获取验证码");
+                   $(".verificationCode_span").html("获取验证码");
                } else {
-                   $(".verificationCode").html(intDiff);
+                   $(".verificationCode_span").html(intDiff);
+                   $(".verificationCode_span").css("color","red");
                }
           }.bind(this),1000);
       }
@@ -339,9 +354,9 @@
       }
 
 	  render() {
-          var d = (<span className="verificationCode" onClick ={this.handClick}>| 获取验证码</span>);
+          var d = (<span className="verificationCode"><span className="verificationCode_span0">|</span> <span className="verificationCode_span" onClick ={this.handClick}>获取验证码</span></span>);
           if(this.state.click==0){
-              d = (<span className="verificationCode">| 获取验证码</span>);
+              d = (<span className="verificationCode">| <span className="verificationCode_span">获取验证码</span></span>);
           }
           return (
             <div className="login login1" id="login1">
@@ -356,6 +371,7 @@
               <div className="submit">
                 <input type="submit" value="下一步" className="submitNum" id="submitNum" onClick={this.submitNum} />
               </div>
+              <p><a href="/chat_login"><span onClick = {this.handleRegiser}>返回登录</span></a></p>
             </div>
           );
       }

@@ -65,29 +65,31 @@
         }
         .login div img{
           position: absolute;
-          top: 11px;
+          top: 8px;
           left: 5px;
+          width: 20px;
+          height: 20px;
         }
 		.login div .position{
           position: absolute;
-          top: 11px;
+          top: 10px;
           left: 5px;
 	  }
         .login div input{
           width: 100%;
           text-indent: 30px;
-		  height: 34px;
-          line-height: 20px;
           outline-style: none;
           border: none;
-		  /*border-bottom: 1px solid #eee;*/
+		  box-sizing: border-box;
+          padding: 8px 0;
+          border-radius: 4px;
         }
         .account{
           margin-top: 14px;
         }
         .verificationCode{
           position: absolute;
-          top: 11px;
+          top: 10px;
           right: 8px;
         }
         .login .checkbox{
@@ -106,6 +108,8 @@
           vertical-align: middle;
 		  border: 1px solid #fff;
 		  margin-right: 4px;
+          border-radius: 50%;
+          padding: 0;
         }
         .checkboxone{
           text-align: left;
@@ -122,6 +126,7 @@
           text-indent: 0;
 		  background: rgb(112,180,44);
 		  color: #fff;
+
         }
         .login p{
           display: inline-block;
@@ -283,24 +288,5 @@
     );
     </script>
 
-    <script type="text/javascript">
-    function timer(intDiff){
-        var t = window.setInterval(function(){
-             intDiff--;
-             if(intDiff<=0){
-                 clearInterval(t);
-                 code();
-             }
-             $(".time span").html(intDiff);
-             if (intDiff>4) {
-                 $(".time span").css("color","#000");
-             }else if(intDiff<=4&&intDiff>=3){
-                 $(".time span").css("color","#FFC125");
-             }else if(intDiff>=0&&intDiff<3) {
-                 $(".time span").css("color","#FF0000");
-             }
-        },1000);
-    }
-    </script>
   </body>
 </html>
