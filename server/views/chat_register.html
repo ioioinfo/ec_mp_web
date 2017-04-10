@@ -206,7 +206,7 @@
 			super(props);
 			this.handleChange = this.handleChange.bind(this);
 			this.handleRegiser = this.handleRegiser.bind(this);
-			this.state = {"username":"","password":"","password_again":"","mobile":this.props.phone};
+			this.state = {"username":"","password":"","password_again":"","mobile":this.props.phone,"state":"0"};
 		}
 
 		handleChange(e) {
@@ -220,6 +220,10 @@
 			}
 	    }
 		handleRegiser(e) {
+			if (this.state.state == 1) {
+				return;
+			}
+			this.setState({state: 1});
 			if (!this.state.username) {
 				alert("用户名不能为空！");
 				return;
@@ -242,6 +246,7 @@
 				type: 'POST',
 				data: this.state,
 				success: function(data) {
+					this.setState({state: 0});
 					this.setState({data: data});
 					if (this.state.data.success) {
 						location.href = "/";
