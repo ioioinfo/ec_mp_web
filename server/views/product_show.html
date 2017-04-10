@@ -1300,8 +1300,8 @@
 	              <div class="middle-2-0ne">
 	                <span class="middle-span3 middle-span3-float1">{{property.name}}</span>
 	                <p class="middle-color middle-span3-float2">
-					{% for value in property.all_value %}
-						<a class="middle-a1" {% if !product.mp_stock.stocks[value] %} id="has_stock" {% endif %}>{{value}}</a>
+					{% for value in product.values %}
+						<a class="middle-a1" {% if product.mp_stock.stocks[value].quantity<=0 %} id="has_stock" {% endif %} data-id="{{product.mp_stock.stocks[value].id}}">{{value}}</a>
 					{% endfor %}
 					</p>
 	              </div>
@@ -1487,6 +1487,7 @@
 		$(function() {
 			var hot_img2 = false,hot_img3 = false;
 			var is_active;
+			var sku_id;
 			//推荐
 			var get_recommend_products = function(){
 				$.ajax({
@@ -1639,6 +1640,7 @@
 			  $(".opacity").css("display","none");
 			});
 			var product_id = "{{product.id}}";
+			//收藏
 			$(".favorite").click(function(){
 				$.post("/update_favorite",{is_active:is_active,product_id:product_id},function(data){
 					if (data.success) {
@@ -1655,11 +1657,13 @@
 					}
 				});
 			});
+			//加入购物车
 			$("#shopping_cart").click(function(){
 				var num = $(".middle-number-input2").val();
 				var product_id = "{{product.id}}";
 				var product_price = "{{product.product_sale_price || 999999}}";
-				$.post("/shopping_cart",{product_id:product_id,product_price:product_price,num:num},function(data){
+				sku_id = "5e6032da-1cfd-11e7-b73f-52540022a5f2";
+				$.post("/shopping_cart",{product_id:product_id,product_price:product_price,num:num,sku_id:sku_id},function(data){
 					if (data.success) {
 						check_cart_number();
 					}else {
@@ -1667,11 +1671,12 @@
 					}
 				})
 			});
-
+			//立即购买
 			$("#buy_immediate").click(function(){
+				sku_id = "5e6032da-1cfd-11e7-b73f-52540022a5f2"; 
 				var num = $(".middle-number-input2").val();
 				var product_id = "{{product.id}}";
-				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num;
+				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num+"&sku_id="+sku_id;
 			});
 			$(".middle-number-input2").change(function(){
 				var num = $(".middle-number-input2").val();
@@ -1705,5 +1710,25 @@
             })
 		});
 	</script>
+	<script type="text/javascript">
+      $(function(){
+	      $(".middle-2-0ne1 .middle-color span").click(function(){
+	        $(".middle-2-0ne1 .middle-color span").removeClass("on");
+	        $(this).addClass("on");
+	      });
+	      $(".middle-2-0ne2 .middle-color span").click(function(){
+	        $(".middle-2-0ne2 .middle-color span").removeClass("on");
+	        $(this).addClass("on");
+	      });
+	      $(".middle-2-0ne3 .middle-color span").click(function(){
+	        $(".middle-2-0ne3 .middle-color span").removeClass("on");
+	        $(this).addClass("on");
+	      });
+	      $(".middle-2-0ne4 .middle-color span").click(function(){
+	        $(".middle-2-0ne4 .middle-color span").removeClass("on");
+	        $(this).addClass("on");
+	      });
+	  });
+    </script>
   </body>
 </html>
