@@ -185,7 +185,7 @@
 			this.handleVertify = this.handleVertify.bind(this);
 			this.handleRegiser = this.handleRegiser.bind(this);
 			this.handleForget = this.handleForget.bind(this);
-            this.state = {"username":"","password":"","vertify":""};
+            this.state = {"username":"","password":"","vertify":"","mark":0};
         }
 		handleRegiser(e){
 			location.href = this.props.register_url;
@@ -206,7 +206,9 @@
 	    }
 
 		handleLogin(e) {
-			if (!this.state.username) {
+			if (this.state.mark == 1) {
+				return;
+			}else if (!this.state.username) {
 				alert("用户名不能为空！");
 				return;
 			}else if (!this.state.password) {
@@ -216,12 +218,14 @@
 				alert("验证码不能为空！");
 				return;
 			}
+			this.setState({mark: 1});
 			$.ajax({
 				url: this.props.login_url,
 				dataType: 'json',
 				type: 'POST',
 				data: this.state,
 				success: function(data) {
+					this.setState({mark: 0});
 					this.setState({data: data});
 					if (this.state.data.success) {
 						location.href = "/";

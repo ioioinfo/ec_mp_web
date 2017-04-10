@@ -546,13 +546,240 @@ var save_product_simple = function(data,cb){
 	var url = "http://127.0.0.1:18002/save_product_simple";
 	do_post_method(url,data,cb);
 }
+//复杂保存
+var save_product_complex = function(data,cb){
+	var url = "http://127.0.0.1:18002/save_product_complex";
+	do_post_method(url,data,cb);
+}
+var save_product_picture = function(data,cb){
+	var url = "http://127.0.0.1:18002/save_product_picture";
+	do_post_method(url,data,cb);
+}
 //获取会员码
 var vip_card_paycode = function(data,cb){
 	var url = "http://139.196.148.40:18008/vip_card_paycode";
 	do_post_method(url,data,cb);
 }
+//更新订单状态
+var update_order_status = function(data,cb){
+	var url = "http://127.0.0.1:18010/update_order_status_pay";
+	do_post_method(url,data,cb);
+}
+//查询事件是否处理
+var search_deal_event = function(data,cb){
+	var url = "http://127.0.0.1:18010/search_deal_event";
+	do_post_method(url,data,cb);
+}
+//保存事件
+var save_event = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_event";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//付款回调结果页面
+		{
+			method: 'GET',
+			path: '/payment_result',
+			handler: function(request, reply){
+				var order_id = request.query.order_id;
+				var success = request.query.success;
+
+				return reply({"success":true,"order_id":order_id,"pay_result":success});
+			}
+		},
+		//页面回调，流程 7
+		{
+			method: 'POST',
+			path: '/payment_back',
+			handler: function(request, reply){
+				var order_id = request.payload.order_id;
+				// var success = request.payload.success;
+
+				var info = {"id":order_id};
+				search_deal_event(info,function(err,rows){
+					console.log("rows:"+JSON.stringify(rows));
+					if (!err) {
+						if (rows.row.length>0) {
+							//付款成功  ， 可以再查一下订单
+							var url = "/payment_result?success=true&order_id=" +order_id;
+							return reply({"success":true,"url":url});
+							//return reply.redirect("url");
+						}else {
+							//没有查到处理过
+							var url = "/payment_result?success=false&order_id=" +order_id;
+							return reply({"success":true,"url":url});
+							//return reply.redirect("url");
+						}
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+
+			}
+		},
+
+		//支付宝接口 ， 商家id，金额，编号，md5 流程 2
+		{
+			method: 'POST',
+			path: '/use_alipay_interface',
+			handler: function(request, reply){
+				var order = request.payload.order;
+				order = JSON.parse(order);
+				var url = "/payment_page?pay_way=";
+				//拼数据，更新订单状态，根据不同支付方式
+				if (order.pay_way == "ali_pay") {
+					url = url + "ali_pay"+"&order_id="+order.order_id;
+				}else if (order.pay_way == "chat_pay") {
+					url = url + "chat_pay"+"&order_id="+order.order_id;
+				}
+
+				//修改订单状况
+				var data = {"order_id":order.order_id,"order_status":0};
+				update_order_status(data,function(err,content){
+					if (!err) {
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+				return reply({"success":true,"url":url});
+				// return reply.view(url);
+			}
+		},
+
+		//支付宝回调，通知消息 流程 5  事件ID、时间，is_deal
+		{
+			method: 'POST',
+			path: '/receive_pay_notify',
+			handler: function(request, reply){
+				var success = request.payload.success;
+				var order_id = request.payload.order_id;
+				//实际保存
+				var info = {"id":order_id};
+				search_deal_event(info,function(err,rows){
+					console.log("rows:"+JSON.stringify(rows));
+					if (!err) {
+						if (rows.row.length>0) {
+							//有处理的，保存当前事件
+							info.is_deal = 0;
+							save_event(info,function(err,content){
+								if (!err) {
+									//回调阿里接口
+
+									return reply({"success":true,"message":"已经处理事件了"});
+								}else {
+									return reply({"success":false,"message":content.message,"service_info":service_info});
+								}
+							});
+						}else {
+							//没处理的更新订单状态，保存事件，传阿里云进去
+							var data = {"order_id":order_id,"order_status":1};
+							//修改订单状态
+							update_order_status(data,function(err,content){
+								if (!err) {
+									//回调函数到支付宝接口
+									info.is_deal = 1;
+									save_event(info,function(err,content){
+										if (!err) {
+											//回调阿里接口
+
+											return reply({"success":true,"message":"订单事件处理完"});
+										}else {
+											return reply({"success":false,"message":content.message,"service_info":service_info});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message,"service_info":service_info});
+								}
+							});
+						}
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+
+			}
+		},
+
+
+		//上传保存图片
+		{
+			method: 'POST',
+			path: '/save_product_picture',
+			handler: function(request, reply){
+				var product_id = request.payload.product_id;
+				var imgs = request.payload.imgs;
+				if (!product_id || !imgs) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+				var data = {"product_id":product_id,"imgs":imgs};
+				save_product_picture(data,function(err,result){
+					if (!err) {
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message});
+					}
+				});
+			}
+		},
+		//复杂的产品保存
+		{
+			method: 'POST',
+			path: '/save_product_complex',
+			handler: function(request, reply){
+				//3个主要字段
+				var product_id = request.payload.product_id;
+				var product_name = request.payload.product_name;
+				var product_sale_price = request.payload.product_sale_price;
+				var product_marketing_price = request.payload.product_marketing_price;
+				//8个次要字段
+				var sort_id = request.payload.sort_id;
+				var product_brand = request.payload.product_brand;
+				var product_describe = request.payload.product_describe;
+				var time_to_market = request.payload.time_to_market;
+				var color = request.payload.color;
+				var weight = request.payload.weight;
+				var guarantee = request.payload.guarantee;
+				var barcode = request.payload.barcode;
+				// 4个行业属性字段
+				var is_new = request.payload.is_new;
+				var row_materials = request.payload.row_materials;
+				var batch_code = request.payload.batch_code;
+				var size_name = request.payload.size_name;
+
+				if (!product_id || !product_name || !product_sale_price || !sort_id || !barcode) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+
+				var product = {
+					"product_id" : product_id,
+					"product_name" : product_name,
+					"product_sale_price" : product_sale_price,
+					"industry_id" : 101,
+					"sort_id" : sort_id,
+					"product_brand" : product_brand,
+					"product_describe" : product_describe,
+					"time_to_market" : time_to_market,
+					"color" : color,
+					"weight" : weight,
+					"guarantee" : guarantee,
+					"barcode" : barcode,
+					"is_new" : is_new,
+					"row_materials" : row_materials,
+					"batch_code" : batch_code,
+					"size_name" : size_name
+				};
+				console.log(JSON.stringify(product));
+				save_product_complex(product,function(err,result){
+					if (!err) {
+						var product_id = result.product_id;
+						return reply({"success":true,"message":"ok"});
+					}else {
+						return reply({"success":false,"message":result.message});
+					}
+				});
+			}
+		},
 		//简单保存
 		{
 			method: 'POST',
@@ -2586,7 +2813,6 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/do_vertify',
 			handler: function(request, reply){
-
 				var mobile = request.payload.mobile;
 				var password = request.payload.password;
 				if (!mobile || !password) {
@@ -2726,6 +2952,8 @@ exports.register = function(server, options, next){
 								var state = login_set_cookie(request,person_id);
 
 								return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+							}else {
+								return reply({"success":false,"message":content.message});
 							}
 						});
 					}else {
