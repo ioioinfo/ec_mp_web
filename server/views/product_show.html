@@ -5,8 +5,12 @@
     <title>商品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="css/lunbo.css">
 	<script src="js/jquery-3.1.1.min.js"type="text/javascript"></script>
 	<script src="js/lodash.min.js" type="text/javascript"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+
 	<style media="screen">
 	@media screen and (max-width:640px){
 	  *{
@@ -1095,154 +1099,9 @@
 	 }
 	}
     </style>
-    <script>
-		var images ={{ JSON.stringify(product.mp_pictures)|| safe}};
-		var imgs = [];
-		for (var i = 0; i < images.length; i++) {
-		   imgs.push("<img src=\'images/"+images[i].location+"\'/>");
-		}
-    <!--
-     function runImg(){}
-     runImg.prototype={
-      bigbox:null,//最外层容器
-      boxul:null,//子容器ul
-      imglist:null,//子容器img
-      numlist:null,//子容器countNum
-      index:0,//当前显示项
-      timer:null,//控制图片转变效果
-      play:null,//控制自动播放
-      imgurl:[],//存放图片
-      count:0,//存放的个数
-      $:function(obj)
-      {
-       if(typeof(obj)=="string")
-       {
-        if(obj.indexOf("#")>=0)
-        {
-         obj=obj.replace("#","");
-         if(document.getElementById(obj))
-         {
-          return document.getElementById(obj);
-         }
-         else
-         {
-          alert("没有容器"+obj);
-          return null;
-         }
-        }
-        else
-        {
-         return document.createElement(obj);
-        }
-       }
-       else
-       {
-        return obj;
-       }
-      },
-      //初始化
-      info:function(id)
-      {
-       this.count=this.count<=5?this.count:5;
-       this.bigbox=this.$(id);
-       for(var i=0;i<2;i++)
-       {
-        var ul=this.$("ul");
-        for(var j=1;j<=this.count;j++)
-        {
-         var li=this.$("li");
-         li.innerHTML=i==0?this.imgurl[j-1]:j;
-         ul.appendChild(li);
-        }
-        this.bigbox.appendChild(ul);
-       }
-       this.boxul=this.bigbox.getElementsByTagName("ul");
-       this.boxul[0].className="imgList";
-       this.boxul[1].className="countNum";
-       this.imglist=this.boxul[0].getElementsByTagName("li");
-       this.numlist=this.boxul[1].getElementsByTagName("li");
-       this.numlist[0].className="current";
-      },
-      //封装程序入口
-      action:function(id)
-      {
-       this.imgshow(this.index,this.numlist,this.imglist);
-       this.autoplay();
-       this.mouseoverout(this.bigbox,this.numlist);
-      },
-      //图片切换效果
-      imgshow:function(num,numlist,imglist)
-      {
-       this.index=num;
-       var alpha=80;
-       for(var i=0;i<numlist.length;i++)
-       {
-        numlist[i].className="";
-       }
-       numlist[this.index].className="current";
-       clearInterval(this.timer);
-       for(var j=0;j<imglist.length;j++)
-       {
-        imglist[j].style.opacity=0;
-        imglist[j].style.filter="alpha(opacity=0)";
-       }
-       var $this=this;
-       imglist[$this.index].style.opacity=alpha;
-       imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
-
-       //利用透明度来实现切换图片
-       this.timer=setInterval(function(){
-        alpha+=2;
-        if(alpha>100){alpha=100};//不能大于100
-        //为兼容性赋样式
-        imglist[$this.index].style.opacity=alpha/100;
-        imglist[$this.index].style.filter="alpha(opacity="+alpha+")";
-        if(alpha==100){clearInterval($this.timer)};//当等于100的时候就切换完成了
-      },40)//经测试20是我认为最合适的值
-      },
-      //自动播放
-      autoplay:function(){
-       var $this=this;
-       this.play=setInterval(function(){
-        $this.index++;
-        if($this.index>$this.imglist.length-1){$this.index=0};
-        $this.imgshow($this.index,$this.numlist,$this.imglist);
-      },4000)
-      },
-      //处理鼠标事件
-      mouseoverout:function(box,numlist)
-      {
-       var $this=this;
-       box.onmouseover=function()
-       {
-        clearInterval($this.play);
-       }
-       box.onmouseout=function()
-       {
-        $this.autoplay($this.index);
-       }
-       for(var i=0;i<numlist.length;i++)
-       {
-        numlist[i].index=i;
-        numlist[i].onmouseover=function(){
-         $this.imgshow(this.index,$this.numlist,$this.imglist);
-        }
-       }
-      }
-     }
-     window.onload=function(){
-		 if (images.length > 0) {
-   		   var runimg=new runImg();
-   		   runimg.count=images.length;
-   		   runimg.imgurl=imgs;
-   		   runimg.info("#box");
-   		   runimg.action("#box");
-   	  }
-     }
-    -->
-    </script>
   </head>
   <body>
+
     <div class="head">
 		<p><img src="images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
@@ -1258,9 +1117,8 @@
     </div>
     <div class="middle">
       <div class="top">
-        <div class="top-img">
-          <div id="box"></div>
-        </div>
+          <!-- 轮播 -->
+        <div class="top-img" id="lunbo"></div>
         <div class="top-infor">
           <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
           <p class="ad"><span>￥</span><span><s>{{product.product_marketing_price}}</s></span></p>
@@ -1705,5 +1563,16 @@
             })
 		});
 	</script>
+    <script src="js/lunbo.min.js"></script>
+    <script type="text/javascript">
+        // 返回到页面
+        var images ={{ JSON.stringify(product.mp_pictures)|| safe}};
+        var items = [];
+        for (var i = 0; i < images.length; i++) {
+           items.push({id:i,img:'images/'+images[i].location});
+        }
+
+        ReactDOM.render(React.createElement(Lunbo, { items: items }), document.getElementById('lunbo'));
+    </script>
   </body>
 </html>

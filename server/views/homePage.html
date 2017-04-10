@@ -37,9 +37,9 @@
           height:36px;
           line-height: 36px;
           background: rgb(112,180,44);
-          text-align: center;
           position: relative;
           overflow: hidden;
+          text-align: center;
         }
 
         .searchfangdaImg{
@@ -68,7 +68,11 @@
           border: none;
 		  background: #44a338;
           border-radius: 6px;
-          text-indent: 26px;
+          text-indent: 36px;
+          vertical-align: middle;
+          color: #fff;
+          font-size: 12px;
+          text-align: left;
         }
         .headernews{
           display: inline-block;
@@ -391,31 +395,40 @@
           background:#f5edf5;
           /*display: none;*/
       }
-      .SearchCeng .Search_top{
+      .SearchCeng_top{
         width: 100%;
         height: 35px;
-        margin-top: 10px;
+        text-align: center;
       }
       .Search a{
         color: #888888;
         text-decoration: none;
         font-size: 14px;
       }
-
+      .SearchCeng .goBack{
+          display: inline-block;
+          width: 8%;
+      }
+      .SearchCeng .SearchCengNo{
+          margin-left: 5px;
+          vertical-align: middle;
+          color: #8C898C;
+      }
       .SearchCeng img{
-        width: 8%;
+        width: 80%;
         vertical-align: middle;
       }
       .SearchCeng input{
         width: 74.9333333%;
-        height: 25px;
-        line-height: 25px;
+        padding: 4.5px 0;
         border: none;
-        border: 2px solid #ebe8eb;
+        border: 1px solid #e1e4e5;
         outline: none;
         -webkit-appearance : none ;
         margin-top: 10px;
-        border-radius: 4px;
+        border-radius: 8px;
+        color: #999;
+        text-indent: 4px;
       }
       .SearchCeng .SearchCeng_top span{
         display: inline-block;
@@ -526,7 +539,7 @@
         return (
           <div className="header">
             <div className="search">
-              <input  type="search" value="" placeholder="搜 索" className="headersearch"  onClick={this.handleClick}/>
+              <span className="headersearch"  onClick={this.handleClick}>搜索</span>
               <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
               <div className="headernews">
 			  <a>
@@ -801,6 +814,10 @@
           this.handleClick=this.handleClick.bind(this);
           this.onKeyPress=this.onKeyPress.bind(this);
       }
+      componentDidUpdate(prevProps, prevState) {
+            $(".SearchCengInput").focus();
+       }
+
       onKeyPress(e){
           var key = e.which;
     		if (key == 13) {
@@ -817,9 +834,9 @@
         if(this.props.status=="1"){
             Ceng = (<div className="SearchCeng">
                 <div className="SearchCeng_top">
-                  <img src="images/jiantou.png" alt="" />
-                  <input type="text" name="" value="" placeholder="搜索" onKeyPress={this.onKeyPress} />
-                  <span onClick={this.handleClick}>取消</span>
+                  <span className="goBack"><img src="images/jiantou.png" alt="" /></span>
+                  <input type="text" name="" placeholder="搜索" className="SearchCengInput" onKeyPress={this.onKeyPress} />
+                  <span className="SearchCengNo" onClick={this.handleClick}>取消</span>
                 </div>
                 <p className="word">大家都在搜</p>
                 <div className="SearchCeng_infor">

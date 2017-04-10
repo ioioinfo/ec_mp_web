@@ -34,71 +34,73 @@
       height: 100%;
       width: 100%;
     }
-	.search{
-	  width: 100%;
-	  height:36px;
-	  line-height: 36px;
-	  background: rgb(112,180,44);
-	  text-align: center;
-	  position: relative;
-	  overflow: hidden;
-	}
+    .search{
+      width: 100%;
+      height:36px;
+      line-height: 36px;
+      background: rgb(112,180,44);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
 
-	.searchfangdaImg{
-	  position: absolute;
-	  top: 10px;
-	  left: 4.26829268%;
-	}
-	input::-webkit-input-placeholder {
-	  color:    #fff;
-	}
-	input:-moz-placeholder {
-	  color:    #fff;
-	}
-	input::-webkit-input-results {
-	  color:    #fff;
-	}
-	input:-moz-results {
-	  color:    #fff;
-	}
-	.headersearch{
-	  display: inline-block;
-	  width: 87.4666666%;
-	  height: 25px;
-	  line-height: 25px;
-	  outline-style: none;
-	  border: none;
-	  background: #44a338;
-	  border-radius: 6px;
-	  text-indent: 26px;
-	}
-	.headernews{
-	  display: inline-block;
-	  width: 6.6666%;
-	  height: 25px;
-	  position: relative;
-	}
-	.headernewsnum{
-	  position: absolute;
-	  top: 6px;
-	  left: 17px;
-	  font-size: 12px;
-	  font-weight: 400;
-	  color: #EE0A08;
-	  background: #fff;
-	  width: 14px;
-	  height: 14px;
-	  line-height: 14px;
-	  border-radius: 7px;
-	  display: none;
-	}
-	.headernimg{
-	  vertical-align: middle;
-	  margin-left: 5px;
-	  width: 20px;
-	  height: 20px;
-	}
-
+    .searchfangdaImg{
+      position: absolute;
+      top: 10px;
+      left: 4.26829268%;
+    }
+    input::-webkit-input-placeholder {
+      color:    #fff;
+    }
+    input:-moz-placeholder {
+      color:    #fff;
+    }
+    input::-webkit-input-results {
+      color:    #fff;
+    }
+    input:-moz-results {
+      color:    #fff;
+    }
+    .headersearch{
+      display: inline-block;
+      width: 87.4666666%;
+      height: 25px;
+      line-height: 25px;
+      outline-style: none;
+      border: none;
+      background: #44a338;
+      border-radius: 6px;
+      text-indent: 36px;
+      vertical-align: middle;
+      color: #fff;
+      font-size: 12px;
+      text-align: left;
+    }
+    .headernews{
+      display: inline-block;
+      width: 6.6666%;
+      height: 25px;
+      position: relative;
+    }
+    .headernewsnum{
+      position: absolute;
+      top: 8px;
+      left: 14px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #EE0A08;
+      background: #fff;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
+      border-radius: 7px;
+    }
+    .headernimg{
+      vertical-align: middle;
+      margin-left: 5px;
+      width: 20px;
+      height: 20px;
+    }
     /*-------m   a    i     n---------*/
     .main{
       position: absolute;
@@ -276,7 +278,7 @@
   </head>
   <body>
     <div class="search">
-      <input  type="search" value="" placeholder="搜 索" class="headersearch" />
+      <span class="headersearch">搜索</span>
       <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
       <div class="headernews">
 	  <a href="/messages">

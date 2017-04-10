@@ -21,6 +21,10 @@
             text-decoration: none;
             color: #101010;
           }
+          input[type="submit"],input[type="reset"],input[type="button"],button {
+           -webkit-appearance: none;
+        }
+        
           .wrap .top{
             font-size: 0;
             border-bottom: 1px solid #E7E7E7;
@@ -134,9 +138,9 @@
           .address_seclect{
               position: absolute;
               top:150px;
-              left: 21.6312%;
+              left: 15.3333%;
               background:#fff;
-              width: 200px;
+              width: 260px;
               padding-left: 30px;
               box-sizing: border-box;
               border-radius: 4px;
@@ -146,11 +150,23 @@
           .address_seclect select{
               display: block;
               margin-top: 13px;
+              width: 200px;
+              height: 30px;
+              border-radius: 3px;
 
+          }
+          .address_seclect select option{
+              display: inline-block;
+              width: 200px;
           }
           .address_seclect .address_seclect_submit{
               margin-top: 10px;
               margin-bottom: 10px;
+              float: right;
+              margin-right: 30px;
+              padding: 3px 6px;
+              border-radius: 3px;
+              border: none;
           }
           .toumingceng{
               width: 100%;
