@@ -1092,13 +1092,16 @@
 					  data.city = document.getElementById('s2').value;
 					  data.district = document.getElementById('s3').value;
 					  	if (!data.linkname) {
-						  	alert("收货人必填！")
+						  	alert("收货人必填！");
+							state = 0;
 							return;
 					  	}else if (!data.mobile) {
-				  			alert("电话必填！")
+				  			alert("电话必填！");
+							state = 0;
 							return;
 						}else if (!data.detail_address) {
-							alert("详细地址必填！")
+							alert("详细地址必填！");
+							state = 0;
 							return;
 						}
 					  if($(".is_default").is(":checked")){

@@ -3,7 +3,7 @@ const uu_request = require('../utils/uu_request');
 ﻿var industries = require('../utils/industries.js');
 var eventproxy = require('eventproxy');
 const uuidV1 = require('uuid/v1');
-
+var _ = require("lodash");
 var service_info = "web service";
 var org_code = "ioio";
 var platform_code = "ec_mobile";
@@ -1076,7 +1076,6 @@ exports.register = function(server, options, next){
 							function(pictures,stock,sales,same_pictures,total_comments,comments,persons,saidans,product_details,again_comments,personsVip,property){
 							product.mp_pictures = pictures;
 							product.mp_industry = industry;
-							product.mp_stock = stock;
 							product.mp_sales = sales;
 							product.mp_same_pictures = same_pictures;
 							product.mp_total_comments = total_comments;
@@ -1087,6 +1086,15 @@ exports.register = function(server, options, next){
 							product.mp_product_details = product_details;
 							product.mp_page_name = page_name;
 							product.again_comments = again_comments;
+							var values = [];
+							_.forEach(stock.stocks, function(n, key) {
+								values.push(key);
+							});
+							product.values = values;
+							product.mp_stock = stock;
+							if (product.is_down == 0) {
+								return reply.view("down_product_show",{"product":product,"industry_properties":industry_properties,"property":property});
+							}
 							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties,"property":property});
 						});
 						find_stock(industry_id,product_id,stock_options,function(err, content){
@@ -1135,11 +1143,9 @@ exports.register = function(server, options, next){
 									for (var i = 0; i < same_products.length; i++) {
 										same_product_ids.push(same_products[i].id);
 									}
-									console.log("same_product_ids: "+same_product_ids);
 									find_samll_picture(same_product_ids, function(err, content){
 										if (!err) {
 											var same_pictures = content.rows;
-											console.log(same_pictures);
 											ep.emit("same_pictures", same_pictures);
 										} else {
 											ep.emit("same_pictures", []);
@@ -1192,7 +1198,6 @@ exports.register = function(server, options, next){
 											ep.emit("saidans", saidan_map);
 									});
 									find_comments_persons(comments_persons, function(err, content){
-										console.log("find_comments_persons"+JSON.stringify(content));
 										if (!err) {
 											var persons = content.rows;
 											eproxy.emit("persons", persons);
@@ -1201,7 +1206,6 @@ exports.register = function(server, options, next){
 										}
 									});
 									find_comments_personsVip(comments_persons, function(err, content){
-										console.log("find_comments_personsVip"+JSON.stringify(content));
 										if (!err) {
 											var personsVip = content.rows;
 											eproxy.emit("personsVip", personsVip);
@@ -1210,7 +1214,6 @@ exports.register = function(server, options, next){
 										}
 									});
 									find_saidans_pictures(comments_ids, function(err, content){
-										console.log("find_saidans_pictures"+JSON.stringify(content));
 										if (!err) {
 											var saidans = content.rows;
 											eproxy.emit("saidans", saidans);
@@ -1531,9 +1534,12 @@ exports.register = function(server, options, next){
 				var product_num = request.payload.num;
 				var product_id = request.payload.product_id;
 				var product_price = request.payload.product_price;
+				var sku_id = request.payload.sku_id;
 				var person_id = get_cookie_person(request);
 				var cart_code = get_cookie_cart_code(request);
-
+				if (!product_num || !product_id || !sku_id || !product_price) {
+					return reply({"success":false,"message":"param null"});
+				}
 				//判断是否登入
 				console.log("person_id:"+person_id);
 				if (!person_id) {
@@ -1545,7 +1551,8 @@ exports.register = function(server, options, next){
 						"cart_code" : cart_code,
 						"product_id" : product_id,
 						"product_num" : product_num,
-						"product_price" : product_price
+						"product_price" : product_price,
+						"sku_id" : sku_id
 					};
 					search_cart_code(data,function(err,result){
 						if (!err) {
@@ -1566,7 +1573,8 @@ exports.register = function(server, options, next){
 						"person_id" : person_id,
 						"product_id" : product_id,
 						"product_num" : product_num,
-						"product_price" : product_price
+						"product_price" : product_price,
+						"sku_id" : sku_id
 					};
 					search_shopping_cart(data,function(err,result){
 						console.log("result:"+JSON.stringify(result));
@@ -2060,22 +2068,25 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
+				var sku_id = request.query.sku_id;
 				var id = request.query.id;
 				var num = request.query.num;
-				if (!id || !num) {
+				if (!id || !num || !sku_id) {
 					return reply({"success":false,"message":"params null"});
 				}
-				var ep =  eventproxy.create("product","addresses","invoices","total_data","jifen", "logistics_type",
-					function(product,addresses,invoices,total_data,jifen,logistics_type){
+				var ep =  eventproxy.create("product","addresses","invoices","total_data","jifen", "logistics_type","sku_id",
+					function(product,addresses,invoices,total_data,jifen,logistics_type,sku_id){
 						logistics_payment(data,function(err,result){
 							if (!err) {
 								total_data.lgtic_pay = result.row.user_amount;
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id});
 							}else {
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type,"sku_id":sku_id});
 							}
 						});
 				});
+				console.log("sku_id:"+sku_id);
+				ep.emit("sku_id", sku_id);
 				var data = {
 					"weight" : 0,
 					"order_amount" : num,
@@ -2212,7 +2223,11 @@ exports.register = function(server, options, next){
 				var num = request.payload.num;
 				var address = request.payload.address;
 				var send_seller = request.payload.send_seller;
-				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id};
+				var sku_id = request.payload.sku_id;
+				if (!product_id || !num || !address || !sku_id) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id,"sku_id":sku_id};
 				save_fast_order_infos(data,function(err,content){
 					if (!err) {
 						return reply({"success":true,"message":"ok"});

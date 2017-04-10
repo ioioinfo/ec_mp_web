@@ -851,7 +851,7 @@
 		</div>
 		<div class="invoice">
 		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="red">￥{{total_data.lgtic_pay}}</span><span class="img"></span></p>
+		  <p class="add-num"><span class="red">￥{{total_data.lgtic_pay or 150}}</span><span class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="leave">
@@ -868,7 +868,7 @@
 	        <span>共x{{total_data.total_items}}件</span>
 	      </div>
 	      <div class="footer-center">
-	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2">{{total_data.total_prices+total_data.lgtic_pay}} </span></p>
+	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"> {% if total_data.lgtic_pay %} {{total_data.total_prices+total_data.lgtic_pay}} {% else %} {{total_data.total_prices+150}} {% endif %}</span></p>
 
 	      </div>
 
@@ -1025,6 +1025,7 @@
 	</script>
 	<script>
 		$(function() {
+			var sku_id ="{{sku_id|safe}}";
 			var address = {
 				"linkname"     : "",
 				"mobile"   : "",
@@ -1070,12 +1071,15 @@
 					  data.district = document.getElementById('s3').value;
 					  	if (!data.linkname) {
 						  	alert("收货人必填！")
+							state = 0;
 							return;
 					  	}else if (!data.mobile) {
 				  			alert("电话必填！")
+							state = 0;
 							return;
 						}else if (!data.detail_address) {
 							alert("详细地址必填！")
+							state = 0;
 							return;
 						}
 					  if($(".is_default").is(":checked")){
@@ -1143,7 +1147,7 @@
 				if (!address.detail_address) {
 					alert("没有地址！");
 				}
-				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller},function(data){
+				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {
 						alert("结算成功！");
 					}else {
