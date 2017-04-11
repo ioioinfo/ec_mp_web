@@ -2029,18 +2029,20 @@ exports.register = function(server, options, next){
 						ep.emit("addresses", []);
 					}
 				});
-				search_ec_invoices(person_id,function(err,results){
-					if (!err) {
-						if (results.success) {
-							var invoices = results.rows;
-							ep.emit("invoices", invoices);
-						}else {
-							ep.emit("invoices", []);
-						}
-					}else {
-						ep.emit("invoices", []);
-					}
-				});
+				// search_ec_invoices(person_id,function(err,results){
+				// 	if (!err) {
+				// 		if (results.success) {
+				// 			// var invoices = results.rows;
+				// 			// ep.emit("invoices", invoices);
+				// 			ep.emit("invoices", []);
+				// 		}else {
+				// 			ep.emit("invoices", []);
+				// 		}
+				// 	}else {
+				// 		ep.emit("invoices", []);
+				// 	}
+				// });
+				ep.emit("invoices", []);
 				get_person_vip(person_id,function(err,content){
 					if (!err) {
 						var jifen = content.row.integral;
@@ -2135,18 +2137,19 @@ exports.register = function(server, options, next){
 						ep.emit("addresses", []);
 					}
 				});
-				search_ec_invoices(person_id,function(err,results){
-					if (!err) {
-						if (results.success) {
-							var invoices = results.rows;
-							ep.emit("invoices", invoices);
-						}else {
-							ep.emit("invoices", []);
-						}
-					}else {
-						ep.emit("invoices", []);
-					}
-				});
+				// search_ec_invoices(person_id,function(err,results){
+				// 	if (!err) {
+				// 		if (results.success) {
+				// 			var invoices = results.rows;
+				// 			ep.emit("invoices", invoices);
+				// 		}else {
+				// 			ep.emit("invoices", []);
+				// 		}
+				// 	}else {
+				// 		ep.emit("invoices", []);
+				// 	}
+				// });
+				ep.emit("invoices", []);
 				get_person_vip(person_id,function(err,content){
 					if (!err) {
 						var jifen = content.row.integral;
