@@ -1,0 +1,20 @@
+/*=====================禁止横屏==============================*/
+html,body{
+    position: relative;
+    height: 100%;
+}
+.hengPing{
+    text-align: center;
+    color: #fff;
+    background: #70B42B;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.hengPing span{
+    margin-top: 100px;
+    display: block;
+}

@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>首页</title>
+    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="css/reset.css">
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
     <script src="js/browser.min.js"></script>
-    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
       *{
@@ -387,13 +390,13 @@
 
       .SearchCeng{
           width: 100%;
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background:#f5edf5;
-          /*display: none;*/
+          background:#F4F1F4;
+          z-index: 9999999;
       }
       .SearchCeng_top{
         width: 100%;

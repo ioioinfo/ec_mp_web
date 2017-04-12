@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <title>个人中心</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -24,6 +31,9 @@
           /*隐藏滚动条*/
           ::-webkit-scrollbar {
               display: none;
+          }
+          #content{
+              height: 100%;
           }
           .warp{
             width: 100%;
@@ -130,40 +140,43 @@
     </style>
   </head>
   <body>
-    <div class="warp">
-      <div class="top">
-        <div class="top-left">
-          <div class="top-left-header">
-            <img src="images/weixinheader.jpg" alt="">
+      <div id="content">
+          <div class="warp">
+            <div class="top">
+              <div class="top-left">
+                <div class="top-left-header">
+                  <img src="images/weixinheader.jpg" alt="">
+                </div>
+                <div class="top-left-name">
+                  <p>李网吧</p>
+                  <p>$钻石会员</p>
+                </div>
+              </div>
+              <p class="top-right top-right1"><span><img src="images/shouji.png" alt=""></span><span>13111111111</span></p>
+              <p class="top-right top-right2">折扣：7折</p>
+            </div>
+
           </div>
-          <div class="top-left-name">
-            <p>李网吧</p>
-            <p>$钻石会员</p>
+          <div class="line"></div>
+          <div class="list">
+            <span><img src="images/jifen.png" alt=""></span>
+            <span>积分：10</span>
+            <span>></span>
           </div>
-        </div>
-        <p class="top-right top-right1"><span><img src="images/shouji.png" alt=""></span><span>13111111111</span></p>
-        <p class="top-right top-right2">折扣：7折</p>
+          <div class="list">
+            <span><img src="images/yuer.png" alt=""></span>
+            <span>余额：10</span>
+            <span>></span>
+          </div>
+          <div class="list">
+            <span><img src="images/liebiao.png" alt=""></span>
+            <span>订单列表</span>
+            <span>></span>
+          </div>
+          <div class="none">等待添加</div>
+          <div class="help">客服电话：12345678901</div>
       </div>
 
-    </div>
-    <div class="line"></div>
-    <div class="list">
-      <span><img src="images/jifen.png" alt=""></span>
-      <span>积分：10</span>
-      <span>></span>
-    </div>
-    <div class="list">
-      <span><img src="images/yuer.png" alt=""></span>
-      <span>余额：10</span>
-      <span>></span>
-    </div>
-    <div class="list">
-      <span><img src="images/liebiao.png" alt=""></span>
-      <span>订单列表</span>
-      <span>></span>
-    </div>
-    <div class="none">等待添加</div>
-    <div class="help">客服电话：12345678901</div>
 
   </body>
 </html>

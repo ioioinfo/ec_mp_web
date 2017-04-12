@@ -6,6 +6,7 @@
         <meta name="format-detection" content="telephone=no" />
         <title>关于我们</title>
         <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/jinping.css">
         <script src="js/react.min.js"></script>
         <script src="js/react-dom.min.js"></script>
         <script src="js/browser.min.js"></script>
@@ -166,11 +167,24 @@
               );
           }
         };
+        // =====================禁止横屏======================
+        class HengPing extends React.Component {
+          render() {
+              return (
+                <div className="hengPing">
+                    <span>请勿横屏哦</span>
+                </div>
+
+              );
+          }
+        };
         // 返回到页面
         ReactDOM.render(
           <Wrap/>,
           document.getElementById("payway")
         );
         </script>
+
+
     </body>
 </html>

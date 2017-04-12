@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title>添加新地址</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -24,7 +28,7 @@
           input[type="submit"],input[type="reset"],input[type="button"],button {
            -webkit-appearance: none;
         }
-        
+
           .wrap .top{
             font-size: 0;
             border-bottom: 1px solid #E7E7E7;
@@ -198,9 +202,9 @@
         	}
       }
     </style>
-  </head>
-  <body onload="setup();preselect('北京市');promptinfo();">
-    <div class="wrap">
+</head>
+<body onload="setup();preselect('北京市');promptinfo();">
+<div class="wrap">
       <div class="top">
         <span><a href="/address_management"><img src="images/back.png" alt=""></a></span>
         <span>添加新地址</span>
@@ -241,11 +245,6 @@
           </div>
 		</div>
       </div>
-	  <!-- <div class="middle">
-	      <div class="middle-shouhuoren">
-	        <span class="span1">街道</span><p><span class="span2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span>
-	      </div>
-	    </div> -->
 	  <div class="middle">
 		<div class="middle-shouhuoren">
 			<textarea  placeholder="详细地址" class="input2 detail_address"></textarea>
@@ -256,13 +255,10 @@
 		<div class="middle-shouhuoren">
 			<span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3 is_default">
 		</div>
-	</div>
-  </div>
-  <div class="toumingceng">
-
-  </div>
-  <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-  <script type="text/javascript">
+      </div>
+      <div class="toumingceng"> </div>
+    </div>
+<script type="text/javascript">
 	$(function(){
 		var data = {};
 		var state = 0;
@@ -305,7 +301,7 @@
 	})
   </script>
   <!-- 省市区三级联动 -->
-	<script>
+<script>
 	function promptinfo()
 	{
 	 var address = document.getElementById('address').value;

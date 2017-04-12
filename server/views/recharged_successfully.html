@@ -6,6 +6,7 @@
         <meta name="format-detection" content="telephone=no" />
         <title>充值成功</title>
         <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/jinping.css">
         <script src="js/react.min.js"></script>
         <script src="js/react-dom.min.js"></script>
         <script src="js/browser.min.js"></script>
@@ -81,6 +82,15 @@
                 color: #fff;
                 margin: 140px auto;
             }
+            /*===================禁止横屏==================*/
+            .no_hengping{
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                line-height: 100%;
+                background: #70B42B;
+                color: #fff;
+            }
         }
 
         </style>
@@ -94,6 +104,7 @@
                 <div className="wrap">
                   <Header/>
                   <RechargedInfor/>
+                  <HengPing/>
                 </div>
               );
           }
@@ -125,10 +136,37 @@
           }
         };
         // 返回到页面
+        // =====================禁止横屏======================
+        class HengPing extends React.Component {
+          render() {
+              return (
+                <div className="hengPing">
+                    <span>请勿横屏哦</span>
+                </div>
+
+              );
+          }
+        };
+
         ReactDOM.render(
           <Wrap/>,
           document.getElementById("recharged")
         );
         </script>
+        <script type="text/javascript">
+        //======================判断手机横竖屏状态：=========================
+        function hengshuping(){
+            if(window.orientation==180||window.orientation==0){
+                $(".hengPing").hide().siblings().show();
+            }
+            if(window.orientation==90||window.orientation==-90){
+                $(".hengPing").show().siblings().hide();
+            }
+        }
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+
+        </script>
+
     </body>
 </html>

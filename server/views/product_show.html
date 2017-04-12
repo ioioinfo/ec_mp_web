@@ -758,93 +758,100 @@
 		top: 2px;
 		left: 31px;
 	  }
-	  /*详情*/
-	  .warp1{
-		width: 100%;
-		display: none;
-	  }
-	  .warp1 .nav{
-		width: 96%;
-		height: 47px;
-		line-height: 47px;
-		display: flex;
-		margin: 0 auto;
-	  }
-	  .warp1 .nav span{
-		display: inline-block;
-		flex: 1;
-		text-align: center;
-	  }
-		.warp1 .content{
-		  width: 96%;
-		  margin: 0  auto;
-		  display: none;
-		}
-		.warp1 .content ul{
-		  width: 100%;
-		  font-size: 0;
-		}
-		.warp1 .content ul li{
-		  border-bottom: 1px solid #E7E7E7;
-		}
-		.warp1 .content ul li p{
-		  font-size: 14px;
-		  padding: 10px 0
-		}
-
-		.warp1 .content ul li .p1{
-		  display: inline-block;
-		  width: 30%;
-		  vertical-align: top;
-		  color: #999;
-		}
-		.warp1 .content ul li .p2{
-		  display: inline-block;
-		  width: 70%;
-		  font-size: 16px;
-		  font-weight: 400;
-
-	  }
-	  .warp1 .content ul li .p3, .p4{
-		  line-height: 30px;
-	  }
-	  .warp1 .none{
-		  width: 100%;
-		  height: 56px;
-		  text-align: center;
-		  color: #999;
-		  line-height: 56px;
-	  }
-	  .content1{
-            width: 94%;
-            overflow: hidden;
-            margin: 0  auto;
-            display: none;
+      /*详情*/
+  .warp1{
+        width: 100%;
+        display: none;
+        margin-top: 17px;
+      }
+      .warp1 .nav{
+        width: 96%;
+        height: 47px;
+        line-height: 47px;
+        display: flex;
+        margin: 0 auto;
+        border-bottom: 1px solid #E7E7E7;
+        margin-bottom: 10px ;
+      }
+      .warp1 .nav span{
+        display: inline-block;
+        flex: 1;
+        text-align: center;
+      }
+        .warp1 .content{
+          width: 96%;
+          margin: 0  auto;
         }
-	 	.content1 ul{
-		  width: 100%;
-		  font-size: 0;
-		  overflow: hidden;
-	  }
-	  .content1 ul li{
-		  font-size: 14px;
-		  margin-bottom: 25px;
-		  line-height: 24px;
-		  color: #666;
-	  }
-	  .spancolor{
-		  border-bottom: 2px solid red;
-	  }
-	  .spancolor1{
-		  border-bottom: 2px solid #000;
-	  }
-	  .warp1 .content0{
-		  width: 94%;
-		  margin: 0  auto;
-	  }
-	 .warp1 .content0 img{
-		  width: 100%;
-	 }
+        .warp1 .content ul{
+          width: 100%;
+          font-size: 0;
+        }
+        .warp1 .content ul li{
+          border-bottom: 1px solid #E7E7E7;
+        }
+        .warp1 .content ul li:first-child{
+            border-top: none;
+        }
+        .warp1 .content ul li p{
+          font-size: 14px;
+          padding: 10px 0
+        }
+
+        .warp1 .content ul li .p1{
+          display: inline-block;
+          width: 30%;
+          vertical-align: top;
+          color: #999;
+        }
+        .warp1 .content ul li .p2{
+          display: inline-block;
+          width: 70%;
+          font-size: 16px;
+          font-weight: 400;
+
+      }
+      .warp1 .content ul li .p3, .p4{
+          line-height: 30px;
+      }
+      .warp1 .none{
+          width: 100%;
+          height: 56px;
+          text-align: center;
+          color: #999;
+          line-height: 56px;
+      }
+      .warp1 .content-margin-top{
+          border-top: none;
+      }
+      .content1{
+          width: 94%;
+          overflow: hidden;
+          margin: 0  auto;
+      }
+      .content1 ul{
+          width: 100%;
+          font-size: 0;
+          overflow: hidden;
+      }
+      .content1 ul li{
+          font-size: 14px;
+          margin-bottom: 25px;
+          line-height: 24px;
+          color: #666;
+      }
+      .spancolor{
+          border-bottom: 2px solid red;
+      }
+      .spancolor1{
+          border-bottom: 2px solid #000;
+      }
+      .warp1 .content0{
+          width: 94%;
+          margin: 0  auto;
+      }
+     .warp1 .content0 img{
+          width: 100%;
+     }
 	 /*全部评论*/
 	 /*具体内容*/
 	 .warp2{
@@ -1200,20 +1207,17 @@
     </div>
     <!-- 产品详情 -->
     <div class="warp1">
-      <div class="nav">
-        <span data-role="content0" class="navspan2 spancolor">图文详情</span>|
-        <span data-role="content" class="navspan2">产品参数</span>
-      </div>
+        <div class="content content-margin-top">
+          <ul>
+  		{% for industry in industry_properties %}
+            <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
+  		{% endfor %}
+          </ul>
+        </div>
       <div class="content0">
         <img src="images/tuwenjieshao.png" alt="">
       </div>
-      <div class="content">
-        <ul>
-		{% for industry in industry_properties %}
-          <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
-		{% endfor %}
-        </ul>
-      </div>
+
 
       <div class="none">
         没有啦！！！
@@ -1302,19 +1306,6 @@
 		<% }); %>
 		</ul>
 	</script>
-    <script type="text/javascript">
-      $(function(){
-        $(".warp1 .nav span").click(function(){
-          $(".warp1 .content0").hide();
-          $(".warp1 .content").hide();
-          var role=$(this).data("role");
-          $("."+role).show();
-
-          $(".warp1 .nav span").removeClass("spancolor");
-          $(this).addClass("spancolor");
-        });
-      });
-    </script>
 
 
 
@@ -1336,7 +1327,7 @@
           $(".content1").hide();
           var rolo=$(this).data("rolo");
           $("."+rolo).show();
-          $(".head .head-p1").removeClass("spancolor1");
+          $(".head p").removeClass("spancolor1");
           $(this).addClass("spancolor1");
         })
       })

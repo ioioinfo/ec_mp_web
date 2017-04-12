@@ -4,7 +4,14 @@
    <meta charset="utf-8">
    <title>个人中心</title>
    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-   <title></title>
+   <link rel="stylesheet" href="css/reset.css">
+   <link rel="stylesheet" href="css/jinping.css">
+   <link rel="stylesheet" href="css/search.css">
+   <script src="js/jquery-3.1.1.min.js"></script>
+   <script src="js/react.min.js"></script>
+   <script src="js/react-dom.min.js"></script>
+   <script src="js/browser.min.js"></script>
+   <script src="js/jinzhi.js"></script>
   <style media="screen">
 	 @media screen and (max-width:640px){
 	   *{
@@ -51,14 +58,12 @@
 	   /*-----搜    索     框----*/
 	   .web-input{
 		 width: 63%;
-		 height: 21px;
-		 line-height: 21px;
 		 background: #e8e1e8;
 		 font-size: 12px;
 		 color: #999;
 		 font-weight: 300;
 		 text-indent: 10px;
-		 /*padding: 10px  5px 10px 0;*/
+		 padding: 2px 0;
 		 vertical-align: middle;
 		 border-radius: 4px;
 		 margin-right: 17px;
@@ -122,7 +127,7 @@
 	   }
 /*-----中    间    部   分-----*/
 
-	   .main-list{
+	  .main-list{
 		 padding-left: 5.3333%;
 		 overflow: hidden;
 		 height: 46px;
@@ -196,9 +201,11 @@
 		 overflow: hidden;
 		 margin: 5px 0;
          border: 1px solid #e1e4e5;
+         border-right: none;
 	   }
 	   .main-recommend-img-ul li:first-child{
 		 padding-right: 2px;
+
 	   }
 	   .main-recommend-img-ul li:last-child{
 		 padding-left: 2px;
@@ -263,6 +270,7 @@
 		 text-align: center;
 		 line-height: 50px;
 		 color: #868489;
+         margin-top: -4px;
 	   }
 	   /*-------底     部------*/
 	   .footer{
@@ -359,292 +367,315 @@
    </style>
  </head>
  <body>
-   <div class="warp">
-	 <!--       头部      -->
-	 <header class="header">
-	   <div class="person-details">
-		{% if persons.length >0  %}
-		 	<img src="{{ image_host }}/images/{{persons[0].avatar_url}}" alt="">
-		 {% else %}
-		 	<img src="images/header.png" alt="">
-		 {% endif %}
-	   </div>
-		<input type="text" name="" value="" placeholder="物品搜索" class="web-input">
-		<span class="configure">设置</span>
-	 </header>
-	 <div class="header-nav" style="display:none;">
-	   <ul class="nav-ul">
-		 <li><a href="/pre_pay">
-		   <div class="nav-img-daifukuan">
-			 <img src="images/daifukuan.png" alt="">
-		   </div>
-		   <p>待付款</p></a>
-		 </li>
-		 <li><a href="/pre_send">
-		   <div class="nav-img-daifukuan">
-			 <img src="images/daifahuo.png" alt="">
-		   </div>
-		   <p>待发货</p></a>
-		 </li>
-		 <li><a href="/pre_receive">
-		   <div class="nav-img-daifukuan">
-			 <img src="images/daishouhuo.png" alt="">
-		   </div>
-		   <p>待收货</p></a>
-		 </li>
-		 <li><a href="/pre_comment">
-		   <div class="nav-img-daifukuan">
-			 <img src="images/daipingjia.png" alt="">
-		   </div>
-		   <p>待评价</p></a>
-		 </li>
-		 <li><a href="#">
-		   <div class="nav-img-daifukuan">
-			 <img src="images/tuikuan.png" alt="">
-		   </div>
-		   <p>售后/退款</p></a>
-		 </li>
-	   </ul>
-	 </div>
-	 <!--     中部       -->
-	 <div class="main">
-	   <!-- 中间导航 -->
-		 <a href="/order_center">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/wodedingdan.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">我的订单</span>
-			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			 </div>
-	  	 </a>
-	   </div>
-	   <a href="/account_yue">
-		  <div class="main-list">
-			<div class="mian-left">
-			  <img src="images/zhanghuyuer.png" alt="">
-			</div>
-			<div class="main-center">
-			  <span class="main-center-left">我的余额</span>
-			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			</div>
+    <div id="content">
+        <div class="warp">
+     	 <!--       头部      -->
+     	 <header class="header">
+     	   <div class="person-details">
+     		{% if persons.length >0  %}
+     		 	<img src="{{ image_host }}/images/{{persons[0].avatar_url}}" alt="">
+     		 {% else %}
+     		 	<img src="images/header.png" alt="">
+     		 {% endif %}
+     	   </div>
+     		<input type="text" name="" value="" placeholder="物品搜索" class="web-input">
+     		<span class="configure">设置</span>
+     	 </header>
+     	 <div class="header-nav" style="display:none;">
+     	   <ul class="nav-ul">
+     		 <li><a href="/pre_pay">
+     		   <div class="nav-img-daifukuan">
+     			 <img src="images/daifukuan.png" alt="">
+     		   </div>
+     		   <p>待付款</p></a>
+     		 </li>
+     		 <li><a href="/pre_send">
+     		   <div class="nav-img-daifukuan">
+     			 <img src="images/daifahuo.png" alt="">
+     		   </div>
+     		   <p>待发货</p></a>
+     		 </li>
+     		 <li><a href="/pre_receive">
+     		   <div class="nav-img-daifukuan">
+     			 <img src="images/daishouhuo.png" alt="">
+     		   </div>
+     		   <p>待收货</p></a>
+     		 </li>
+     		 <li><a href="/pre_comment">
+     		   <div class="nav-img-daifukuan">
+     			 <img src="images/daipingjia.png" alt="">
+     		   </div>
+     		   <p>待评价</p></a>
+     		 </li>
+     		 <li><a href="#">
+     		   <div class="nav-img-daifukuan">
+     			 <img src="images/tuikuan.png" alt="">
+     		   </div>
+     		   <p>售后/退款</p></a>
+     		 </li>
+     	   </ul>
+     	 </div>
+     	 <!--     中部       -->
+     	 <div class="main">
+     	   <!-- 中间导航 -->
+     		 <a href="/order_center">
+     		   <div class="main-list">
+     			 <div class="mian-left">
+     			   <img src="images/wodedingdan.png" alt="">
+     			 </div>
+     			 <div class="main-center">
+     			   <span class="main-center-left">我的订单</span>
+     			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			 </div>
+     	  	 </a>
+     	   </div>
+     	   <a href="/account_yue">
+     		  <div class="main-list">
+     			<div class="mian-left">
+     			  <img src="images/zhanghuyuer.png" alt="">
+     			</div>
+     			<div class="main-center">
+     			  <span class="main-center-left">我的余额</span>
+     			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			</div>
 
-		  </div>
-	  </a>
- 	 <a href="/jifen">
- 		<div class="main-list">
- 		  <div class="mian-left">
- 			<img src="images/jinbi.png" alt="">
- 		  </div>
- 		  <div class="main-center">
- 			<span class="main-center-left">我的积分</span>
- 			<span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
- 		  </div>
- 		</div>
- 	 </a>
-	 <a href="/discount_cards">
-	   <div class="main-list">
-		 <div class="mian-left">
-		   <img src="images/youhuiquan.png" alt="">
-		 </div>
-		 <div class="main-center">
-		   <span class="main-center-left">我的卡券</span>
-		   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-		 </div>
-	   </div>
-	 </a>
-	   <a href="/favorite_list">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/shoucangjia.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">我的收藏</span>
-			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			 </div>
-		   </div>
-	   </a>
+     		  </div>
+     	  </a>
+      	 <a href="/jifen">
+      		<div class="main-list">
+      		  <div class="mian-left">
+      			<img src="images/jinbi.png" alt="">
+      		  </div>
+      		  <div class="main-center">
+      			<span class="main-center-left">我的积分</span>
+      			<span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+      		  </div>
+      		</div>
+      	 </a>
+     	 <a href="/discount_cards">
+     	   <div class="main-list">
+     		 <div class="mian-left">
+     		   <img src="images/youhuiquan.png" alt="">
+     		 </div>
+     		 <div class="main-center">
+     		   <span class="main-center-left">我的卡券</span>
+     		   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     		 </div>
+     	   </div>
+     	 </a>
+     	   <a href="/favorite_list">
+     		   <div class="main-list">
+     			 <div class="mian-left">
+     			   <img src="images/shoucangjia.png" alt="">
+     			 </div>
+     			 <div class="main-center">
+     			   <span class="main-center-left">我的收藏</span>
+     			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			 </div>
+     		   </div>
+     	   </a>
 
-	   <a href="/history">
-		  <div class="main-list">
-			<div class="mian-left">
-			  <img src="images/liulanlishi.png" alt="">
-			</div>
-			<div class="main-center">
-			  <span class="main-center-left">浏览历史</span>
-			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			</div>
-		  </div>
-	  </a>
-	  <a href="/pay_code">
-		 <div class="main-list">
-		   <div class="mian-left">
-			 <img src="images/fuqian.png" alt="">
-		   </div>
-		   <div class="main-center">
-			 <span class="main-center-left">付钱</span>
-			 <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-		   </div>
-		 </div>
-	 </a>
+     	   <a href="/history">
+     		  <div class="main-list">
+     			<div class="mian-left">
+     			  <img src="images/liulanlishi.png" alt="">
+     			</div>
+     			<div class="main-center">
+     			  <span class="main-center-left">浏览历史</span>
+     			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			</div>
+     		  </div>
+     	  </a>
+     	  <a href="/pay_code">
+     		 <div class="main-list">
+     		   <div class="mian-left">
+     			 <img src="images/fuqian.png" alt="">
+     		   </div>
+     		   <div class="main-center">
+     			 <span class="main-center-left">付钱</span>
+     			 <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     		   </div>
+     		 </div>
+     	 </a>
 
-	   <div class="background"> <div class="main-recommend main-recommend-top">
- 		 <span class="main-recommend-line"></span><span class="main-recommend-center ">实体店功能</span><span class="main-recommend-line"></span>
- 	   </div></div>
-	   <a href="/combine_receipts">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/hebingkaipiao.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">合并开票</span>
-			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			 </div>
-		   </div>
-	   </a>
-	   <a href="/mendian_infos">
-		   <div class="main-list">
-			 <div class="mian-left">
-			   <img src="images/mendian.png" alt="">
-			 </div>
-			 <div class="main-center">
-			   <span class="main-center-left">门店信息</span>
-			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			 </div>
-		   </div>
-	   	</a>
-	   <a href="/small_receipts">
-		  <div class="main-list">
-			<div class="mian-left">
-			  <img src="images/shouyinxiaopiao.png" alt="">
-			</div>
-			<div class="main-center">
-			  <span class="main-center-left">收银小票</span>
-			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-			</div>
-		  </div>
-	  </a>
-	  <a href="/member_pay?activity_id=rc001">
-		 <div class="main-list">
-		   <div class="mian-left">
-			 <img src="images/huiyuanchongzhi.png" alt="">
-		   </div>
-		   <div class="main-center">
-			 <span class="main-center-left">会员充值</span>
-			 <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
-		   </div>
-		 </div>
-	 </a>
-	   <!-- 中间下面部分 -->
-	   <div class="main-recommend">
-		 <span class="main-recommend-line"></span><span class="main-recommend-center">为您推荐</span><span class="main-recommend-line"></span>
-	   </div>
+     	   <div class="background"> <div class="main-recommend main-recommend-top">
+      		 <span class="main-recommend-line"></span><span class="main-recommend-center ">实体店功能</span><span class="main-recommend-line"></span>
+      	   </div></div>
+     	   <a href="/combine_receipts">
+     		   <div class="main-list">
+     			 <div class="mian-left">
+     			   <img src="images/hebingkaipiao.png" alt="">
+     			 </div>
+     			 <div class="main-center">
+     			   <span class="main-center-left">合并开票</span>
+     			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			 </div>
+     		   </div>
+     	   </a>
+     	   <a href="/mendian_infos">
+     		   <div class="main-list">
+     			 <div class="mian-left">
+     			   <img src="images/mendian.png" alt="">
+     			 </div>
+     			 <div class="main-center">
+     			   <span class="main-center-left">门店信息</span>
+     			   <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			 </div>
+     		   </div>
+     	   	</a>
+     	   <a href="/small_receipts">
+     		  <div class="main-list">
+     			<div class="mian-left">
+     			  <img src="images/shouyinxiaopiao.png" alt="">
+     			</div>
+     			<div class="main-center">
+     			  <span class="main-center-left">收银小票</span>
+     			  <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     			</div>
+     		  </div>
+     	  </a>
+     	  <a href="/member_pay?activity_id=rc001">
+     		 <div class="main-list">
+     		   <div class="mian-left">
+     			 <img src="images/huiyuanchongzhi.png" alt="">
+     		   </div>
+     		   <div class="main-center">
+     			 <span class="main-center-left">会员充值</span>
+     			 <span class="main-center-right"><img src="images/jiantou01.png" alt=""></span>
+     		   </div>
+     		 </div>
+     	 </a>
+     	   <!-- 中间下面部分 -->
+     	   <div class="main-recommend">
+     		 <span class="main-recommend-line"></span><span class="main-recommend-center">为您推荐</span><span class="main-recommend-line"></span>
+     	   </div>
 
-	   <!-- 为你推荐图片展示部分 -->
-	   <div class="main-recommend-img">
-		 <ul class="main-recommend-img-ul">
+     	   <!-- 为你推荐图片展示部分 -->
+     	   <div class="main-recommend-img">
+     		 <ul class="main-recommend-img-ul">
 
-		 </ul>
-	   </div>
-	   <div class="main-no-more">
-		 没有更多!!!
-	   </div>
-	 </div>
+     		 </ul>
+     	   </div>
+     	   <div class="main-no-more">
+     		 没有更多!!!
+     	   </div>
+     	 </div>
 
-	 <!--    底部      -->
-	 <div class="footer">
-	   <ul class="footer-top">
-		 <li>
-			 <a href="#">
-			{% if persons.length >0  %}
-			 	{{persons[0].nickname}}
-			{% else %}
-	   		 	无名氏
-	   		 {% endif %}
-		 	</a>
-		</li>
-		 <li class="logout"><a>退出</a></li>
-	   </ul>
-	   <div class="" style="text-align:center;height:28px;font-size:12px;">
-		 网络备案号
-	   </div>
-	 </div>
- </div>
-<!-- 底部导航 -->
-<div class="footerposition">
-<ul class="footernav">
-<li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
-<li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
-<li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
-<li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
-<li><a href="/person_center"><p><img src="images/wode3.png" alt="" /></p><p style="color:#d81e06;">我的</p></a></li>
-</ul>
-<div class="background background-color">
+     	 <!--    底部      -->
+     	 <div class="footer">
+     	   <ul class="footer-top">
+     		 <li>
+     			 <a href="#">
+     			{% if persons.length >0  %}
+     			 	{{persons[0].nickname}}
+     			{% else %}
+     	   		 	无名氏
+     	   		 {% endif %}
+     		 	</a>
+     		</li>
+     		 <li class="logout"><a>退出</a></li>
+     	   </ul>
+     	   <div class="" style="text-align:center;height:28px;font-size:12px;">
+     		 网络备案号
+     	   </div>
+     	 </div>
+         </div>
+         <!-- 底部导航 -->
+         <div class="footerposition">
+         <ul class="footernav">
+         <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
+         <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
+         <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
+         <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
+         <li><a href="/person_center"><p><img src="images/wode3.png" alt="" /></p><p style="color:#d81e06;">我的</p></a></li>
+         </ul>
+         <div class="background background-color"></div>
+      </div>
 
-</div>
- </div>
- <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
- <script src="js/lodash.min.js" type="text/javascript"></script>
- <script id="hot-img3" type="text/template">
-	<% _.forEach(products, function(product) {  %>
-	 <li>
-	   <a href="/product_show?product_id=<%- product.id %>">
-		 <div class="recommend-img">
-		   <div class="recommend-img-top">
-			   <% if(product.img){ %>
-				  <img src="images/<%- product.img.location %>" alt="">
-			  <% }else{ %>
-				  <img src="images/no_picture.png" alt="">
-			  <% } %>
-		   </div>
-		   <div class="recommend-img-bottom">
-			 <span class="recommend-span-top"><%- product.product_name %></span>
-			 <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price"><%- product.product_sale_price %></span></span>
-		   </div>
-		 </div>
-	   </a>
-	 </li>
-	<% }); %>
- </script>
- <script>
- $(function() {
-	 $.ajax({
-		 url: "/get_new_arrival_products",
-		 dataType: 'json',
-		 type: 'GET',
-		 success: function(data) {
-			 if (data.success) {
-				 hot_img3 = true;
-				 var products = data.products;
-				 var t = _.template($("#hot-img3").html());
-				 $(".main-recommend-img-ul").html(t({products:products}));
-			 }else {
-				 alert(data.message);
-			 }
-		 },
-		 error: function(xhr, status, err) {
-		 }
-	 });
+       <!-- =================分割线   搜索弹出层================= -->
+       <div class="SearchCeng">
+           <div class="SearchCeng_top">
+             <span class="goBack"><img src="images/jiantou.png" alt="" /></span>
+             <input type="text" name="" value="" placeholder="搜索" class="SearchCengInput">
+             <span class="SearchCeng_top_no">取消</span>
+           </div>
+           <p class="word">大家都在搜</p>
+           <div class="SearchCeng_infor">
+             <span><a href="#">礼服</a></span>
+             <span><a href="#">棒球服</a></span>
+             <span><a href="#">孕妇裤</a></span>
+             <span><a href="#">休闲鞋</a></span>
+             <span><a href="#">板鞋</a></span>
+             <span><a href="#">电动车</a></span>
+             <span><a href="#">手提包</a></span>
+             <span><a href="#">行车记录仪</a></span>
+             <span><a href="#">礼品袋</a></span>
+             <span><a href="#">移动电源</a></span>
+           </div>
+       </div>
+      <script src="js/lodash.min.js" type="text/javascript"></script>
+      <script id="hot-img3" type="text/template">
+     	<% _.forEach(products, function(product) {  %>
+     	 <li>
+     	   <a href="/product_show?product_id=<%- product.id %>">
+     		 <div class="recommend-img">
+     		   <div class="recommend-img-top">
+     			   <% if(product.img){ %>
+     				  <img src="images/<%- product.img.location %>" alt="">
+     			  <% }else{ %>
+     				  <img src="images/no_picture.png" alt="">
+     			  <% } %>
+     		   </div>
+     		   <div class="recommend-img-bottom">
+     			 <span class="recommend-span-top"><%- product.product_name %></span>
+     			 <span class="reconmmend-span-bottom">￥ <span class="reconmmend-span-bottom-price"><%- product.product_sale_price %></span></span>
+     		   </div>
+     		 </div>
+     	   </a>
+     	 </li>
+     	<% }); %>
+      </script>
 
-	 $(".configure").click(function(){
-		 location.href = "/configure";
-	 });
-	 $(".logout").click(function(){
-		 $.get("/logout",function(data){
-			 if (data.success) {
-				 location.href="/chat_login";
-			 }else {
+      <script>
+      $(function() {
+     	 $.ajax({
+     		 url: "/get_new_arrival_products",
+     		 dataType: 'json',
+     		 type: 'GET',
+     		 success: function(data) {
+     			 if (data.success) {
+     				 hot_img3 = true;
+     				 var products = data.products;
+     				 var t = _.template($("#hot-img3").html());
+     				 $(".main-recommend-img-ul").html(t({products:products}));
+     			 }else {
+     				 alert(data.message);
+     			 }
+     		 },
+     		 error: function(xhr, status, err) {
+     		 }
+     	 });
 
-			 }
-		 });
-	 });
- });
- </script>
-<!-- 返回顶部 -->
-<!-- 返回顶部 -->
-  <div class="top"><img src="images/top.png" alt="" /><u>top</u></div>
-  <script type="text/javascript">
+     	 $(".configure").click(function(){
+     		 location.href = "/configure";
+     	 });
+     	 $(".logout").click(function(){
+     		 $.get("/logout",function(data){
+     			 if (data.success) {
+     				 location.href="/chat_login";
+     			 }else {
+
+     			 }
+     		 });
+     	 });
+      });
+      </script>
+         <!-- 返回顶部 -->
+         <!-- 返回顶部 -->
+         <div class="top"><img src="images/top.png" alt="" /><u>top</u></div>
+    </div>
+
+    <script type="text/javascript">
       $(function(){
           $(".top").click(function(){
                $('body,html').animate({scrollTop:0},400);
@@ -660,6 +691,23 @@
             }
 
         });
+
+        // ================分割线==================搜索弹出层
+        $(".web-input").click(function(){
+            $(".SearchCeng").show();
+            $(".SearchCengInput").focus();
+        });
+        $(".SearchCengInput").keypress(function(e){
+            var key = e.which;
+              if (key == 13) {
+                  var q = encodeURI(e.target.value);
+                  location.href = "/search?q="+q;
+              }
+        });
+        $(".SearchCeng_top_no").click(function(){
+            $(".SearchCeng").hide();
+        })
+
       })
   </script>
  </body>

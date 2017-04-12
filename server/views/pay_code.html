@@ -7,8 +7,13 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
         <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/jinping.css">
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+        <script src="js/jinzhi.js"></script>
         <script src="js/JsBarcode.all.min.js"></script>
-        <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <style media="screen">
             @media screen and (max-width:640px){
                 body{
@@ -66,66 +71,67 @@
         </style>
     </head>
     <body>
-        <!--       头部      -->
-        <div class="top">
-          <img src="images/back2.png" alt="">
-          <span>扫码支付</span>
+        <div id="content">
+            <!--       头部      -->
+            <div class="top">
+              <img src="images/back2.png" alt="">
+              <span>扫码支付</span>
+            </div>
+            <div class="wrap">
+                <img id="barcode"/>
+            </div>
+            <p class="time">当前还有 <span></span> 秒将自动更新使用</p>
+            <p class="sk">佑佑信息科技有限公司提供</p>
         </div>
-        <div class="wrap">
-            <img id="barcode"/>
-        </div>
-        <p class="time">当前还有 <span></span> 秒将自动更新使用</p>
-        <p class="sk">佑佑信息科技有限公司提供</p>
+
         <script type="text/javascript">
+            function code(){
+                $.ajax({
+                  url: "/vip_card_paycode",
+                  dataType: 'json',
+                  type: 'POST',
+                  success: function(data) {
+                      var row=data.row;
+                        JsBarcode("#barcode", row.paycode, {
+                            format: "CODE128"
+                            ,background: "#F6F6F8"
+                            ,fontSize: 12
+                            ,textMargin: 5
 
+                        });
 
-        function code(){
-            $.ajax({
-              url: "/vip_card_paycode",
-              dataType: 'json',
-              type: 'POST',
-              success: function(data) {
-                  var row=data.row;
-                    JsBarcode("#barcode", row.paycode, {
-                        format: "CODE128"
-                        ,background: "#F6F6F8"
-                        ,fontSize: 12
-                        ,textMargin: 5
-
-                    });
-
-                  timer(row.left_second);
-              }.bind(this),
-              error: function(xhr, status, err) {
-              }.bind(this)
-          });
+                      timer(row.left_second);
+                  }.bind(this),
+                  error: function(xhr, status, err) {
+                  }.bind(this)
+              });
 
 
 
 
-        }
-        function timer(intDiff){
-            var t = window.setInterval(function(){
-                 intDiff--;
-                 if(intDiff<=0){
-                     clearInterval(t);
-                    code();
-                 }
-                 $(".time span").html(Math.ceil(intDiff));
+            }
+            function timer(intDiff){
+                var t = window.setInterval(function(){
+                     intDiff--;
+                     if(intDiff<=0){
+                         clearInterval(t);
+                        code();
+                     }
+                     $(".time span").html(Math.ceil(intDiff));
 
-                 if (intDiff>4) {
-                     $(".time span").css("color","#000");
-                 }else if(intDiff<=4&&intDiff>=3){
-                     $(".time span").css("color","#FFC125");
-                 }else if(intDiff>=0&&intDiff<3) {
-                     $(".time span").css("color","#FF0000");
-                 }
-            },1000);
+                     if (intDiff>4) {
+                         $(".time span").css("color","#000");
+                     }else if(intDiff<=4&&intDiff>=3){
+                         $(".time span").css("color","#FFC125");
+                     }else if(intDiff>=0&&intDiff<3) {
+                         $(".time span").css("color","#FF0000");
+                     }
+                },1000);
 
-        }
-        $(function(){
-            code();
-        });
+            }
+            $(function(){
+                code();
+            });
 
         </script>
     </body>

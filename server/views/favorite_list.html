@@ -5,6 +5,13 @@
   <title></title>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>代发货</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/jinping.css">
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/react.min.js"></script>
+  <script src="js/react-dom.min.js"></script>
+  <script src="js/browser.min.js"></script>
+  <script src="js/jinzhi.js"></script>
   <style media="screen">
     @media screen and (max-width:640px){
       *{
@@ -52,7 +59,7 @@
         vertical-align: middle;
       }
 /*-----中    间    部   分-----*/
-      .main{
+     .main{
         width: 100%;
         margin-top: 20px;
 
@@ -137,10 +144,9 @@
     <div class="main">
       <!-- 中间导航 -->
       <div style="background:#F5F5F5;" class="div_content"></div>
-
-</div>
-  <p class="footer">没有更多！！！</p>
-  <script id="content" type="text/template">
+    </div>
+    <p class="footer">没有更多！！！</p>
+    <script id="content" type="text/template">
 	  <% _.forEach(products, function(product) {  %>
 		  <div class="main-list">
 			  <div class="main-list-left">
@@ -162,9 +168,10 @@
 			  </div>
 		 </div>
       <% }); %>
-  </script>
+
+    </script>
+  </div>
   <script src="js/lodash.min.js" type="text/javascript"></script>
-  <script src="js/jquery-3.1.1.min.js"type="text/javascript"></script>
   <script type="text/javascript">
   	 $(function(){
 		 var products = {{products | safe}};
