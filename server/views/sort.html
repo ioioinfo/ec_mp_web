@@ -4,9 +4,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>商品展示</title>
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
 	<script src="js/lodash.min.js" type="text/javascript"></script>
-<style>
-@media screen and (max-width:640px){
+    <style>
+    @media screen and (max-width:640px){
   *{
       padding: 0;
       margin: 0;
@@ -29,6 +34,9 @@
     }
 
 /*----  t  o   p-----*/
+    #content{
+    height: 100%;
+}
     .warp{
       position: relative;
       height: 100%;
@@ -275,45 +283,60 @@
 
   }
 </style>
-  </head>
-  <body>
-    <div class="search">
-      <span class="headersearch">搜索</span>
-      <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
-      <div class="headernews">
-	  <a href="/messages">
-	        <img src="images/new2.png" alt="" class="headernimg" />
-	        <span class="headernewsnum"></span>
-	  </a>
-      </div>
-	 </div>
-  <div class="warp">
-		<div class="main">
-      <ul class="main-ul" >
-		{% for sort in sorts["0"] %}
-        	<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
-        {% endfor %}
+</head>
+<body>
+    <div id="content">
+        <div class="search">
+          <span class="headersearch">搜索</span>
+          <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
+          <div class="headernews">
+    	  <a href="/messages">
+    	        <img src="images/new2.png" alt="" class="headernimg" />
+    	        <span class="headernewsnum"></span>
+    	  </a>
+          </div>
+    	 </div>
+        <div class="warp">
+    		<div class="main">
+              <ul class="main-ul" >
+        		{% for sort in sorts["0"] %}
+                	<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
+                {% endfor %}
+              </ul>
+
+              <div class="main-right "></div>
+              <div class="main-bottom"></div>
+            </div>
+        </div>
+        <ul class="footernav">
+        <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
+        <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
+        <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
+        <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
+        <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
       </ul>
-
-      <div class="main-right ">
-
+        <!-- 搜索弹出层 -->
+        <div class="SearchCeng">
+          <div class="SearchCeng_top">
+            <span class="goBack"><img src="images/jiantou.png" alt="" /></span>
+            <input type="text" name="" value="" placeholder="搜索" class="SearchCengInput">
+            <span class="SearchCeng_top_no">取消</span>
+          </div>
+          <p class="word">大家都在搜</p>
+          <div class="SearchCeng_infor">
+            <span><a href="#">礼服</a></span>
+            <span><a href="#">棒球服</a></span>
+            <span><a href="#">孕妇裤</a></span>
+            <span><a href="#">休闲鞋</a></span>
+            <span><a href="#">板鞋</a></span>
+            <span><a href="#">电动车</a></span>
+            <span><a href="#">手提包</a></span>
+            <span><a href="#">行车记录仪</a></span>
+            <span><a href="#">礼品袋</a></span>
+            <span><a href="#">移动电源</a></span>
+          </div>
       </div>
-
-
-      <div class="main-bottom"></div>
     </div>
-
-
-  </div>
-  <ul class="footernav">
-    <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
-    <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
-    <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
-    <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
-    <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
-  </ul>
-
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script id="sort_infos" type="text/template">
 		<div class="main-img ">
           <img src="images/<%- parent.img_location %>" alt="">
@@ -348,7 +371,7 @@
 
 
 	</script>
-  <script>
+    <script>
   $(function() {
 		$.ajax({
 			url: "/check_message_number",
@@ -364,9 +387,6 @@
 			error: function(xhr, status, err) {
 			}
 		});
-	  $(".headersearch").click(function(){
-		  location.href = "/search_area";
-	  });
 	  var sorts = {{sorts_infos|safe}};
 	  var click_levelone = function(sort_id){
 		  if (!sort_id) {
@@ -388,6 +408,24 @@
 		  click_levelone(sortid);
 	  });
 	  click_levelone("001000000");
+
+    //   搜索框弹出层
+    $(".headersearch").click(function(){
+        $(".SearchCeng").show();
+        $(".SearchCengInput").focus();
+    });
+    $(".SearchCengInput").keypress(function(e){
+        var key = e.which;
+          if (key == 13) {
+              var q = encodeURI(e.target.value);
+              location.href = "/search?q="+q;
+          }
+    });
+    $(".SearchCeng_top_no").click(function(){
+        $(".SearchCeng").hide();
+    })
+
+
   });
   </script>
 

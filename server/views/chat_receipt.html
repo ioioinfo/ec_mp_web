@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <title>商品列表</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
           *{
@@ -27,6 +34,9 @@
           /*隐藏滚动条*/
           ::-webkit-scrollbar {
               display: none;
+          }
+          #content{
+              height: 100%;
           }
           .head{
             margin: 0 auto;
@@ -156,111 +166,113 @@
     </style>
   </head>
   <body>
-    <div class="head">
-      <div class="head-top">
-        <span>永辉超市XXX店</span>
-      </div>
-      <div class="head-bottom">
-        <span>会员号：123456789</span><span>小票号：00228147</span>
-      </div>
+    <div id="content">
+        <div class="head">
+          <div class="head-top">
+            <span>永辉超市XXX店</span>
+          </div>
+          <div class="head-bottom">
+            <span>会员号：123456789</span><span>小票号：00228147</span>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/ji.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级小黄鸡</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/shep.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级小绵羊</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/qincai.jpg" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级老芹菜</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/orange.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级小黄橘</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/laotan.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级酸菜面</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/ji.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级牛肉火腿</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/fish.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级鲤鱼精</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/tianshi.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级天使的翅膀</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="left">
+            <img src="images/fu.png" alt="">
+          </div>
+          <div class="right">
+            <p><span>宇宙超级福字</span><span class="red">X1</span></p>
+            <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
+          </div>
+        </div>
+        <div class="infor">
+          <p><span>件数：5</span><span>找零：￥1.00</span></p>
+          <p><span>降价优惠合计：￥5.00</span><span>分头舍去：0.5</span></p>
+          <p><span>折扣总额：￥5.00</span><span>应收:￥999.50</span></p>
+          <p><span>实收：￥1000.00</span></p>
+        </div>
+        <div class="money">
+          <p><span>结算：</span><span>￥</span><span class="number">999.00</span></p>
+          <p><span>获得积分：99分</span></p>
+          <p><span>结算方式：支付宝支付</span></p>
+          <div class="fish"><img src="images/fish-1.png" alt=""></div>
+        </div>
+        <div class="footer">
+          没有更多啦、、、、
+        </div>
     </div>
 
-    <div class="content">
-      <div class="left">
-        <img src="images/ji.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级小黄鸡</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/shep.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级小绵羊</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/qincai.jpg" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级老芹菜</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/orange.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级小黄橘</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/laotan.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级酸菜面</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/ji.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级牛肉火腿</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/fish.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级鲤鱼精</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/tianshi.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级天使的翅膀</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <img src="images/fu.png" alt="">
-      </div>
-      <div class="right">
-        <p><span>宇宙超级福字</span><span class="red">X1</span></p>
-        <p><span>单价：￥10.78</span><span>成交价：￥14.46</span></p>
-      </div>
-    </div>
-    <div class="infor">
-      <p><span>件数：5</span><span>找零：￥1.00</span></p>
-      <p><span>降价优惠合计：￥5.00</span><span>分头舍去：0.5</span></p>
-      <p><span>折扣总额：￥5.00</span><span>应收:￥999.50</span></p>
-      <p><span>实收：￥1000.00</span></p>
-    </div>
-    <div class="money">
-      <p><span>结算：</span><span>￥</span><span class="number">999.00</span></p>
-      <p><span>获得积分：99分</span></p>
-      <p><span>结算方式：支付宝支付</span></p>
-      <div class="fish"><img src="images/fish-1.png" alt=""></div>
-    </div>
-    <div class="footer">
-      没有更多啦、、、、
-    </div>
 
   </body>
 </html>

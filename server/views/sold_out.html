@@ -5,12 +5,13 @@
     <title>商品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/lunbo.css">
-	<script src="js/jquery-3.1.1.min.js"type="text/javascript"></script>
-	<script src="js/lodash.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
-
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
 	<style media="screen">
 	@media screen and (max-width:640px){
 	  *{
@@ -700,6 +701,7 @@
 	  .footernav{
 		width: 100%;
 		height: 47px;
+        line-height: 47px;
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -707,151 +709,117 @@
 		background: #fff;
 		border-top: 1px solid #eee;
 		overflow: hidden;
-
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        justify-content:space-between;
+        box-sizing: border-box;
 	  }
 	  .footernav li{
 		text-align: center;
-		float: left;
 		height: 47px;
-		position: relative;
+        width: 50%;
+
 	  }
+      .footernav li:first-child{
+          background: #70B42B;
+      }
+      .footernav li:last-child{
+          background: #D81E06
+      }
 	  .footernav li a{
 		display: inline-block;
 		width: 100%;
 		height: 47px;
+        color: #fff;
 	  }
-	  .footernav .footernavLi{
-		width: 14.666%;
-		padding-top: 5px;
+
+	  /*详情*/
+	  .warp1{
+		width: 100%;
+		display: none;
 	  }
-	  .footernav .footernavLi1{
-		width:28%;
+	  .warp1 .nav{
+		width: 96%;
+		height: 47px;
 		line-height: 47px;
+		display: flex;
+		margin: 0 auto;
 	  }
-	  .footernav .footernavLi2{
-		background: #FF6600
-	  }
-	  .footernav .footernavLi3{
-		background: #D81E06
-	  }
-	  .footernav .footernavLi1 a{
-		color: #fff;
-	  }
-	  .footernav li p{
-		font-size: 12px;
-	  }
-	  .footernav li img{
-		width: 22px;
-		height: 22px;
-	  }
-	  .footernav li .footernav-wordnum{
+	  .warp1 .nav span{
 		display: inline-block;
-		width: 16px;
-		height: 16px;
-		border-radius: 8px;
+		flex: 1;
 		text-align: center;
-		line-height: 16px;
-		background: #D81E06;
-		color: #fff;
-		font-size: 12px;
-		position: absolute;
-		top: 2px;
-		left: 31px;
 	  }
-      /*详情*/
-  .warp1{
-        width: 100%;
-        display: none;
-        margin-top: 17px;
-      }
-      .warp1 .nav{
-        width: 96%;
-        height: 47px;
-        line-height: 47px;
-        display: flex;
-        margin: 0 auto;
-        border-bottom: 1px solid #E7E7E7;
-        margin-bottom: 10px ;
-      }
-      .warp1 .nav span{
-        display: inline-block;
-        flex: 1;
-        text-align: center;
-      }
-        .warp1 .content{
-          width: 96%;
-          margin: 0  auto;
-        }
-        .warp1 .content ul{
-          width: 100%;
-          font-size: 0;
-        }
-        .warp1 .content ul li{
-          border-bottom: 1px solid #E7E7E7;
-        }
-        .warp1 .content ul li:first-child{
-            border-top: none;
-        }
-        .warp1 .content ul li p{
-          font-size: 14px;
-          padding: 10px 0
-        }
+		.warp1 .content{
+		  width: 96%;
+		  margin: 0  auto;
+		  display: none;
+		}
+		.warp1 .content ul{
+		  width: 100%;
+		  font-size: 0;
+		}
+		.warp1 .content ul li{
+		  border-bottom: 1px solid #E7E7E7;
+		}
+		.warp1 .content ul li p{
+		  font-size: 14px;
+		  padding: 10px 0
+		}
 
-        .warp1 .content ul li .p1{
-          display: inline-block;
-          width: 30%;
-          vertical-align: top;
-          color: #999;
-        }
-        .warp1 .content ul li .p2{
-          display: inline-block;
-          width: 70%;
-          font-size: 16px;
-          font-weight: 400;
+		.warp1 .content ul li .p1{
+		  display: inline-block;
+		  width: 30%;
+		  vertical-align: top;
+		  color: #999;
+		}
+		.warp1 .content ul li .p2{
+		  display: inline-block;
+		  width: 70%;
+		  font-size: 16px;
+		  font-weight: 400;
 
-      }
-      .warp1 .content ul li .p3, .p4{
-          line-height: 30px;
-      }
-      .warp1 .none{
-          width: 100%;
-          height: 56px;
-          text-align: center;
-          color: #999;
-          line-height: 56px;
-      }
-      .warp1 .content-margin-top{
-          border-top: none;
-      }
-      .content1{
-          width: 94%;
-          overflow: hidden;
-          margin: 0  auto;
-      }
-      .content1 ul{
-          width: 100%;
-          font-size: 0;
-          overflow: hidden;
-      }
-      .content1 ul li{
-          font-size: 14px;
-          margin-bottom: 25px;
-          line-height: 24px;
-          color: #666;
-      }
-      .spancolor{
-          border-bottom: 2px solid red;
-      }
-      .spancolor1{
-          border-bottom: 2px solid #000;
-      }
-      .warp1 .content0{
-          width: 94%;
-          margin: 0  auto;
-      }
-     .warp1 .content0 img{
-          width: 100%;
-     }
+	  }
+	  .warp1 .content ul li .p3, .p4{
+		  line-height: 30px;
+	  }
+	  .warp1 .none{
+		  width: 100%;
+		  height: 56px;
+		  text-align: center;
+		  color: #999;
+		  line-height: 56px;
+	  }
+	  .content1{
+            width: 94%;
+            overflow: hidden;
+            margin: 0  auto;
+            display: none;
+        }
+	 	.content1 ul{
+		  width: 100%;
+		  font-size: 0;
+		  overflow: hidden;
+	  }
+	  .content1 ul li{
+		  font-size: 14px;
+		  margin-bottom: 25px;
+		  line-height: 24px;
+		  color: #666;
+	  }
+	  .spancolor{
+		  border-bottom: 2px solid red;
+	  }
+	  .spancolor1{
+		  border-bottom: 2px solid #000;
+	  }
+	  .warp1 .content0{
+		  width: 94%;
+		  margin: 0  auto;
+	  }
+	 .warp1 .content0 img{
+		  width: 100%;
+	 }
 	 /*全部评论*/
 	 /*具体内容*/
 	 .warp2{
@@ -1141,10 +1109,7 @@
       <div class="address">
         <span>快递:免费</span><span>上海</span>
       </div>
-      <div class="top-service click3">
-        <p>优惠：<span class="span1">满99减100</span></p>
-        <p class="discount-coupon"><span class="span2">领优惠券：</span><a><span class="span3">ss</span></a><a><span class="span4"></span></a><a><span class="span5"></span></a></p>
-      </div>
+
       <div class="content">
 		  <div class="price">
 
@@ -1184,15 +1149,8 @@
           </div>
         </div>
       <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="combo">
-        <p class="combo-infor">
-          <span><img src="images/combo.png" alt=""></span>
-          <span>可选用套餐</span>
-          <span>套餐购买享优惠 <img src="images/jiantou-right2.png" alt=""> </span>
-        </p>
-      </div>
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-	  <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+
+
       <div class="hot">
         <p class="hot-title"><span data-hot="hot-img1" class="hot-span1 hot-span1-color">热销产品</span>|<span data-hot="hot-img2" class="hot-span1">猜你喜欢</span>|<span data-hot="hot-img3" class="hot-span1">新品推荐</span></p>
         <div class="hot-img hot-img1">
@@ -1207,31 +1165,26 @@
     </div>
     <!-- 产品详情 -->
     <div class="warp1">
-        <div class="content content-margin-top">
-          <ul>
-  		{% for industry in industry_properties %}
-            <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
-  		{% endfor %}
-          </ul>
-        </div>
+      <div class="nav">
+        <span data-role="content0" class="navspan2 spancolor">图文详情</span>|
+        <span data-role="content" class="navspan2">产品参数</span>
+      </div>
       <div class="content0">
         <img src="images/tuwenjieshao.png" alt="">
       </div>
-
+      <div class="content">
+        <ul>
+		{% for industry in industry_properties %}
+          <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
+		{% endfor %}
+        </ul>
+      </div>
 
       <div class="none">
         没有啦！！！
       </div>
     </div>
-	<!-- 优惠券 -->
-    <div class="partone partone2">
-      <p>优惠券</p>
-      <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
-      <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
-      <div class="close close2">
-        关 闭
-      </div>
-    </div>
+
 	<div class="opacity"></div>
 	<div class="content1">
 	  <ul>
@@ -1306,17 +1259,26 @@
 		<% }); %>
 		</ul>
 	</script>
+    <script type="text/javascript">
+      $(function(){
+        $(".warp1 .nav span").click(function(){
+          $(".warp1 .content0").hide();
+          $(".warp1 .content").hide();
+          var role=$(this).data("role");
+          $("."+role).show();
+
+          $(".warp1 .nav span").removeClass("spancolor");
+          $(this).addClass("spancolor");
+        });
+      });
+    </script>
 
 
 
     <div style="background:#fff;height:75px;width:100%"></div>
 	<ul class="footernav">
-		<li class="footernavLi"><a href="/"><p class="footernav_p1"><img src="images/shouye1.png" alt="" /></p><p class="footernav-word">首页</p></a></li>
-        <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="images/shoucang.png" alt="" /></p><p class="footernav-word">收藏</p></a></li>
-        <li class="footernavLi"><a href="/cart_infos"><p class="footernav_p1"><img src="images/car.png" alt="" /></p><p class="footernav-word">购物车<span class="footernav-wordnum">99</span></p></a></li>
-        <li class="footernavLi1 footernavLi2" id="shopping_cart"><a><p>加入购物车</p></a></li>
-        <li class="footernavLi1 footernavLi3"><a><p id="buy_immediate">立即购买</p></a></li>
-
+		<li class="footernavLi"><a href="/"><p class="footernav-word">返回首页</p></a></li>
+        <li class="footernavLi1 footernavLi3"><a><p id="buy_immediate">商品已售空</p></a></li>
 	</ul>
 
     <script type="text/javascript">
@@ -1327,7 +1289,7 @@
           $(".content1").hide();
           var rolo=$(this).data("rolo");
           $("."+rolo).show();
-          $(".head p").removeClass("spancolor1");
+          $(".head .head-p1").removeClass("spancolor1");
           $(this).addClass("spancolor1");
         })
       })

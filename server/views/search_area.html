@@ -3,7 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <title>商品搜索</title>
     <style media="screen">
       @media screen and (max-width:640px){
@@ -73,24 +79,27 @@
     </style>
   </head>
   <body>
-    <div class="search">
-      <span class="search_img"><img src="images/jiantou.png" alt=""></span>
-      <input type="text" name="" value="{{q}}" placeholder="搜索" class="search_content">
-      <span class="cancle">取消</span>
+    <div id="content">
+        <div class="search">
+          <span class="search_img"><img src="images/jiantou.png" alt=""></span>
+          <input type="text" name="" value="{{q}}" placeholder="搜索" class="search_content">
+          <span class="cancle">取消</span>
+        </div>
+        <p class="word">大家都在搜</p>
+        <div class="infor">
+    	  <span><a href="/search?q=礼服">礼服</a></span>
+      	  <span><a href="/search?q=棒球服">棒球服</a></span>
+      	  <span><a href="/search?q=孕妇裤">孕妇裤</a></span>
+      	  <span><a href="/search?q=休闲鞋">休闲鞋</a></span>
+      	  <span><a href="/search?q=板鞋">板鞋</a></span>
+      	  <span><a href="/search?q=电动车">电动车</a></span>
+      	  <span><a href="/search?q=手提包">手提包</a></span>
+      	  <span><a href="/search?q=行车记录仪">行车记录仪</a></span>
+      	  <span><a href="/search?q=礼品袋">礼品袋</a></span>
+      	  <span><a href="/search?q=移动电源">移动电源</a></span>
+        </div>
     </div>
-    <p class="word">大家都在搜</p>
-    <div class="infor">
-	  <span><a href="/search?q=礼服">礼服</a></span>
-  	  <span><a href="/search?q=棒球服">棒球服</a></span>
-  	  <span><a href="/search?q=孕妇裤">孕妇裤</a></span>
-  	  <span><a href="/search?q=休闲鞋">休闲鞋</a></span>
-  	  <span><a href="/search?q=板鞋">板鞋</a></span>
-  	  <span><a href="/search?q=电动车">电动车</a></span>
-  	  <span><a href="/search?q=手提包">手提包</a></span>
-  	  <span><a href="/search?q=行车记录仪">行车记录仪</a></span>
-  	  <span><a href="/search?q=礼品袋">礼品袋</a></span>
-  	  <span><a href="/search?q=移动电源">移动电源</a></span>
-    </div>
+
 	<script>
 		var focus_input = function(){
 			$(".search_content").focus();

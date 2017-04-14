@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <title>设置</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -151,32 +158,34 @@
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="top">
-        <div class="back">
-		  <a href="/person_center">
-          	<img src="images/back.png" alt="">
-		  </a>
+    <div id="content">
+        <div class="wrap">
+          <div class="top">
+            <div class="back">
+    		  <a href="/person_center">
+              	<img src="images/back.png" alt="">
+    		  </a>
+            </div>
+            <p class="top-title">设置</p>
+            <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum"></p></div>
+          </div>
+          <div class="middle">
+            <ul class="middle-ul">
+              <li class="middle-li person_info"><p class="middle-p1">个人信息</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
+              <li class="middle-li address_management"><p class="middle-p1">地址管理</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
+              <li class="middle-li"><p class="middle-p1">增票资质</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
+              <li class="middle-li"><p class="middle-p1">账户安全</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
+              <li class="middle-li"><a href="about_us"><p class="middle-p1">关于我们</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></a></li>
+            </ul>
+          </div>
         </div>
-        <p class="top-title">账户管理</p>
-        <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum"></p></div>
-      </div>
-      <div class="middle">
-        <ul class="middle-ul">
-          <li class="middle-li person_info"><p class="middle-p1">个人信息</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
-          <li class="middle-li address_management"><p class="middle-p1">地址管理</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">增票资质</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">账户安全</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
-          <li class="middle-li"><p class="middle-p1">关于我们</p><p class="middle-p2"><img src="images/jiantou-right.png" alt=""></p></li>
-        </ul>
-      </div>
+        <div class="footer">
+          退出当前帐号
+        </div>
     </div>
-    <div class="footer">
-      退出当前帐号
-    </div>
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+
 	<script>
-	$(function() {
+	   $(function() {
 		$.ajax({
 			url: "/check_message_number",
 			dataType: 'json',
@@ -207,7 +216,7 @@
 		$(".person_info").click(function(){
 			location.href = "/person_info";
 		});
-	});
+	   });
 	</script>
   </body>
 </html>

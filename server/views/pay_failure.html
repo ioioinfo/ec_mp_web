@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
-        <title>支付成功</title>
+        <title>支付失败</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/jinping.css">
         <script src="js/jquery-3.1.1.min.js"></script>
@@ -148,7 +148,7 @@
               return (
                 <div className="header">
                   <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
-                  <span className="title">支付成功</span>
+                  <span className="title">支付失败</span>
                   <span className="menu"><img src="images/shouye1.png" alt="" /></span>
                 </div>
               );
@@ -160,12 +160,12 @@
               return (
                 <div className="recharged_infor">
                     <div className="recharged_infor_remind">
-                        <p className="recharged_money">支付成功，耐心等待商品送达...</p>
+                        <p className="recharged_money">支付失败，请重新尝试...</p>
                     </div>
                     <div className="recharged_ok">
-                        <p>订单详情</p><p>返回首页</p>
+                        <p>返回支付</p><p>返回首页</p>
                     </div>
-                    <p className="smile"><img src="images/smile.png" alt="" /></p>
+                    <p className="smile"><img src="images/cry.png" alt="" /></p>
                     <p className="person_center">转入商品分类</p>
                 </div>
               );

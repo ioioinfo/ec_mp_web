@@ -5,8 +5,15 @@
     <title>小票明细</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
-    @media screen and (max-width:640px){
+        @media screen and (max-width:640px){
         *{
             padding: 0;
             margin: 0;
@@ -29,6 +36,9 @@
         /*隐藏滚动条*/
         ::-webkit-scrollbar {
             display: none;
+        }
+        #content{
+            height: 100%;
         }
         .head{
             margin: 0 auto;
@@ -180,44 +190,47 @@
     </style>
 </head>
 <body>
-    <div class="head">
-		<a href="/small_receipts"><img src="images/back.png" class="goback" alt="" /></a>
-        <div class="head-top">
-			<a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
-              <span>{{ row.store.org_store_name }}</span>
-		    </a>
+    <div id="content">
+        <div class="head">
+    		<a href="/small_receipts"><img src="images/back.png" class="goback" alt="" /></a>
+            <div class="head-top">
+    			<a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
+                  <span>{{ row.store.org_store_name }}</span>
+    		    </a>
+            </div>
+            <div class="head-bottom">
+                <span>会员号：123456789</span><span>小票号：{{ row.order_id }}</span>
+            </div>
         </div>
-        <div class="head-bottom">
-            <span>会员号：123456789</span><span>小票号：{{ row.order_id }}</span>
+        {% for order_detail in row.order_details %}
+        <div class="content">
+            <div class="left">
+                {% if (order_detail.product.img) %}
+                <img src="{{ ec_host }}/images/{{ order_detail.product.img.location }}" alt="">
+                {% endif %}
+            </div>
+    		<div class="right">
+    			<p class="right_p1"><span>{{ order_detail.product.product_name }}</span><span class="red">X{{ order_detail.number }}</span></p>
+            	<p class="right_p2"><span>单价：￥{{ order_detail.price }}</span><span>成交价：￥{{ order_detail.total_price }}</span></p>
+    		</div>
+        </div>
+        {% endfor %}
+        <div class="infor">
+            <p><span>件数：{{ row.total_number }}</span><span>找零：￥{{ row.changes }}</span></p>
+            <p><span>降价优惠合计：￥{{ row.card_reduce }}</span><span>分头舍去：{{ row.small_change }}</span></p>
+            <p><span>折扣总额：￥{{ row.card_reduce }}</span><span>应收:￥{{ row.actual_price }}</span></p>
+            <p><span>实收：￥{{ row.ready_pay }}</span></p>
+        </div>
+        <div class="money">
+            <p><span>结算：</span><span>￥</span><span class="number">{{ row.actual_price - row.small_change }}</span></p>
+            <p><span>获得积分：{{ row.gain_point }}分</span></p>
+            <p><span>结算方式：{{ row.pay_ways }}</span></p>
+            <div class="fish"><img src="{{ image_host }}/images/42.png" alt=""></div>
+        </div>
+        <div class="footer">
+            没有更多啦、、、、
         </div>
     </div>
-    {% for order_detail in row.order_details %}
-    <div class="content">
-        <div class="left">
-            {% if (order_detail.product.img) %}
-            <img src="{{ ec_host }}/images/{{ order_detail.product.img.location }}" alt="">
-            {% endif %}
-        </div>
-		<div class="right">
-			<p class="right_p1"><span>{{ order_detail.product.product_name }}</span><span class="red">X{{ order_detail.number }}</span></p>
-        	<p class="right_p2"><span>单价：￥{{ order_detail.price }}</span><span>成交价：￥{{ order_detail.total_price }}</span></p>
-		</div>
-    </div>
-    {% endfor %}
-    <div class="infor">
-        <p><span>件数：{{ row.total_number }}</span><span>找零：￥{{ row.changes }}</span></p>
-        <p><span>降价优惠合计：￥{{ row.card_reduce }}</span><span>分头舍去：{{ row.small_change }}</span></p>
-        <p><span>折扣总额：￥{{ row.card_reduce }}</span><span>应收:￥{{ row.actual_price }}</span></p>
-        <p><span>实收：￥{{ row.ready_pay }}</span></p>
-    </div>
-    <div class="money">
-        <p><span>结算：</span><span>￥</span><span class="number">{{ row.actual_price - row.small_change }}</span></p>
-        <p><span>获得积分：{{ row.gain_point }}分</span></p>
-        <p><span>结算方式：{{ row.pay_ways }}</span></p>
-        <div class="fish"><img src="{{ image_host }}/images/42.png" alt=""></div>
-    </div>
-    <div class="footer">
-        没有更多啦、、、、
-    </div>
+
 </body>
 </html>

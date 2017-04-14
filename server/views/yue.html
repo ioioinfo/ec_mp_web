@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <title>充值消费记录</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -23,6 +30,9 @@
         a{
           text-decoration: none;
           color: #000;
+        }
+        #content{
+            height: 100%;
         }
         .infor{
           margin-top: 30px;
@@ -120,95 +130,98 @@
     </style>
   </head>
   <body>
-    <div class="infor">
-      <p class="title">充值和消费记录时间轴</p>
-      <p class="line-one"></p>
-      <p class="line-two"></p>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+    <div id="content">
+        <div class="infor">
+          <p class="title">充值和消费记录时间轴</p>
+          <p class="line-one"></p>
+          <p class="line-two"></p>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
 
+              </div>
+            </div>
+          </div>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+              </div>
+            </div>
+          </div>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+              </div>
+            </div>
+          </div>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+              </div>
+            </div>
+          </div>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+              </div>
+            </div>
+          </div>
+          <div class="time">
+            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
+            <div class="expense-calendar">
+              <div class="left">
+                <span>充值:3000</span><span>11：13</span>
+              </div>
+              <div class="line-three"></div>
+              <div class="right">
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-          </div>
+        <div class="footer">
+          没有更多啦、、、、
         </div>
-      </div>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="time">
-        <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-        <div class="expense-calendar">
-          <div class="left">
-            <span>充值:3000</span><span>11：13</span>
-          </div>
-          <div class="line-three"></div>
-          <div class="right">
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-            <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="footer">
-      没有更多啦、、、、
-    </div>
+
   </body>
 </html>

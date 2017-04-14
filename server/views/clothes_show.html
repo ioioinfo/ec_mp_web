@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <title>商品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script> -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -32,6 +38,9 @@
         a{
           text-decoration: none;
           color: #000;
+        }
+        #content{
+            height: 100%;
         }
 		.content{
           width: 100%;
@@ -857,277 +866,279 @@
     </script>
   </head>
   <body>
-    <div class="head">
-      <p><span><</span></p>
-      <p>商品</p>
-      <p class="details">详情</p>
-      <p class="comment">评论</p>
-      <p><img src="images/shouye-2.png" alt=""></p>
-    </div>
-    <div class="middle">
-      <div class="top">
-        <div class="top-img">
-          <div id="box"></div>
+    <div id="content">
+        <div class="head">
+          <p><span><</span></p>
+          <p>商品</p>
+          <p class="details">详情</p>
+          <p class="comment">评论</p>
+          <p><img src="images/shouye-2.png" alt=""></p>
         </div>
-        <div class="top-infor">
-          <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
-          <p class="ad"><span><s>{{product.product_marketing_price}}</s></span></p>
-          <p class="ad"><span>销量：{{product.mp_sales.total_sales}}</span></p>
-          <p class="ad"><span>降价通知</span></p>
-        </div>
-      </div>
-      <div class="top-center">
-        <p><span>{{product.product_name}}</span> <span>分享</span></p>
-        <p>{{product.product_describe}}</p>
-      </div>
-      <div class="service">
-        <p><span>服务</span></p>
-      </div>
-      <div class="address">
-        <span>快递:免费</span><span>{{product.origin || "北京"}}</span>
-      </div>
-      <div class="top-service">
-        <p>优惠：<span class="span1">满99减100</span></p>
-        <p class="discount-coupon"><span class="span2">领优惠券：</span><a href="#"><span class="span3">ss</span></a><a href="#"><span class="span4"></span></a><a href="#"><span class="span5"></span></a></p>
-      </div>
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-	  
-	  <div class="content">
-        <div class="content-middle">
-          <div class="content-middle-infor">
-            <div class="middle-1">
-              <span class="middle-span1">已选</span>
-              <div class="middle-name">
-                {{product.product_name}} <span class="middle-span2">1件</span>
-              </div>
+        <div class="middle">
+          <div class="top">
+            <div class="top-img">
+              <div id="box"></div>
             </div>
-            <div class="middle-2">
-			{% for property in product.mp_stock.properties %}
-              <div class="middle-2-0ne">
-                <span class="middle-span3">{{property["name"]}}</span>
-                <p class="middle-color">
-					{% for size_name in property.all_value %}
-				    	{% if product.mp_stock.stocks[size_name]>0 %}
-							<a href="#" class="middle-a1 middle-a2">{{size_name}}</a>
-						{% else %}
-							<a href="#" class="middle-a1">{{size_name}}</a>
-						{% endif %}
-					{% endfor %}
-				</p>
+            <div class="top-infor">
+              <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
+              <p class="ad"><span><s>{{product.product_marketing_price}}</s></span></p>
+              <p class="ad"><span>销量：{{product.mp_sales.total_sales}}</span></p>
+              <p class="ad"><span>降价通知</span></p>
+            </div>
+          </div>
+          <div class="top-center">
+            <p><span>{{product.product_name}}</span> <span>分享</span></p>
+            <p>{{product.product_describe}}</p>
+          </div>
+          <div class="service">
+            <p><span>服务</span></p>
+          </div>
+          <div class="address">
+            <span>快递:免费</span><span>{{product.origin || "北京"}}</span>
+          </div>
+          <div class="top-service">
+            <p>优惠：<span class="span1">满99减100</span></p>
+            <p class="discount-coupon"><span class="span2">领优惠券：</span><a href="#"><span class="span3">ss</span></a><a href="#"><span class="span4"></span></a><a href="#"><span class="span5"></span></a></p>
+          </div>
+          <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
 
-			  </div>
-			{% endfor %}
+    	  <div class="content">
+            <div class="content-middle">
+              <div class="content-middle-infor">
+                <div class="middle-1">
+                  <span class="middle-span1">已选</span>
+                  <div class="middle-name">
+                    {{product.product_name}} <span class="middle-span2">1件</span>
+                  </div>
+                </div>
+                <div class="middle-2">
+    			{% for property in product.mp_stock.properties %}
+                  <div class="middle-2-0ne">
+                    <span class="middle-span3">{{property["name"]}}</span>
+                    <p class="middle-color">
+    					{% for size_name in property.all_value %}
+    				    	{% if product.mp_stock.stocks[size_name]>0 %}
+    							<a href="#" class="middle-a1 middle-a2">{{size_name}}</a>
+    						{% else %}
+    							<a href="#" class="middle-a1">{{size_name}}</a>
+    						{% endif %}
+    					{% endfor %}
+    				</p>
 
-              <div class="middle-2-0ne" style="float:right;margin-right:20px;">
-                <span class="middle-span3">数量</span>
-                <div class="middle-number-right">
-                  <input type="hidden" name="" value="" class="middle-number-input1">
-                  <a href="#" class="middle-a3"><em class="middle-em">-</em></a>
-                  <input type="tel" name="" value="1" class="middle-number-input2">
-                  <a href="#" class="middle-a3"><em class="middle-em push">+</em></a>
+    			  </div>
+    			{% endfor %}
+
+                  <div class="middle-2-0ne" style="float:right;margin-right:20px;">
+                    <span class="middle-span3">数量</span>
+                    <div class="middle-number-right">
+                      <input type="hidden" name="" value="" class="middle-number-input1">
+                      <a href="#" class="middle-a3"><em class="middle-em">-</em></a>
+                      <input type="tel" name="" value="1" class="middle-number-input2">
+                      <a href="#" class="middle-a3"><em class="middle-em push">+</em></a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+          <div class="expressage">
+            <p><span>送至</span><span>上海</span><span>宝山区</span><span>呼兰路911号</span><span class="dingwei"><img src="images/address.png" alt=""></span></p>
+            <p><span>重量</span><span class="weight">{{product.weight}}g</span></p>
+          </div>
+          <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+          <div class="combo">
+            <p class="combo-infor">
+              <span><img src="images/combo.png" alt=""></span>
+              <span>可选用套餐</span>
+              <span>套餐购买享优惠 ></span>
+            </p>
+          </div>
+          <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+          <div class="warp">
+            <div class="evaluate">
+              <p class="evaluate-top"><span>商品评价({{product.mp_total_comments.total_number || 0}})</span><span>好评率 &nbsp;{{product.mp_total_comments.good_rate_text || 0}}</p>
+              <p class="evaluate-bottom"><span>好评({{product.mp_total_comments.good_comment || 0}})</span><span>中评({{product.mp_total_comments.normal_comment || 0}})</span><span>差评({{product.mp_total_comments.bad_comment || 0}})</span><span>有图({{product.mp_total_comments.pic_comment || 0}})</span></p>
+            </div>
+    {% for comment in product.mp_comments %}
+       {% if comment.is_again ==0 %}
+       <div class="evaluate">
+    	 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
+    	 <!-- <img src="{{ image_host }}/images/{{product.mp_persons[comment.person_id].avatar_url}}" alt="" width="30px;"> -->
+    	 <p class="evaluate-middle">{{comment.content}}</p>
+    	 <p class="evaluate-bottom">
+    		 {% for saidan in product.mp_saidans[comment.id] %}
+    		   <img src="{{saidan.location}}" alt="">
+    		 {% endfor %}
+    	 </p>
+       </div>
+       {% for again_comment in product.again_comments %}
+    	   {% if again_comment.parent ==comment.id	 %}
+    	   <div class="evaluate">
+    		 追加评论：
+    		 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
+    		 <p class="evaluate-middle">{{again_comment.content}}</p>
+    		 <p class="evaluate-bottom">
+    			 {% for saidan in product.mp_saidans[again_comment.id] %}
+    			   <img src="{{saidan.location}}" alt="">
+    			 {% endfor %}
+    		 </p>
+    	   </div>
+    	   {% endif %}
+       {% endfor %}
+    	{% endif %}
+    {% endfor %}
+
+            <p class="all">查看全部评论</p>
+          </div>
+          <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+          <div class="hot">
+            <p class="hot-title"><a href="#"><span>热销产品</span></a>|<a href="#"><span>猜你喜欢</span></a>|<a href="#"><span>精品推荐</span></a></p>
+            <div class="hot-img">
+              <ul class="hot-img-warp">
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+
+              </ul>
+              <ul class="hot-img-warp">
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+
+              </ul>
+              <ul class="hot-img-warp">
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="hot-img-top">
+                      <img src="images/jiangyou_08.jpg" alt="">
+                    </div>
+                    <p>金华火腿</p>
+                    <p>￥111</p>
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+            <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+            <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+            <p class="img-word"><span class="details">图文详情</span><span>产品参数</span><span>包装售后</span></p>
+            <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
+
+
+            <div class="images">
+    		{% for product_detail in product.mp_product_details %}
+              <span><img src="{{product_detail.picture_location}}" alt=""></span>
+    		 {% endfor %}
+            </div>
+
+          </div>
+
         </div>
-      </div>
-
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="expressage">
-        <p><span>送至</span><span>上海</span><span>宝山区</span><span>呼兰路911号</span><span class="dingwei"><img src="images/address.png" alt=""></span></p>
-        <p><span>重量</span><span class="weight">{{product.weight}}g</span></p>
-      </div>
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="combo">
-        <p class="combo-infor">
-          <span><img src="images/combo.png" alt=""></span>
-          <span>可选用套餐</span>
-          <span>套餐购买享优惠 ></span>
-        </p>
-      </div>
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="warp">
-        <div class="evaluate">
-          <p class="evaluate-top"><span>商品评价({{product.mp_total_comments.total_number || 0}})</span><span>好评率 &nbsp;{{product.mp_total_comments.good_rate_text || 0}}</p>
-          <p class="evaluate-bottom"><span>好评({{product.mp_total_comments.good_comment || 0}})</span><span>中评({{product.mp_total_comments.normal_comment || 0}})</span><span>差评({{product.mp_total_comments.bad_comment || 0}})</span><span>有图({{product.mp_total_comments.pic_comment || 0}})</span></p>
-        </div>
-{% for comment in product.mp_comments %}
-   {% if comment.is_again ==0 %}
-   <div class="evaluate">
-	 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
-	 <!-- <img src="{{ image_host }}/images/{{product.mp_persons[comment.person_id].avatar_url}}" alt="" width="30px;"> -->
-	 <p class="evaluate-middle">{{comment.content}}</p>
-	 <p class="evaluate-bottom">
-		 {% for saidan in product.mp_saidans[comment.id] %}
-		   <img src="{{saidan.location}}" alt="">
-		 {% endfor %}
-	 </p>
-   </div>
-   {% for again_comment in product.again_comments %}
-	   {% if again_comment.parent ==comment.id	 %}
-	   <div class="evaluate">
-		 追加评论：
-		 <p class="evaluate-top"><span>{{product.mp_persons[comment.person_id].nickname}}</span><span>2016-12-22</p>
-		 <p class="evaluate-middle">{{again_comment.content}}</p>
-		 <p class="evaluate-bottom">
-			 {% for saidan in product.mp_saidans[again_comment.id] %}
-			   <img src="{{saidan.location}}" alt="">
-			 {% endfor %}
-		 </p>
-	   </div>
-	   {% endif %}
-   {% endfor %}
-	{% endif %}
-{% endfor %}
-
-        <p class="all">查看全部评论</p>
-      </div>
-      <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      <div class="hot">
-        <p class="hot-title"><a href="#"><span>热销产品</span></a>|<a href="#"><span>猜你喜欢</span></a>|<a href="#"><span>精品推荐</span></a></p>
-        <div class="hot-img">
-          <ul class="hot-img-warp">
+        <div style="background:#fff;height:75px;width:100%"></div>
+        <div class="footer">
+          <ul>
             <li>
               <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
+                <p class="footer-top"><img src="images/tel.png" alt=""></p>
+                <p class="footer-bottom">客服</p>
+              </a>
+            </li>
+            <li class="favorite">
+              <a>
+                <p class="footer-top">{% if is_active==1 %}<img src="images/shoucangjia.png" alt="">{% else %}<img src="images/shoucang.png" alt="">{% endif %}</p>
+                <p class="footer-bottom">收藏</p>
               </a>
             </li>
             <li>
               <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
+                <p class="footer-top"><img src="images/car.png" alt=""></p>
+                <p class="footer-bottom">购物车</p>
               </a>
             </li>
             <li>
               <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
+
+                <p class="footer-car yellow">加入购物车</p>
               </a>
             </li>
+            <li >
+              <a href="#">
 
+                <p class="footer-car red">立即购买</p>
+              </a>
+            </li>
           </ul>
-          <ul class="hot-img-warp">
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-
-          </ul>
-          <ul class="hot-img-warp">
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="hot-img-top">
-                  <img src="images/jiangyou_08.jpg" alt="">
-                </div>
-                <p>金华火腿</p>
-                <p>￥111</p>
-              </a>
-            </li>
-
-          </ul>
         </div>
-        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-        <p class="img-word"><span class="details">图文详情</span><span>产品参数</span><span>包装售后</span></p>
-        <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-
-
-        <div class="images">
-		{% for product_detail in product.mp_product_details %}
-          <span><img src="{{product_detail.picture_location}}" alt=""></span>
-		 {% endfor %}
-        </div>
-
-      </div>
-
     </div>
-    <div style="background:#fff;height:75px;width:100%"></div>
-    <div class="footer">
-      <ul>
-        <li>
-          <a href="#">
-            <p class="footer-top"><img src="images/tel.png" alt=""></p>
-            <p class="footer-bottom">客服</p>
-          </a>
-        </li>
-        <li class="favorite">
-          <a>
-            <p class="footer-top">{% if is_active==1 %}<img src="images/shoucangjia.png" alt="">{% else %}<img src="images/shoucang.png" alt="">{% endif %}</p>
-            <p class="footer-bottom">收藏</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <p class="footer-top"><img src="images/car.png" alt=""></p>
-            <p class="footer-bottom">购物车</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
 
-            <p class="footer-car yellow">加入购物车</p>
-          </a>
-        </li>
-        <li >
-          <a href="#">
-
-            <p class="footer-car red">立即购买</p>
-          </a>
-        </li>
-      </ul>
-    </div>
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
 		$(function() {
 			// $(".details").click(function(){

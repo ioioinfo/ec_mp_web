@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <title>立即购买</title>
     <style media="screen">
       @media screen and (max-width:640px){
@@ -779,215 +783,212 @@
 	</style>
   </head>
   <body onload="setup();preselect('北京市');promptinfo();">
-    <div class="head">
-      <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
-      <span class="title">填写订单</span>
+    <div id="content">
+        <div class="head">
+          <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+          <span class="title">填写订单</span>
 
-      <span class="menu"><img src="images/menu.png" alt=""></span>
-    </div>
-    <div class="line"></div>
-    <div class="nav">
-      <ul>
-        <li>
-          <a href="/">
-            <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
-            <p class="nav-bottom">首页</p>
-          </a>
-        </li>
-        <li>
-          <a href="/search_area">
-            <p class="nav-top"><img src="images/search-1.png" alt=""></p>
-            <p class="nav-bottom">搜索</p>
-          </a>
-        </li>
-        <li>
-          <a href="/cart_infos">
-            <p class="nav-top"><img src="images/car-1.png" alt=""></p>
-            <p class="nav-bottom">购物车</p>
-          </a>
-        </li>
-        <li>
-          <a href="/person_center">
-            <p class="nav-top"><img src="images/header-3.png" alt=""></p>
-            <p class="nav-bottom">我的</p>
-          </a>
-        </li>
-      </ul>
-    </div>
-	<div>
-		<div class="address" id="place_order">
-
-		</div>
-
-		<div class="line"></div>
-		<div class="white"></div>
-		<div class="product-infor">
-		  <div class="all">
-			<div class="product-infor-left">
-				{% if product.img %}
-					<img src="images/{{product.img.location}}" alt="">
-				{% else %}
-					<img src="images/no_picture.png" alt="">
-				{% endif %}
-			</div>
-			<div class="product-infor-middle">
-			  <p class="p1">{{product.product_name}}</p>
-			  <p class="p2"><span class="p2-span1">￥{{product.product_sale_price}}</span><span class="p2-span2">x{{total_data.total_items}}</span></p>
-			</div>
-		  </div>
-		</div>
-
-		<div class="invoice">
-		  <span class="public-name">配送方式</span>
-		  <p class="add-num click1">
-			  <span class="logistics_type">普通快递</span>
-			  <span>
-				  <img src="images/jiantou-right.png" alt="" class="img">
-			  </span>
-		  </p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">运费险</span>
-		  <p class="add-num click2"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">优惠券</span>&nbsp<span style="color:red;">0张可用</span>
-		  <p class="add-num click3"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">商品金额</span>
-		  <p class="add-num"><span class="red">￥{{total_data.total_prices}}</span></span></p>
-		</div>
-		<div class="invoice">
-		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="invoice_color">￥{{total_data.lgtic_pay or 150}}</span><span class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="leave">
-		  <span style="margin-top:20px;display:inline-block;text-indent:10px;">买家留言：</span>
-		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
-		</div>
-		<div class="invoice">
-		  <span class="public-name">可用积分：</span><span>{{jifen}}</span>
-		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
-		</div>
-		<div style="width:100%;height:68px;background:#fff;"></div>
-		<div class="footer">
-	      <div class="footer-left">
-	        <span>共x{{total_data.total_items}}件</span>
-	      </div>
-	      <div class="footer-center">
-	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"> {% if total_data.lgtic_pay %} {{total_data.total_prices+total_data.lgtic_pay}} {% else %} {{total_data.total_prices+150}} {% endif %}</span></p>
-
-	      </div>
-
-	      <div class="footer-right">
-	        提交订单
-	      </div>
-	    </div>
-	</div>
-    <!-- 快递配送方式 -->
-    <div class="partone partone0">
-      <p>配送方式</p>
-	  {% for logistics in logistics_type %}
-	      <p class="partone-p">
-			  <span>{{logistics.name}}</span>
-			  <span>
-				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" data-id="{{logistics.id}}">
-			  </span>
-		  </p>
-	  {% endfor %}
-	  <div class="close close0">
-        确 定
-      </div>
-    </div>
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
-
-    <!-- 运费险 -->
-    <div class="partone partone1">
-      <p>运费险</p>
-      <p class="partone-p"><span>卖家赠送，若确认收货前退货，可获保险赔付</span><span><input type="checkbox" name="" value=""></span></p>
-      <div class="close close1">
-        关 闭
-      </div>
-    </div>
-
-    <!-- 优惠券 -->
-    <div class="partone partone2">
-      <p>优惠券</p>
-      <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
-      <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
-      <div class="close close2">
-        关 闭
-      </div>
-    </div>
-
-    <!-- 选择地址 -->
-	<div class="">
-
-	</div>
-    <div class="partone partone3" style="overflow:auto;" id="change_address">
-
-    </div>
-    <!-- 新建地址 -->
-    <div class="opacity"></div>
-    <div class="new-address">
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">收货人</span><input type="text" name="" value="" class="input1 linkname">
+          <span class="menu"><img src="images/menu.png" alt=""></span>
         </div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">联系电话</span><input type="text"  name="" value="" class="input1 mobile">
+        <div class="line"></div>
+        <div class="nav">
+          <ul>
+            <li>
+              <a href="/">
+                <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
+                <p class="nav-bottom">首页</p>
+              </a>
+            </li>
+            <li>
+              <a href="/search_area">
+                <p class="nav-top"><img src="images/search-1.png" alt=""></p>
+                <p class="nav-bottom">搜索</p>
+              </a>
+            </li>
+            <li>
+              <a href="/cart_infos">
+                <p class="nav-top"><img src="images/car-1.png" alt=""></p>
+                <p class="nav-bottom">购物车</p>
+              </a>
+            </li>
+            <li>
+              <a href="/person_center">
+                <p class="nav-top"><img src="images/header-3.png" alt=""></p>
+                <p class="nav-bottom">我的</p>
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren middle-shouhuoren1">
-          <span class="span1">所在地区</span>
-          <p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
-		  <div class="address_seclect" >
-              <table name="shareip">
-               <select class="select" name="province" id="s1">
-               <option></option>
-               </select>
-               <select class="select" name="city" id="s2">
-               <option></option>
-               </select>
-               <select class="select" name="town" id="s3">
-               <option></option>
-               </select>
-               <input id="address" name="address" type="hidden" value="" />
-               <input type="button" value="提交" class="address_seclect_submit"/>
-		   </table>
+    	<div>
+    		<div class="address" id="place_order">
+
+    		</div>
+
+    		<div class="line"></div>
+    		<div class="white"></div>
+    		<div class="product-infor">
+    		  <div class="all">
+    			<div class="product-infor-left">
+    				{% if product.img %}
+    					<img src="images/{{product.img.location}}" alt="">
+    				{% else %}
+    					<img src="images/no_picture.png" alt="">
+    				{% endif %}
+    			</div>
+    			<div class="product-infor-middle">
+    			  <p class="p1">{{product.product_name}}</p>
+    			  <p class="p2"><span class="p2-span1">￥{{product.product_sale_price}}</span><span class="p2-span2">x{{total_data.total_items}}</span></p>
+    			</div>
+    		  </div>
+    		</div>
+
+    		<div class="invoice">
+    		  <span class="public-name">配送方式</span>
+    		  <p class="add-num click1">
+    			  <span class="logistics_type">普通快递</span>
+    			  <span>
+    				  <img src="images/jiantou-right.png" alt="" class="img">
+    			  </span>
+    		  </p>
+    		</div>
+    		<div class="min-line"></div>
+    		<div class="invoice">
+    		  <span class="public-name">运费险</span>
+    		  <p class="add-num click2"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+    		</div>
+    		<div class="min-line"></div>
+    		<div class="invoice">
+    		  <span class="public-name">优惠券</span>&nbsp<span style="color:red;">0张可用</span>
+    		  <p class="add-num click3"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+    		</div>
+    		<div class="min-line"></div>
+    		<div class="invoice">
+    		  <span class="public-name">商品金额</span>
+    		  <p class="add-num"><span class="red">￥{{total_data.total_prices}}</span></span></p>
+    		</div>
+    		<div class="invoice">
+    		  <span class="public-name">运费</span>
+    		  <p class="add-num"><span class="invoice_color">￥{{total_data.lgtic_pay or 150}}</span><span class="img"></span></p>
+    		</div>
+    		<div class="min-line"></div>
+    		<div class="leave">
+    		  <span style="margin-top:20px;display:inline-block;text-indent:10px;">买家留言：</span>
+    		  <input type="text" name="" value="" placeholder="选填：对本次交易的说明" class="input" id="send_seller">
+    		</div>
+    		<div class="invoice">
+    		  <span class="public-name">可用积分：</span><span>{{jifen}}</span>
+    		  <p class="add-num"><span class="img"><input type="checkbox" name="" value=""></span></p>
+    		</div>
+    		<div style="width:100%;height:68px;background:#fff;"></div>
+    		<div class="footer">
+    	      <div class="footer-left">
+    	        <span>共x{{total_data.total_items}}件</span>
+    	      </div>
+    	      <div class="footer-center">
+    	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"> {% if total_data.lgtic_pay %} {{total_data.total_prices+total_data.lgtic_pay}} {% else %} {{total_data.total_prices+150}} {% endif %}</span></p>
+
+    	      </div>
+
+    	      <div class="footer-right">
+    	        提交订单
+    	      </div>
+    	    </div>
+    	</div>
+        <!-- 快递配送方式 -->
+        <div class="partone partone0">
+          <p>配送方式</p>
+    	  {% for logistics in logistics_type %}
+    	      <p class="partone-p">
+    			  <span>{{logistics.name}}</span>
+    			  <span>
+    				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" data-id="{{logistics.id}}">
+    			  </span>
+    		  </p>
+    	  {% endfor %}
+    	  <div class="close close0">
+            确 定
           </div>
-		</div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <span class="span1">街道</span><p><span class="span2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
         </div>
-      </div>
-      <div class="middle">
-        <div class="middle-shouhuoren">
-          <textarea  placeholder="详细地址" class="input2 detail_address"></textarea>
+        <!-- 运费险 -->
+        <div class="partone partone1">
+          <p>运费险</p>
+          <p class="partone-p"><span>卖家赠送，若确认收货前退货，可获保险赔付</span><span><input type="checkbox" name="" value=""></span></p>
+          <div class="close close1">
+            关 闭
+          </div>
         </div>
-      </div>
-      <div style="width:100%;height:10px;background:#f8f5f5"></div>
-      <div class="middle bottom">
-        <div class="middle-shouhuoren">
-          <span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3 is_default">
-        </div>
-        <div class="middle-shouhuoren sure-submit">
-          <input type="submit" name="" value="确 定" class="input3 save_address">
-          <input type="submit" name="" value="取 消" class="input3 cancel_new">
 
+        <!-- 优惠券 -->
+        <div class="partone partone2">
+          <p>优惠券</p>
+          <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
+          <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p>
+          <div class="close close2">
+            关 闭
+          </div>
         </div>
-      </div>
+
+        <!-- 选择地址 -->
+    	<div class=""></div>
+        <div class="partone partone3" style="overflow:auto;" id="change_address"></div>
+        <!-- 新建地址 -->
+        <div class="opacity"></div>
+        <div class="new-address">
+          <div class="middle">
+            <div class="middle-shouhuoren">
+              <span class="span1">收货人</span><input type="text" name="" value="" class="input1 linkname">
+            </div>
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren">
+              <span class="span1">联系电话</span><input type="text"  name="" value="" class="input1 mobile">
+            </div>
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren middle-shouhuoren1">
+              <span class="span1">所在地区</span>
+              <p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+    		  <div class="address_seclect" >
+                  <table name="shareip">
+                   <select class="select" name="province" id="s1">
+                   <option></option>
+                   </select>
+                   <select class="select" name="city" id="s2">
+                   <option></option>
+                   </select>
+                   <select class="select" name="town" id="s3">
+                   <option></option>
+                   </select>
+                   <input id="address" name="address" type="hidden" value="" />
+                   <input type="button" value="提交" class="address_seclect_submit"/>
+    		   </table>
+              </div>
+    		</div>
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren">
+              <span class="span1">街道</span><p><span class="span2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
+            </div>
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren">
+              <textarea  placeholder="详细地址" class="input2 detail_address"></textarea>
+            </div>
+          </div>
+          <div style="width:100%;height:10px;background:#f8f5f5"></div>
+          <div class="middle bottom">
+            <div class="middle-shouhuoren">
+              <span class="span3">设置为默认地址</span><input type="checkbox" name="" value="" class="input3 is_default">
+            </div>
+            <div class="middle-shouhuoren sure-submit">
+              <input type="submit" name="" value="确 定" class="input3 save_address">
+              <input type="submit" name="" value="取 消" class="input3 cancel_new">
+
+            </div>
+          </div>
+        </div>
     </div>
+
     <!-- nav点击显示隐藏 -->
     <script type="text/javascript">
       $(".head .menu").click(function(){
@@ -1035,6 +1036,7 @@
 		  <% } %>
 		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
 	</script>
+
 	<script>
 		$(function() {
 			var sku_id ="{{sku_id|safe}}";
@@ -1216,7 +1218,7 @@
 	</script>
 
   <!-- 省市区三级联动 -->
-	<script>
+    <script>
 	function promptinfo()
 	{
 	 var address = document.getElementById('address').value;

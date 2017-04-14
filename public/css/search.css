@@ -1,0 +1,85 @@
+@media screen and (max-width:640px){
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  html,body{
+    width: 100%;
+    height: 100%;
+  }
+  /*搜索弹出层样式*/
+
+  .SearchCeng{
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:#F4F1F4;
+      display: none;
+      z-index: 9999999;
+  }
+  .SearchCeng_top{
+    width: 100%;
+    height: 35px;
+    text-align: center;
+  }
+  .SearchCeng_infor span a{
+    color: #888888;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .SearchCeng .goBack{
+      display: inline-block;
+      width: 8%;
+  }
+  .SearchCeng .SearchCengNo{
+      margin-left: 5px;
+      vertical-align: middle;
+      color: #8C898C;
+  }
+  .SearchCeng img{
+    width: 80%;
+    vertical-align: middle;
+  }
+  .SearchCeng input{
+    width: 74.9333333%;
+    padding: 4.5px 0;
+    border: none;
+    border: 1px solid #e1e4e5;
+    outline: none;
+    -webkit-appearance : none ;
+    margin-top: 10px;
+    border-radius: 8px;
+    color: #999;
+    text-indent: 4px;
+  }
+  .SearchCeng .SearchCeng_top span{
+    display: inline-block;
+  }
+  .SearchCeng .word{
+    font-size: 12px;
+    color: #999999;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 auto;
+    text-indent: 10px;
+    margin-top: 7px;
+  }
+  .SearchCeng .SearchCeng_infor{
+    width: 96%;
+    margin: 0 auto;
+    background: #f9f9f9;
+  }
+  .SearchCeng .SearchCeng_infor span{
+    display: inline-block;
+    border: 1px solid #bbbbbb;
+    border-radius: 6px;
+    background: #fff;
+    margin: 10px 5px;
+    padding: 3px 5px;
+    line-height: 18px;
+  }
+}

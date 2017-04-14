@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>积分</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -33,6 +40,9 @@
         img{
           width: 8%;
           vertical-align: middle;
+        }
+        #content{
+            height: 100%;
         }
          .top{
           width: 100%;
@@ -185,38 +195,39 @@
     </style>
   </head>
   <body>
-    <div class="top">
-      <div class="back">
-        <img src="images/back.png" alt="">
-      </div>
-      <p class="top-title">积分</p>
-      <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum"></p></div>
+    <div id="content">
+        <div class="top">
+          <div class="back">
+            <img src="images/back.png" alt="">
+          </div>
+          <p class="top-title">积分</p>
+          <div class="top-right"><img src="images/news.png" alt=""><p class="headernewsnum"></p></div>
+        </div>
+        <div class="jifen">
+          <div class="jifen-top">
+              <p class="p0">使用帮助</p>
+              <p class="p1"><span id="get_jifen"></span><span>积分</span></p>
+              <p class="p2">积分多多，多多益善</p>
+          </div>
+          <div class="jifen-middle"></div>
+          <div class="jifen-bottom">
+            <div class="mingxi-up"><p>积分明细</p><p>更多<img src="images/jiantou-right.png" alt=""></p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+10</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+1000</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+10000</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100000</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+1000</p></div>
+            <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100</p></div>
+          </div>
+        </div>
+        <div class="footer">
+          没有更多！！！
+        </div>
     </div>
 
-    <div class="jifen">
-      <div class="jifen-top">
-          <p class="p0">使用帮助</p>
-          <p class="p1"><span id="get_jifen"></span><span>积分</span></p>
-          <p class="p2">积分多多，多多益善</p>
-      </div>
-      <div class="jifen-middle"></div>
-      <div class="jifen-bottom">
-        <div class="mingxi-up"><p>积分明细</p><p>更多<img src="images/jiantou-right.png" alt=""></p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+10</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+1000</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+10000</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100000</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+1000</p></div>
-        <div class="mingxi-up mingxi-up1"><p><span>购买食品(单号：1234567)</span><span>2017-2-19 17:00</span></p><p>+100</p></div>
-      </div>
-    </div>
-    <div class="footer">
-      没有更多！！！
-    </div>
-	<script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
 	<script>
-	$(function() {
+	   $(function() {
 		$.ajax({
 			url: "/find_jifen",
 			dataType: 'json',
