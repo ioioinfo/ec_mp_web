@@ -2289,6 +2289,54 @@ exports.register = function(server, options, next){
 				return reply({"success":true}).state('cookie', {});
 			}
 		},
+		//售光页面
+		{
+			method: 'GET',
+			path: '/sold_out',
+			handler: function(request, reply){
+				return reply.view("sold_out");
+			}
+		},
+		//支付页面
+		{
+			method: 'GET',
+			path: '/pay_way',
+			handler: function(request, reply){
+				return reply.view("pay_way");
+			}
+		},
+		//充值成功页面
+		{
+			method: 'GET',
+			path: '/recharged_successfully',
+			handler: function(request, reply){
+				return reply.view("recharged_successfully");
+			}
+		},
+		//支付成功页面
+		{
+			method: 'GET',
+			path: '/pay_success',
+			handler: function(request, reply){
+				return reply.view("pay_success");
+			}
+		},
+		//支付成功页面
+		{
+			method: 'GET',
+			path: '/pay_failure',
+			handler: function(request, reply){
+				return reply.view("pay_failure");
+			}
+		},
+		//充值失败页面
+		{
+			method: 'GET',
+			path: '/recharged_failure',
+			handler: function(request, reply){
+				return reply.view("recharged_failure");
+			}
+		},
 		//浏览历史
 		{
 			method: 'GET',
@@ -2410,7 +2458,7 @@ exports.register = function(server, options, next){
 							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
 						}
 					}else {
-
+						return reply.view("order_center",{"orders":[],"details":[],"products":[]});
 					}
 				});
 			}
@@ -3005,6 +3053,14 @@ exports.register = function(server, options, next){
 					}
 				});
 
+			}
+		},
+		//关于我们 about_us
+		{
+			method: 'GET',
+			path: '/about_us',
+			handler: function(request, reply){
+				return reply.view("about_us");
 			}
 		},
 		//微信充值中心
