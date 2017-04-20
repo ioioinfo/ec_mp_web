@@ -545,7 +545,7 @@
               <span className="headersearch"  onClick={this.handleClick}>搜索</span>
               <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
               <div className="headernews">
-			  <a>
+			  <a href="messages">
                 <img src="images/new2.png" alt="" className="headernimg" />
                 {s}
 				</a>
@@ -735,12 +735,13 @@
   class LikeLi extends React.Component {
 
     render() {
+        var href = "product_show?product_id="+ this.props.item.id;
         var img = "images/no_picture.png";
         if(this.props.item.img) {
             img = "images/"+this.props.item.img.location;
         }
         return (
-            <li className="homeLikeLi"><a href="#"><img src={img} alt="" /><p className="likename">{this.props.item.product_name}</p><p className="likeprice">￥<span>{this.props.item.product_sale_price}</span></p></a></li>
+            <li className="homeLikeLi"><a href={href}><img src={img} alt="" /><p className="likename">{this.props.item.product_name}</p><p className="likeprice">￥<span>{this.props.item.product_sale_price}</span></p></a></li>
         );
     }
   };

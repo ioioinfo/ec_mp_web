@@ -717,6 +717,7 @@
         line-height: 47px;
 		position: relative;
         flex: 1;
+        color: #fff;
 	  }
 	  .footernav li a{
 		display: inline-block;
@@ -1159,7 +1160,7 @@
           </div>
         </div>
       <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-      
+
 	  <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
       <div class="hot">
         <p class="hot-title"><span data-hot="hot-img1" class="hot-span1 hot-span1-color">热销产品</span>|<span data-hot="hot-img2" class="hot-span1">猜你喜欢</span>|<span data-hot="hot-img3" class="hot-span1">新品推荐</span></p>
@@ -1280,7 +1281,7 @@
     <div style="background:#fff;height:75px;width:100%"></div>
 	<ul class="footernav">
 		<li class=""><a href="/"><p class="-word">首页</p></a></li>
-        <li class=" "><a><p id="buy_immediate">商品已下架</p></a></li>
+        <li class=" "><p id="buy_immediate">商品已下架</p></li>
 
 	</ul>
 
@@ -1440,37 +1441,7 @@
 			$(".comment").click(function(){
 				location.href = "/product_comment?product_id={{product.id}}";
 			});
-			//优惠卷
-			$(".click3").click(function(){
-			  $(".partone2").css("display","block");
-			  $(".opacity").css("display","block");
-			});
-			$(".close2").click(function(){
-			  $(".partone2").css("display","none");
-			  $(".opacity").css("display","none");
-			});
-			$(".opacity").click(function(){
-			  $(".partone2").css("display","none");
-			  $(".opacity").css("display","none");
-			});
-			var product_id = "{{product.id}}";
-			//收藏
-			$(".favorite").click(function(){
-				$.post("/update_favorite",{is_active:is_active,product_id:product_id},function(data){
-					if (data.success) {
-						if (is_active == 1) {
-							$(".favorite img").attr("src","images/shoucang.png");
-							alert("收藏取消");
-							is_active = 0;
-							return;
-						}else {
-							$(".favorite img").attr("src","images/shoucangjia.png");
-							alert("收藏成功");
-							is_active = 1;
-						}
-					}
-				});
-			});
+			/
 			//加入购物车
 			$("#shopping_cart").click(function(){
 				var num = $(".middle-number-input2").val();
@@ -1485,43 +1456,7 @@
 					}
 				})
 			});
-			//立即购买
-			$("#buy_immediate").click(function(){
-				sku_id = "5e6032da-1cfd-11e7-b73f-52540022a5f2";
-				var num = $(".middle-number-input2").val();
-				var product_id = "{{product.id}}";
-				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num+"&sku_id="+sku_id;
-			});
-			$(".middle-number-input2").change(function(){
-				var num = $(".middle-number-input2").val();
-				operation = "update";
-				change_num(num,operation);
-			});
-			$("#reduce").click(function(){
-				var num = $(".middle-number-input2").val();
-				operation = "reduce";
-				change_num(num,operation);
-			});
-			$("#plus").click(function(){
-				var num = $(".middle-number-input2").val();
-				operation = "plus";
-				change_num(num,operation);
-			});
-			$(".hot .hot-title  span").click(function(){
-              $(".hot .hot-img1").hide();
-              $(".hot .hot-img2").hide();
-              $(".hot .hot-img3").hide();
-              var hot=$(this).data("hot");
-			  if (hot == "hot-img2" && !hot_img2) {
-				  get_hot_sale_products();
-			  } else if (hot == "hot-img3" && !hot_img3) {
-				  get_new_arrival_products();
-			  }
-              $("."+hot).show();
 
-              $(".hot .hot-title  span").removeClass("hot-span1-color");
-              $(this).addClass("hot-span1-color");
-            })
 		});
 	</script>
     <script src="js/lunbo.min.js"></script>

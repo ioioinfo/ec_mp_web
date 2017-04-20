@@ -35,11 +35,15 @@
 	   ::-webkit-scrollbar {
 		   display: none;
 	   }
+       input[type="submit"],input[type="reset"],input[type="button"],button {
+           -webkit-appearance: none;
+        }
+
 	   /*----头                  部----*/
 	   .header{
 		 width:100%;
-		 height: 55px;
-		 line-height: 55px;
+		 height: 36px;
+		 line-height: 36px;
 		 background:rgb(112,180,44);
 		 text-align: center;
 
@@ -67,23 +71,25 @@
 		 vertical-align: middle;
 		 border-radius: 4px;
 		 margin-right: 17px;
+         height: 17px;
+         line-height: 17px;
 		 border: 2px solid #ebe8eb;
 		 outline: none;
 		 -webkit-appearance : none ;
 
 	   }
 	   .person-details{
-		 width: 40px;
-		 height: 40px;
+		 width: 30px;
+		 height: 30px;
 		  border-radius: 50%;
 		 display: inline-block;
-		 vertical-align: middle;
 		 margin-left: 0px;
 		 margin-right:17px;
+         vertical-align: bottom;
 	   }
 	   .person-details img{
-		 width: 40px;
-		 height: 40px;
+		 width: 30px;
+		 height: 30px;
 		 border-radius: 50%;
 	   }
 	   /*导                  航*/
@@ -682,7 +688,7 @@
           });
           $(window).scroll(function(){
             var topHeight=$(window).scrollTop();
-            console.log(topHeight);
+            // console.log(topHeight);
             if (topHeight>500){
               //当滚动条的位置处于距顶部1000像素以下时，就是大于1000象数时，跳转出现
               $(".top").fadeIn(250);

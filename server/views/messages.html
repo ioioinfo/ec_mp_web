@@ -47,7 +47,12 @@
           width: 32px;
           position: absolute;
           left: 10px;
-          top: 7px;
+          top: 13px;
+        }
+        .header .jiantou img{
+         width: 20px;
+         height: 20px;
+         vertical-align: middle;
         }
         .title{
           display:block;
@@ -142,31 +147,57 @@
 		constructor(props) {
   		  super(props);
   		  this.handleBack = this.handleBack.bind(this);
+          this.state = {newsnum:{}}
 	  	}
 		handleBack() {
   		  window.history.back();
   	    }
+        componentDidMount() {
+            $.ajax({
+                 url: "/check_message_number",
+                 dataType: 'json',
+                 type: 'POST',
+                 success: function(data) {
+                    this.setState({newsnum:data});
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                 }.bind(this)
+            });
+        }
       render() {
           return (
             <div className="header">
               <span className="jiantou"><img src="images/jiantou.png" alt="" onClick={this.handleBack} /></span>
-              <span className="title">消息(<span>999</span>)</span>
-              <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+              <span className="title">消息(<span>{this.state.newsnum.count}</span>)</span>
+              <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
             </div>
           );
       }
     };
     // 中间部分
     class Middle extends React.Component {
+        constructor(props) {
+  		  super(props);
+  		  this.state={newsitem:[]};
+	  	}
+        componentDidMount() {
+            $.ajax({
+                 url: "/get_messages",
+                 dataType: 'json',
+                 type: 'GET',
+                 success: function(data) {
+                    this.setState({newsitem:data.rows});
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                 }.bind(this)
+            });
+        }
       render() {
           return (
             <div className="middle">
-              <News/>
-              <News/>
-              <News/>
-              <News/>
-              <News/>
-              <News/>
+              {this.state.newsitem.map(item => (
+                  <News item={item}/>))
+              }
             </div>
           );
       }
@@ -174,14 +205,18 @@
     // 中间消息
     class News extends React.Component {
       render() {
+          var p = "";
+          if(this.props.item.img){
+              p = <p className="newsimg"><img src={this.props.item.img} alt="" /></p>;
+          }
           return (
             <div className="news">
-              <p className="newsTime"><span>2017/3/1</span></p>
+              <p className="newsTime"><span>{this.props.item.add_time_text}</span></p>
               <div className="newsInfor">
-                <p className="newsTitle">您有可领取的会员卡</p>
+                <p className="newsTitle">{this.props.item.message.title}</p>
                 <div className="newscontent">
-                  <p className="newsimg"><img src="images/i-9.png" alt="" /></p>
-                  <p className="newsword">您可领取"金锣火腿肠"满100元减20元优惠券.</p>
+                  {p}
+                  <p className="newsword">{this.props.item.message.body}.</p>
                 </div>
               </div>
             </div>

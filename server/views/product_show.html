@@ -1110,7 +1110,7 @@
   <body>
 
     <div class="head">
-		<p><img src="images/jiantou.png" alt=""></p>
+		<p class="headback"><img src="images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
         <p data-rolo="warp1" class="head-p1">详情</p>
         <p data-rolo="content1" class="head-p1">包装售后</p>
@@ -1556,7 +1556,12 @@
 
               $(".hot .hot-title  span").removeClass("hot-span1-color");
               $(this).addClass("hot-span1-color");
-            })
+          });
+
+        //   返回上一级
+        $(".head .headback").click(function(){
+            history.back();
+        })
 		});
 	</script>
     <script src="js/lunbo.min.js"></script>

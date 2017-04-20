@@ -48,8 +48,13 @@
     		width: 32px;
     		position: absolute;
     		left: 10px;
-    		top: 7px;
+    		top: 13px;
     	  }
+          .head .jiantou img{
+           width: 20px;
+           height: 20px;
+           vertical-align: middle;
+          }
     	  .title{
     		display:block;
     		width: 200px;
@@ -642,7 +647,13 @@
 			};
 			$(".head .menu").click(function(){
 				$(".nav").toggle();
-			})
+			});
+
+            返回上一层
+            $(".head .jiantou").click(function(){
+                alert("fff");
+                history.back(-1);
+            })
   		});
     </script>
   </body>
