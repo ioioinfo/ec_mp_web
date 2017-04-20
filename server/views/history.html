@@ -53,8 +53,8 @@
 
          }
          .top .back img{
-           width: 25px;
-           height: 25px;
+           width: 20px;
+           height: 20px;
            vertical-align: middle;
          }
          .top .top-right{
@@ -220,8 +220,7 @@
           <div class="back">
             <img src="images/back.png" alt="">
           </div>
-          <p class="top-title">浏览历史</p>
-          <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+          <p class="top-title">浏览历史</p>s
         </div>
 
         <!-- 中间 -->
@@ -307,6 +306,13 @@
         </div>
     </div>
 
-
+    <script type="text/javascript">
+        $(function(){
+            // 返回上一层
+            $(".top .back").click(function(){
+                window.history.back();
+            })
+        })
+    </script>
   </body>
 </html>

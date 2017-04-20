@@ -34,15 +34,25 @@
         .wrap{
           position: relative;
         }
-        .wrap .header p{
-          width: 100%;
-          height: 47px;
-          line-height: 47px;
+        .top{
+          width: 96%;
+          height: 46px;
+          line-height: 46px;
+          margin: 0 auto;
+          font-size: 0px;
+        }
+        .top img{
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+        .top span{
+          display: inline-block;
+          width:320px;
+          font-size: 16px;
           text-align: center;
-          box-sizing: border-box;
-          border-bottom: 1px solid #e2e2e2;
-          color: #21212;
-          font-size: 14px;
+          line-height: 46px;
+          vertical-align: middle;
         }
         .nav-ul{
           width: 89%;
@@ -188,7 +198,10 @@
   <body>
     <div class="wrap">
       <!-- 头部 -->
-      <div class="header"><p>发票</p></div>
+      <div class="top">
+        <img src="images/back.png" alt="">
+        <span>扫码支付</span>
+      </div>
       <div class="content-nav">
         <ul class="nav-ul">
           <li data-role="weikaipiao" data-rola="submitALL" class="nav-li1 nav"><span class="nav-span1">未开票(1)</span></li>
@@ -255,7 +268,11 @@
           $(".nav-ul li span").removeClass("spancolor");
           // $("span",this).addClass("spancolor");
           $(this).children("span").addClass("spancolor");
-        })
+      });
+      // 返回上一层
+      $(".top img").click(function(){
+          window.history.back();
+      })
       })
     </script>
   </body>

@@ -34,38 +34,25 @@
         width: 100%;
         height: 100%;
       }
-      .header{
-        width: 100%;
+      .top{
+        width: 96%;
         height: 46px;
-        font-size: 0;
-        position: relative;
-        overflow: hidden;
-        background: #FAFAFA;
-      }
-      .jiantou{
-        display: inline-block;
-        width: 32px;
-        position: absolute;
-        left: 10px;
-        top: 7px;
-      }
-      .title{
-        display:block;
-        width: 200px;
         line-height: 46px;
-        font-size: 16px;
         margin: 0 auto;
-        text-align: center;
+        font-size: 0px;
       }
-      .menu{
-        width: 32px;
+      .top img{
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+      }
+      .top span{
         display: inline-block;
-        position: absolute;
-        right: 10px;
-        top: 13px;
-      }
-      .title span{
-        color: #D81E06;
+        width:320px;
+        font-size: 16px;
+        text-align: center;
+        line-height: 46px;
+        vertical-align: middle;
       }
       .cashierLi{
         width: 96%;
@@ -125,11 +112,10 @@
       class Header extends React.Component {
         render() {
             return (
-              <div className="header">
-                <span className="jiantou"><a href="/person_center"><img src="images/jiantou.png" alt="" /></a></span>
-                <span className="title">收银小票列表</span>
-                <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
-              </div>
+                <div className="top">
+                  <img src="images/back.png" alt="" />
+                  <span>收银小票</span>
+                </div>
             );
         }
       };
@@ -186,7 +172,14 @@
         document.getElementById("example")
       );
     </script>
-
+    <script type="text/javascript">
+    $(function(){
+        // 返回上一层
+        $(".top img").click(function(){
+            window.history.back();
+        })
+    })
+    </script>
 
   </body>
 </html>

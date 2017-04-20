@@ -74,7 +74,7 @@
         <div id="content">
             <!--       头部      -->
             <div class="top">
-              <img src="images/back2.png" alt="">
+              <img src="images/goback.png" alt="">
               <span>扫码支付</span>
             </div>
             <div class="wrap">
@@ -91,16 +91,22 @@
                   dataType: 'json',
                   type: 'POST',
                   success: function(data) {
-                      var row=data.row;
-                        JsBarcode("#barcode", row.paycode, {
-                            format: "CODE128"
-                            ,background: "#F6F6F8"
-                            ,fontSize: 12
-                            ,textMargin: 5
+                      if(data.success){
+                          var row=data.row;
+                            JsBarcode("#barcode", row.paycode, {
+                                format: "CODE128"
+                                ,background: "#F6F6F8"
+                                ,fontSize: 12
+                                ,textMargin: 5
 
-                        });
+                            });
+                            timer(row.left_second);
+                      }
+                      else {
+                          alert("会员信息错误");
+                      }
 
-                      timer(row.left_second);
+
                   }.bind(this),
                   error: function(xhr, status, err) {
                   }.bind(this)
@@ -132,7 +138,12 @@
             $(function(){
                 code();
             });
-
+            $(function(){
+                // 返回上一层
+                $(".top img").click(function(){
+                    window.history.back();
+                })
+            })
         </script>
     </body>
 </html>
