@@ -372,7 +372,7 @@
         <!-- 昵称 -->
         <div class="nicheng-name">
           <div class="nicheng-name-infor">
-            <p class="nicheng-name-p"><input type="text" name="" value="{{persons[0].nickname || ''}}" placeholder="输入昵称" class="nickname"></p>
+            <p class="nicheng-name-p"><input type="text" name="" {% if persons[0] %}value="{{persons[0].nickname || ''}}"{% endif %} placeholder="输入昵称" class="nickname"></p>
             <p class="nicheng-2">1.仅供场景使用</p>
             <p class="nicheng-2">2.最终解释权归平台所有</p>
             <p class="nicheng-3">保存</p>

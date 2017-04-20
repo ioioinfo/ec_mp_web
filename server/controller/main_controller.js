@@ -2404,11 +2404,14 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				var person_ids = [person_id];
+				var person_ids = [];
+				person_ids.push(person_id);
 				var ep =  eventproxy.create("persons","personsVip","person_info","person",
 					function(persons,personsVip,person_info,person){
+						console.log("persons:"+persons);
 					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
+				console.log("persons:"+JSON.stringify(person_ids));
 				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var persons = content.rows;
@@ -3047,9 +3050,9 @@ exports.register = function(server, options, next){
 				}
 				list_notify_by_person(person_id,function(err,rows){
 					if (!err) {
-						return reply({"success":true,"rows":rows.rows,"service_info":rows.service_info});
+						return reply.view("messages",{"success":true,"rows":rows.rows,"service_info":rows.service_info});
 					}else {
-						return reply({"success":false,"messages":rows.message,"service_info":rows.service_info});
+						return reply.view("messages",{"success":false,"messages":rows.message,"service_info":rows.service_info});
 					}
 				});
 
