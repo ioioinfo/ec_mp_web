@@ -246,7 +246,7 @@ var update_default_address = function(data,cb){
 };
 //查询message数量
 var check_message_number = function(person_id,platform_code,cb){
-	var url = "http://139.196.148.40:18005/get_notify_count?platform_code=" + platform_code + "&person_id=" + person_id;
+	var url = "http://139.196.148.40:18005/get_notify_count?platform_code=common" + "&person_id=" + person_id;
 	do_get_method(url,cb);
 };
 //删除地址
@@ -3042,7 +3042,7 @@ exports.register = function(server, options, next){
 		//消息页面
 		{
 			method: 'GET',
-			path: '/messages',
+			path: '/get_messages',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
@@ -3050,12 +3050,20 @@ exports.register = function(server, options, next){
 				}
 				list_notify_by_person(person_id,function(err,rows){
 					if (!err) {
-						return reply.view("messages",{"success":true,"rows":rows.rows,"service_info":rows.service_info});
+						return reply({"success":true,"rows":rows.rows,"service_info":rows.service_info});
 					}else {
-						return reply.view("messages",{"success":false,"messages":rows.message,"service_info":rows.service_info});
+						return reply({"success":false,"messages":rows.message,"service_info":rows.service_info});
 					}
 				});
 
+			}
+		},
+		//关于我们 about_us
+		{
+			method: 'GET',
+			path: '/messages',
+			handler: function(request, reply){
+				return reply.view("messages");
 			}
 		},
 		//关于我们 about_us

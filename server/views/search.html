@@ -516,6 +516,10 @@
 			img_show();
 		});
 		var img_show = function(){
+            if (object.sort && object.sort=="price_desc" || object.sort=="price_asc") {
+                $(".word .word-next li").removeClass("red");
+				$(".price").addClass("red");
+			}
 			$(".infor-left .loading").each(function(index) {
 				var imgHeight = $(this).offset().top;
 				if(height + docTop > imgHeight-100){
