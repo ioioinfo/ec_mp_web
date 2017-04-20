@@ -34,10 +34,44 @@
         #content{
             height: 100%;
         }
+        .head{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 13px;
+        }
+        .head .jiantou img{
+         width: 20px;
+         height: 20px;
+         vertical-align: middle;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
+        }
         .infor{
           margin-top: 30px;
         }
-        .title{
+        .infor-title{
           color: #00bcd4;
           font-size: 12px;
           line-height: 22px;
@@ -131,8 +165,12 @@
   </head>
   <body>
     <div id="content">
+        <div class="head">
+          <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+          <span class="title">余额</span>
+        </div>
         <div class="infor">
-          <p class="title">充值和消费记录时间轴</p>
+          <p class="infor-title">充值和消费记录时间轴</p>
           <p class="line-one"></p>
           <p class="line-two"></p>
           <div class="time">
@@ -222,6 +260,15 @@
           没有更多啦、、、、
         </div>
     </div>
+    <script type="text/javascript">
+    $(function(){
 
+        // 返回上一层
+        $(".head .jiantou").click(function(){
+            window.history.back();
+        })
+    })
+
+    </script>
   </body>
 </html>

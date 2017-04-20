@@ -32,63 +32,39 @@
           font: helvetica;
 
         }
-         .top{
+        .head{
           width: 100%;
-          height: 47px;
-          overflow: hidden;
-          border-bottom: 1px solid #e7e7e7;
-          box-shadow: 0 2px 5px #e7e7e7;
-          background: #fff;
-        }
-        .top .back{
-          width: 12.5333333%;
-          height: 47px;
-          float: left;
-          display: inline-block;
-          text-align: center;
-          line-height: 47px;
-
-        }
-        .top .back img{
-          width: 25px;
-          height: 25px;
-          vertical-align: middle;
-        }
-        .top .top-right{
-          width: 12.5333333%;
-          height: 47px;
-          float: right;
-          display: inline-block;
-          text-align: center;
-          line-height: 47px;
+          height: 46px;
+          font-size: 0;
           position: relative;
+          overflow: hidden;
         }
-        .top .top-right p{
+        .jiantou{
           display: inline-block;
-          width: 18px;
-          height: 14px;
-          line-height: 14px;
-          color: #fff;
+          width: 32px;
           position: absolute;
-          left: 19px;
-          top: 10px;
-          font-size: 12px;
-          background: #D81E06;
-          border-radius: 7px;
+          left: 10px;
+          top: 13px;
+        }
+        .head .jiantou img{
+         width: 20px;
+         height: 20px;
+         vertical-align: middle;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
           text-align: center;
         }
-        .top .top-right img{
-          width: 25px;
-          height: 25px;
-          vertical-align: middle;
-        }
-        .top .top-title{
-          float: left;
-          width: 74.93333333%;
-          height: 47px;
-          line-height: 47px;
-          text-align: left;
-          color: #666;
+        .menu{
+          width: 32px;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 13px;
         }
         /*具体内容*/
         .content{
@@ -209,12 +185,9 @@
   </head>
   <body>
     <div id="content">
-        <div class="top">
-          <div class="back">
-            <img src="images/back.png" alt="">
-          </div>
-          <p class="top-title">优惠券</p>
-          <div class="top-right"><img src="images/news.png" alt=""><p>15</p></div>
+        <div class="head">
+          <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+          <span class="title">优惠券</span>
         </div>
         <!-- 具体内容 -->
         <div class="content">
@@ -442,6 +415,12 @@
           // $("span",this).addClass("spancolor");
           $(this).children("span").addClass("spancolor");
         });
+
+
+          // 返回上一层
+          $(".head .jiantou").click(function(){
+              window.history.back();
+          })
       })
     </script>
   </body>
