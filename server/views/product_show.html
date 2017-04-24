@@ -1571,7 +1571,7 @@
         var images ={{ JSON.stringify(product.mp_pictures)|| safe}};
         var items = [];
         for (var i = 0; i < images.length; i++) {
-           items.push({id:i,img:'images/'+images[i].location});
+           items.push({id:i,img:images[i].location});
         }
 
         ReactDOM.render(React.createElement(Lunbo, { items: items }), document.getElementById('lunbo'));
