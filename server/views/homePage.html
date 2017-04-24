@@ -7,11 +7,6 @@
     <title>首页</title>
     <link rel="stylesheet" href="css/jinping.css">
     <link rel="stylesheet" href="css/reset.css">
-    <script src="js/react.min.js"></script>
-    <script src="js/react-dom.min.js"></script>
-    <script src="js/browser.min.js"></script>
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:640px){
       *{
@@ -266,7 +261,7 @@
           height: 25px;
           display: inline-block;
           position: absolute;
-          top: 0;
+          top: 36px;
           right:6.3333%;
       }
       .news .newsMore a{
@@ -370,20 +365,17 @@
 
       /*返回顶部*/
       .top{
-        width: 17px;
-        display: inline-block;
-        font-size: 12px;
         position: fixed;
-        right: 15px;
-        bottom: 60px;
+        bottom: 56px;
+        right: 8px;
+        width: 35px;
+        height: 35px;
+        z-index: 20;
         display: none;
-        cursor: pointer;
       }
       .top img{
-        display: block;
-        width: 10px;
-        height: 15px;
-        margin: 0 auto;
+        width: 35px;
+        height: 35px;
       }
 
       /*搜索弹出层样式*/
@@ -470,6 +462,11 @@
 </head>
 <body>
   <div id="example"></div>
+  <script src="js/react.min.js"></script>
+  <script src="js/react-dom.min.js"></script>
+  <script src="js/browser.min.js"></script>
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/jinzhi.js"></script>
   <script src="js/lunbo.min.js"></script>
   <script type="text/babel">
   // 框架
@@ -584,7 +581,7 @@
                  {img:"images/ht_sy_cj.jpg",name:"厨房用品"},
                  {img:"images/ht_sy_jj.jpg",name:"家具家纺"},
                  {img:"images/ht_sy_jz.jpg",name:"残障伙伴兼职"},
-                 {img:"images/ht_sy_gy.jpg",name:"关于善淘"}];
+                 {img:"images/ht_sy_gy.jpg",name:"关于善淘",href:"about_us"}];
                  this.setState({navitems:nav});
     }
     render() {
@@ -600,7 +597,7 @@
   class HomeNavli extends React.Component {
     render() {
         return (
-            <li className="homeNavli"><a><img src={this.props.item.img} alt="" /><p>{this.props.item.name}</p></a></li>
+            <li className="homeNavli"><a href={this.props.item.href}><img src={this.props.item.img} alt="" /><p>{this.props.item.name}</p></a></li>
         );
     }
   };
@@ -643,7 +640,7 @@
                     <NewsLi item={item}  />))
                 }
                 </ul>
-                <span className="newsMore"><a></a></span>
+                <span className="newsMore"><a href="news"></a></span>
             </div>
         );
     }
@@ -655,7 +652,7 @@
 
         return (
 
-            <li className="newsLi"><a href="#"><u>{this.props.item.word}</u></a></li>
+            <li className="newsLi"><a href="news"><u>{this.props.item.word}</u></a></li>
         );
     }
   };
@@ -738,7 +735,7 @@
         var href = "product_show?product_id="+ this.props.item.id;
         var img = "images/no_picture.png";
         if(this.props.item.img) {
-            img = "images/"+this.props.item.img.location;
+            img = this.props.item.img.location;
         }
         return (
             <li className="homeLikeLi"><a href={href}><img src={img} alt="" /><p className="likename">{this.props.item.product_name}</p><p className="likeprice">￥<span>{this.props.item.product_sale_price}</span></p></a></li>
@@ -752,7 +749,7 @@
           <ul className="footernav">
             <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
             <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
-            <li><a href="/"><p className="footerCenter"><img src="images/42.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
+            <li><a href="news"><p className="footerCenter"><img src="images/42.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
             <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
           </ul>
@@ -797,7 +794,7 @@
       var topHeight=$(window).scrollTop();
 
         return (
-          <div className="top" onClick={this.handleClick}><img src="images/top.png" alt="" /><u>top</u></div>
+          <div className="top" onClick={this.handleClick}><img src="images/scroll-to-top-icon.png" alt="" /></div>
         );
     }
   };

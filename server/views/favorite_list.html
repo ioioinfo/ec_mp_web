@@ -37,26 +37,33 @@
           display: none;
       }
       /*----头                  部----*/
-      .warp .top{
-        width: 96%;
+      .head{
+        width: 100%;
         height: 46px;
-        line-height: 46px;
-        margin: 0 auto;
-        font-size: 0px;
-        border-bottom: 1px solid #E7E7E7;
+        font-size: 0;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #eaeaea;
       }
-      .warp .top img{
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
-      }
-      .warp .top span{
+      .jiantou{
         display: inline-block;
-        width:320px;
-        font-size: 14px;
-        text-align: center;
+        width: 32px;
+        position: absolute;
+        left: 10px;
+        top: 13px;
+      }
+      .head .jiantou img{
+       width: 20px;
+       height: 20px;
+       vertical-align: middle;
+      }
+      .title{
+        display:block;
+        width: 200px;
         line-height: 46px;
-        vertical-align: middle;
+        font-size: 16px;
+        margin: 0 auto;
+        text-align: center;
       }
 /*-----中    间    部   分-----*/
      .main{
@@ -136,9 +143,9 @@
 <body>
   <div class="warp">
     <!--       头部      -->
-    <div class="top">
-      <img src="images/back.png" alt="">
-      <span>收藏夹</span>
+    <div class="head">
+      <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+      <span class="title">收藏夹</span>
     </div>
     <!--     中部       -->
     <div class="main">
@@ -152,7 +159,7 @@
 			  <div class="main-list-left">
 			 <a href="/product_show?product_id=<%- product.id %>">
 				  <% if(product.img){ %>
-					    <img src="images/<%- product.img.location %>" alt="">
+					    <img src="<%- product.img.location %>" alt="">
 				  <% }else{ %>
 						<img src="images/no_picture.png" alt="">
 				  <% } %>
@@ -203,7 +210,6 @@
 
          // 返回上一层
          $(".top img").click(function(){
-             alert("ddd")
              window.history.back();
          });
 
