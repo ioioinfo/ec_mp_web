@@ -34,47 +34,44 @@
           ::-webkit-scrollbar {
               display: none;
           }
-        .header{
-          width: 100%;
-          height: 46px;
-          font-size: 0;
-          position: relative;
-          overflow: hidden;
-        }
-        .jiantou{
-          display: inline-block;
-          width: 32px;
-          position: absolute;
-          left: 10px;
-          top: 7px;
-        }
-        .title{
-          display:block;
-          width: 200px;
-          line-height: 46px;
-          font-size: 16px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .menu{
-          width: 32px;
-          display: inline-block;
-          position: absolute;
-          right: 10px;
-          top: 13px;
-        }
-        .title span{
-          color: #D81E06;
-        }
+          .head{
+            width: 100%;
+            height: 46px;
+            font-size: 0;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #eaeaea;
+          }
+          .jiantou{
+            display: inline-block;
+            width: 32px;
+            position: absolute;
+            left: 10px;
+            top: 13px;
+          }
+          .head .jiantou img{
+           width: 20px;
+           height: 20px;
+           vertical-align: middle;
+          }
+          .title{
+            display:block;
+            width: 200px;
+            line-height: 46px;
+            font-size: 16px;
+            margin: 0 auto;
+            text-align: center;
+          }
         /*中间部分*/
         .Main{
           width: 96%;
-          margin: 0 auto;
+          margin: 50px auto 0;
 
         }
         .MainTop_title{
-          width: 100%;
+          width: 75%;
           display: flex;
+          margin: 0 auto;
         }
         .MainTop_title p{
           width: 50%;
@@ -84,11 +81,11 @@
           padding: 4px 0;
         }
         .MainTop_title .MainTop{
-          border-bottom: 2px solid #E84E40;
+          border-bottom: 2px solid #70B42C;
         }
         .MainBottom_infor{
           text-align: center;
-          margin-top: 205px;
+          margin-top: 90px;
           position: relative;
         }
         input[type="submit"],input[type="reset"],input[type="button"],button {
@@ -134,7 +131,7 @@
         }
         .recharge_ul1{
             width: 96%;
-            margin: 120px auto 0;
+            margin: 90px auto 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -198,11 +195,10 @@
     class Header extends React.Component {
       render() {
           return (
-            <div className="header">
-              <span className="jiantou"><a href="/person_center"><img src="images/jiantou.png" alt="" /></a></span>
-              <span className="title">会员充值</span>
-              <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
-            </div>
+              <div className="head">
+                <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                <span className="title">会员充值</span>
+              </div>
           );
       }
     };
@@ -326,5 +322,15 @@
       document.getElementById("example")
     );
     </script>
+
+        <script type="text/javascript">
+            $(function(){
+                // 返回上一层
+                $(".head img").click(function(){
+                    window.history.back();
+                });
+
+            })
+        </script>
   </body>
 </html>

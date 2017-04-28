@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="css/jinping.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/search.css">
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/jinzhi.js"></script>
     <title>搜索内容</title>
     <style media="screen">
       @media screen and (max-width:640px){
@@ -139,8 +137,8 @@
           margin: 20px auto 0;
         }
         .infor .infor-ul li{
-          height: 140px;
           border-bottom: 1px solid #e8e1e8;
+          padding-bottom: 6px;
         }
         .infor-left{
           width: 27.7777778%;
@@ -155,17 +153,16 @@
         .infor-right{
           display: inline-block;
           width: 67.111111%;
-          height: 140px;
 
         }
         .infor-right .infor-right-one{
           width: 100%;
-          line-height: 30px;
+          line-height: 22px;
           font-size: 14px;
         }
         .infor-right .infor-right-two span{
           display: inline-block;
-          background: #ede6ed;
+          background: #f4f4f4;
           font-size: 12px;
           padding: 4px 5px;
           margin: 0 10px 0 0;
@@ -176,15 +173,21 @@
           color: #e51c23;
           line-height: 28px;
         }
+        .infor-right-four{
+            height: 20px;
+            line-height: 20px;
+        }
         .infor-right-four span{
           border-radius: 4px;
           display: inline-block;
+
         }
-        .infor-right-four span:first-child{
+        .infor-right-four span{
           padding: 0 4px;
           background: #ff7043;
           color: #fff;
           font-size: 12px;
+          display: inline-block;
 
         }
         .infor-right-four span:nth-child(3n+2){
@@ -291,8 +294,7 @@
           box-sizing: border-box;
         }
         .shaixuan .shaixuansubmit p:first-child{
-          border-top: 1px solid #999;
-          border-bottom: 1px solid #999;
+          border-top: 1px solid #e7e7e7;
           background: #fff;
         }
         .shaixuan .shaixuansubmit p:last-child{
@@ -344,23 +346,20 @@
      .footernav li:nth-child(5n+2) a{
     	 color: #d81e06;
        }
-	   /*返回顶部*/
-			.top{
-			  width: 17px;
-			  display: inline-block;
-			  font-size: 12px;
-			  position: fixed;
-			  right: 10px;
-			  bottom: 76px;
-			  display: none;
-			  cursor: pointer;
-			}
-			.top img{
-			  display: block;
-			  width: 10px;
-			  height: 15px;
-			  margin: 0 auto;
-			}
+       /*返回顶部*/
+       .top{
+         position: fixed;
+         bottom: 56px;
+         right: 8px;
+         width: 35px;
+         height: 35px;
+         z-index: 20;
+         display: none;
+       }
+       .top img{
+         width: 35px;
+         height: 35px;
+       }
       }
     </style>
   </head>
@@ -391,7 +390,7 @@
       	        <li>
       	          <a href="/product_show?product_id={{product.id}}">
       	            <div class="infor-left">
-      	              <img class="loading" src="images/load.png" data-src="images/{{product.img.location}}" alt="">
+      	              <img class="loading" src="images/load.png" data-src="{{product.img.location}}" alt="">
       	            </div>
       	            <div class="infor-right">
       	              <p class="infor-right-one">{{product.product_name}}</p>
@@ -429,8 +428,8 @@
           <!-- 遮罩层 -->
           <div class="zhezhaoceng"></div>
 
-
-      	<div class="top"><img src="images/top.png" alt="" /><u>top</u></div>
+          <!-- 返回顶部 -->
+      	<div class="top"><img src="images/scroll-to-top-icon.png" alt="" /></div>
         <!-- =================分割线   搜索弹出层================= -->
         <div class="SearchCeng">
             <div class="SearchCeng_top">
@@ -453,8 +452,8 @@
             </div>
         </div>
       </div>
-
-    <script src="js/jquery-3.1.1.min.js"type="text/javascript"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
 	<script>
 	$(function() {
 		//页面显示消息
@@ -607,7 +606,6 @@
 	})
 	$(window).scroll(function(){
 	  var topHeight=$(window).scrollTop();
-	  console.log(topHeight);
 	  if (topHeight>500){
 		//当滚动条的位置处于距顶部1000像素以下时，就是大于1000象数时，跳转出现
 		$(".top").fadeIn(250);
