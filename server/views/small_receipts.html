@@ -86,11 +86,14 @@
       <script src="js/react-dom.min.js"></script>
       <script src="js/browser.min.js"></script>
       <script src="js/jinzhi.js"></script>
-      
+
 	  <script type="text/javascript">
 	  		var get_Cashier_data = function(cb){
 				$.get("/get_front_orders",function(data){
 					if (data.success) {
+                        if (!data.orders || data.orders =="") {
+                            location.href = "/no_small_receipt";
+                        }
 						cb({items:data.orders,selected:[]});
 					}else {
 						alert(data.message);

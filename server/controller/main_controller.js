@@ -952,6 +952,8 @@ exports.register = function(server, options, next){
 				search_object.row_materials = request.query.row_materials;
 				search_object.size_name = request.query.size_name;
 				search_object.sort_ids = request.query.sort_ids;
+				search_object.num = request.query.num;
+				search_object.lastest = request.query.lastest;
 				console.log("search_object:"+JSON.stringify(search_object));
 				search_all_products(search_object,function(err,results){
 					if (!err) {
@@ -1092,7 +1094,7 @@ exports.register = function(server, options, next){
 							});
 							product.values = values;
 							product.mp_stock = stock;
-							if (product.is_down == 0) {
+							if (product.is_down == 1) {
 								return reply.view("down_product_show",{"product":product,"industry_properties":industry_properties,"property":property});
 							}
 							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties,"property":property});
