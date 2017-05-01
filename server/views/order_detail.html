@@ -424,7 +424,7 @@
     	        <div class="all">
     	          <div class="product-infor-left">
     					 {% if products[detail.product_id].img %}
-    					   <img src="images/{{products[detail.product_id].img.location}}" alt="">
+    					   <img src="{{products[detail.product_id].img.location}}" alt="">
     					 {% else %}
     						<img src="images/no_picture.png" alt="">
     					 {% endif %}

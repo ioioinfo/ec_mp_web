@@ -1163,7 +1163,7 @@
 				}
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {
-						alert("结算成功！");
+						location.href = "/pay_way";
 					}else {
 						alert(data.message);
 					}

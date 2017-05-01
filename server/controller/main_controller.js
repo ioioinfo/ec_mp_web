@@ -587,7 +587,7 @@ var order_cancel = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
-		//取消订单
+		//取消订单 1:未付款
 		{
 			method: 'POST',
 			path: '/order_cancel',
@@ -596,12 +596,13 @@ exports.register = function(server, options, next){
 				var reason = request.payload.reason;
 				var order_status = request.payload.order_status;
 				var data = {};
-				if (!order_id||!order_status) {
+				if (!order_id) {
 					return reply({"success":false,"message":"params null","service_info":service_info});
 				}
-				if (order_status == "-1" || order_status == "0" ) {
+				if (order_status == "未付款") {
 					data.order_id = order_id;
 					data.reason = reason;
+					data.status = "7";
 					order_cancel(data,function(err,content){
 						if (!err) {
 							return reply({"success":true});
@@ -609,8 +610,9 @@ exports.register = function(server, options, next){
 							return reply({"success":false,"message":content.message});
 						}
 					});
+				}else {
+					return reply({"success":true,"message":"no change"});
 				}
-				return reply({"success":true,"message":"no change"});
 			}
 		},
 

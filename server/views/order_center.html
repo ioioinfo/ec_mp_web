@@ -342,9 +342,10 @@
           <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥{{order.logistics_price}}</span></p>
     	  {% if order.order_status=="等待买家付款" %}
     		  <p class="product-submit">
-    			  <span> 不想买了</span>
-    			  <span>
+    			  <span class="cancel_buy" data-id="{{order.order_id}}"> 不想买了</span>
+    			  <span><a href="pay_way">
     				  立即付款
+                  </a>
     			  </span>
     		  </p>
     	  	{% elseif order.order_status=="付款确认中" %}
@@ -453,7 +454,17 @@
 				}
 			})
 		});
-	});
+        $(".cancel_buy").click(function(){
+            var order_id = $(this).data("id");
+            var reason = "不想买了";
+            var order_status = "未付款";
+            $.post("/order_cancel",{order_id:order_id,reason:reason,order_status:order_status},function(data){
+                if (data.success) {
+                    location.href = "/order_center";
+                }
+            })
+        });
+    });
 	</script>
   </body>
 </html>
