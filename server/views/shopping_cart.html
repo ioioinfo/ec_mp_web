@@ -386,7 +386,7 @@
                         <a href="/product_show?product_id=<%- shopping_cart.product_id %>">
                             <% if(products[shopping_cart.product_id]){ %>
                                 <% if(products[shopping_cart.product_id].img){ %>
-                                   <img src="images/<%- products[shopping_cart.product_id].img.location %>" alt="">
+                                   <img src="<%- products[shopping_cart.product_id].img.location %>" alt="">
                                <% }else{ %>
                                    <img src="images/no_picture.png" alt="">
                                <% } %>

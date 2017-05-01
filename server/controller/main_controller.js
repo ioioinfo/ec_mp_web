@@ -582,6 +582,18 @@ var save_event = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
+		//取消订单
+		{
+			method: 'POST',
+			path: '/order_cancel',
+			handler: function(request, reply){
+				var order_id = request.payload.order_id;
+				var reason = request.payload.reason;
+
+				return reply({"success":true});
+			}
+		},
+
 		//付款回调结果页面
 		{
 			method: 'GET',
@@ -1070,7 +1082,15 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
-
+		//编辑商品属性
+		{
+			method: 'GET',
+			path: '/product_edit',
+			handler: function(request, reply){
+				var product_id = request.query.product_id;
+				return reply.view("product_edit",{"product_id":product_id});
+			}
+		},
 		//产品展示
 		{
 			method: 'GET',
@@ -2012,6 +2032,7 @@ exports.register = function(server, options, next){
 						if (results.success) {
 							var shopping_carts = results.shopping_carts;
 							var products = results.products;
+							console.log("product:"+JSON.stringify(products));
 							var total_data = results.total_data;
 							if (total_data.total_items) {
 								data.order_amount = total_data.total_items;
