@@ -418,6 +418,11 @@ var search_all_products = function(search_object,cb){
 	var url = "http://127.0.0.1:18016/search_products";
 	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
 };
+//查询最新商品
+var find_lastest_products = function(search_object,cb){
+	var url = "http://127.0.0.1:18002/find_lastest_products";
+	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
+};
 //查询库存
 var find_stock = function(industry_id,product_id,stock_options,cb){
 	var url = "http://211.149.248.241:12001/get_product_stock_for_view?product_id=";
@@ -937,6 +942,23 @@ exports.register = function(server, options, next){
 			path: '/sort2',
 			handler: function(request, reply){
 				return reply.view("sort2",{});
+			}
+		},
+		//查询最新商品
+		{
+			method: 'GET',
+			path: '/find_lastest_products',
+			handler: function(request, reply){
+				var search_object = {};
+				search_object.num = request.query.num;
+				search_object.lastest = request.query.lastest;
+				find_lastest_products(search_object,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"messsage":rows.messsage})
+					}
+				});
 			}
 		},
 		//查询
