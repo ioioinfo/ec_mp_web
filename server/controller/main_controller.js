@@ -580,6 +580,11 @@ var save_event = function(data,cb){
 	var url = "http://127.0.0.1:18010/save_event";
 	do_post_method(url,data,cb);
 }
+//取消订单1
+var order_cancel = function(data,cb){
+	var url = "http://127.0.0.1:18010/order_cancel";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
 		//取消订单
@@ -589,8 +594,23 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var order_id = request.payload.order_id;
 				var reason = request.payload.reason;
-
-				return reply({"success":true});
+				var order_status = request.payload.order_status;
+				var data = {};
+				if (!order_id||!order_status) {
+					return reply({"success":false,"message":"params null","service_info":service_info});
+				}
+				if (order_status == "-1" || order_status == "0" ) {
+					data.order_id = order_id;
+					data.reason = reason;
+					order_cancel(data,function(err,content){
+						if (!err) {
+							return reply({"success":true});
+						}else {
+							return reply({"success":false,"message":content.message});
+						}
+					});
+				}
+				return reply({"success":true,"message":"no change"});
 			}
 		},
 
@@ -1080,15 +1100,6 @@ exports.register = function(server, options, next){
 						return reply({"success":false,"message":row.message})
 					}
 				});
-			}
-		},
-		//编辑商品属性
-		{
-			method: 'GET',
-			path: '/product_edit',
-			handler: function(request, reply){
-				var product_id = request.query.product_id;
-				return reply.view("product_edit",{"product_id":product_id});
 			}
 		},
 		//产品展示
