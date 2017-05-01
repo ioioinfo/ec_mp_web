@@ -420,8 +420,8 @@ var search_all_products = function(search_object,cb){
 };
 //查询最新商品
 var find_lastest_products = function(search_object,cb){
-	var url = "http://127.0.0.1:18002/find_lastest_products";
-	do_post_method(url,{"search_object":JSON.stringify(search_object)},cb);
+	var url = "http://127.0.0.1:18002/find_lastest_products?search_object="+search_object;
+	do_get_method(url,cb);
 };
 //查询库存
 var find_stock = function(industry_id,product_id,stock_options,cb){
@@ -952,7 +952,7 @@ exports.register = function(server, options, next){
 				var search_object = {};
 				search_object.num = request.query.num;
 				search_object.lastest = request.query.lastest;
-				find_lastest_products(search_object,function(err,rows){
+				find_lastest_products(JSON.stringify(search_object),function(err,rows){
 					if (!err) {
 						return reply({"success":true,"rows":rows.rows});
 					}else {
