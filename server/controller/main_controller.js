@@ -585,8 +585,32 @@ var order_cancel = function(data,cb){
 	var url = "http://127.0.0.1:18010/order_cancel";
 	do_post_method(url,data,cb);
 }
+var search_order_byStatus = function(person_id,status,cb){
+	var url = "http://127.0.0.1:18010/search_order_byStatus?person_id=";
+	url = url + person_id + "&status=" + status;
+	do_get_method(url,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//根据状态查询订单
+		{
+			method: 'GET',
+			path: '/search_order_byStatus',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var status = request.query.status;
+				search_order_byStatus(person_id,status,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message});
+					}
+				});
+			}
+		},
 		//取消订单 1:未付款
 		{
 			method: 'POST',
@@ -2509,19 +2533,32 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/order_center',
 			handler: function(request, reply){
+				var status = request.query.status;
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				get_ec_orders(person_id,function(err,results){
-					if (!err) {
-						if (true) {
+				if (status && status !="") {
+					console.log("status:"+status);
+					search_order_byStatus(person_id,status,function(err,results){
+						if (!err) {
+							console.log("results:"+JSON.stringify(results));
 							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
+						}else {
+							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
 						}
-					}else {
-						return reply.view("order_center",{"orders":[],"details":[],"products":[]});
-					}
-				});
+					});
+				}else {
+					get_ec_orders(person_id,function(err,results){
+						if (!err) {
+							if (true) {
+								return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
+							}
+						}else {
+							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
+						}
+					});
+				}
 			}
 		},
 		//查看物流
