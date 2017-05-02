@@ -1102,7 +1102,6 @@
 					  if (state == 1) {
 					  		return;
 					  }
-					  state = 1;
 					  var data = {};
 					  data.linkname = $(".linkname").val();
 					  data.mobile = $(".mobile").val();
@@ -1127,6 +1126,7 @@
 					  if($(".is_default").is(":checked")){
 						  data.is_default = 1;
 					  }
+                      state = 1;
 					  $.get("/new_address",{info:JSON.stringify(data)},function(content){
 						  state = 0;
 						  if (content.success) {

@@ -585,6 +585,11 @@ var order_cancel = function(data,cb){
 	var url = "http://127.0.0.1:18010/order_cancel";
 	do_post_method(url,data,cb);
 }
+//删除订单
+var order_delete = function(data,cb){
+	var url = "http://127.0.0.1:18010/order_delete";
+	do_post_method(url,data,cb);
+}
 var search_order_byStatus = function(person_id,status,cb){
 	var url = "http://127.0.0.1:18010/search_order_byStatus?person_id=";
 	url = url + person_id + "&status=" + status;
@@ -639,7 +644,25 @@ exports.register = function(server, options, next){
 				}
 			}
 		},
-
+		//订单删除
+		{
+			method: 'POST',
+			path: '/order_delete',
+			handler: function(request, reply){
+				var order_id = request.payload.order_id;
+				if (!order_id) {
+					return reply({"success":false,"message":"params null","service_info":service_info});
+				}
+				var data = {"order_id":order_id};
+				order_delete(data,function(err,content){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
 		//付款回调结果页面
 		{
 			method: 'GET',

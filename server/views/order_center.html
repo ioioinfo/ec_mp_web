@@ -379,15 +379,15 @@
     			</p>
     		{% elseif order.order_status=="交易成功" %}
     			<p class="product-submit">
-    				<span>
-    					我要评价
-    				</span>
     				<span> 申请售后</span>
+                    <span class="delete_order" data-id="{{order.order_id}}">
+    					删除订单
+    				</span>
     			</p>
     		{% elseif order.order_status=="交易关闭" %}
     			<p class="product-submit">
-    				<span>
-    					再次购买
+    				<span class="delete_order" data-id="{{order.order_id}}">
+    					删除订单
     				</span>
     			</p>
     		{% elseif order.order_status=="退款中订单" %}
@@ -398,8 +398,8 @@
     			</p>
     		{% elseif order.order_status=="退款完成" %}
     			<p class="product-submit">
-    				<span>
-    					我不服
+                    <span class="delete_order" data-id="{{order.order_id}}">
+    					删除订单
     				</span>
     			</p>
     		{% endif %}
@@ -461,6 +461,15 @@
                 }
             })
         });
+        $(".delete_order").click(function(){
+            var order_id = $(this).data("id");
+            $.post("/order_delete",{order_id:order_id},function(data){
+                if (data.success) {
+                    location.href = "/order_center";
+                }
+            })
+        });
+
     });
 
 	</script>

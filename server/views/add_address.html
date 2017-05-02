@@ -266,9 +266,8 @@
 			if (state == 1) {
 				return;
 			}
-			state = 1;
 			if (!$(".linkname").val()) {
-				alert("姓名不能为空");
+				alert("收货人不能为空");
 				return;
 			}else if (!$(".mobile").val()) {
 				alert("手机不能为空");
@@ -291,8 +290,8 @@
 			if($(".is_default").is(":checked")){
 				data.is_default = 1;
 			}
+            state = 1;
 			$.get("/new_address",{info:JSON.stringify(data)},function(data){
-				state = 0;
 				if (data.success) {
 					location.href = "/address_management";
 				}
