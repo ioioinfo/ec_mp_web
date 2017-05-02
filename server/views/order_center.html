@@ -297,7 +297,7 @@
     <div id="content">
         <div class="top">
           <div class="back">
-            <img src="images/back.png" alt="">
+            <a href="person_center"><img src="images/back.png" alt=""></a>
           </div>
           <p class="top-title">我的订单</p>
           <div class="top-right"><a href="/messages"><img src="images/news.png" alt=""><p class="headernewsnum"></p></a></div>
@@ -437,9 +437,6 @@
 			error: function(xhr, status, err) {
 			}
 		});
-		$(".back").click(function(){
-			window.history.back();
-		});
 		$(".product-infor").click(function(){
 			var order_id = $(this).data("id");
 			location.href = "/order_detail?order_id=" + order_id;
@@ -465,6 +462,7 @@
             })
         });
     });
+
 	</script>
   </body>
 </html>

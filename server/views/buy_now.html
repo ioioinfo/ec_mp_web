@@ -55,7 +55,11 @@
           width: 32px;
           position: absolute;
           left: 10px;
-          top: 7px;
+          top: 13px;
+        }
+        .jiantou img{
+            width: 20px;
+            height: 20px;
         }
         .title{
           display:block;
@@ -1038,6 +1042,15 @@
 	</script>
 
 	<script>
+        // 返回顶部
+        $(function(){
+            // 返回上一层
+            $(".head .jiantou").click(function(){
+                window.history.back();
+            })
+        })
+
+        // 地区选择
 		$(function() {
 			var sku_id ="{{sku_id|safe}}";
 			var address = {

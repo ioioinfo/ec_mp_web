@@ -40,67 +40,40 @@
           #content{
               height: 100%;
           }
-          /*头部*/
-          .wrap{
-            width: 100%;
-          }
           .wrap .top{
-            width: 100%;
-            height: 47px;
-            overflow: hidden;
-            border-bottom: 1px solid #e7e7e7;
-            box-shadow: 0 2px 5px #e7e7e7;
+            font-size: 0;
+            border-bottom: 1px solid #E7E7E7;
             background: #fff;
           }
-          .wrap .back{
-            width: 12.5333333%;
-            height: 47px;
-            float: left;
-            display: inline-block;
-            text-align: center;
-            line-height: 47px;
-
+          .wrap .top span{
+            font-size: 14px;
           }
-          .wrap .back img{
-            width: 25px;
-            height: 25px;
+          .wrap .top span:first-child{
+            display: inline-block;
+            width: 12.533333%;
+            height: 47px;
+            line-height: 47px;
+            text-align: center;
+          }
+          .wrap .top span:nth-child(3n+2){
+            display: inline-block;
+            width: 74.933333%;
+            height: 47px;
+            line-height: 47px;
+            font-size: 14px;
+            text-align: center;
+          }
+          .wrap .top span:last-child{
+            width: 12.533333%;
+            height: 47px;
+            line-height: 47px;
+            text-align: center;
+            color: #FF4400;
+          }
+          .wrap .top span img{
+            width: 20px;
+            height: 20px;
             vertical-align: middle;
-          }
-          .wrap .top-right{
-            width: 12.5333333%;
-            height: 47px;
-            float: right;
-            display: inline-block;
-            text-align: center;
-            line-height: 47px;
-            position: relative;
-          }
-          .wrap .top-right p{
-            display: inline-block;
-            width: 18px;
-            height: 14px;
-            line-height: 14px;
-            color: #fff;
-            position: absolute;
-            left: 19px;
-            top: 10px;
-            font-size: 12px;
-            background: #D81E06;
-            border-radius: 7px;
-            text-align: center;
-          }
-          .wrap .top-right img{
-            width: 25px;
-            height: 25px;
-            vertical-align: middle;
-          }
-          .wrap .top-title{
-            float: left;
-            width: 74.93333333%;
-            height: 47px;
-            line-height: 47px;
-            text-align: center;
-            color: #252525;
           }
           /*中间部分*/
           .middle{
@@ -113,19 +86,19 @@
             width: 100%;
           }
           .middle .middle-li{
-            /*width: 100%;*/
             overflow: hidden;
             border-bottom: 1px solid #e7e7e7;
-            padding: 0 10px;
             background: #fff;
+            padding: 0 3.2%;
           }
           .middle .middle-li p{
             width: 50%;
             float: left;
             font-weight: 400;
-            font-size: 16px;
+            font-size: 14px;
             height: 47px;
             line-height: 47px;
+            color: #051b28;
           }
           .middle .middle-li .middle-p2{
             text-align: right;
@@ -134,13 +107,15 @@
             color: #999;
           }
           .middle .middle-li .middle-p2 img{
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             vertical-align: middle;
           }
           .middle .middle-li .middle-p2 input{
             outline-style: none;
             border: none;
+            color: #999;
+            background: #fff;
           }
           .middle .middle-li:last-child{
             margin-top: 26px
@@ -335,24 +310,21 @@
     </style>
   </head>
   <body>
+
     <div id="content">
         <div class="wrap">
-          <div class="top">
-            <div class="back">
-    			<a href="/configure">
-              		<img src="images/back.png" alt="">
-    			</a>
+            <div class="top">
+              <span><a href="/configure"><img src="images/back.png" alt=""></a></span>
+              <span>个人信息</span>
+              <span class="save"></span>
             </div>
-            <p class="top-title">个人信息</p>
-            <div class="top-right"></div>
-          </div>
           <div class="middle">
             <ul class="middle-ul">
               <li class="middle-li"><p class="middle-p1 p">头像</p><p class="middle-p2 p"><span class="header">{% if persons[0] %}<img src="images/{{persons[0].avatar_url}}" alt="">{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
               <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span>{{person.username}}</span></p></li>
               <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span class="nick_name">{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
               <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3 p4"><span>{{person_info.gender}}</span><img src="images/rightjiantou.png" alt=""></p></li>
-              <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="{{person_info.birthday}}" class="date"></li>
+              <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="{{person_info.birthday}}" placeholder="点击选择日期" class="date"></li>
             </ul>
           </div>
         </div>
