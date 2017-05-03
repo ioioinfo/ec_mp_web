@@ -610,6 +610,11 @@ var announce_view = function(id,cb){
 	var url = "http://139.196.148.40:18005/get_announce_by_id?platform_code=ioio&id="+id;
 	do_get_method(url,cb);
 }
+//查询订单
+var get_order = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/get_order?order_id="+order_id;
+	do_get_method(url,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
 		//公告明细
@@ -617,10 +622,6 @@ exports.register = function(server, options, next){
 			method: 'get',
 			path: '/announce_view',
 			handler: function(request, reply){
-				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
 				var id = request.query.news_id;
 				announce_view(id,function(err,row){
 					if (!err) {
@@ -636,10 +637,6 @@ exports.register = function(server, options, next){
 			method: 'get',
 			path: '/published_announce',
 			handler: function(request, reply){
-				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
 				published_announce(function(err,rows){
 					if (!err) {
 						return reply({"success":true,"rows":rows.rows});
@@ -654,10 +651,6 @@ exports.register = function(server, options, next){
 			method: 'get',
 			path: '/published_headlines',
 			handler: function(request, reply){
-				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
 				published_headlines(function(err,rows){
 					if (!err) {
 						return reply({"success":true,"rows":rows.rows});
@@ -734,15 +727,39 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//支付成功页面,修改订单状态，积分累计，库存减少
+		{
+			method: 'GET',
+			path: '/pay_success',
+			handler: function(request, reply){
+				var order_id = request.query.order_id;
+				var data = {"order_id":order_id,"order_status":1};
+				update_order_status(data,function(err,content){
+					if (!err) {
+						return reply.view("pay_success",{"order_id":order_id});
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+
+			}
+		},
+		//支付失败页面
+		{
+			method: 'GET',
+			path: '/pay_failure',
+			handler: function(request, reply){
+				var order_id = request.query.order_id;
+				return reply.view("pay_failure",{"order_id":order_id});
+			}
+		},
 		//付款回调结果页面
 		{
 			method: 'GET',
 			path: '/payment_result',
 			handler: function(request, reply){
 				var order_id = request.query.order_id;
-				var success = request.query.success;
-
-				return reply({"success":true,"order_id":order_id,"pay_result":success});
+				return reply.view("payment_result",{"order_id":order_id});
 			}
 		},
 		//页面回调，流程 7
@@ -751,25 +768,25 @@ exports.register = function(server, options, next){
 			path: '/payment_back',
 			handler: function(request, reply){
 				var order_id = request.payload.order_id;
-				// var success = request.payload.success;
-
-				var info = {"id":order_id};
-				search_deal_event(info,function(err,rows){
-					console.log("rows:"+JSON.stringify(rows));
+				if (!order_id) {
+					return reply({"success":false,"messsage":"order_id is null"});
+				}
+				get_order(order_id,function(err,rows){
 					if (!err) {
-						if (rows.row.length>0) {
+						var order = rows.rows[0];
+						if (order.order_status==1) {
 							//付款成功  ， 可以再查一下订单
-							var url = "/payment_result?success=true&order_id=" +order_id;
+							var url = "/pay_success?order_id="+order_id;
 							return reply({"success":true,"url":url});
 							//return reply.redirect("url");
 						}else {
 							//没有查到处理过
-							var url = "/payment_result?success=false&order_id=" +order_id;
+							var url = "/pay_failure?order_id="+order_id;
 							return reply({"success":true,"url":url});
 							//return reply.redirect("url");
 						}
 					}else {
-						return reply({"success":false,"message":row.message,"service_info":service_info});
+						return reply({"success":false,"message":rows.message,"service_info":service_info});
 					}
 				});
 
@@ -830,7 +847,7 @@ exports.register = function(server, options, next){
 							});
 						}else {
 							//没处理的更新订单状态，保存事件，传阿里云进去
-							var data = {"order_id":order_id,"order_status":1};
+							var data = {"order_id":order_id,"order_status":2};
 							//修改订单状态
 							update_order_status(data,function(err,content){
 								if (!err) {
@@ -2496,22 +2513,6 @@ exports.register = function(server, options, next){
 			path: '/recharged_successfully',
 			handler: function(request, reply){
 				return reply.view("recharged_successfully");
-			}
-		},
-		//支付成功页面
-		{
-			method: 'GET',
-			path: '/pay_success',
-			handler: function(request, reply){
-				return reply.view("pay_success");
-			}
-		},
-		//支付成功页面
-		{
-			method: 'GET',
-			path: '/pay_failure',
-			handler: function(request, reply){
-				return reply.view("pay_failure");
 			}
 		},
 		//充值失败页面
