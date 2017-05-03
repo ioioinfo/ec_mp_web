@@ -644,13 +644,14 @@
       <script>
       $(function() {
      	 $.ajax({
-     		 url: "/get_new_arrival_products",
+     		 url: "/find_lastest_products",
      		 dataType: 'json',
+             data : {"num":8,"lastest":1},
      		 type: 'GET',
      		 success: function(data) {
      			 if (data.success) {
      				 hot_img3 = true;
-     				 var products = data.products;
+     				 var products = data.rows;
      				 var t = _.template($("#hot-img3").html());
      				 $(".main-recommend-img-ul").html(t({products:products}));
      			 }else {
