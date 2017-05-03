@@ -44,6 +44,18 @@ var industries = {
 		  {"field_name":"size_name","name":"尺码/尺寸","value":["S","M","L","XL"],"number":"3"}
 		]
 	},
+	"102" : {"name":"善淘","table_name":"industry_santao","view_name":"product_show","properties":
+		[{"field_name":"is_new","name":"成色"},
+		 {"field_name":"row_materials","name":"材质"},
+		 {"field_name":"size_name","name":"尺码/尺寸"},
+		 {"field_name":"batch_code","name":"批次"}
+	 	] ,
+		"saixuan":[
+		  {"field_name":"is_new","name":"成色","value":["全新","9成新","8成新"],"number":"1"},
+		  {"field_name":"row_materials","name":"材质","value":["钻石","白金","黄金","白银","青铜"],"number":"2"},
+		  {"field_name":"size_name","name":"尺码/尺寸","value":["S","M","L","XL"],"number":"3"}
+		]
+	},
 
 
 

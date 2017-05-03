@@ -1025,6 +1025,15 @@ exports.register = function(server, options, next){
 				return reply.view("sort2",{});
 			}
 		},
+		//新闻查看
+		{
+			method: 'GET',
+			path: '/news_view',
+			handler: function(request, reply){
+				var news_id = request.query.news_id;
+				return reply.view("news_view",{"news_id":news_id});
+			}
+		},
 		//查询最新商品
 		{
 			method: 'GET',
