@@ -537,19 +537,21 @@
             s = (<span style={style}></span>);
         }
         return (
+        <div>
           <div className="header">
             <div className="search">
               <span className="headersearch"  onClick={this.handleClick}>搜索</span>
               <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
               <div className="headernews">
-			  <a href="messages">
-                <img src="images/new2.png" alt="" className="headernimg" />
-                {s}
+	            <a href="messages">
+                    <img src="images/new2.png" alt="" className="headernimg" />
+                    {s}
 				</a>
               </div>
             </div>
-            <Lunbo items={this.state.items} />
           </div>
+            <Lunbo items={this.state.items} />
+        </div>
         );
     }
   };
@@ -606,14 +608,19 @@
     constructor(props) {
         super(props);
         this.scroll=this.scroll.bind(this);
-        this.state={newsitems:[]};
+        this.state={headlineitems:[]};
     }
     componentDidMount() {
-      var news = [{word:"善淘网实体店2017-03-25开业"},
-                  {word:"善淘网最新一期招募又开始啦"},
-                  {word:"现在满199，即可获得抽奖机会一次"},
-                  {word:"新品上线啦，"}];
-      this.setState({newsitems:news});
+        $.ajax({
+             url: "/published_headlines",
+             dataType: 'json',
+             type: 'GET',
+             success: function(data) {
+                this.setState({headlineitems:data.rows});
+             }.bind(this),
+             error: function(xhr, status, err) {
+             }.bind(this)
+        });
 
       setInterval(this.scroll,2800);
     }
@@ -636,7 +643,7 @@
             <div className="news">
             <p className="yourLike"><span>头条新闻</span></p>
                 <ul className="HomeNews">
-                {this.state.newsitems.map(item => (
+                {this.state.headlineitems.map(item => (
                     <NewsLi item={item}  />))
                 }
                 </ul>
@@ -647,12 +654,18 @@
   };
   // 新闻内容
   class NewsLi extends React.Component {
-
+      constructor(props) {
+          super(props);
+          this.handleClick=this.handleClick.bind(this);
+      }
+      handleClick(e){
+          location.href="news_view?news_id="+this.props.item.id;
+      }
     render() {
 
         return (
 
-            <li className="newsLi"><a href="news"><u>{this.props.item.word}</u></a></li>
+            <li className="newsLi"><u onClick={this.handleClick}>{this.props.item.title}</u></li>
         );
     }
   };

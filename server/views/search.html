@@ -15,8 +15,11 @@
           margin: 0;
         }
         html,body{
-          width: 100%;
-          height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
 
         li{
@@ -37,81 +40,81 @@
           height: 50px;
           background: #fff;
         }
-        #content{
-            height: 100%;
-        }
         /*头部搜索框*/
       .header{
           width: 100%;
-          height: 36px;
+          /*height: 146px;*/
           overflow: hidden;
         }
-		.search{
-		  width: 100%;
-		  height:36px;
-		  line-height: 36px;
-		  background: rgb(112,180,44);
-		  text-align: center;
-		  position: relative;
-		  overflow: hidden;
-		}
+        .search{
+          width: 100%;
+          height:36px;
+          line-height: 36px;
+          background: rgb(112,180,44);
+          position: relative;
+          overflow: hidden;
+          text-align: center;
+          font-size: 0;
+        }
 
-		.searchfangdaImg{
-		  position: absolute;
-		  top: 10px;
-		  left: 4.26829268%;
-		}
-		input::-webkit-input-placeholder {
-		  color:    #fff;
-		}
-		input:-moz-placeholder {
-		  color:    #fff;
-		}
-		input::-webkit-input-results {
-		  color:    #fff;
-		}
-		input:-moz-results {
-		  color:    #fff;
-		}
-		.headersearch{
-		  display: inline-block;
-		  width: 87.4666666%;
-		  height: 25px;
-		  line-height: 25px;
-		  outline-style: none;
-		  border: none;
-		  background:  #44a338;;
-		  border-radius: 6px;
-		  text-indent: 36px;
-          font-size: 12px;
+        .searchfangdaImg{
+          position: absolute;
+          top: 10px;
+          left: 4.26829268%;
+        }
+        input::-webkit-input-placeholder {
+          color:    #fff;
+        }
+        input:-moz-placeholder {
+          color:    #fff;
+        }
+        input::-webkit-input-results {
+          color:    #fff;
+        }
+        input:-moz-results {
+          color:    #fff;
+        }
+        .headersearch{
+          display: inline-block;
+          width: 87.4666666%;
+          height: 25px;
+          line-height: 25px;
+          outline-style: none;
+          border: none;
+          background: #44a338;
+          border-radius: 6px;
+          text-indent: 36px;
           color: #fff;
-		}
-		.headernews{
-		  display: inline-block;
-		  width: 6.6666%;
-		  height: 25px;
-		  position: relative;
-		}
-		.headernewsnum{
-		  position: absolute;
-		  top: 6px;
-		  left: 17px;
-		  font-size: 12px;
-		  font-weight: 400;
-		  color: #EE0A08;
-		  background: #fff;
-		  width: 14px;
-		  height: 14px;
-		  line-height: 14px;
-		  border-radius: 7px;
-		  display: none;
-		}
-		.headernimg{
-		  vertical-align: middle;
-		  margin-left: 5px;
-		  width: 20px;
-		  height: 20px;
-		}
+          font-size: 12px;
+          text-align: left;
+        }
+        .headernews{
+          display: inline-block;
+          width: 6.6666%;
+          height: 25px;
+          position: relative;
+        }
+        .headernewsnum{
+          position: absolute;
+          top: 8px;
+          left: 14px;
+          font-size: 12px;
+          font-weight: 400;
+          color: #EE0A08;
+          background: #fff;
+          width: 14px;
+          height: 14px;
+          line-height: 14px;
+          border-radius: 7px;
+        }
+        .headernimg{
+          vertical-align: middle;
+          margin-left: 5px;
+          width: 20px;
+          height: 20px;
+        }
+
+
 
         .word ul{
           width: 100%;
@@ -360,16 +363,18 @@
     </style>
   </head>
   <body>
-      <div id="content">
-          <div class="search">
-            <input  type="search" value="" placeholder="搜索" class="headersearch" />
-            <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
-            <div class="headernews">
-      		  <a href="/messages">
-      	        <img src="images/new2.png" alt="" class="headernimg" />
-      	        <span class="headernewsnum"></span>
-      		  </a>
-            </div>
+          <div class="header">
+             <div class="search">
+                <span class="headersearch">搜索</span>
+                <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
+                <div class="headernews">
+               <a href="/messages">
+                     <img src="images/new2.png" alt="" class="headernimg" />
+                     <span class="headernewsnum"></span>
+               </a>
+                </div>
+             </div>
+          </div>
           </div>
           <div class="word">
             <ul class="word-next">
@@ -446,7 +451,6 @@
                 <span><a href="/search?q=移动电源">移动电源</a></span>
             </div>
         </div>
-      </div>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/jinzhi.js"></script>
 	<script>

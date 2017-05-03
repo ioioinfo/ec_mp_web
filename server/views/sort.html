@@ -4,9 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>商品展示</title>
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="css/jinping.css">
-    <link rel="stylesheet" href="css/reset.css">
+
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/jinzhi.js"></script>
 	<script src="js/lodash.min.js" type="text/javascript"></script>
@@ -34,13 +35,17 @@
     }
 
 /*----  t  o   p-----*/
-    #content{
-    height: 100%;
-}
+
     .warp{
       position: relative;
       height: 100%;
       width: 100%;
+    }
+    /*头部搜索框*/
+  .header{
+      width: 100%;
+      /*height: 146px;*/
+      overflow: hidden;
     }
     .search{
       width: 100%;
@@ -50,6 +55,7 @@
       position: relative;
       overflow: hidden;
       text-align: center;
+      font-size: 0;
     }
 
     .searchfangdaImg{
@@ -109,6 +115,8 @@
       width: 20px;
       height: 20px;
     }
+
+
     /*-------m   a    i     n---------*/
     .main{
       position: absolute;
@@ -285,17 +293,18 @@
 </style>
 </head>
 <body>
-    <div id="content">
-        <div class="search">
-          <span class="headersearch">搜索</span>
-          <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
-          <div class="headernews">
-    	  <a href="/messages">
-    	        <img src="images/new2.png" alt="" class="headernimg" />
-    	        <span class="headernewsnum"></span>
-    	  </a>
-          </div>
-    	 </div>
+        <div class="header">
+            <div class="search">
+              <span class="headersearch">搜索</span>
+              <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
+              <div class="headernews">
+        	  <a href="/messages">
+        	        <img src="images/new2.png" alt="" class="headernimg" />
+        	        <span class="headernewsnum"></span>
+        	  </a>
+              </div>
+        	</div>
+        </div>
         <div class="warp">
     		<div class="main">
               <ul class="main-ul" >
@@ -309,12 +318,12 @@
             </div>
         </div>
         <ul class="footernav">
-        <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
-        <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
-        <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
-        <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
-        <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
-      </ul>
+            <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
+            <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
+            <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
+            <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
+            <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
+        </ul>
         <!-- 搜索弹出层 -->
         <div class="SearchCeng">
           <div class="SearchCeng_top">
@@ -335,8 +344,7 @@
               <span><a href="/search?q=礼品袋">礼品袋</a></span>
               <span><a href="/search?q=移动电源">移动电源</a></span>
           </div>
-      </div>
-    </div>
+        </div>
 	<script id="sort_infos" type="text/template">
 		<div class="main-img ">
           <img src="images/<%- parent.img_location %>" alt="">

@@ -20,7 +20,7 @@
      overflow: hidden;
      border-bottom: 1px solid #e7e7e7;
      box-shadow: 0 2px 5px #e7e7e7;
-     background: #fff;
+     background: #fafafa;
      margin-bottom: 20px;
    }
    .top .back{
@@ -74,7 +74,12 @@
      text-align: center;
      color: #333;
    }
-
+   .margin_bottom{
+       margin-bottom: 7px;
+   }
+   .thumbnail{
+       border: none;
+   }
     }
     </style>
   </head>
@@ -97,7 +102,7 @@
           return (
               <div className="top">
                 <div className="back">
-                  <a href="person_center"><img src="images/back.png" alt="" /></a>
+                  <img src="images/back.png" alt="" />
                 </div>
                 <p className="top-title">新闻</p>
                 <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
@@ -108,20 +113,43 @@
 
     // 中间新闻部分
     class NewsInfor extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state={item:{imgs:[]}};
+        }
+        componentDidMount() {
+            $.ajax({
+                 url: "/announce_view?news_id={{news_id}}",
+                 dataType: 'json',
+                 type: 'GET',
+                 success: function(data) {
+                    this.setState({item:data.rows});
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                 }.bind(this)
+            });
+        }
 
       render() {
+
           return (
               <div className="container-fluid">
               	<div className="row-fluid">
               		<div className="span12">
               					<div className="thumbnail">
-              						<img alt="300x200" src="images/activity_1.jpg" />
+                                    {this.state.item.imgs.map(item => (
+                                        <Img item={item} />))
+                                    }
               						<div className="caption">
               							<h3>
-              								新用户优惠
+              								{this.state.item.title}
               							</h3>
+                                        <h5>
+              								{this.state.item.pub_date_text}
+              							</h5>
+                                        <hr/>
               							<p>
-              								现在充值就能立享赠送活动，详情可与客服联系或到实体店咨询。
+              								{this.state.item.content}
               							</p>
                                     </div>
               					</div>
@@ -132,12 +160,30 @@
           );
       }
     };
+    // 头部
+    class Img extends React.Component {
+      render() {
+          var img = "{{image_host}}/images/"+this.props.item;
+          return (
+              <img alt="" src={img} className="margin_bottom" />
+          );
+      }
+    };
 
       // 返回到页面
       ReactDOM.render(
         <Wrap/>,
         document.getElementById("example")
       );
+    </script>
+
+    <script type="text/javascript">
+    $(function(){
+        // 返回上一层
+        $(".top .back").click(function(){
+            window.history.back();
+        })
+    })
     </script>
   </body>
 </html>

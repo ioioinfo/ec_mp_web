@@ -14,13 +14,16 @@
     <script src="js/jinzhi.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <style media="screen">
+    body{
+        background: #eee;
+    }
     .top{
      width: 100%;
      height: 47px;
      overflow: hidden;
      border-bottom: 1px solid #e7e7e7;
      box-shadow: 0 2px 5px #e7e7e7;
-     background: #fff;
+     background: #fafafa;
      margin-bottom: 20px;
    }
    .top .back{
@@ -74,8 +77,21 @@
      text-align: center;
      color: #333;
    }
+   .middle .news{
+     width: 96%;
+     margin: 0 auto 20px;
+     overflow: hidden;
+   }
+   .newsInfor{
+     background: #fff;
+     border-radius: 4px;
+     padding: 10px;
+   }
+   .newscontent{
+       overflow: hidden;
+   }
    .newsimg{
-     display: inline-block;
+     float: left;
      width: 14.444%;
      height: 48px;
    }
@@ -83,14 +99,24 @@
      width: 100%;
      height: 48px;
    }
+
+   .newsTitle{
+     float: right;
+     width: 82%;
+     vertical-align: top;
+     padding-left: 10px;
+     font-size: 14px;
+     line-height: 20px;
+     overflow:hidden;
+     text-overflow:ellipsis;
+   }
    .newsword{
-     display: inline-block;
+     float: right;
      width: 82%;
      vertical-align: top;
      padding-left: 10px;
      font-size: 12px;
      line-height: 20px;
-     height: 41px;
      overflow:hidden;
      text-overflow:ellipsis;
    }
@@ -116,10 +142,10 @@
           return (
               <div className="top">
                 <div className="back">
-                  <a href="person_center"><img src="images/back.png" alt="" /></a>
+                  <img src="images/back.png" alt="" />
                 </div>
                 <p className="top-title">新闻</p>
-                <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
+                <div className="top-right"><a href="/messages"><img src="images/news.png" alt=""/><p className="headernewsnum"></p></a></div>
               </div>
           );
       }
@@ -154,22 +180,30 @@
     };
     // 中间消息
     class News extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleClick=this.handleClick.bind(this);
+        }
+        handleClick(e){
+            location.href="news_view?news_id="+this.props.item.id;
+        }
       render() {
           var p = "";
           var imgLength = this.props.item.imgs.length;
-          var img = "images/" + this.props.item.imgs[0];
+          var img = "{{image_host}}/images/" + this.props.item.imgs[0];
           if(imgLength ==0){
               p = <p className="newsimg"><img src="images/icon.png" alt="" /></p>;
           }else {
               p =  <p className="newsimg"><img src={img} alt="" /></p>;
           }
           return (
-            <div className="news">
+            <div className="news" onClick={this.handleClick}>
               <div className="newsInfor">
-                <p className="newsTitle">{this.props.item.title}</p>
+
                 <div className="newscontent">
                   {p}
-                  <p className="newsword">{this.props.item.pub_date}</p>
+                  <p className="newsTitle">{this.props.item.title}</p>
+                  <p className="newsword">{this.props.item.pub_date_text}</p>
                 </div>
               </div>
             </div>
@@ -182,6 +216,15 @@
         <Wrap/>,
         document.getElementById("example")
       );
+    </script>
+
+    <script type="text/javascript">
+    $(function(){
+        // 返回上一层
+        $(".top .back").click(function(){
+            window.history.back();
+        })
+    })
     </script>
   </body>
 </html>
