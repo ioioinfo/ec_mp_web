@@ -595,8 +595,79 @@ var search_order_byStatus = function(person_id,status,cb){
 	url = url + person_id + "&status=" + status;
 	do_get_method(url,cb);
 }
+//发布的头条列表
+var published_headlines = function(cb){
+	var url = "http://139.196.148.40:18005/list_headline_by_platform?platform_code=ioio&state=publish";
+	do_get_method(url,cb);
+}
+//公告发布列表
+var published_announce = function(cb){
+	var url = "http://139.196.148.40:18005/list_announce_by_platform?platform_code=ioio&state=publish";
+	do_get_method(url,cb);
+}
+//公告明细
+var announce_view = function(id,cb){
+	var url = "http://139.196.148.40:18005/get_announce_by_id?platform_code=ioio&id="+id;
+	do_get_method(url,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//公告明细
+		{
+			method: 'get',
+			path: '/announce_view',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var id = request.query.news_id;
+				announce_view(id,function(err,row){
+					if (!err) {
+						return reply({"success":true,"rows":row.row});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//公告发布列表
+		{
+			method: 'get',
+			path: '/published_announce',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				published_announce(function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//头条发布列表
+		{
+			method: 'get',
+			path: '/published_headlines',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				published_headlines(function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+
+			}
+		},
 		//根据状态查询订单
 		{
 			method: 'GET',
