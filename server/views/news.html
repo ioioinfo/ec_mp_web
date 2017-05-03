@@ -4,79 +4,96 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>新闻</title>
-    <link rel="stylesheet" href="css/reset.css">
+    <title>新闻中心</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jinping.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
     <script src="js/browser.min.js"></script>
     <script src="js/jinzhi.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <style media="screen">
-    *{
-      margin: 0;
-      padding: 0;
-    }
-    .header{
-      width: 100%;
-      height: 46px;
-      font-size: 0;
-      position: relative;
-      overflow: hidden;
-      background: #FAFAFA;
-    }
-    .jiantou{
-      display: inline-block;
-      width: 32px;
-      position: absolute;
-      left: 10px;
-      top: 7px;
-    }
-    .title{
-      display:block;
-      width: 200px;
-      line-height: 46px;
-      font-size: 16px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .menu{
-      width: 32px;
-      display: inline-block;
-      position: absolute;
-      right: 10px;
-      top: 13px;
-    }
-    .title span{
-      color: #D81E06;
-    }
-      /*中间新闻内容*/
-      .newsUl{
-        width: 96%;
-        margin: 0 auto;
-      }
-      .newsLi{
-        margin: 20px auto;
-      }
-      .newsTitle{
-        width: 100%;
-        font-size: 16px;
-        color: #666;
-        font-weight: 400;
-      }
+    .top{
+     width: 100%;
+     height: 47px;
+     overflow: hidden;
+     border-bottom: 1px solid #e7e7e7;
+     box-shadow: 0 2px 5px #e7e7e7;
+     background: #fff;
+     margin-bottom: 20px;
+   }
+   .top .back{
+     width: 12.5333333%;
+     height: 47px;
+     float: left;
+     display: inline-block;
+     text-align: center;
+     line-height: 47px;
 
-      .newsTime{
-        font-size: 14px;
-        color: #666;
-        background: #fff;
-        line-height: 25px;
-      }
-      .newsWord{
-        font-size: 14px;
-        color: #666;
-        background: #fff;
-        line-height: 25px;
-      }
+   }
+   .top .back img{
+     width: 20px;
+     height: 20px;
+     vertical-align: middle;
+   }
+   .top .top-right{
+     width: 12.5333333%;
+     height: 47px;
+     float: right;
+     display: inline-block;
+     text-align: center;
+     line-height: 47px;
+     position: relative;
+   }
+   .top .top-right p{
+     display: inline-block;
+     width: 14px;
+     height: 14px;
+     line-height: 14px;
+     color: #fff;
+     position: absolute;
+     left: 25px;
+     top: 11px;
+     font-size: 12px;
+     background: #D81E06;
+     border-radius: 50%;
+     text-align: center;
+     display: none;
+   }
+   .top .top-right img{
+     width: 20px;
+     height: 20px;
+     vertical-align: middle;
+   }
+   .top .top-title{
+     float: left;
+     width: 74.93333333%;
+     height: 47px;
+     line-height: 47px;
+     text-align: center;
+     color: #333;
+   }
+   .newsimg{
+     display: inline-block;
+     width: 14.444%;
+     height: 48px;
+   }
+   .newsimg img{
+     width: 100%;
+     height: 48px;
+   }
+   .newsword{
+     display: inline-block;
+     width: 82%;
+     vertical-align: top;
+     padding-left: 10px;
+     font-size: 12px;
+     line-height: 20px;
+     height: 41px;
+     overflow:hidden;
+     text-overflow:ellipsis;
+   }
     }
     </style>
   </head>
@@ -88,7 +105,7 @@
           return (
             <div className="wrap">
               <Header/>
-              <NewsInfor/>
+              <Middle/>
             </div>
           );
       }
@@ -97,48 +114,69 @@
     class Header extends React.Component {
       render() {
           return (
-            <div className="header">
-              <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
-              <span className="title">新闻</span>
-              <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+              <div className="top">
+                <div className="back">
+                  <a href="person_center"><img src="images/back.png" alt="" /></a>
+                </div>
+                <p className="top-title">新闻</p>
+                <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
+              </div>
+          );
+      }
+    };
+    // 中间部分
+    class Middle extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state={newsitem:[]};
+        }
+        componentDidMount() {
+            $.ajax({
+                 url: "/published_announce",
+                 dataType: 'json',
+                 type: 'GET',
+                 success: function(data) {
+                    this.setState({newsitem:data.rows});
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                 }.bind(this)
+            });
+        }
+      render() {
+          return (
+            <div className="middle">
+              {this.state.newsitem.map(item => (
+                  <News item={item}/>))
+              }
+            </div>
+          );
+      }
+    };
+    // 中间消息
+    class News extends React.Component {
+      render() {
+          var p = "";
+          var imgLength = this.props.item.imgs.length;
+          var img = "images/" + this.props.item.imgs[0];
+          if(imgLength ==0){
+              p = <p className="newsimg"><img src="images/icon.png" alt="" /></p>;
+          }else {
+              p =  <p className="newsimg"><img src={img} alt="" /></p>;
+          }
+          return (
+            <div className="news">
+              <div className="newsInfor">
+                <p className="newsTitle">{this.props.item.title}</p>
+                <div className="newscontent">
+                  {p}
+                  <p className="newsword">{this.props.item.pub_date}</p>
+                </div>
+              </div>
             </div>
           );
       }
     };
 
-    // 中间新闻部分
-    class NewsInfor extends React.Component {
-      constructor(props) {
-          super(props);
-          this.state = {newsInfor: []};
-      }
-      componentDidMount() {
-        var infor = [{title:"实体店开业啦！！！",time:"2017/3/17",word:"开业啦！身份是身份额外思考法时空访客会更好开据美女健康减肥吗据哦出口拉动看来时间付款世乒赛如果快速开发示范可父母分开吗婆婆为库萨克，商品房i哦佛法僧索赔俄方派开发商破溃破发思考片刻司法考试考"}
-                    ,{title:"实体店重新开业啦！！！",time:"2017/3/17",word:"开业啦！"}
-                    ,{title:"实体店又开业啦！！！",time:"2017/3/17",word:"开业啦！"}
-                    ,{title:"实体店歇业啦！！！",time:"2017/3/17",word:"开业啦！"}
-                    ,{title:"实体店又歇业啦啦！！！",time:"2017/3/17",word:"开业啦！"}
-                    ,{title:"实体店又开业啦！！！",time:"2017/3/17",word:"开业啦！"}];
-                   this.setState({newsInfor:infor});
-      }
-      render() {
-          return (
-            <ul className="newsUl">
-            {this.state.newsInfor.map(item => (
-                <NewsInforLi item={item} />))
-            }
-            </ul>
-          );
-      }
-    };
-    // 具体新闻内容
-    class NewsInforLi extends React.Component {
-      render() {
-          return (
-            <li className="newsLi"><p className="newsTitle"><u>{this.props.item.title}</u></p><p className="newsTime">{this.props.item.time}</p><p className="newsWord">{this.props.item.word}</p></li>
-          );
-      }
-    };
       // 返回到页面
       ReactDOM.render(
         <Wrap/>,

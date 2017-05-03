@@ -77,6 +77,26 @@
         width: 65px;
         height: 25px;
       }
+      .no_product{
+          width: auto;
+          position: absolute;
+          top: 46px;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          background: #fff;
+      }
+      .no_product p{
+          height: 47px;
+          line-height: 47px;
+          text-align: center;
+      }
+      .no_product .p1{
+          margin-top: 47px;
+      }
+      .no_product .p2 a{
+          color: blue;
+      }
     }
     </style>
   </head>
@@ -91,9 +111,6 @@
 	  		var get_Cashier_data = function(cb){
 				$.get("/get_front_orders",function(data){
 					if (data.success) {
-                        if (!data.orders || data.orders =="") {
-                            location.href = "/no_small_receipt";
-                        }
 						cb({items:data.orders,selected:[]});
 					}else {
 						alert(data.message);
@@ -140,13 +157,17 @@
 			}.bind(this));
         }
         render() {
-            return (
-              <ul className="cashier">
-                {this.state.items.map(item => (
-                    <CashierLi item={item} setSelected={this.setSelected} selected={this.state.selected} />))
-                }
-              </ul>
-            );
+            if(this.state.items.length==0){
+                return(<div className="no_product"><p className="p1">暂无购买任何商品</p><p className="p2">请查看<a href="mendian_infos">附近门店</a></p></div>);
+            }else {
+                return (
+                  <ul className="cashier">
+                    {this.state.items.map(item => (
+                        <CashierLi item={item} setSelected={this.setSelected} selected={this.state.selected} />))
+                    }
+                  </ul>
+                );
+            }
         }
       };
       class CashierLi extends React.Component {
