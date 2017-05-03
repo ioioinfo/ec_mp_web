@@ -158,7 +158,7 @@
         }
         render() {
             if(this.state.items.length==0){
-                return(<div className="no_product"><p className="p1">暂无购买任何商品</p><p className="p2">请查看<a href="mendian_infos">附近门店</a></p></div>);
+                return(<div className="no_product"><p className="p1">未购买任何商品</p><p className="p2">请查看<a href="mendian_infos">附近门店</a></p></div>);
             }else {
                 return (
                   <ul className="cashier">
@@ -177,14 +177,11 @@
             d=<img src="images/yikaifapiao.png" alt="" />;
           }
 		  var href = "/order_view?order_id=" + this.props.item.order_id;
-		  var href2 = "/mendian_detail?store_id=" + this.props.item.store_id;
 	        return (
 	          <li className="cashierLi">
 			  <a href={href}>
 	            <p className="cashier-time">{this.props.item.order_date_text}</p>
-					<a href={href2}>
-	            		<p className="cashier-name">{this.props.item.org_store_name}</p>
-					</a>
+	            	<p className="cashier-name">{this.props.item.org_store_name}</p>
 	            <p className="cashier-price">￥<span className="cashier-price-color">{this.props.item.actual_price}</span></p>
 	            <p className="ok">{d}</p>
 				</a>
