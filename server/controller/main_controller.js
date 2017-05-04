@@ -570,6 +570,11 @@ var update_order_status = function(data,cb){
 	var url = "http://127.0.0.1:18010/update_order_status_pay";
 	do_post_method(url,data,cb);
 }
+//更新订单状态
+var update_recharge_status = function(data,cb){
+	var url = "http://127.0.0.1:18010/update_recharge_status";
+	do_post_method(url,data,cb);
+}
 //查询事件是否处理
 var search_deal_event = function(data,cb){
 	var url = "http://127.0.0.1:18010/search_deal_event";
@@ -583,6 +588,11 @@ var save_event = function(data,cb){
 //取消订单1
 var order_cancel = function(data,cb){
 	var url = "http://127.0.0.1:18010/order_cancel";
+	do_post_method(url,data,cb);
+}
+//充值积分
+var vip_add_amount_begin = function(data,cb){
+	var url = "http://139.196.148.40:18008/vip_add_amount_begin";
 	do_post_method(url,data,cb);
 }
 //删除订单
@@ -613,6 +623,11 @@ var announce_view = function(id,cb){
 //查询订单
 var get_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_order?order_id="+order_id;
+	do_get_method(url,cb);
+}
+//查询充值订单
+var get_recharge_order = function(order_id,cb){
+	var url = "http://127.0.0.1:18010/get_recharge_order?order_id="+order_id;
 	do_get_method(url,cb);
 }
 exports.register = function(server, options, next){
@@ -734,14 +749,8 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var order_id = request.query.order_id;
 				var data = {"order_id":order_id,"order_status":1};
-				update_order_status(data,function(err,content){
-					if (!err) {
-						return reply.view("pay_success",{"order_id":order_id});
-					}else {
-						return reply({"success":false,"message":content.message,"service_info":service_info});
-					}
-				});
 
+				return reply.view("pay_success",{"order_id":order_id});
 			}
 		},
 		//支付失败页面
@@ -771,25 +780,46 @@ exports.register = function(server, options, next){
 				if (!order_id) {
 					return reply({"success":false,"messsage":"order_id is null"});
 				}
-				get_order(order_id,function(err,rows){
-					if (!err) {
-						var order = rows.rows[0];
-						if (order.order_status==1) {
-							//付款成功  ， 可以再查一下订单
-							var url = "/pay_success?order_id="+order_id;
-							return reply({"success":true,"url":url});
-							//return reply.redirect("url");
+				var boolean = order_id.indexOf("RC");
+				if (boolean==-1) {
+					get_order(order_id,function(err,rows){
+						if (!err) {
+							var order = rows.rows[0];
+							if (order.order_status==1) {
+								//付款成功  ， 可以再查一下订单
+								var url = "/pay_success?order_id="+order_id;
+								return reply({"success":true,"url":url});
+								//return reply.redirect("url");
+							}else {
+								//没有查到处理过
+								var url = "/pay_failure?order_id="+order_id;
+								return reply({"success":true,"url":url});
+								//return reply.redirect("url");
+							}
 						}else {
-							//没有查到处理过
-							var url = "/pay_failure?order_id="+order_id;
-							return reply({"success":true,"url":url});
-							//return reply.redirect("url");
+							return reply({"success":false,"message":rows.message,"service_info":service_info});
 						}
-					}else {
-						return reply({"success":false,"message":rows.message,"service_info":service_info});
-					}
-				});
+					});
+				}else {
+					get_recharge_order(order_id,function(err,rows){
+						if (!err) {
+							var order = rows.rows[0];
+							if (order.order_status==1) {
+								var url = "/pay_success?order_id="+order_id;
 
+								return reply({"success":true,"url":url});
+								//return reply.redirect("url");
+							}else {
+								//没有查到处理过
+								var url = "/pay_failure?order_id="+order_id;
+								return reply({"success":true,"url":url});
+								//return reply.redirect("url");
+							}
+						}else {
+							return reply({"success":false,"message":rows.message,"service_info":service_info});
+						}
+					});
+				}
 			}
 		},
 
@@ -826,6 +856,10 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/receive_pay_notify',
 			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
 				var success = request.payload.success;
 				var order_id = request.payload.order_id;
 				//实际保存
@@ -847,25 +881,78 @@ exports.register = function(server, options, next){
 							});
 						}else {
 							//没处理的更新订单状态，保存事件，传阿里云进去
-							var data = {"order_id":order_id,"order_status":2};
-							//修改订单状态
-							update_order_status(data,function(err,content){
-								if (!err) {
-									//回调函数到支付宝接口
-									info.is_deal = 1;
-									save_event(info,function(err,content){
-										if (!err) {
-											//回调阿里接口
+							var data = {"order_id":order_id,"order_status":1};
+							var boolean = order_id.indexOf("RC");
+							if (boolean==-1) {
+								//修改订单状态
+								update_order_status(data,function(err,content){
+									if (!err) {
+										//回调函数到支付宝接口
+										info.is_deal = 1;
+										save_event(info,function(err,content){
+											if (!err) {
+												//回调阿里接口
 
-											return reply({"success":true,"message":"订单事件处理完"});
-										}else {
-											return reply({"success":false,"message":content.message,"service_info":service_info});
-										}
-									});
-								}else {
-									return reply({"success":false,"message":content.message,"service_info":service_info});
-								}
-							});
+												return reply({"success":true,"message":"订单事件处理完"});
+											}else {
+												return reply({"success":false,"message":content.message,"service_info":service_info});
+											}
+										});
+									}else {
+										return reply({"success":false,"message":content.message,"service_info":service_info});
+									}
+								});
+							}else {
+								//修改订单状态
+								update_recharge_status(data,function(err,content){
+									if (!err) {
+										//回调函数到支付宝接口
+										info.is_deal = 1;
+										save_event(info,function(err,content){
+											if (!err) {
+												get_recharge_order(order_id,function(err,rows){
+													if (!err) {
+														var order = rows.rows[0];
+														get_person_vip(person_id,function(err,content){
+															if (!err) {
+																var vip = content.row;
+																var payment ={
+																	"sob_id":"ioio",
+																	"address":"上海宝山",
+																	"pay_amount":order.actual_price,
+																	"effect_amount":order.marketing_price,
+																	"operator":1,
+																	"main_role_name":vip.vip_name,
+																	"main_role_id":vip.vip_id,
+																	"pay_type":order.pay_way
+																};
+																vip_add_amount_begin(payment,function(err,content){
+																	if (!err) {
+																		//回调阿里接口
+																		return reply({"success":true,"message":"订单事件处理完"});
+																	}else {
+																		return reply({"success":false,"messsage":content.messsage});
+																	}
+																});
+															}else {
+																return reply({"success":false,"messsage":content.messsage});
+															}
+														});
+
+													}else {
+														return reply({"success":false,"message":rows.message,"service_info":service_info});
+													}
+												});
+
+											}else {
+												return reply({"success":false,"message":content.message,"service_info":service_info});
+											}
+										});
+									}else {
+										return reply({"success":false,"message":content.message,"service_info":service_info});
+									}
+								});
+							}
 						}
 					}else {
 						return reply({"success":false,"message":row.message,"service_info":service_info});
@@ -1218,14 +1305,25 @@ exports.register = function(server, options, next){
 					"pay_way": pay_way,
 					"person_id": person_id
 				};
-				save_recharge_order(data,function(err,content){
+				get_recharge_campaign(activity_id,function(err,row){
 					if (!err) {
-						return reply({"success":true,"message":"ok"});
+						var rates = row.row.rates;
+						for (var i = 0; i < rates.length; i++) {
+							if (rates[i].price1 = data.actual_price) {
+								data.marketing_price = rates[i].price;
+							}
+						}
+						save_recharge_order(data,function(err,content){
+							if (!err) {
+								return reply({"success":true,"message":"ok"});
+							}else {
+								return reply({"success":false,"message":content.message});
+							}
+						});
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":row.message})
 					}
 				});
-
 			}
 		},
 		//会员充值

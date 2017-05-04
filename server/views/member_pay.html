@@ -175,7 +175,6 @@
 	<script type="text/javascript">
 		var rates = {{rates|safe}};
 		var activity_id = "{{activity_id|safe}}";
-		rates = JSON.parse(rates);
 		function get_recharge_campaign(parmas,cb){
 			cb({priceitems:rates,selected:{price:rates[0].price,price1:rates[0].price1}});
 		}
