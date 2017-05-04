@@ -1064,7 +1064,12 @@
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
 				$(".footer-right").click(function(){
 					address = {};
-					address.type = "common";
+                    if (logistics) {
+                        address.type = logistics;
+                    }else {
+                        address.type = "common";
+                    }
+                    console.log("logistics:"+logistics);
 					address.store_id = 1;
 					address.point_id = 1;
 					address.linkname =	$(".address-infor-name").data("id");
@@ -1185,7 +1190,7 @@
 				var logistics;
 		        $(".close0").click(function(){
 					$.each($('.is_selected:checkbox:checked'),function(){
-						logistics = $(this).val();
+						logistics = $(this).data("id");
 					});
 					$(".logistics_type").html(logistics);
 					$(".partone0").css("display","none");

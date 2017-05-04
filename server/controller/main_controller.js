@@ -398,6 +398,11 @@ var do_vertify = function(data,cb){
 	var url = "http://139.196.148.40:11111/api/dy_login";
 	do_post_method(url,data,cb);
 };
+//买
+var register_activity = function(data,cb){
+	var url = "http://211.149.248.241:18004/trigger/register";
+	do_post_method(url,data,cb);
+};
 //vip注册
 var do_vip = function(data, cb){
 	var url = "http://139.196.148.40:18003/vip/add_vip";
@@ -630,8 +635,39 @@ var get_recharge_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_recharge_order?order_id="+order_id;
 	do_get_method(url,cb);
 }
+//查询vip历史
+var list_vip_amount_history = function(vip_id,cb){
+	var url = "http://139.196.148.40:18008/list_vip_amount_history?sob_id=ioio&vip_id="+vip_id;
+	do_get_method(url,cb);
+}
+
 exports.register = function(server, options, next){
 	server.route([
+		//余额查询
+		{
+			method: 'get',
+			path: '/list_vip_amount_history',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				get_person_vip(person_id,function(err,content){
+					if (!err) {
+						var vip_id = content.row.vip_id;
+						list_vip_amount_history(vip_id,function(err,rows){
+							if (!err) {
+								return reply({"success":true,"rows":rows.rows});
+							}else {
+								return reply({"success":false,"message":rows.message,"service_info":service_info});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//公告明细
 		{
 			method: 'get',
@@ -3222,7 +3258,13 @@ exports.register = function(server, options, next){
 						do_vip(info,function(err,result){
 							if (true) {
 								var state = login_set_cookie(request,info.person_id);
-								return reply({"success":true,"message":"ok","service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+								register_activity({"person_id":info.person_id},function(err,content){
+									if (!err) {
+										return reply({"success":true,"message":"ok","service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+									}else {
+										return reply({"success":false,"message":content.message,"service_info":service_info});
+									}
+								});
 							}else {
 								return reply({"success":false,"message":result.message,"service_info":service_info});
 							}
