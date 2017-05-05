@@ -2329,7 +2329,7 @@ exports.register = function(server, options, next){
 								data.order_amount = total_data.total_items;
 							}
 							if (total_data.total_weight) {
-								data.weight = total_data.total_weight/1000;
+								data.weight = total_data.total_weight;
 							}
 							ep.emit("shopping_carts", shopping_carts);
 							ep.emit("products", products);
