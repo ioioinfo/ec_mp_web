@@ -1191,8 +1191,9 @@
 		        $(".close0").click(function(){
 					$.each($('.is_selected:checkbox:checked'),function(){
 						logistics = $(this).data("id");
+                        logistics_name = $(this).value;
 					});
-					$(".logistics_type").html(logistics);
+					$(".logistics_type").html(logistics_name);
 					$(".partone0").css("display","none");
 					$(".opacity").css("display","none");
 		        });

@@ -1197,7 +1197,9 @@
           </ul>
         </div>
       <div class="content0">
-        <img src="images/tuwenjieshao.png" alt="">
+         {% for img in product.mp_pictures %}
+          <img src="{{img.location}}" alt="">
+          {% endfor %}
       </div>
 
 

@@ -70,7 +70,11 @@ server.register([
         register: require('./server/utils/g.js'),
         options: require('./view_globals.js')
     },
+    {
+      register: require('./server/controller/help_controller.js')
+    },
 
+    
 ], function () {
     //Start the server
     server.start(function() {
