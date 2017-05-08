@@ -192,11 +192,11 @@
 
       }
       .footernav .footerCenter img{
-        width: 44px;
-        height: 44px;
+        width: 55px;
+        height: 55px;
         position: absolute;
-        top: -20px;
-        left: 20.66666%;
+        top: -12px;
+        left: 13.66666%;
       }
       .footernav .footerCenternext{
         width: 48px;
@@ -280,7 +280,7 @@
       }
       .homeLikeLi{
         width: 46.26666%;
-        height: 260px;
+        min-height: 250px;
         border: 1px solid #e1e4e5;
         margin-bottom: 8px;
         list-style: none;
@@ -300,18 +300,21 @@
         line-height: 18.25px;
       }
       .likeprice{
-        padding: 4px 8px;
-        font-size: 12px;
-        color: #998a81;
+          color: #f23030;
+      font-size: 13px;
+      display: block;
+      padding: 0 4px;
+      top: 1px;
+      height: 25px;
+      line-height: 25px;
+      position: relative;
       }
       .likeprice span{
         font-size: 14px;
-        color: #d3333b;
-        margin-right: 8px;
       }
       .yourLike{
         line-height: 16px;
-        color: #333;
+        color: #999;
         position: relative;
         margin: 24px 0 20px 0;
         border-bottom: 0 none;
@@ -403,7 +406,7 @@
       }
       .SearchCeng .goBack{
           display: inline-block;
-          width: 8%;
+          width: 32px;
       }
       .SearchCeng .SearchCengNo{
           margin-left: 5px;
@@ -411,7 +414,8 @@
           color: #8C898C;
       }
       .SearchCeng img{
-        width: 80%;
+        width: 20px;
+        height: 20px;
         vertical-align: middle;
       }
       .SearchCeng input{
@@ -428,6 +432,7 @@
       }
       .SearchCeng .SearchCeng_top span{
         display: inline-block;
+        text-align: left;
       }
       .SearchCeng .word{
         font-size: 12px;
@@ -504,15 +509,16 @@
         );
     }
   };
-  // 头部搜索框
+  // 轮播
   class Header extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         var items = [
-          {id:1,img:'images/htad1.jpg'}
-          ,{id:2,img:'images/htad2.jpg'}
-          ,{id:3,img:'images/htad3.jpg'}
+            {id:1,img:'images/htad1.jpg',href:'search?sort_id=009002001'}
+            ,{id:2,img:'images/htad2.jpg',href:'search?num=50&lastest=1'}
+            ,{id:3,img:'images/htad3.jpg',href:'about_us'}
+            ,{id:4,img:'images/i-00.jpg',href:'news_view?news_id=1'}
         ];
         this.state={items:items,count:0};
     }
@@ -618,12 +624,15 @@
              type: 'GET',
              success: function(data) {
                 this.setState({headlineitems:data.rows});
+                if(data.rows.length>1){
+                    setInterval(this.scroll,2800);
+                }
              }.bind(this),
              error: function(xhr, status, err) {
              }.bind(this)
         });
 
-      setInterval(this.scroll,2800);
+
     }
     scroll(){
       var liTop=$(".HomeNews li").first().css("margin-top");
@@ -764,7 +773,7 @@
           <ul className="footernav">
             <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
             <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
-            <li><a href="news"><p className="footerCenter"><img src="images/42.png" alt="" /></p><p className="footerCenternext">EVENTS</p></a></li>
+            <li><a href="news"><p className="footerCenter"><img src="images/event.png" alt="" /></p></a></li>
             <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
             <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
           </ul>
@@ -828,6 +837,7 @@
       constructor(props) {
           super(props);
           this.handleClick=this.handleClick.bind(this);
+          this.handleClick1=this.handleClick1.bind(this);
           this.onKeyPress=this.onKeyPress.bind(this);
       }
       componentDidUpdate(prevProps, prevState) {
@@ -837,6 +847,7 @@
       onKeyPress(e){
           var key = e.which;
     		if (key == 13) {
+                this.props.setSelected("0");
     			var q = encodeURI(e.target.value);
     			location.href = "/search?q="+q;
     		}
@@ -844,13 +855,15 @@
       handleClick(e){
           this.props.setSelected("0");
       }
-
+      handleClick1(e){
+           this.props.setSelected("0");
+      }
     render() {
         var Ceng = <div></div>;
         if(this.props.status=="1"){
             Ceng = (<div className="SearchCeng">
                 <div className="SearchCeng_top">
-                  <span className="goBack"><img src="images/jiantou.png" alt="" /></span>
+                  <span className="goBack" onClick={this.handleClick1}><img src="images/jiantou.png" alt="" /></span>
                   <input type="text" name="" placeholder="搜索" className="SearchCengInput" onKeyPress={this.onKeyPress} />
                   <span className="SearchCengNo" onClick={this.handleClick}>取消</span>
                 </div>

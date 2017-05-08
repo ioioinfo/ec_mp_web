@@ -587,11 +587,15 @@
       $(".SearchCengInput").keypress(function(e){
           var key = e.which;
             if (key == 13) {
+                $(".SearchCeng").hide();
                 var q = encodeURI(e.target.value);
                 location.href = "/search?q="+q;
             }
       });
       $(".SearchCeng_top_no").click(function(){
+          $(".SearchCeng").hide();
+      });
+      $(".goBack").click(function(){
           $(".SearchCeng").hide();
       })
 

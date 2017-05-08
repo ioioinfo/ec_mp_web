@@ -200,16 +200,12 @@
         justify-content: space-around;
         }
         .main-recommend-img-ul li{
-            width: 46.2666%;
-        height: 248px;
-        box-sizing: border-box;
-        padding-bottom: 4px;
-        position: relative;
-        display: block;
-        overflow: hidden;
-        margin: 5px 0;
+        width: 46.26666%;
+        min-height: 250px;
         border: 1px solid #e1e4e5;
-        border-right: none;
+        margin-bottom: 8px;
+        list-style: none;
+        font-size: 12px;
         }
         .main-recommend-img-ul li:first-child{
         padding-right: 2px;
@@ -220,30 +216,24 @@
         }
         .main-recommend-img .recommend-img-top{
         width: 100%;
-        height: 172px;
         }
         .recommend-img-top img{
         width: 100%;
         display: block;
-        height: 172px;
         border: 0;
         vertical-align: middle;
 
         }
         .recommend-img-bottom .recommend-span-top{
-        height: 33px;
-        font-size: 12px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+            font-size: 12px;
+        padding: 4px 8px;
+        color: #666;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        word-break: break-word;
-        color: #666;
-        margin-top: 5px;
-        line-height: 17px;
-        margin-bottom: 3px;
-        padding: 0 4px;
+        overflow: hidden;
+        font-weight: 400;
+        line-height: 18.25px
         }
         .recommend-img-bottom .reconmmend-span-bottom{
         color: #f23030;
@@ -257,7 +247,7 @@
 
         }
         .reconmmend-span-bottom .reconmmend-span-bottom-price{
-        font-size: 18px;
+        font-size: 14px;
         }
         .reconmmend-span-bottom .reconmmend-span-bottom-num{
         display: block;
@@ -571,11 +561,7 @@
      	   <ul class="footer-top">
      		 <li>
      			 <a href="#">
-     			{% if persons.length >0  %}
-     			 	{{persons[0].nickname}}
-     			{% else %}
-
-     	   		 {% endif %}
+     			客服:0513-81188090
      		 	</a>
      		</li>
      		 <li class="logout"><a>退出</a></li>
@@ -712,11 +698,15 @@
         $(".SearchCengInput").keypress(function(e){
             var key = e.which;
               if (key == 13) {
+                  $(".SearchCeng").hide();
                   var q = encodeURI(e.target.value);
                   location.href = "/search?q="+q;
               }
         });
         $(".SearchCeng_top_no").click(function(){
+            $(".SearchCeng").hide();
+        })
+        $(".goBack").click(function(){
             $(".SearchCeng").hide();
         })
 
