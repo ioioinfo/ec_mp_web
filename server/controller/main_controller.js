@@ -650,8 +650,79 @@ var update_return_status = function(data,cb){
 	var url = "http://127.0.0.1:18010/update_return_status";
 	do_post_method(url,data,cb);
 }
+//查询退货单列表
+var search_return_list = function(person_id,cb){
+	var url = "http://127.0.0.1:18010/search_return_list?person_id="+person_id;
+	do_get_method(url,cb);
+}
+//查询退货单列表
+var search_return_order = function(id,cb){
+	var url = "http://127.0.0.1:18010/search_return_order?id="+id;
+	do_get_method(url,cb);
+}
+//退单完成
+var finish_return_order = function(data,cb){
+	var url = "http://127.0.0.1:18010/finish_return_order";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//退单完成
+		{
+			method: 'POST',
+			path: '/finish_return_order',
+			handler: function(request, reply){
+				var id = request.payload.return_id;
+				if (!id) {
+					return reply({"success":false,"message":"param null"});
+				}
+				var data = {"id":id};
+				finish_return_order(data,function(err,row){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//查询退货单
+		{
+			method: 'GET',
+			path: '/search_return_order',
+			handler: function(request, reply){
+				var id = request.query.id;
+				if (!id) {
+					return reply({"success":false,"message":"param null"});
+				}
+				search_return_order(id,function(err,row){
+					if (!err) {
+						return reply({"success":true,"row":row.row});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//查询退货单
+		{
+			method: 'GET',
+			path: '/search_return_list',
+			handler: function(request, reply){
+				var person_id = "";
+				if (request.query.person_id) {
+					person_id = request.query.person_id;
+				}
+				search_return_list(person_id,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+
 		//退货状态修改
 		{
 			method: 'POST',

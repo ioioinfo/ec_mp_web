@@ -1258,7 +1258,7 @@
 			  <a href="/product_show?product_id=<%- product.id %>">
 				<div class="hot-img-top">
 					<% if(product.img){ %>
-					   <img src="images/<%- product.img.location %>" alt="">
+					   <img src="<%- product.img.location %>" alt="">
 				   <% }else{ %>
 					   <img src="images/no_picture.png" alt="">
 				   <% } %>
@@ -1277,7 +1277,7 @@
 			  <a href="/product_show?product_id=<%- product.id %>">
 				<div class="hot-img-top">
 					<% if(product.img){ %>
-					   <img src="images/<%- product.img.location %>" alt="">
+					   <img src="<%- product.img.location %>" alt="">
 				   <% }else{ %>
 					   <img src="images/no_picture.png" alt="">
 				   <% } %>
@@ -1323,12 +1323,13 @@
 			//推荐
 			var get_recommend_products = function(){
 				$.ajax({
-					url: "/get_recommend_products",
+					url: "/find_lastest_products",
 					dataType: 'json',
+                    data : {"num":9,"lastest":1},
 					type: 'GET',
 					success: function(data) {
 						if (data.success) {
-							var products = data.products;
+							var products = data.rows;
 							var t = _.template($("#hot-img1").html());
 							$(".hot-img1").html(t({products:products}));
 						}else {
@@ -1343,13 +1344,14 @@
 			//热销
 			var get_hot_sale_products = function(){
 				$.ajax({
-					url: "/get_hot_sale_products",
+					url: "/find_lastest_products",
 					dataType: 'json',
+                    data : {"num":9,"lastest":1},
 					type: 'GET',
 					success: function(data) {
 						if (data.success) {
 							hot_img2 = true;
-							var products = data.products;
+							var products = data.rows;
 							var t = _.template($("#hot-img2").html());
 							$(".hot-img2").html(t({products:products}));
 						}else {
@@ -1364,13 +1366,14 @@
 			//新品
 			var get_new_arrival_products = function(){
 				$.ajax({
-					url: "/get_new_arrival_products",
+					url: "/find_lastest_products",
 					dataType: 'json',
+                    data : {"num":9,"lastest":1},
 					type: 'GET',
 					success: function(data) {
 						if (data.success) {
 							hot_img3 = true;
-							var products = data.products;
+							var products = data.rows;
 							var t = _.template($("#hot-img3").html());
 							$(".hot-img3").html(t({products:products}));
 						}else {
