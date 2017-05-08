@@ -640,9 +640,102 @@ var list_vip_amount_history = function(vip_id,cb){
 	var url = "http://139.196.148.40:18008/list_vip_amount_history?sob_id=ioio&vip_id="+vip_id;
 	do_get_method(url,cb);
 }
-
+//退款申请
+var create_return_apply = function(data,cb){
+	var url = "http://127.0.0.1:18010/create_return_apply";
+	do_post_method(url,data,cb);
+}
+//更新退货状态
+var update_return_status = function(data,cb){
+	var url = "http://127.0.0.1:18010/update_return_status";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//退货状态修改
+		{
+			method: 'POST',
+			path: '/update_return_status',
+			handler: function(request, reply){
+				var id = request.payload.id;
+				var status = request.payload.status;
+				if (!id || !status) {
+					return reply({"success":false,"message":"param null"});
+				}
+				var data = {
+					"id" : id,
+					"status" : status
+				};
+				update_return_status(data, function(err,content){
+					if (!err) {
+						return reply({"success":true,"service_info":service_info});
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+		//创建退货申请单
+		{
+			method: 'POST',
+			path: '/create_return_apply',
+			handler: function(request, reply){
+				var order_id = request.payload.order_id;
+				var person_id = request.payload.person_id;
+				var product_id = request.payload.product_id;
+				var return_reason = request.payload.return_reason;
+				var number = request.payload.number;
+				var imgs = request.payload.imgs;
+				if (!order_id || !person_id || !product_id || !return_reason || !number || !imgs) {
+					return reply({"success":false,"message":"param null"});
+				}
+				var data = {
+					"order_id" : order_id,
+					"person_id" : person_id,
+					"product_id" : product_id,
+					"return_reason" : return_reason,
+					"number" : number,
+					"imgs" : imgs
+				};
+				create_return_apply(data, function(err,content){
+					if (!err) {
+						return reply({"success":true,"service_info":service_info});
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+
+		//退货按钮点击
+		{
+			method: 'get',
+			path: '/return_goods',
+			handler: function(request, reply){
+				var order_id = request.order_id;
+				if (!order_id) {
+					return reply.redirect("/chat_login");
+				}
+				//查询订单存在
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						var order = rows.rows[0];
+						if (order.order_status==6) {
+							//可以退款
+
+							return reply({"success":true,"service_info":service_info});
+						}else {
+							//没有查到处理过
+
+							return reply({"success":false,"message":"不能退货"});
+							//return reply.redirect("url");
+						}
+					}else {
+						return reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//余额查询
 		{
 			method: 'get',
@@ -2609,6 +2702,9 @@ exports.register = function(server, options, next){
 				});
 				find_person_info(person_id, function(err, content){
 					if (!err) {
+						if (!content.row) {
+							return reply.redirect("/chat_login");
+						}
 						var person_info = content.row;
 						ep.emit("person_info", person_info);
 					}else {
