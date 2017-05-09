@@ -34,6 +34,11 @@ var find_sorts = function(cb){
 	var url = "http://127.0.0.1:18016/search_sorts";
 	do_get_method(url,cb);
 };
+//历史消费
+var amount_history = function(vip_id,cb){
+	var url = "http://139.196.148.40:18008/list_vip_amount_history?sob_id=ioio&vip_id="+vip_id;
+	do_get_method(url,cb);
+};
 //查询订单
 var search_order = function(order_id,cb) {
     var url = "http://211.149.248.241:18010/search_order_infos?order_id="+order_id;
@@ -610,6 +615,11 @@ var search_order_byStatus = function(person_id,status,cb){
 	url = url + person_id + "&status=" + status;
 	do_get_method(url,cb);
 }
+//发货时间
+var delivery_time_by_order = function(order_id,cb){
+	var url = "http://211.149.248.241:18013/logistics/delivery_time_by_order?org_code=ioio&order_id="+order_id;
+	do_get_method(url,cb);
+}
 //发布的头条列表
 var published_headlines = function(cb){
 	var url = "http://139.196.148.40:18005/list_headline_by_platform?platform_code=ioio&state=publish";
@@ -967,6 +977,26 @@ exports.register = function(server, options, next){
 				var data = {"order_id":order_id,"order_status":1};
 
 				return reply.view("pay_success",{"order_id":order_id});
+			}
+		},
+		//历史消费
+		{
+			method: 'GET',
+			path: '/amount_history',
+			handler: function(request, reply){
+				var vip_id = request.query.vip_id;
+				if (!vip_id) {
+					return reply({"success":false,"message":"vip_id is null"});
+				}
+				amount_history(vip_id,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message});
+					}
+				})
+
+
 			}
 		},
 		//支付失败页面
@@ -2797,9 +2827,10 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				var ep =  eventproxy.create("persons","personsVip","person_info",
-					function(persons,personsVip,person_info){
-					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info});
+				var ep =  eventproxy.create("persons","personsVip","person_info","person",
+					function(persons,personsVip,person_info,person){
+						console.log("person:"+JSON.stringify(person));
+					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
 				var person_ids = [person_id];
 				console.log("person_ids:"+person_id);
@@ -2828,6 +2859,14 @@ exports.register = function(server, options, next){
 						ep.emit("person_info", person_info);
 					}else {
 						ep.emit("person_info", []);
+					}
+				});
+				get_person_vip(person_id, function(err, content){
+					if (!err) {
+						var person = content.row;
+						ep.emit("person", person);
+					}else {
+						ep.emit("person", []);
 					}
 				});
 			}
@@ -3338,13 +3377,12 @@ exports.register = function(server, options, next){
 				}
 				var order_id = request.query.order_id;
 
-				var ep =  eventproxy.create("order","details","products","logistics_info","invoices",
-					function(order,details,products,logistics_info,invoices){
+				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time",function(order,details,products,logistics_info,invoices,delivery_time){
 						var invoices_map = {};
 						for (var i = 0; i < invoices.length; i++) {
 							invoices_map[invoices[i].order_id] = invoices[i];
 						}
-					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map});
+					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time});
 				});
 
 				get_ec_order(order_id,function(err,results){
@@ -3372,6 +3410,17 @@ exports.register = function(server, options, next){
 						ep.emit("invoices", results.rows);
 					}else {
 						ep.emit("invoices", []);
+					}
+				});
+				delivery_time_by_order(order_id,function(err,row){
+					if (!err) {
+						if (row.success) {
+							ep.emit("delivery_time", row.delivery_time);
+						}else {
+							ep.emit("delivery_time", "还没发货");
+						}
+					}else {
+						ep.emit("delivery_time", "还没发货");
 					}
 				});
 			}
