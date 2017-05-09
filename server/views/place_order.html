@@ -880,7 +880,7 @@
           <div class="middle">
             <div class="middle-shouhuoren middle-shouhuoren1">
               <span class="span1">所在地区</span>
-              <p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+              <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
     		  <div class="address_seclect" >
                   <table name="shareip">
                    <select class="select" name="province" id="s1">
@@ -900,7 +900,7 @@
           </div>
           <div class="middle">
             <div class="middle-shouhuoren">
-              <span class="span1">街道</span><p><span class="span2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
+              <span class="span1">街道</span><p><span class="span2 clear_ad2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
             </div>
           </div>
           <div class="middle">
@@ -1269,6 +1269,9 @@
                     $(".linkname").val("");
                     $(".mobile").val("");
                     $(".detail_address").val("");
+                    $(".street-address").val("");
+                    $(".clear_ad1").html("请选择");
+
                   }
               });
           });
