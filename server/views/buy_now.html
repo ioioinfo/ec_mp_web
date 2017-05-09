@@ -841,7 +841,7 @@
         			</div>
         			<div class="product-infor-middle">
         			  <p class="p1">{{product.product_name}}</p>
-        			  <p class="p2"><span class="p2-span1">￥{{product.product_sale_price}}</span><span class="p2-span2">x{{total_data.total_items}}</span></p>
+        			  <p class="p2"><span class="p2-span1">￥{{product.product_sale_price}}</span><span class="p2-span2">x{{total_data2.total_items}}</span></p>
         			</div>
         		  </div>
         		</div>
@@ -863,11 +863,11 @@
         		<div class="min-line"></div>
         		<div class="invoice">
         		  <span class="public-name">商品金额</span>
-        		  <p class="add-num"><span class="red">￥{{total_data.total_prices}}</span></span></p>
+        		  <p class="add-num"><span class="red">￥{{total_data2.total_prices}}</span></span></p>
         		</div>
         		<div class="invoice">
         		  <span class="public-name">运费</span>
-        		  <p class="add-num"><span class="invoice_color">￥{{total_data.lgtic_pay or 150}}</span><span class="img"></span></p>
+        		  <p class="add-num"><span class="invoice_color">￥{{total_data2.lgtic_pay or 150}}</span><span class="img"></span></p>
         		</div>
         		<div class="min-line"></div>
         		<div class="leave">
@@ -877,10 +877,10 @@
         		<div style="width:100%;height:68px;background:#fff;"></div>
         		<div class="footer">
         	      <div class="footer-left">
-        	        <span>共x{{total_data.total_items}}件</span>
+        	        <span>共x{{total_data2.total_items}}件</span>
         	      </div>
         	      <div class="footer-center">
-        	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"> {% if total_data.lgtic_pay %} {{total_data.total_prices+total_data.lgtic_pay}} {% else %} {{total_data.total_prices+150}} {% endif %}</span></p>
+        	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2 total_ps">{{total_data2.total_prices+total_data2.lgtic_pay}}</span></p>
 
         	      </div>
 
@@ -896,7 +896,8 @@
         	      <p class="partone-p">
         			  <span>{{logistics.name}}</span>
         			  <span>
-        				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" data-id="{{logistics.id}}">
+        				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected"
+                          data-id="{{logistics.id}}" id="logistics{{loop.index}}" data-num="{{loop.index}}">
         			  </span>
         		  </p>
         	  {% endfor %}
@@ -942,7 +943,7 @@
               <div class="middle">
                 <div class="middle-shouhuoren middle-shouhuoren1">
                   <span class="span1">所在地区</span>
-                  <p><span class="span2">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+                  <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
         		  <div class="address_seclect" >
                       <table name="shareip">
                        <select class="select" name="province" id="s1">
@@ -994,10 +995,10 @@
 	<script src="js/lodash.min.js" type="text/javascript"></script>
 	<script id="change_address_infos" type="text/template">
 		<p>更换地址</p>
-		<% _.forEach(addresses, function(address) {  %>
+		<% _.forEach(addresses, function(address,index) {  %>
 			<p class="partone-p partone3-p">
 			  <span><%- address.detail_address %> &nbsp;<%- address.mobile %>&nbsp;<%- address.linkname %></span><span>
-			  	<input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" class="selected" <% if(selected && selected.address_id==address.address_id){ %>checked<% } %>></span>
+			  	<input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" data-num="<%- index %>" id="address<%- index %>" class="selected" <% if(selected && selected.address_id==address.address_id){ %>checked<% } %>></span>
 			</p>
 		<% }); %>
 		<p class="partone-p partone3-p" style="height:37px;">
@@ -1045,6 +1046,9 @@
         // 地区选择
 		$(function() {
 			var sku_id ="{{sku_id|safe}}";
+            var logistics = "common";
+            var state = 0;
+            var logistics_name = "普通快递";
 			var address = {
 				"linkname"     : "",
 				"mobile"   : "",
@@ -1053,13 +1057,14 @@
 				"city"	   : "",
 				"district" : ""
 			};
+            var total_data = {{total_data|safe}};
 			var addresses = {{addresses|safe}};
 			for (var i = 0; i < addresses.length; i++) {
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
 				}
 			}
-			var state = 0;
+
 			var place_order = function(){
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({address:address}));
@@ -1074,52 +1079,7 @@
 					  $(".opacity").css("display","block");
 					  $(".new-address").css("display","block");
 					});
-					$(".save_address").click(function(){
-						if (state == 1) {
-							return;
-						}
-					  // $(".opacity").css("display","none");
-					  var data = {};
-					  data.linkname = $(".linkname").val();
-					  data.mobile = $(".mobile").val();
-					  data.alias = "";
-					  data.detail_address = $(".detail_address").val();
-					  data.province = document.getElementById('s1').value;
-					  data.city = document.getElementById('s2').value;
-					  data.district = document.getElementById('s3').value;
-					  	if (!data.linkname) {
-						  	alert("收货人必填！")
-							state = 0;
-							return;
-					  	}else if (!data.mobile) {
-				  			alert("电话必填！")
-							state = 0;
-							return;
-						}else if (!data.detail_address) {
-							alert("详细地址必填！")
-							state = 0;
-							return;
-						}
-					  if($(".is_default").is(":checked")){
-						  data.is_default = 1;
-					  }
-                      state = 1;
-					  $.get("/new_address",{info:JSON.stringify(data)},function(content){
-						  	state = 0;
-						  if (content.success) {
-							  data.address_id = content.address_id;
-							  addresses.push(data);
-							  address = data;
-							  place_order();
-						  	$(".new-address").css("display","none");
-						  	$(".partone3").css("display","none");
-  							$(".opacity").css("display","none");
-							$(".linkname").val("");
-							$(".mobile").val("");
-							$(".detail_address").val("");
-						  }
-					  });
-					})
+
 					$(".cancel_new").click(function(){
 						$(".tanchuceng").css("display","none");
 			            $(".new-address").css("display","none");
@@ -1146,29 +1106,22 @@
 					});
 					//selected选中事件
 					$(".selected").click(function(){
-						$(".selected").not($(this)).removeAttr("checked");
+                        var id = $(this).data("num");
+                        for(var i=0,el;el=document.getElementById("address"+i);i++){
+                            if (id != i) {
+                                el.checked = false;
+                            }
+                        }
 					});
 		        });
 			}
 			place_order();
 			$(".footer-right").click(function(){
-				address = {};
-				address.type = "common";
-				address.store_id = 1;
-				address.point_id = 1;
-				address.linkname =	$(".address-infor-name").data("id");
-				address.mobile = $(".address-infor-mobile").data("id");
-				address.detail_address = $(".address-infor-address").data("id");
-				address.province = $(".address_province").val();
-				address.city = $(".address_city").val();
-				address.district = $(".address_province").val();
-				var send_seller = $("#send_seller").val();
-				if (!address.detail_address) {
-					alert("没有地址！");
-				}
-				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
+				set_address();
+                var send_seller = $("#send_seller").val();
+				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {
-						location.href = "/pay_way";
+						location.href = "/pay_way?order_id="+data.order_id;
 					}else {
 						alert(data.message);
 					}
@@ -1182,16 +1135,21 @@
 			});
 
 			$(".is_selected").click(function(){
-				$(".is_selected").not($(this)).removeAttr("checked");
+                var id = $(this).data("num");
+                for(var i=1,el;el=document.getElementById("logistics"+i);i++){
+                    if (id != i) {
+                        el.checked = false;
+                    }
+                }
 			});
-			var logistics;
 			$(".close0").click(function(){
-				$.each($('.is_selected:checkbox:checked'),function(){
-					logistics = $(this).val();
-				});
-				$(".logistics_type").html(logistics);
-				$(".partone0").css("display","none");
-				$(".opacity").css("display","none");
+                $.each($('.is_selected:checkbox:checked'),function(){
+                    logistics = $(this).data("id");
+                    logistics_name = $(this).val();
+                });
+                $(".logistics_type").html(logistics_name);
+                set_address();
+                logistics_payment();
 			});
 			//运费险
 			$(".click2").click(function(){
@@ -1219,7 +1177,105 @@
 			  $(".partone3").css("display","none");
 			  $(".opacity").css("display","none");
 			});
-		});
+            //保存新建地址
+            $(".save_address").click(function(){
+                if (state == 1) {
+                    return;
+                }
+              // $(".opacity").css("display","none");
+              var data = {};
+              data.linkname = $(".linkname").val();
+              data.mobile = $(".mobile").val();
+              data.alias = "";
+              data.detail_address = $(".detail_address").val();
+              data.province = document.getElementById('s1').value;
+              data.city = document.getElementById('s2').value;
+              data.district = document.getElementById('s3').value;
+                if (!data.linkname) {
+                    alert("收货人必填！")
+                    state = 0;
+                    return;
+                }else if (!data.mobile) {
+                    alert("电话必填！")
+                    state = 0;
+                    return;
+                }else if (!data.detail_address) {
+                    alert("详细地址必填！")
+                    state = 0;
+                    return;
+                }
+              if($(".is_default").is(":checked")){
+                  data.is_default = 1;
+              }
+              state = 1;
+              $.get("/new_address",{info:JSON.stringify(data)},function(content){
+                    state = 0;
+                      if (content.success) {
+                          data.address_id = content.address_id;
+                          addresses.push(data);
+                          address = data;
+                          place_order();
+                        $(".new-address").css("display","none");
+                        $(".partone3").css("display","none");
+                        $(".opacity").css("display","none");
+                        $(".linkname").val("");
+                        $(".mobile").val("");
+                        $(".detail_address").val("");
+                        $(".street-address").val("");
+                        $(".clear_ad1").html("请选择");
+                      }
+                  });
+              });
+             //计算运费
+             var logistics_payment = function(){
+                  var info = {
+                      "type" : address.type,
+                      "store_id" : address.store_id,
+                      "point_id" : address.point_id = 1,
+                      "weight" : total_data.total_weight,
+                      "order_amount" : total_data.total_items,
+                      "end_province" :address.province,
+                      "end_city" : address.city,
+                      "end_district" : address.district
+                  };
+                  $.post("/logistics_payment",{"info":JSON.stringify(info)},function(data){
+                      if (data.success) {
+                          total_data.lgtic_pay = data.lgtic_pay;
+                          console.log(total_data.lgtic_pay);
+                          $(".invoice_color").html(total_data.lgtic_pay);
+                          $(".total_ps").html(total_data.lgtic_pay+total_data.total_prices)
+                          $(".partone0").css("display","none");
+                          $(".opacity").css("display","none");
+
+                      }else {
+                          $(".partone0").css("display","none");
+                          $(".opacity").css("display","none");
+                      }
+                  });
+              };
+             //保存地址
+             var set_address = function(){
+                 address = {};
+                 if (logistics) {
+                     address.type = logistics;
+                 }else {
+                     address.type = "common";
+                 }
+                 address.store_id = 1;
+                 address.point_id = 1;
+                 address.linkname =	$(".address-infor-name").data("id");
+                 address.mobile = $(".address-infor-mobile").data("id");
+                 address.detail_address = $(".address-infor-address").data("id");
+                 address.province = $(".address_province").val();
+                 address.city = $(".address_city").val();
+                 address.district = $(".address_province").val();
+                 if (!address.detail_address) {
+                     alert("没有地址！");
+                 }
+             };
+
+
+    	});
 	</script>
 
   <!-- 省市区三级联动 -->

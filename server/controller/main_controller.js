@@ -2523,7 +2523,6 @@ exports.register = function(server, options, next){
 					"end_province" :"广东省" ,
 					"end_city" : "",
 					"end_district" : ""
-
 				};
 				search_selected_carts(person_id,ids,function(err,results){
 					if (!err) {
@@ -2629,10 +2628,10 @@ exports.register = function(server, options, next){
 								}else {
 									total_data.lgtic_pay = lgtic_pay;
 								}
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
 							}else {
 								total_data.lgtic_pay = 150;
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type,"sku_id":sku_id});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
 							}
 						});
 				});
@@ -2657,7 +2656,7 @@ exports.register = function(server, options, next){
 							"total_weight" : parseInt(num)*product.weight
 						};
 						if (total_data.total_weight) {
-							data.weight = total_data.total_weight/1000;
+							data.weight = total_data.total_weight;
 						}
 						ep.emit("product", product);
 						ep.emit("total_data", total_data);
@@ -2782,7 +2781,7 @@ exports.register = function(server, options, next){
 				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id,"sku_id":sku_id};
 				save_fast_order_infos(data,function(err,content){
 					if (!err) {
-						return reply({"success":true,"message":"ok"});
+						return reply({"success":true,"message":"ok","order_id":content.order_id});
 					}else {
 						return reply({"success":false,"message":content.message});
 					}
@@ -2859,7 +2858,7 @@ exports.register = function(server, options, next){
 					if (!err) {
 						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows)});
 					}else {
-						return reply({"success":false,"message":content.message})
+						return reply({"success":false,"message":rows.message})
 					}
 				});
 			}
