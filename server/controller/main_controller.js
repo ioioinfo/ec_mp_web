@@ -2476,6 +2476,9 @@ exports.register = function(server, options, next){
 				logistics_payment(info,function(err,result){
 					if (!err) {
 						var lgtic_pay = result.row.user_amount;
+						if (!lgtic_pay && lgtic_pay!=0) {
+							lgtic_pay = 150;
+						}
 						return reply({"success":true,"lgtic_pay":lgtic_pay});
 					}else {
 						return reply({"success":false,"message":result.message,"service_info":result.service_info});
@@ -2497,7 +2500,12 @@ exports.register = function(server, options, next){
 					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
 						logistics_payment(data,function(err,result){
 							if (!err) {
-								total_data.lgtic_pay = result.row.user_amount;
+								var lgtic_pay = result.row.user_amount;
+								if (!lgtic_pay && lgtic_pay!=0) {
+									lgtic_pay = 150;
+								}else {
+									total_data.lgtic_pay = lgtic_pay;
+								}
 								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type});
 							}else {
 								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
@@ -2613,7 +2621,12 @@ exports.register = function(server, options, next){
 					function(product,addresses,invoices,total_data,jifen,logistics_type,sku_id){
 						logistics_payment(data,function(err,result){
 							if (!err) {
-								total_data.lgtic_pay = result.row.user_amount;
+								var lgtic_pay = result.row.user_amount;
+								if (!lgtic_pay && lgtic_pay!=0) {
+									lgtic_pay = 150;
+								}else {
+									total_data.lgtic_pay = lgtic_pay;
+								}
 								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id});
 							}else {
 								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type,"sku_id":sku_id});

@@ -1011,7 +1011,7 @@
 		</div>
 		<div class="invoice">
 		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="invoice_color">￥<%- total_data.lgtic_pay || 150 %></span><span class="img"></span></p>
+		  <p class="add-num"><span class="invoice_color">￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="leave">
@@ -1025,7 +1025,7 @@
 	        <span>共x<%- total_data.total_items %>件</span>
 	      </div>
 	      <div class="footer-center">
-	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay || total_data.total_prices+150 %> </span></p>
+	        <p class="footer-center-top"><span class="footer-span1">合计：</span><span class="footer-span2">￥</span><span class="footer-span2"><%- total_data.total_prices+total_data.lgtic_pay %> </span></p>
 
 	      </div>
 
@@ -1045,6 +1045,7 @@
 				"district" : ""
 			};
             var logistics = "common";
+            var state = 0;
             var logistics_name = "普通快递";
 			var jifen = {{jifen||0}};
 			var shopping_carts = {{shopping_carts|safe}};
@@ -1071,98 +1072,7 @@
 						}
 					});
 				});
-				//地址选择
-				var state = 0;
-				$(".address").click(function(){
-					var t = _.template($("#change_address_infos").html());
-					$("#change_address").html(t({addresses:addresses,selected:address}));
-					$(".partone3").css("display","block");
-					$(".opacity").css("display","block");
-					$(".submit1").click(function(){
-					  $(".partone3").animate({bottom:"-375px"},300);
-					  $(".opacity").css("display","block");
-					  $(".new-address").css("display","block");
-					});
-					$(".save_address").click(function(){
-					  // $(".opacity").css("display","none");
-					  if (state == 1) {
-					  		return;
-					  }
-					  var data = {};
-					  data.linkname = $(".linkname").val();
-					  data.mobile = $(".mobile").val();
-					  data.alias = "";
-					  data.detail_address = $(".detail_address").val();
-					  data.province = document.getElementById('s1').value;
-					  data.city = document.getElementById('s2').value;
-					  data.district = document.getElementById('s3').value;
-					  	if (!data.linkname) {
-						  	alert("收货人必填！");
-							state = 0;
-							return;
-					  	}else if (!data.mobile) {
-				  			alert("电话必填！");
-							state = 0;
-							return;
-						}else if (!data.detail_address) {
-							alert("详细地址必填！");
-							state = 0;
-							return;
-						}
-					  if($(".is_default").is(":checked")){
-						  data.is_default = 1;
-					  }
-                      state = 1;
-					  $.get("/new_address",{info:JSON.stringify(data)},function(content){
-						  state = 0;
-						  if (content.success) {
-							  data.address_id = content.address_id;
-							  addresses.push(data);
-							  address = data;
-							  place_order();
-						  	$(".new-address").css("display","none");
-						  	$(".partone3").css("display","none");
-  							$(".opacity").css("display","none");
-							$(".linkname").val("");
-							$(".mobile").val("");
-							$(".detail_address").val("");
-						  }
-					  });
-					})
-					$(".cancel_new").click(function(){
-						$(".tanchuceng").css("display","none");
-			            $(".new-address").css("display","none");
-					});
-					//确认
-					$(".close3 .submit2").click(function(){
-						$(".partone3").css("display","none");
-						$(".opacity").css("display","none");
-						var address_id;
-						$.each($('.selected:checkbox:checked'),function(){
-							address_id = $(this).data("id");
-						});
-						if (address_id) {
-							if (address.address_id == address_id) {
-								return;
-							}
-							for (var i = 0; i < addresses.length; i++) {
-								if (addresses[i].address_id == address_id) {
-									address = addresses[i];
-									place_order();
-								}
-							}
-						}
-					});
-					//selected选中事件
-					$(".selected").click(function(){
-                        var id = $(this).data("num");
-                        for(var i=0,el;el=document.getElementById("address"+i);i++){
-                            if (id != i) {
-                                el.checked = false;
-                            }
-                        }
-					});
-		        });
+
 				//配送方式
 				$(".opacity").css("height",$(document).height());
 		        $(".click1").click(function(){
@@ -1178,16 +1088,7 @@
                         }
                     }
 				});
-		        $(".close0").click(function(){
-					$.each($('.is_selected:checkbox:checked'),function(){
-						logistics = $(this).data("id");
-                        logistics_name = $(this).val();
-					});
-					$(".logistics_type").html(logistics_name);
-                    set_address();
-                    logistics_payment();
 
-		        });
 				//运费险
 				$(".click2").click(function(){
 				  $(".partone1").css("display","block");
@@ -1220,6 +1121,55 @@
                 $(".head .jiantou").click(function(){
                     window.history.back();
                 })
+                //点击地址
+
+                $(".address").click(function(){
+                    var t = _.template($("#change_address_infos").html());
+                    $("#change_address").html(t({addresses:addresses,selected:address}));
+                    $(".partone3").css("display","block");
+                    $(".opacity").css("display","block");
+                    $(".submit1").click(function(){
+                      $(".partone3").animate({bottom:"-375px"},300);
+                      $(".opacity").css("display","block");
+                      $(".new-address").css("display","block");
+                    });
+
+                    $(".cancel_new").click(function(){
+                        $(".tanchuceng").css("display","none");
+                        $(".new-address").css("display","none");
+                    });
+                    //确认
+                    $(".close3 .submit2").click(function(){
+                        $(".partone3").css("display","none");
+                        $(".opacity").css("display","none");
+                        var address_id;
+                        $.each($('.selected:checkbox:checked'),function(){
+                            address_id = $(this).data("id");
+                        });
+                        if (address_id) {
+                            if (address.address_id == address_id) {
+                                return;
+                            }
+                            for (var i = 0; i < addresses.length; i++) {
+                                if (addresses[i].address_id == address_id) {
+                                    address = addresses[i];
+                                    place_order();
+                                }
+                            }
+                        }
+                    });
+
+                    //selected选中事件
+                    $(".selected").click(function(){
+                        var id = $(this).data("num");
+                        for(var i=0,el;el=document.getElementById("address"+i);i++){
+                            if (id != i) {
+                                el.checked = false;
+                            }
+                        }
+                    });
+                });
+
 			}
 			place_order();
             var set_address = function(){
@@ -1255,7 +1205,6 @@
                 $.post("/logistics_payment",{"info":JSON.stringify(info)},function(data){
                     if (data.success) {
                         total_data.lgtic_pay = data.lgtic_pay;
-                        console.log(data.lgtic_pay);
                         $(".partone0").css("display","none");
                         $(".opacity").css("display","none");
                         place_order();
@@ -1265,6 +1214,65 @@
                     }
                 });
             };
+            //确认按钮
+            $(".close0").click(function(){
+                $.each($('.is_selected:checkbox:checked'),function(){
+                    logistics = $(this).data("id");
+                    logistics_name = $(this).val();
+                });
+                $(".logistics_type").html(logistics_name);
+                set_address();
+                logistics_payment();
+            });
+
+            //保存地址
+            $(".save_address").click(function(){
+              // $(".opacity").css("display","none");
+              if (state == 1) {
+                    return;
+              }
+              var data = {};
+              data.linkname = $(".linkname").val();
+              data.mobile = $(".mobile").val();
+              data.alias = "";
+              data.detail_address = $(".detail_address").val();
+              data.province = document.getElementById('s1').value;
+              data.city = document.getElementById('s2').value;
+              data.district = document.getElementById('s3').value;
+                if (!data.linkname) {
+                    alert("收货人必填！");
+                    state = 0;
+                    return;
+                }else if (!data.mobile) {
+                    alert("电话必填！");
+                    state = 0;
+                    return;
+                }else if (!data.detail_address) {
+                    alert("详细地址必填！");
+                    state = 0;
+                    return;
+                }
+              if($(".is_default").is(":checked")){
+                  data.is_default = 1;
+              }
+              state = 1;
+              $.get("/new_address",{info:JSON.stringify(data)},function(content){
+                  state = 0;
+                  if (content.success) {
+                      data.address_id = content.address_id;
+                      addresses.push(data);
+                      address = data;
+                      place_order();
+                    $(".new-address").css("display","none");
+                    $(".partone3").css("display","none");
+                    $(".opacity").css("display","none");
+                    $(".linkname").val("");
+                    $(".mobile").val("");
+                    $(".detail_address").val("");
+                  }
+              });
+          });
+
     	});
 	</script>
 	<!-- 发票弹出层 -->
