@@ -2755,7 +2755,7 @@ exports.register = function(server, options, next){
 				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts,"send_seller":send_seller,"address":address};
 				save_order_infos(data,function(err,content){
 					if (!err) {
-						return reply({"success":true,"message":"ok"});
+						return reply({"success":true,"order_id":content.order_id,"message":"ok"});
 					}else {
 						return reply({"success":false,"message":content.message});
 					}
@@ -2854,7 +2854,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/pay_way',
 			handler: function(request, reply){
-				return reply.view("pay_way");
+				var order_id = request.query.order_id;
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows)});
+					}else {
+						return reply({"success":false,"message":content.message})
+					}
+				});
 			}
 		},
 		//充值成功页面
