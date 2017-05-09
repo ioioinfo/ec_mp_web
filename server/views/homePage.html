@@ -8,890 +8,471 @@
     <link rel="stylesheet" href="css/jinping.css">
     <link rel="stylesheet" href="css/reset.css">
     <style media="screen">
-      @media screen and (max-width:640px){
-      *{
-          padding: 0;
-          margin: 0;
+    @media screen and (max-width:640px){
+        *{
+            padding: 0;
+            margin: 0;
         }
         html,body{
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-          position: relative;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
         a{
-          text-decoration: none;
-          color: #999;
+            text-decoration: none;
+            color: #999;
         }
         /*头部搜索框*/
-      .header{
-          width: 100%;
-          /*height: 146px;*/
-          overflow: hidden;
+        .header{
+            width: 100%;
+            /*height: 146px;*/
+            overflow: hidden;
         }
         .search{
-          width: 100%;
-          height:36px;
-          line-height: 36px;
-          background: rgb(112,180,44);
-          position: relative;
-          overflow: hidden;
-          text-align: center;
+            width: 100%;
+            height:36px;
+            line-height: 36px;
+            background: rgb(112,180,44);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
         }
 
         .searchfangdaImg{
-          position: absolute;
-          top: 10px;
-          left: 4.26829268%;
+            position: absolute;
+            top: 10px;
+            left: 4.26829268%;
         }
         input::-webkit-input-placeholder {
-          color:    #fff;
+            color:    #fff;
         }
         input:-moz-placeholder {
-          color:    #fff;
+            color:    #fff;
         }
         input::-webkit-input-results {
-          color:    #fff;
+            color:    #fff;
         }
         input:-moz-results {
-          color:    #fff;
+            color:    #fff;
         }
         .headersearch{
-          display: inline-block;
-          width: 87.4666666%;
-          height: 25px;
-          line-height: 25px;
-          outline-style: none;
-          border: none;
-		  background: #44a338;
-          border-radius: 6px;
-          text-indent: 36px;
-          vertical-align: middle;
-          color: #fff;
-          font-size: 12px;
-          text-align: left;
+            display: inline-block;
+            width: 87.4666666%;
+            height: 25px;
+            line-height: 25px;
+            outline-style: none;
+            border: none;
+            background: #44a338;
+            border-radius: 6px;
+            text-indent: 36px;
+            vertical-align: middle;
+            color: #fff;
+            font-size: 12px;
+            text-align: left;
         }
         .headernews{
-          display: inline-block;
-          width: 6.6666%;
-          height: 25px;
-          position: relative;
+            display: inline-block;
+            width: 6.6666%;
+            height: 25px;
+            position: relative;
         }
         .headernewsnum{
-          position: absolute;
-          top: 8px;
-          left: 14px;
-          font-size: 12px;
-          font-weight: 400;
-          color: #EE0A08;
-          background: #fff;
-          width: 14px;
-          height: 14px;
-          line-height: 14px;
-          border-radius: 7px;
+            position: absolute;
+            top: 8px;
+            left: 14px;
+            font-size: 12px;
+            font-weight: 400;
+            color: #EE0A08;
+            background: #fff;
+            width: 14px;
+            height: 14px;
+            line-height: 14px;
+            border-radius: 7px;
         }
         .headernimg{
-          vertical-align: middle;
-          margin-left: 5px;
-          width: 20px;
-          height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+            width: 20px;
+            height: 20px;
         }
 
 
         /*轮播*/
         .lunbo{
-          width: 375px;
-          height: 117px;
-          overflow: hidden;
-          position: relative;
+            width: 375px;
+            height: 117px;
+            overflow: hidden;
+            position: relative;
         }
         .lunbo_ul{
-          /*width: 1500px;*/
-          box-sizing: border-box;
-          overflow: hidden;
-          border: none;
+            /*width: 1500px;*/
+            box-sizing: border-box;
+            overflow: hidden;
+            border: none;
         }
         .lunbo_ul_one{
-          position: absolute;
-          left: 0;
-          top: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
         }
         .lunbo_ul_two{
-          position: absolute;
-          /*left: -1500px;*/
-          top: 0;
+            position: absolute;
+            /*left: -1500px;*/
+            top: 0;
         }
         .lunbo li{
-          width: 375px;
-          height: 117px;
-          list-style: none;
-          float: left;
+            width: 375px;
+            height: 117px;
+            list-style: none;
+            float: left;
 
         }
         .lunbo li img{
-          width: 375px;
-          height: 117px;
+            width: 375px;
+            height: 117px;
         }
         .lunbo_dian{
-          width: 100%;
-          text-align: center;
-          position: absolute;
-          bottom: 8px;
-          left: 0;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 8px;
+            left: 0;
         }
         .lunbo_dian span{
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          border: 2px solid #3DB21F;
-          margin: 0 4px;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid #3DB21F;
+            margin: 0 4px;
 
         }
         .lunbo_dian span.on{
-          background: #fff;
+            background: #fff;
         }
 
-      /*中间部分*/
-      .shouyemainimg{
-        width: 100%;
+        /*中间部分*/
+        .shouyemainimg{
+            width: 100%;
 
-      }
-      /*底部导航*/
-      .footernav{
-        width: 100%;
-        height: 42px;
-        display: flex;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border-top: 1px solid #eee;
-      }
-      .footernav li{
-        width: 20%;
-        height:42px;
-        box-sizing: border-box;
-        list-style: none;
-        text-align: center;
-        font-size: 14px;
-        position: relative;
-      }
-      .footernav li p img{
-        width: 22px;
-        height: 22px;
-      }
-      .footernav li:first-child a{
-        color: #d81e06;
-      }
-      .footerCenter{
+        }
+        /*底部导航*/
+        .footernav{
+            width: 100%;
+            height: 42px;
+            display: flex;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+        .footernav li{
+            width: 20%;
+            height:42px;
+            box-sizing: border-box;
+            list-style: none;
+            text-align: center;
+            font-size: 14px;
+            position: relative;
+        }
+        .footernav li p img{
+            width: 22px;
+            height: 22px;
+        }
+        .footernav li:first-child a{
+            color: #d81e06;
+        }
+        .footerCenter{
 
-      }
-      .footernav .footerCenter img{
-        width: 55px;
-        height: 55px;
-        position: absolute;
-        top: -12px;
-        left: 13.66666%;
-      }
-      .footernav .footerCenternext{
-        width: 48px;
-        font-size: 16px;
-        position: absolute;
-        top: 22px;
-        left: 13%;
-        color: #1296db;
-      }
-      .background{
-        width: 100%;
-        height: 46px;
-        background: #fff;
-      }
-      .background0{
-        width: 100%;
-        font-size: 12px;
-        height: 36px;
-        background: #fff;
-        line-height: 36px;
-        text-align: center;
-        color: #999;
-      }
-      /*中间导航*/
-      .navUl{
-        width: 96%;
-        margin: 22px auto;
-        display: flex;
-        flex-wrap:wrap;
-      }
-      .navUl .homeNavli{
-        width: 25%;
-        list-style: none;
-        text-align: center;
-        font-size: 12px;
-        color: #666;
-        margin-bottom: 8px;
-      }
-      .navUl .homeNavli img{
-        width: 45%;
-      }
-      /*滚动新闻样式*/
-      .HomeNews{
-        width: 94%;
-        font-size: 12px;
-        height: 25px;
-        overflow: hidden;
-        text-align: center;
-        background: url(images/toutiao.jpg) no-repeat 0 0;
-        background-size: 100% 25px;
-        margin: 0 auto;
-      }
-      .HomeNews li{
-        height: 25px;
-        line-height: 25px;
-        color: #666;
-      }
-      .news{
-          position: relative;
-      }
-      .news .newsMore{
-          width: 25px;
-          height: 25px;
-          display: inline-block;
-          position: absolute;
-          top: 36px;
-          right:6.3333%;
-      }
-      .news .newsMore a{
-          width: 25px;
-          height: 25px;
-          display: inline-block;
+        }
+        .footernav .footerCenter img{
+            width: 55px;
+            height: 55px;
+            position: absolute;
+            top: -12px;
+            left: 13.66666%;
+        }
+        .footernav .footerCenternext{
+            width: 48px;
+            font-size: 16px;
+            position: absolute;
+            top: 22px;
+            left: 13%;
+            color: #1296db;
+        }
+        .background{
+            width: 100%;
+            height: 46px;
+            background: #fff;
+        }
+        .background0{
+            width: 100%;
+            font-size: 12px;
+            height: 36px;
+            background: #fff;
+            line-height: 36px;
+            text-align: center;
+            color: #999;
+        }
+        /*中间导航*/
+        .navUl{
+            width: 96%;
+            margin: 22px auto;
+            display: flex;
+            flex-wrap:wrap;
+        }
+        .navUl .homeNavli{
+            width: 25%;
+            list-style: none;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .navUl .homeNavli img{
+            width: 45%;
+        }
+        /*滚动新闻样式*/
+        .HomeNews{
+            width: 94%;
+            font-size: 12px;
+            height: 25px;
+            overflow: hidden;
+            text-align: center;
+            background: url(images/toutiao.jpg) no-repeat 0 0;
+            background-size: 100% 25px;
+            margin: 0 auto;
+        }
+        .HomeNews li{
+            height: 25px;
+            line-height: 25px;
+            color: #666;
+        }
+        .news{
+            position: relative;
+        }
+        .news .newsMore{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            position: absolute;
+            top: 36px;
+            right:6.3333%;
+        }
+        .news .newsMore a{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
 
-      }
-      /*猜你喜欢*/
-      .homeLike{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-      }
-      .homeLikeLi{
-        width: 46.26666%;
-        min-height: 250px;
-        border: 1px solid #e1e4e5;
-        margin-bottom: 8px;
-        list-style: none;
-      }
-      .homeLikeLi img{
-        width: 100%;
-      }
-      .likename{
-        font-size: 12px;
-        padding: 4px 8px;
-        color: #666;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-weight: 400;
-        line-height: 18.25px;
-      }
-      .likeprice{
-          color: #f23030;
-      font-size: 13px;
-      display: block;
-      padding: 0 4px;
-      top: 1px;
-      height: 25px;
-      line-height: 25px;
-      position: relative;
-      }
-      .likeprice span{
-        font-size: 14px;
-      }
-      .yourLike{
-        line-height: 16px;
-        color: #999;
-        position: relative;
-        margin: 24px 0 20px 0;
-        border-bottom: 0 none;
-        text-align: center;
-        font-size: 16px;
-      }
-      .yourLike span{
-        margin: 0;
-        padding: 0 15px;
-        background: #fff;
-        display: inline-block;
-      }
-      .yourLike::after{
-        content: "";
-        border-top: 1px solid #e1e4e5;
-        width: 90%;
-        margin-left: 5%;
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        z-index: -1;
+        }
+        /*猜你喜欢*/
+        .homeLike{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .homeLikeLi{
+            width: 46.26666%;
+            min-height: 250px;
+            border: 1px solid #e1e4e5;
+            margin-bottom: 8px;
+            list-style: none;
+        }
+        .homeLikeLi img{
+            width: 100%;
+        }
+        .likename{
+            font-size: 12px;
+            padding: 4px 8px;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 400;
+            line-height: 18.25px;
+        }
+        .likeprice{
+            color: #f23030;
+            font-size: 13px;
+            display: block;
+            padding: 0 4px;
+            top: 1px;
+            height: 25px;
+            line-height: 25px;
+            position: relative;
+        }
+        .likeprice span{
+            font-size: 14px;
+        }
+        .yourLike{
+            line-height: 16px;
+            color: #999;
+            position: relative;
+            margin: 24px 0 20px 0;
+            border-bottom: 0 none;
+            text-align: center;
+            font-size: 16px;
+        }
+        .yourLike span{
+            margin: 0;
+            padding: 0 15px;
+            background: #fff;
+            display: inline-block;
+        }
+        .yourLike::after{
+            content: "";
+            border-top: 1px solid #e1e4e5;
+            width: 90%;
+            margin-left: 5%;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            z-index: -1;
 
-      }
-      /*活动内容*/
-      .activity_ul{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-      }
-      .activity_li{
-        width: 46.26666%;
-        border: 1px solid #e1e4e5;
-        margin-bottom: 8px;
-        list-style: none;
-      }
-      .activity_li img{
-        width: 100%;
-      }
-      .activity_li p{
-        font-size: 12px;
-        padding: 4px 8px;
-        color: #666;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-weight: 400;
-        line-height: 18.25px;
-      }
+        }
+        /*活动内容*/
+        .activity_ul{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .activity_li{
+            width: 46.26666%;
+            border: 1px solid #e1e4e5;
+            margin-bottom: 8px;
+            list-style: none;
+        }
+        .activity_li img{
+            width: 100%;
+        }
+        .activity_li p{
+            font-size: 12px;
+            padding: 4px 8px;
+            color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 400;
+            line-height: 18.25px;
+        }
 
-      /*返回顶部*/
-      .top{
-        position: fixed;
-        bottom: 56px;
-        right: 8px;
-        width: 35px;
-        height: 35px;
-        z-index: 20;
-        display: none;
-      }
-      .top img{
-        width: 35px;
-        height: 35px;
-      }
+        /*返回顶部*/
+        .top{
+            position: fixed;
+            bottom: 56px;
+            right: 8px;
+            width: 35px;
+            height: 35px;
+            z-index: 20;
+            display: none;
+        }
+        .top img{
+            width: 35px;
+            height: 35px;
+        }
 
-      /*搜索弹出层样式*/
+        /*搜索弹出层样式*/
 
-      .SearchCeng{
-          width: 100%;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background:#F4F1F4;
-          z-index: 9999999;
-      }
-      .SearchCeng_top{
-        width: 100%;
-        height: 35px;
-        text-align: center;
-      }
-      .Search a{
-        color: #888888;
-        text-decoration: none;
-        font-size: 14px;
-      }
-      .SearchCeng .goBack{
-          display: inline-block;
-          width: 32px;
-      }
-      .SearchCeng .SearchCengNo{
-          margin-left: 5px;
-          vertical-align: middle;
-          color: #8C898C;
-      }
-      .SearchCeng img{
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
-      }
-      .SearchCeng input{
-        width: 74.9333333%;
-        padding: 4.5px 0;
-        border: none;
-        border: 1px solid #e1e4e5;
-        outline: none;
-        -webkit-appearance : none ;
-        margin-top: 10px;
-        border-radius: 8px;
-        color: #999;
-        text-indent: 4px;
-      }
-      .SearchCeng .SearchCeng_top span{
-        display: inline-block;
-        text-align: left;
-      }
-      .SearchCeng .word{
-        font-size: 12px;
-        color: #999999;
-        width: 100%;
-        height: 20px;
-        line-height: 20px;
-        margin: 0 auto;
-        text-indent: 10px;
+        .SearchCeng{
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:#F4F1F4;
+            z-index: 9999999;
+        }
+        .SearchCeng_top{
+            width: 100%;
+            height: 35px;
+            text-align: center;
+        }
+        .Search a{
+            color: #888888;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .SearchCeng .goBack{
+            display: inline-block;
+            width: 32px;
+        }
+        .SearchCeng .SearchCengNo{
+            margin-left: 5px;
+            vertical-align: middle;
+            color: #8C898C;
+        }
+        .SearchCeng img{
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+        .SearchCeng input{
+            width: 74.9333333%;
+            padding: 4.5px 0;
+            border: none;
+            border: 1px solid #e1e4e5;
+            outline: none;
+            -webkit-appearance : none ;
+            margin-top: 10px;
+            border-radius: 8px;
+            color: #999;
+            text-indent: 4px;
+        }
+        .SearchCeng .SearchCeng_top span{
+            display: inline-block;
+            text-align: left;
+        }
+        .SearchCeng .word{
+            font-size: 12px;
+            color: #999999;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            margin: 0 auto;
+            text-indent: 10px;
 
-      }
-      .SearchCeng .SearchCeng_infor{
-        width: 96%;
-        margin: 0 auto;
-        background: #f9f9f9;
-      }
-      .SearchCeng .SearchCeng_infor span{
-        display: inline-block;
-        border: 1px solid #bbbbbb;
-        border-radius: 6px;
-        background: #fff;
-        margin: 10px 5px;
-        padding: 3px 5px;
-        line-height: 18px;
-      }
-	  .example,.Layout,.wrap{
-		  padding: 0;
-		  margin: 0;
-		  border: none;
-	  }
+        }
+        .SearchCeng .SearchCeng_infor{
+            width: 96%;
+            margin: 0 auto;
+            background: #f9f9f9;
+        }
+        .SearchCeng .SearchCeng_infor span{
+            display: inline-block;
+            border: 1px solid #bbbbbb;
+            border-radius: 6px;
+            background: #fff;
+            margin: 10px 5px;
+            padding: 3px 5px;
+            line-height: 18px;
+        }
+        .example,.Layout,.wrap{
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
     }
     </style>
 </head>
 <body>
-  <div id="example"></div>
-  <script src="js/react.min.js"></script>
-  <script src="js/react-dom.min.js"></script>
-  <script src="js/browser.min.js"></script>
-  <script src="js/jquery-3.1.1.min.js"></script>
-  <script src="js/jinzhi.js"></script>
-  <script src="js/lunbo.min.js"></script>
-  <script type="text/babel">
-  // 框架
-  class Warp extends React.Component {
-      constructor(props) {
-          super(props);
-          this.setSelected = this.setSelected.bind(this);
-          this.state={status:"0"};
-      }
-      setSelected(status){
-          this.setState({status:status})
-      }
-    render() {
-        return (
-          <div className="wrap">
-            <Layout setSelected={this.setSelected}/>
-            <SearchCeng setSelected={this.setSelected} status={this.state.status} />
-          </div>
-        );
-    }
-  };
-  // 框架
-  class Layout extends React.Component {
-    render() {
-        return (
-          <div className="Layout">
-            <Header setSelected={this.props.setSelected}/>
-            <Main/>
-            <Footer/>
-            <Background0/>
-            <Background/>
-            <Top/>
-          </div>
-        );
-    }
-  };
-  // 轮播
-  class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-        var items = [
-            {id:1,img:'images/htad1.jpg',href:'search?sort_id=009002001'}
-            ,{id:2,img:'images/htad2.jpg',href:'search?num=50&lastest=1'}
-            ,{id:3,img:'images/htad3.jpg',href:'about_us'}
-            ,{id:4,img:'https://img.alicdn.com/imgextra/i1/931691262/TB2NZODrxhmpuFjSZFyXXcLdFXa-931691262.jpg',href:'news_view?news_id=1'}
-        ];
-        this.state={items:items,count:0};
-    }
-    handleClick(e){
-        this.props.setSelected("1");
-    }
-    componentDidMount() {
-        $.ajax({
-          url: "/check_message_number",
-          dataType: 'json',
-          type: 'POST',
-          success: function(data) {
-              this.setState({count: data.count});
-          }.bind(this),
-          error: function(xhr, status, err) {
-          }.bind(this)
-      });
-    }
-    render() {
-        var s = (<span className="headernewsnum">{this.state.count}</span>);
-		var style = {display:"none"};
-        if(this.state.count==0){
-            s = (<span style={style}></span>);
-        }
-        return (
-        <div>
-          <div className="header">
-            <div className="search">
-              <span className="headersearch"  onClick={this.handleClick}>搜索</span>
-              <span className="searchfangda"><img src="images/fangdajing.png" alt="" className="searchfangdaImg" /></span>
-              <div className="headernews">
-	            <a href="messages">
-                    <img src="images/new2.png" alt="" className="headernimg" />
-                    {s}
-				</a>
-              </div>
-            </div>
-          </div>
-            <Lunbo items={this.state.items} />
-        </div>
-        );
-    }
-  };
-  // 中间部分
-  class Main extends React.Component {
-    render() {
-        return (
-          <div className="main">
-            <HomeNav/>
-            <News/>
-            <Activity/>
-            <Like/>
-          </div>
-        );
-    }
-  };
-  // 首页导航
-  class HomeNav extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state={navitems:[]};
-    }
-    componentDidMount() {
-      var nav = [{img:"images/ht_sy_xp.jpg",name:"每日新品",href:"search?lastest=1"},
-                 {img:"images/ht_sy_qz.jpg",name:"裙装",href:"search?sort_id=001001"},
-                 {img:"images/ht_sy_my.jpg",name:"母婴童装",href:"search?sort_id=007"},
-                 {img:"images/ht_sy_sp.jpg",name:"饰品",href:"search?sort_id=004002"},
-                 {img:"images/ht_sy_cj.jpg",name:"厨房用品",href:"search?sort_id=009002001"},
-                 {img:"images/ht_sy_jj.jpg",name:"家具家纺"},
-                 {img:"images/ht_sy_jz.jpg",name:"残障伙伴兼职",href:"part_job"},
-                 {img:"images/ht_sy_gy.jpg",name:"关于善淘",href:"about_us"}];
-                 this.setState({navitems:nav});
-    }
-    render() {
-        return (
-          <ul className="navUl">
-          {this.state.navitems.map(item => (
-              <HomeNavli item={item} />))
-          }
-          </ul>
-        );
-    }
-  };
-  class HomeNavli extends React.Component {
-    render() {
-        return (
-            <li className="homeNavli"><a href={this.props.item.href}><img src={this.props.item.img} alt="" /><p>{this.props.item.name}</p></a></li>
-        );
-    }
-  };
-  // 滚动新闻
-  class News extends React.Component {
-    constructor(props) {
-        super(props);
-        this.scroll=this.scroll.bind(this);
-        this.state={headlineitems:[]};
-    }
-    componentDidMount() {
-        $.ajax({
-             url: "/published_headlines",
-             dataType: 'json',
-             type: 'GET',
-             success: function(data) {
-                this.setState({headlineitems:data.rows});
-                if(data.rows.length>1){
-                    setInterval(this.scroll,2800);
-                }
-             }.bind(this),
-             error: function(xhr, status, err) {
-             }.bind(this)
-        });
-
-
-    }
-    scroll(){
-      var liTop=$(".HomeNews li").first().css("margin-top");
-
-      var liparseInt=parseInt(liTop);
-
-
-        if (liparseInt<-20){
-          var First=$(".HomeNews li").first();
-          First.detach().css("margin-top","").appendTo($(".HomeNews"));
-        }
-
-      $(".HomeNews li").first().animate({"margin-top":"-25px"},450);
-
-    }
-    render() {
-        return (
-            <div className="news">
-            <p className="yourLike"><span>头条新闻</span></p>
-                <ul className="HomeNews">
-                {this.state.headlineitems.map(item => (
-                    <NewsLi item={item}  />))
-                }
-                </ul>
-                <span className="newsMore"><a href="news"></a></span>
-            </div>
-        );
-    }
-  };
-  // 新闻内容
-  class NewsLi extends React.Component {
-      constructor(props) {
-          super(props);
-          this.handleClick=this.handleClick.bind(this);
-      }
-      handleClick(e){
-          location.href="news_view?news_id="+this.props.item.id;
-      }
-    render() {
-
-        return (
-
-            <li className="newsLi"><u onClick={this.handleClick}>{this.props.item.title}</u></li>
-        );
-    }
-  };
-  // activity活动
-  class Activity extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state={activityitems:[]};
-    }
-    componentDidMount() {
-      var act = [{acname:"善淘网实体店2017-03-25开业",img:"https://img.alicdn.com/imgextra/i4/931691262/TB2_8.7ldhvOuFjSZFBXXcZgFXa-931691262.jpg"},
-                  {acname:"现在充会员享特权啦",img:"https://img.alicdn.com/imgextra/i1/931691262/TB2xDhkoSFjpuFjSspbXXXagVXa-931691262.jpg"}];
-      this.setState({activityitems:act});
-    }
-    render() {
-
-        return (
-          <div>
-            <p className="yourLike"><span>最新活动</span></p>
-            <ul className="activity_ul">
-              {this.state.activityitems.map(item => (
-                  <Activity_li item={item}  />))
-              }
-            </ul>
-          </div>
-
-        );
-    }
-  };
-  class Activity_li extends React.Component {
-
-    render() {
-
-        return (
-          <li className="activity_li"><a href="news"><img src={this.props.item.img} alt="" /><p>{this.props.item.acname}</p></a></li>
-        );
-    }
-  };
-
-
-  // 猜你喜欢
-  class Like extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state={likeitems:[]};
-    }
-    componentDidMount() {
-        $.ajax({
-             url: "/find_lastest_products",
-             dataType: 'json',
-             data : {"num":8,"lastest":1},
-             type: 'GET',
-             success: function(data) {
-                this.setState({likeitems:data.rows});
-             }.bind(this),
-             error: function(xhr, status, err) {
-             }.bind(this)
-        });
-    }
-    render() {
-
-        return (
-          <div>
-            <p className="yourLike"><span>猜你喜欢</span></p>
-
-            <ul className="homeLike">
-              {this.state.likeitems.map(item => (
-                  <LikeLi item={item}  />))
-              }
-            </ul>
-          </div>
-        );
-    }
-  };
-  // 猜你喜欢
-  class LikeLi extends React.Component {
-
-    render() {
-        var href = "product_show?product_id="+ this.props.item.id;
-        var img = "images/no_picture.png";
-        if(this.props.item.img) {
-            img = this.props.item.img.location;
-        }
-        return (
-            <li className="homeLikeLi"><a href={href}><img src={img} alt="" /><p className="likename">{this.props.item.product_name}</p><p className="likeprice">￥<span>{this.props.item.product_sale_price}</span></p></a></li>
-        );
-    }
-  };
-  // 底部导航
-  class Footer extends React.Component {
-    render() {
-        return (
-          <ul className="footernav">
-            <li><a href="/"><p><img src="images/shouye2.png" alt="" /></p><p>首页</p></a></li>
-            <li><a href="/sort"><p><img src="images/fenlei4.png" alt="" /></p><p>分类</p></a></li>
-            <li><a href="news"><p className="footerCenter"><img src="images/event.png" alt="" /></p></a></li>
-            <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
-            <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
-          </ul>
-        );
-    }
-  };
-  // 没有更多商品！！！
-  class Background0 extends React.Component {
-    render() {
-        return (
-          <div className="background0">没有更多商品</div>
-        );
-    }
-  };
-
-  // 返回顶部
-  class Top extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleClick=this.handleClick.bind(this);
-    }
-    // 点击返回顶部
-    handleClick(e){
-       $('body,html').animate({scrollTop:0},400);
-    }
-    // 页面发生变化的时候触发
-    componentDidMount() {
-      $(window).scroll(function(){
-        var topHeight=$(window).scrollTop();
-        if (topHeight>500){
-          //当滚动条的位置处于距顶部1000像素以下时，就是大于1000象数时，跳转出现
-          $(".top").fadeIn(250);
-        }else{ //否则就消失
-          $(".top").fadeOut(250);
-        }
-
-      })
-    }
-
-
-    render() {
-      var topHeight=$(window).scrollTop();
-
-        return (
-          <div className="top" onClick={this.handleClick}><img src="images/scroll-to-top-icon.png" alt="" /></div>
-        );
-    }
-  };
-
-  // 底部空白
-  class Background extends React.Component {
-    render() {
-        return (
-          <div className="background"></div>
-        );
-    }
-  };
-
-  // 搜索框弹出层
-  class SearchCeng extends React.Component {
-      constructor(props) {
-          super(props);
-          this.handleClick=this.handleClick.bind(this);
-          this.handleClick1=this.handleClick1.bind(this);
-          this.onKeyPress=this.onKeyPress.bind(this);
-      }
-      componentDidUpdate(prevProps, prevState) {
-            $(".SearchCengInput").focus();
-       }
-
-      onKeyPress(e){
-          var key = e.which;
-    		if (key == 13) {
-                this.props.setSelected("0");
-    			var q = encodeURI(e.target.value);
-    			location.href = "/search?q="+q;
-    		}
-      }
-      handleClick(e){
-          this.props.setSelected("0");
-      }
-      handleClick1(e){
-           this.props.setSelected("0");
-      }
-    render() {
-        var Ceng = <div></div>;
-        if(this.props.status=="1"){
-            Ceng = (<div className="SearchCeng">
-                <div className="SearchCeng_top">
-                  <span className="goBack" onClick={this.handleClick1}><img src="images/jiantou.png" alt="" /></span>
-                  <input type="text" name="" placeholder="搜索" className="SearchCengInput" onKeyPress={this.onKeyPress} />
-                  <span className="SearchCengNo" onClick={this.handleClick}>取消</span>
-                </div>
-                <p className="word">大家都在搜</p>
-                <div className="SearchCeng_infor">
-                  <span><a href="/search?q=礼服">礼服</a></span>
-                  <span><a href="/search?q=棒球服">棒球服</a></span>
-                  <span><a href="/search?q=孕妇裤">孕妇裤</a></span>
-                  <span><a href="/search?q=休闲鞋">休闲鞋</a></span>
-                  <span><a href="/search?q=板鞋">板鞋</a></span>
-                  <span><a href="/search?q=电动车">电动车</a></span>
-                  <span><a href="/search?q=手提包">手提包</a></span>
-                  <span><a href="/search?q=行车记录仪">行车记录仪</a></span>
-                  <span><a href="/search?q=礼品袋">礼品袋</a></span>
-                  <span><a href="/search?q=移动电源">移动电源</a></span>
-                </div>
-            </div>);
-        }
-        return (
-            Ceng
-        );
-    }
-  };
-    ReactDOM.render(
-        <Warp />,
-        document.getElementById('example')
-    );
-    </script>
-
-
-
+    <div id="example"></div>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
+    <script src="js/lunbo.min.js"></script>
+    <script src="js/react_homePage.min.js"></script>
 </body>
 </html>
