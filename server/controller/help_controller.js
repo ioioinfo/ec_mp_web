@@ -1,6 +1,14 @@
 //静态页面 帮助控制器
 exports.register = function(server, options, next){
 	server.route([
+		//残障就业
+		{
+			method: 'GET',
+			path: '/place_order1',
+			handler: function(request, reply){
+				return reply.view("place_order1");
+			}
+		},
         //残障就业
 		{
 			method: 'GET',

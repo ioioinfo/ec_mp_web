@@ -834,7 +834,7 @@
     	      <p class="partone-p">
     			  <span>{{logistics.name}}</span>
     			  <span>
-    				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" data-id="{{logistics.id}}">
+    				  <input type="checkbox" name="" value="{{logistics.name}}" class="is_selected" id="logistics{{loop.index}}" data-id="{{logistics.id}}" data-num="{{loop.index}}">
     			  </span>
     		  </p>
     	  {% endfor %}
@@ -932,10 +932,10 @@
 	<script src="js/lodash.min.js" type="text/javascript"></script>
 	<script id="change_address_infos" type="text/template">
 		<p>更换地址</p>
-		<% _.forEach(addresses, function(address) {  %>
+		<% _.forEach(addresses, function(address,index) {  %>
 			<p class="partone-p partone3-p">
 			  <span><%- address.detail_address %> &nbsp;<%- address.mobile %>&nbsp;<%- address.linkname %></span><span>
-			  	<input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" class="selected" <% if(selected && selected.address_id==address.address_id){ %>checked<% } %>></span>
+			  	<input type="checkbox" name="" value="<%- address.address_id %>" data-id="<%- address.address_id %>" data-num="<%- index %>" id="address<%- index %>" class="selected" <% if(selected && selected.address_id==address.address_id){ %>checked<% } %>></span>
 			</p>
 		<% }); %>
 		<p class="partone-p partone3-p" style="height:37px;">
@@ -1174,7 +1174,12 @@
 					});
 					//selected选中事件
 					$(".selected").click(function(){
-						$(".selected").not($(this)).removeAttr("checked");
+                        var id = $(this).data("num");
+                        for(var i=0,el;el=document.getElementById("address"+i);i++){
+                            if (id != i) {
+                                el.checked = false;
+                            }
+                        }
 					});
 		        });
 				//配送方式
@@ -1185,13 +1190,19 @@
 		        });
 
 				$(".is_selected").click(function(){
-					$(".is_selected").not($(this)).removeAttr("checked");
+                    var id = $(this).data("num");
+                    for(var i=1,el;el=document.getElementById("logistics"+i);i++){
+                        if (id != i) {
+                            el.checked = false;
+                        }
+                    }
 				});
-				var logistics;
+				var logistics = "common";
+                var logistics_name = "普通快递";
 		        $(".close0").click(function(){
 					$.each($('.is_selected:checkbox:checked'),function(){
 						logistics = $(this).data("id");
-                        logistics_name = $(this).value;
+                        logistics_name = $(this).val();
 					});
 					$(".logistics_type").html(logistics_name);
 					$(".partone0").css("display","none");

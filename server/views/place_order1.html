@@ -868,6 +868,14 @@
       <p class="add-num"><span class="product-number">共三件</span><span class="red">￥1111.00</span></span></p>
     </div>
     <div class="invoice">
+      <span class="public-name">测试</span>
+      <input type="checkbox" class="is_selected" id="1" data-id="1"></input>
+      <input type="checkbox" class="is_selected" id="2" data-id="1"></input>
+      <input type="checkbox" class="is_selected" id="3" data-id="1"></input>
+      <input type="checkbox" class="is_selected" id="4" data-id="1"></input>
+      <input type="checkbox" class="is_selected" id="5" data-id="1"></input>
+    </div>
+    <div class="invoice">
       <span class="public-name">运费</span>
       <p class="add-num"><span class="red">￥0</span><span class="img"></span></p>
     </div>
@@ -971,15 +979,14 @@
         </div>
       </div>
     </div>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        $(".click2").click(function(){
-          $(".partone1").css("display","block");
-          $(".opacity").css("display","block");
-        });
-        $(".close1").click(function(){
-          $(".partone1").css("display","none");
-          $(".opacity").css("display","none");
+        $(".is_selected").click(function(){
+            var id = $(this).attr("id");
+            var id_val = $(this).data("id");
+            console.log("id:"+id);
+            console.log("id_val:"+id_val);
         });
       });
     </script>
@@ -1004,130 +1011,12 @@
         <input type="submit" name="" value="取消" class="fapiaosubmit2">
       </div>
     </div>
-    <!-- 优惠券 -->
-    <script type="text/javascript">
-      $(function(){
-        $(".click3").click(function(){
-          $(".partone2").css("display","block");
-          $(".opacity").css("display","block");
-        });
-        $(".close2").click(function(){
-          $(".partone2").css("display","none");
-          $(".opacity").css("display","none");
-        });
-      });
-    </script>
-    <!-- 快递配送方式 -->
-    <script type="text/javascript">
-      $(function(){
-        $(".opacity").css("height",$(document).height());
 
-        $(".click1").click(function(){
-          $(".partone0").css("display","block");
-          $(".opacity").css("display","block");
-        });
-        $(".close0").click(function(){
-          $(".partone0").css("display","none");
-          $(".opacity").css("display","none");
-        });
-      });
-    </script>
-    <!-- 选择地址 -->
-    <script type="text/javascript">
-      $(function(){
-        $(".address").click(function(){
-          $(".partone3").css("display","block");
-          $(".opacity").css("display","block");
-        });
-        $(".close3 .submit2").click(function(){
-          $(".partone3").css("display","none");
-          $(".opacity").css("display","none");
-        });
-        $(".opacity").click(function(){
-          $(this).hide();
-          $(".partone3").css("display","none");
-        })
-      });
-    </script>
 
-    <!-- 新建地址 -->
-    <script type="text/javascript">
-      $(function(){
-        $(".submit1").click(function(){
-          $(".partone3").animate({bottom:"-375px"},300);
-          $(".opacity").css("display","block");
-          $(".new-address").css("display","block");
-        });
-        $(".input3").click(function(){
-          // $(".opacity").css("display","none");
-          $(".new-address").css("display","none");
-        });
-        $(".opacity").click(function(){
-          $(this).hide();
-          $(".new-address").css("display","none");
-        })
-      });
-    </script>
-    <script type="text/javascript">
-      $(function(){
-        $(".address1").click(function(){
-          $(".partone3").animate({bottom:"-375px"},300);
-          $(".tanchuceng").css("display","block");
-          $(".new-address").css("display","block");
-        });
-        $(".input3").click(function(){
-          $(".tanchuceng").css("display","none");
-          $(".new-address").css("display","none");
-        });
-        $(".tanchuceng").click(function(){
-          $(this).hide();
-          $(".new-address").css("display","none");
-        })
-      });
-    </script>
-    <!-- nav点击显示隐藏 -->
-    <script type="text/javascript">
-      $(".head .menu").click(function(){
-        $(".nav").toggle();
-      })
-    </script>
-    <!-- 点击立即购买弹出付款选择层 -->
-    <script type="text/javascript">
-        $(function(){
-          $(".footer .footer-right").click(function(){
-            $(".buyNow").show();
-            $(".tanchuceng").show();
-          });
-          $(".tanchuceng").click(function(){
-            $(this).hide();
-            $(".buyNow").hide();
-          })
-        });
-    </script>
-      <!-- 发票弹出层 -->
-    <script type="text/javascript">
-      $(function(){
-        $(".invoice1").click(function(){
-          $(".fapiao").show();
-          $(".tanchuceng").show();
-        });
-        $(".fapiaotaitou-span3 span").click(function(){
-          $(".fapiaotaitou-span3 span").removeClass("spancolor");
-          $(this).addClass("spancolor");
-        });
-        $(".fapiaosubmit .fapiaosubmit1").click(function(){
-          $(".fapiao").hide();
-          $(".tanchuceng").hide();
-        });
-        $(".fapiaosubmit .fapiaosubmit2").click(function(){
-          $(".fapiao").hide();
-          $(".tanchuceng").hide();
-        });
-        $(".tanchuceng").click(function(){
-          $(".fapiao").hide();
-          $(".tanchuceng").hide();
-        })
-      })
-    </script>
+
+
+
+
+
   </body>
 </html>
