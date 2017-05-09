@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>账户安全</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          background: #eee;
+        }
+        li{
+          list-style: none;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+          display: block;width: 100%;
+          overflow: hidden;
+        }
+        .head{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+          border-bottom: 1px solid #eaeaea;
+          background: #fff;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 13px;
+        }
+        .head .jiantou img{
+         width: 20px;
+         height: 20px;
+         vertical-align: middle;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .safe-ul{
+          width: 100%;
+          overflow: hidden;
+        }
+        .safe-li{
+          overflow: hidden;
+          border-bottom: 1px solid #e7e7e7;
+          padding-left: 5.3333%;
+          background: #fff;
+        }
+        .safe-li p{
+          width: 50%;
+          float: left;
+          font-weight: 400;
+          font-size: 14px;
+          height: 47px;
+          line-height: 47px;
+          color: #051b28;
+        }
+        .safe-li .safe-p2{
+          text-align: right;
+        }
+        .safe-li .safe-p2 img{
+          width: 15px;
+          height: 15px;
+          vertical-align: middle;
+          padding-right: 5.333%;
+        }
+        .safe-li{
+          margin-top: 26px
+
+        }
+      }
+    </style>
+  </head>
+  <body>
+     <div id="Courier"></div>
+     <script type="text/babel">
+     // 框架
+     class Warp extends React.Component {
+       render() {
+           return (
+              <div>
+              <Head/>
+              <Safe/>
+              </div>
+           );
+       }
+     };
+
+    //  头部
+    class Head extends React.Component {
+      render() {
+          return (
+              <div className="head">
+                <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                <span className="title">账户安全</span>
+              </div>
+          );
+      }
+    };
+    // 说明部分
+    class Safe extends React.Component {
+      render() {
+          return (
+             <ul className="safe-ul">
+                <li className="safe-li person_info"><a href="forget_password"><p className="safe-p1">修改登录密码</p><p className="safe-p2"><img src="images/jiantou-right.png" alt="" /></p></a></li>
+             </ul>
+          );
+      }
+    };
+
+    ReactDOM.render(
+      <Warp/>,
+      document.getElementById("Courier")
+    );
+     </script>
+
+
+
+
+    <script type="text/javascript">
+    $(function(){
+
+        // 返回上一层
+        $(".head .jiantou").click(function(){
+            window.history.back();
+        })
+    })
+
+    </script>
+  </body>
+</html>
