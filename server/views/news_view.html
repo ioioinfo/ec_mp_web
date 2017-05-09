@@ -148,8 +148,7 @@
               								{this.state.item.pub_date_text}
               							</h5>
                                         <hr/>
-              							<p>
-              								{this.state.item.content}
+              							<p dangerouslySetInnerHTML={% raw %}{{__html: this.state.item.content}}{% endraw %}>
               							</p>
                                     </div>
               					</div>
