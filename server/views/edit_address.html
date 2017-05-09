@@ -163,9 +163,9 @@
           .address_seclect{
               position: absolute;
               top:150px;
-              left: 21.6312%;
+              left: 15.3333%;
               background:#fff;
-              width: 200px;
+              width: 260px;
               padding-left: 30px;
               box-sizing: border-box;
               border-radius: 4px;
@@ -175,11 +175,23 @@
           .address_seclect select{
               display: block;
               margin-top: 13px;
+              width: 200px;
+              height: 30px;
+              border-radius: 3px;
 
+          }
+          .address_seclect select option{
+              display: inline-block;
+              width: 200px;
           }
           .address_seclect .address_seclect_submit{
               margin-top: 10px;
               margin-bottom: 10px;
+              float: right;
+              margin-right: 30px;
+              padding: 3px 6px;
+              border-radius: 3px;
+              border: none;
           }
           .toumingceng{
               width: 100%;
@@ -212,7 +224,7 @@
       }
     </style>
   </head>
-  <body onload="setup();preselect('北京市');promptinfo();">
+  <body>
     <div id="content">
         <div class="wrap" id="address"></div>
         <div class="footer">
@@ -283,6 +295,9 @@
 			var address_management = function(){
 				var t = _.template($("#address_infos").html());
 				$("#address").html(t({address:address}));
+                setup();
+                preselect(address.province);
+                promptinfo();
 			};
 			address_management();
 			$(".footer").click(function(){
