@@ -31,15 +31,13 @@
           text-decoration: none;
           color: #000;
         }
-        #content{
-            height: 100%;
-        }
         .head{
           width: 100%;
           height: 46px;
           font-size: 0;
           position: relative;
           overflow: hidden;
+          border-bottom: 1px solid #eaeaea;
         }
         .jiantou{
           display: inline-block;
@@ -60,207 +58,110 @@
           font-size: 16px;
           margin: 0 auto;
           text-align: center;
-          color: #333;
         }
-        .menu{
-          width: 32px;
-          display: inline-block;
-          position: absolute;
-          right: 10px;
-          top: 13px;
+
+        /*消费记录*/
+        .record_ul{
+            width: 96%;
+            overflow: hidden;
+            font-size: 0;
+            margin: 0 auto;
         }
-        .infor{
-          margin-top: 30px;
+        .record_li{
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            border-bottom:1px solid  #efefef;
         }
-        .infor-title{
-          color: #00bcd4;
-          font-size: 12px;
-          line-height: 22px;
-          text-align: center;
-        }
-        .line-one{
-          width: 54px;
-          height: 1px;
-          background: #bbbbbb;
-          margin: 0 auto;
-        }
-        .line-two{
-          width: 1px;
-          height: 54px;
-          background: #bbbbbb;
-          margin: 0 auto;
+        a{
+            display: block;
+            width: 100%;
+            display: flex;
         }
         .time{
-          width: 89.33333%;
-          margin: 0 auto;
-          overflow: hidden;
-          text-align: center;
+            width: 30%;
+            font-size: 12px;
+            color: #adadad;
+            text-align: center;
         }
-        .time .time-one{
-          text-align: center;
+        .picture{
+            width: 30%;
+            text-align: center;
         }
-        .time .time-one span:first-child{
-          padding-left: 80px;
+        .picture img{
+            width: 30px;
+            margin-top: 10px;
         }
-        .time .time-one span:last-child{
-          display: inline-block;
-          width: 80px;
-          line-height: 20px;
-          border-bottom: 1px solid #0a8f08;
-          color: red;
-          font-size: 14px;
-        }
-        .expense-calendar{
-          overflow: hidden;
-          display: inline-block;
-          text-align: center;
-        }
-
-        .left{
-          display: inline-block;
-          vertical-align: top;
-        }
-        .right{
-          display: inline-block;
-          vertical-align: top;
-        }
-        .line-three{
-          height: 160px;
-          width: 1px;
-          background:#bbbbbb;
-          display: inline-block;
-          text-align: center;
-        }
-
-        .left span:first-child{
-          font-size: 14px;
-          color: #e51c23;
-          line-height: 30px;
-        }
-        .left span:last-child{
-          font-size: 12px;
-          padding: 0 15px;
-        }
-        .right span{
-          line-height:30px;
-
-        }
-        .right span:first-child{
-          color: #ff9800;
-          font-size: 14px;
-          padding-right: 10px;
-        }
-        .right span:last-child{
-          font-size: 12px;
-        }
-        .footer{
-          text-align: center;
-          line-height: 25px;
-          height: 25px;
-          font-size: 12px;
-          color: #bab8ba;
-
+        .number{
+            width: 40%;
+            font-size: 14px;
+            color: #191919;
+            text-align: center;
         }
       }
     </style>
   </head>
   <body>
-    <div id="content">
-        <div class="head">
-          <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
-          <span class="title">余额</span>
-        </div>
-        <div class="infor">
-          <p class="infor-title">充值和消费记录时间轴</p>
-          <p class="line-one"></p>
-          <p class="line-two"></p>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
+     <div id="Record"></div>
+     <script type="text/babel">
+     // 框架
+     class Warp extends React.Component {
+       render() {
+           return (
+              <div>
+              <Head/>
+              <RecordList/>
               </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
+           );
+       }
+     };
 
+    //  头部
+    class Head extends React.Component {
+      render() {
+          return (
+              <div className="head">
+                <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                <span className="title">消费记录</span>
               </div>
-            </div>
-          </div>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
-              </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
-              </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
-              </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
-              </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="time">
-            <p class="time-one"><span>2017-1-11</span><span>余额：0</span></p>
-            <div class="expense-calendar">
-              <div class="left">
-                <span>充值:3000</span><span>11：13</span>
-              </div>
-              <div class="line-three"></div>
-              <div class="right">
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-                <p class="right-one"><a href="#"><span>消费：200.00</span><span>11：13</span></a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="footer">
-          没有更多啦、、、、
-        </div>
-    </div>
+          );
+      }
+    };
+    // 消费记录
+    class RecordList extends React.Component {
+      render() {
+          return (
+              <ul className="record_ul">
+                <RecordLi/>
+              </ul>
+          );
+      }
+    };
+    class RecordLi extends React.Component {
+      render() {
+          return (
+              <li className="record_li">
+                <a>
+                <div className="time">2017/5/9</div>
+                <div className="picture"><img src="images/yue.png" alt="" /></div>
+                <div className="number">-1111</div>
+                </a>
+              </li>
+              
+          );
+      }
+    };
+
+
+    ReactDOM.render(
+      <Warp/>,
+      document.getElementById("Record")
+    );
+     </script>
+
+
+
+
     <script type="text/javascript">
     $(function(){
 
