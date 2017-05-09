@@ -35,7 +35,9 @@
     }
 
 /*----  t  o   p-----*/
-
+    #content{
+        height: 100%;
+    }
     .warp{
       position: relative;
       height: 100%;
@@ -293,57 +295,59 @@
 </style>
 </head>
 <body>
-        <div class="header">
-            <div class="search">
-              <span class="headersearch">搜索</span>
-              <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
-              <div class="headernews">
-        	  <a href="/messages">
-        	        <img src="images/new2.png" alt="" class="headernimg" />
-        	        <span class="headernewsnum"></span>
-        	  </a>
-              </div>
-        	</div>
-        </div>
-        <div class="warp">
-    		<div class="main">
-              <ul class="main-ul" >
-        		{% for sort in sorts["0"] %}
-                	<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
-                {% endfor %}
-              </ul>
-
-              <div class="main-right "></div>
-              <div class="main-bottom"></div>
+        <div id="content">
+            <div class="header">
+                <div class="search">
+                  <span class="headersearch">搜索</span>
+                  <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
+                  <div class="headernews">
+            	  <a href="/messages">
+            	        <img src="images/new2.png" alt="" class="headernimg" />
+            	        <span class="headernewsnum"></span>
+            	  </a>
+                  </div>
+            	</div>
             </div>
-        </div>
-        <ul class="footernav">
-            <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
-            <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
-            <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
-            <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
-            <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
-        </ul>
-        <!-- 搜索弹出层 -->
-        <div class="SearchCeng">
-          <div class="SearchCeng_top">
-            <span class="goBack"><img src="images/jiantou.png" alt="" /></span>
-            <input type="text" name="" value="" placeholder="搜索" class="SearchCengInput">
-            <span class="SearchCeng_top_no">取消</span>
-          </div>
-          <p class="word">大家都在搜</p>
-          <div class="SearchCeng_infor">
-              <span><a href="/search?q=礼服">礼服</a></span>
-              <span><a href="/search?q=棒球服">棒球服</a></span>
-              <span><a href="/search?q=孕妇裤">孕妇裤</a></span>
-              <span><a href="/search?q=休闲鞋">休闲鞋</a></span>
-              <span><a href="/search?q=板鞋">板鞋</a></span>
-              <span><a href="/search?q=电动车">电动车</a></span>
-              <span><a href="/search?q=手提包">手提包</a></span>
-              <span><a href="/search?q=行车记录仪">行车记录仪</a></span>
-              <span><a href="/search?q=礼品袋">礼品袋</a></span>
-              <span><a href="/search?q=移动电源">移动电源</a></span>
-          </div>
+            <div class="warp">
+        		<div class="main">
+                  <ul class="main-ul" >
+            		{% for sort in sorts["0"] %}
+                    	<li {% if loop.first %}class="active"{% endif %} data-id="{{sort.id}}" id="{{sort.id}}" >{{sort.sort_name}}</li>
+                    {% endfor %}
+                  </ul>
+
+                  <div class="main-right "></div>
+                  <div class="main-bottom"></div>
+                </div>
+            </div>
+            <ul class="footernav">
+                <li><a href="/"><p><img src="images/shouye3.png" alt="" /></p><p>首页</p></a></li>
+                <li><a href="/sort"><p><img src="images/fenlei2.png" alt="" /></p><p>分类</p></a></li>
+                <li><a href="/order_center"><p><img src="images/wuliu1.png" alt="" /></p><p>物流</p></a></li>
+                <li><a href="/cart_infos"><p><img src="images/gouwuche2.png" alt="" /></p><p>购物车</p></a></li>
+                <li><a href="/person_center"><p><img src="images/wode.png" alt="" /></p><p>我的</p></a></li>
+            </ul>
+            <!-- 搜索弹出层 -->
+            <div class="SearchCeng">
+              <div class="SearchCeng_top">
+                <span class="goBack"><img src="images/jiantou.png" alt="" /></span>
+                <input type="text" name="" value="" placeholder="搜索" class="SearchCengInput">
+                <span class="SearchCeng_top_no">取消</span>
+              </div>
+              <p class="word">大家都在搜</p>
+              <div class="SearchCeng_infor">
+                  <span><a href="/search?q=礼服">礼服</a></span>
+                  <span><a href="/search?q=棒球服">棒球服</a></span>
+                  <span><a href="/search?q=孕妇裤">孕妇裤</a></span>
+                  <span><a href="/search?q=休闲鞋">休闲鞋</a></span>
+                  <span><a href="/search?q=板鞋">板鞋</a></span>
+                  <span><a href="/search?q=电动车">电动车</a></span>
+                  <span><a href="/search?q=手提包">手提包</a></span>
+                  <span><a href="/search?q=行车记录仪">行车记录仪</a></span>
+                  <span><a href="/search?q=礼品袋">礼品袋</a></span>
+                  <span><a href="/search?q=移动电源">移动电源</a></span>
+              </div>
+            </div>
         </div>
 	<script id="sort_infos" type="text/template">
 		<div class="main-img ">
