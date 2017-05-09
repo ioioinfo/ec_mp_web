@@ -1044,6 +1044,8 @@
 				"city"	   : "",
 				"district" : ""
 			};
+            var logistics = "common";
+            var logistics_name = "普通快递";
 			var jifen = {{jifen||0}};
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
@@ -1059,25 +1061,8 @@
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
 				$(".footer-right").click(function(){
-					address = {};
-                    if (logistics) {
-                        address.type = logistics;
-                    }else {
-                        address.type = "common";
-                    }
-                    console.log("logistics:"+logistics);
-					address.store_id = 1;
-					address.point_id = 1;
-					address.linkname =	$(".address-infor-name").data("id");
-					address.mobile = $(".address-infor-mobile").data("id");
-					address.detail_address = $(".address-infor-address").data("id");
-					address.province = $(".address_province").val();
-					address.city = $(".address_city").val();
-					address.district = $(".address_province").val();
-					var send_seller = $("#send_seller").val();
-					if (!address.detail_address) {
-						alert("没有地址！");
-					}
+                    set_address();
+                    var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
 							location.href = "/pay_way";
@@ -1193,16 +1178,15 @@
                         }
                     }
 				});
-				var logistics = "common";
-                var logistics_name = "普通快递";
 		        $(".close0").click(function(){
 					$.each($('.is_selected:checkbox:checked'),function(){
 						logistics = $(this).data("id");
                         logistics_name = $(this).val();
 					});
 					$(".logistics_type").html(logistics_name);
-					$(".partone0").css("display","none");
-					$(".opacity").css("display","none");
+                    set_address();
+                    logistics_payment();
+
 		        });
 				//运费险
 				$(".click2").click(function(){
@@ -1238,7 +1222,50 @@
                 })
 			}
 			place_order();
-		});
+            var set_address = function(){
+                address = {};
+                if (logistics) {
+                    address.type = logistics;
+                }else {
+                    address.type = "common";
+                }
+                address.store_id = 1;
+                address.point_id = 1;
+                address.linkname =	$(".address-infor-name").data("id");
+                address.mobile = $(".address-infor-mobile").data("id");
+                address.detail_address = $(".address-infor-address").data("id");
+                address.province = $(".address_province").val();
+                address.city = $(".address_city").val();
+                address.district = $(".address_province").val();
+                if (!address.detail_address) {
+                    alert("没有地址！");
+                }
+            };
+            var logistics_payment = function(){
+                var info = {
+                    "type" : address.type,
+                    "store_id" : address.store_id,
+                    "point_id" : address.point_id = 1,
+                    "weight" : total_data.total_weight,
+                    "order_amount" : total_data.total_items,
+                    "end_province" :address.province,
+                    "end_city" : address.city,
+                    "end_district" : address.district
+                };
+                $.post("/logistics_payment",{"info":JSON.stringify(info)},function(data){
+                    if (data.success) {
+                        total_data.lgtic_pay = data.lgtic_pay;
+                        console.log(data.lgtic_pay);
+                        $(".partone0").css("display","none");
+                        $(".opacity").css("display","none");
+                        place_order();
+                    }else {
+                        $(".partone0").css("display","none");
+                        $(".opacity").css("display","none");
+                    }
+                });
+            };
+    	});
 	</script>
 	<!-- 发票弹出层 -->
 

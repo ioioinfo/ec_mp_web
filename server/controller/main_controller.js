@@ -667,6 +667,22 @@ var finish_return_order = function(data,cb){
 }
 exports.register = function(server, options, next){
 	server.route([
+		//账户与安全
+		{
+			method: 'GET',
+			path: '/account_safe',
+			handler: function(request, reply){
+				return reply.view("account_safe");
+			}
+		},
+		//账户与安全
+		// {
+		// 	method: 'GET',
+		// 	path: '/place_order1',
+		// 	handler: function(request, reply){
+		// 		return reply.view("place_order1");
+		// 	}
+		// },
 		//退单完成
 		{
 			method: 'POST',
@@ -2446,6 +2462,23 @@ exports.register = function(server, options, next){
 						return reply({"success":true,"shopping_carts":results.shopping_carts,"total_data":results.total_data});
 					}else {
 						return reply({"success":false,"message":results.message});
+					}
+				});
+			}
+		},
+		//计算运费
+		{
+			method: 'POST',
+			path: '/logistics_payment',
+			handler: function(request, reply){
+				var info = request.payload.info;
+				info =JSON.parse(info);
+				logistics_payment(info,function(err,result){
+					if (!err) {
+						var lgtic_pay = result.row.user_amount;
+						return reply({"success":true,"lgtic_pay":lgtic_pay});
+					}else {
+						return reply({"success":false,"message":result.message,"service_info":result.service_info});
 					}
 				});
 			}
