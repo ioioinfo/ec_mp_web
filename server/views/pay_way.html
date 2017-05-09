@@ -130,6 +130,16 @@
     </head>
     <body>
         <div id="payway"></div>
+        <script type="text/javascript">
+        var orders = {{rows|safe}};
+        var order = orders[0];
+            $(function(){
+                // 返回上一层
+                $(".header .jiantou").click(function(){
+                    window.history.back();
+                });
+            })
+        </script>
         <script type="text/babel">
         class Wrap extends React.Component {
           render() {
@@ -155,12 +165,13 @@
         };
         // 充值成功提醒
         class PayWay extends React.Component {
+
           render() {
               return (
                 <div className="payway payway_width">
                   <ul className="payway_money payway_border">
                     <li>订单金额：</li>
-                    <li>1000.00 元</li>
+                    <li>{order.actual_price}元</li>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_vip">
                     <li><img src="images/vipzhifu.png" alt="" /><span>会员卡支付</span></li>
@@ -187,15 +198,6 @@
           <Wrap/>,
           document.getElementById("payway")
         );
-        </script>
-
-        <script type="text/javascript">
-            $(function(){
-                // 返回上一层
-                $(".header .jiantou").click(function(){
-                    window.history.back();
-                })
-            })
         </script>
     </body>
 </html>

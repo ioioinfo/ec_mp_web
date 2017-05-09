@@ -1061,7 +1061,8 @@
                     var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
-							location.href = "/pay_way";
+                            var order_id = data.order_id;
+							location.href = "/pay_way?order_id="+order_id;
 						}else {
 							alert(data.message);
 						}
