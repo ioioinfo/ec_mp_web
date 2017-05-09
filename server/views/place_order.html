@@ -834,6 +834,7 @@
                 </li>
               </ul>
             </div>
+<<<<<<< HEAD
         	<div id="place_order"></div>
             <!-- 快递配送方式 -->
             <div class="partone partone0">
@@ -849,6 +850,33 @@
         	  <div class="close close0">
                 确 定
               </div>
+=======
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren middle-shouhuoren1">
+              <span class="span1">所在地区</span>
+              <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+    		  <div class="address_seclect" >
+                  <table name="shareip">
+                   <select class="select" name="province" id="s1">
+                   <option></option>
+                   </select>
+                   <select class="select" name="city" id="s2">
+                   <option></option>
+                   </select>
+                   <select class="select" name="town" id="s3">
+                   <option></option>
+                   </select>
+                   <input id="address" name="address" type="hidden" value="" />
+                   <input type="button" value="提交" class="address_seclect_submit"/>
+    		   </table>
+              </div>
+    		</div>
+          </div>
+          <div class="middle">
+            <div class="middle-shouhuoren">
+              <span class="span1">街道</span><p><span class="span2 clear_ad2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
+>>>>>>> 1384980e9d7164ce4679b389c2e31e4e78cdb020
             </div>
 
             <!-- 运费险 -->
@@ -1275,6 +1303,9 @@
                     $(".linkname").val("");
                     $(".mobile").val("");
                     $(".detail_address").val("");
+                    $(".street-address").val("");
+                    $(".clear_ad1").html("请选择");
+
                   }
               });
           });

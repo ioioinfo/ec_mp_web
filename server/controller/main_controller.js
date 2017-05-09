@@ -2481,6 +2481,7 @@ exports.register = function(server, options, next){
 						}
 						return reply({"success":true,"lgtic_pay":lgtic_pay});
 					}else {
+						lgtic_pay = 150;
 						return reply({"success":false,"message":result.message,"service_info":result.service_info});
 					}
 				});
@@ -2508,6 +2509,7 @@ exports.register = function(server, options, next){
 								}
 								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type});
 							}else {
+								total_data.lgtic_pay = 150;
 								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
 							}
 						});
@@ -2629,6 +2631,7 @@ exports.register = function(server, options, next){
 								}
 								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id});
 							}else {
+								total_data.lgtic_pay = 150;
 								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type,"sku_id":sku_id});
 							}
 						});
