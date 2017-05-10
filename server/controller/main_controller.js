@@ -680,8 +680,58 @@ var finish_return_order = function(data,cb){
 	var url = "http://127.0.0.1:18010/finish_return_order";
 	do_post_method(url,data,cb);
 }
+//在线会员支付
+var online_card_pay = function(data,cb){
+	var url = "http://139.196.148.40:18008/online_card_pay";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//会员支付
+		{
+			method: 'POST',
+			path: '/online_card_pay',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var address = "网络订单";
+				var order_id = request.payload.order_id;
+				var paycode = request.payload.paycode;
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						var order = rows.rows[0];
+						var pay_amount = order.actual_price;
+						get_person_vip(person_id,function(err,content){
+							if (!err) {
+								var vip_id = content.row.vip_id;
+								var data = {
+									"sob_id" : "ioio",
+									"address" : address,
+									"order_id" : order_id,
+									"pay_amount" : pay_amount,
+									"operator" : person_id,
+									"main_role_id" : vip_id,
+									"paycode" : paycode
+								};
+								online_card_pay(data,function(err,row){
+									if (!err) {
+										return reply({"success":true});
+									}else {
+										return	reply({"success":false,"message":row.message,"service_info":service_info});
+									}
+								});
+							}else {
+								reply({"success":false,"message":content.message,"service_info":content.service_info});
+							}
+						});
+					}else {
+						return	reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//账户与安全
 		{
 			method: 'GET',
@@ -740,10 +790,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/search_return_list',
 			handler: function(request, reply){
-				var person_id = "";
-				if (request.query.person_id) {
-					person_id = request.query.person_id;
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
 				}
+				// var person_id = "";
+				// if (request.query.person_id) {
+				// 	person_id = request.query.person_id;
+				// }
 				search_return_list(person_id,function(err,rows){
 					if (!err) {
 						return reply({"success":true,"rows":rows.rows});
@@ -2903,7 +2957,7 @@ exports.register = function(server, options, next){
 						if (rows.rows[0].order_status!="-1" && rows.rows[0].order_status!="0" ) {
 							return reply({"success":false,"message":"订单已经付过款了"})
 						}
-						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows)});
+						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}

@@ -165,7 +165,27 @@
         };
         // 充值成功提醒
         class PayWay extends React.Component {
-
+            constructor(props) {
+    			super(props);
+    			this.handlePay = this.handlePay.bind(this);
+    		}
+            handlePay(e) {
+                $.ajax({
+    				url: "/online_card_pay",
+    				dataType: 'json',
+    				type: 'POST',
+    				data: {order_id:"{{order_id}}",paycode:"123321"},
+    				success: function(data) {
+    					if (data.success) {
+                            location.href = "/pay_success";
+    					}else {
+    						alert(data.message);
+    					}
+    				}.bind(this),
+    				error: function(xhr, status, err) {
+    				}.bind(this)
+    			});
+            }
           render() {
               return (
                 <div className="payway payway_width">
@@ -174,8 +194,10 @@
                     <li>{order.actual_price}元</li>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_vip">
+                    <a onClick = {this.handlePay}>
                     <li><img src="images/vipzhifu.png" alt="" /><span>会员卡支付</span></li>
                     <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_zhifubao">
                     <li><img src="images/zhifubaozhifu1.png" alt="" /><span>支付宝支付</span></li>
