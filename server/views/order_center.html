@@ -343,27 +343,33 @@
     	  {% if order.order_status=="等待买家付款" %}
     		  <p class="product-submit">
     			  <span class="cancel_buy" data-id="{{order.order_id}}"> 不想买了</span>
-    			  <span><a href="pay_way">
+    			  <span><a href="pay_way?order_id={{order.order_id}}">
     				  立即付款
                   </a>
     			  </span>
     		  </p>
     	  	{% elseif order.order_status=="付款确认中" %}
-    			<p class="product-submit">
+    			<!-- <p class="product-submit">
     				正在确认付款中。。。
-    			</p>
-    		{% elseif order.order_status=="买家已付款" %}
-    			<p class="product-submit">
-    				<span>
-    					催单
-    				</span>
-    			</p>
-    		{% elseif order.order_status=="等待卖家发货" %}
-    			<p class="product-submit">
+    			</p> -->
+    		{% elseif order.order_status=="等待卖家拣货" %}
+    			<!-- <p class="product-submit">
     				<span>
     					催货
     				</span>
-    			</p>
+    			</p> -->
+    		{% elseif order.order_status=="等待卖家发货" %}
+    			<!-- <p class="product-submit">
+    				<span>
+    					催货
+    				</span>
+    			</p> -->
+            {% elseif order.order_status=="等待快递员揽货" %}
+    			<!-- <p class="product-submit">
+    				<span>
+    					催货
+    				</span>
+    			</p> -->
     		{% elseif order.order_status=="卖家已发货" %}
     			<p class="product-submit">
     				<span>

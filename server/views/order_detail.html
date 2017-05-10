@@ -490,10 +490,40 @@
         <!-- 底部 -->
         <div class="footer">
           <ul>
-            <li><a href="#"><p>删除订单</p></a></li>
-            <li><a href="/go_comment"><p>商品评价</p></a></li>
-            <li><a href="#"><p>确认收货</p></a></li>
-            <li><a href="#"><p class="last-p">再次购买</p></a></li>
+                {% if order.order_status == "等待买家付款" %}
+                    <li><a><p class="cancel_buy" data-id="{{order.order_id}}">不想买了</p></a></li>
+                    <li><a href="pay_way?order_id={{order.order_id}}"><p>立即付款</p></a></li>
+                {% elseif order.order_status=="付款确认中" %}
+        			<!-- <li><a><p>正在确认付款中。。。</p></a></li> -->
+        		{% elseif order.order_status=="等待卖家拣货" %}
+                    <!-- <li><a><p>催货</p></a></li> -->
+        		{% elseif order.order_status=="等待卖家发货" %}
+        			<!-- <li><a><p>催货</p></a></li> -->
+                {% elseif order.order_status=="等待快递员揽货" %}
+            		<!-- <li><a><p>催货</p></a></li> -->
+        		{% elseif order.order_status=="卖家已发货" %}
+        			<p class="product-submit">
+        				<span>
+        					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+        				</span>
+        			</p>
+        		{% elseif order.order_status=="等待买家收货" %}
+        			<p class="product-submit">
+        				<span>
+        					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+        				</span>
+        				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
+        			</p>
+        		{% elseif order.order_status=="交易成功" %}
+                    <li><a><p>申请售后</p></a></li>
+                    <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% elseif order.order_status=="交易关闭" %}
+                    <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% elseif order.order_status=="退款中订单" %}
+                    <li><a><p>查看流程</p></a></li>
+        		{% elseif order.order_status=="退款完成" %}
+        			<li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% endif %}
           </ul>
         </div>
     	<div style="width:100%;height:56px;background:#fff;"></div>
@@ -523,7 +553,36 @@
 			var product_id = $(this).data("id");
 			location.href = "/product_show?product_id=" + product_id;
 		});
-	});
+        //取消订单
+        $(".cancel_buy").click(function(){
+            var order_id = $(this).data("id");
+            var reason = "不想买了";
+            var order_status = "未付款";
+            $.post("/order_cancel",{order_id:order_id,reason:reason,order_status:order_status},function(data){
+                if (data.success) {
+                    location.href = "/order_detail?order_id="+order_id;
+                }
+            })
+        });
+        //删除订单
+        $(".delete_order").click(function(){
+            var order_id = $(this).data("id");
+            $.post("/order_delete",{order_id:order_id},function(data){
+                if (data.success) {
+                    location.href = "/order_center";
+                }
+            })
+        });
+        //收货
+        $(".receive_product").click(function(){
+			var order_id = $(this).data("id");
+			$.get("/receive_goods",{order_id:order_id},function(data){
+				if (data.success) {
+					location.href = "/order_detail?order_id="+order_id;
+				}
+			})
+		});
+    });
 	</script>
   </body>
 </html>
