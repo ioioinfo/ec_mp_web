@@ -1121,7 +1121,11 @@
                 var send_seller = $("#send_seller").val();
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {
-						location.href = "/pay_way?order_id="+data.order_id;
+                        if (logistics == "sf_collect") {
+                            location.href = "/pay_success";
+                        }else {
+                            location.href = "/pay_way?order_id="+order_id;
+                        }
 					}else {
 						alert(data.message);
 					}

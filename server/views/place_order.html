@@ -998,7 +998,7 @@
 
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
-          <p class="add-num click1"><span class="logistics_type">普通快递</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+          <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="invoice">
@@ -1066,14 +1066,19 @@
 			var total_data = {{total_data|safe}};
 			var place_order = function(){
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
+				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name}));
 				$(".footer-right").click(function(){
                     set_address();
                     var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
                             var order_id = data.order_id;
-							location.href = "/pay_way?order_id="+order_id;
+                            console.log("logistics:"+logistics);
+                            if (logistics == "sf_collect") {
+                                location.href = "/pay_success";
+                            }else {
+                                location.href = "/pay_way?order_id="+order_id;
+                            }
 						}else {
 							alert(data.message);
 						}
@@ -1227,7 +1232,6 @@
                     logistics = $(this).data("id");
                     logistics_name = $(this).val();
                 });
-                $(".logistics_type").html(logistics_name);
                 set_address();
                 logistics_payment();
             });

@@ -2900,6 +2900,9 @@ exports.register = function(server, options, next){
 				var order_id = request.query.order_id;
 				get_order(order_id,function(err,rows){
 					if (!err) {
+						if (rows.rows[0].order_status!="-1" && rows.rows[0].order_status!="0" ) {
+							return reply({"success":false,"message":"订单已经付过款了"})
+						}
 						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows)});
 					}else {
 						return reply({"success":false,"message":rows.message})
