@@ -181,6 +181,11 @@ var get_ec_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_order?order_id="+order_id;
 	do_get_method(url,cb);
 };
+//订单信息
+var get_order_pay_infos = function(order_id,cb){
+	var url = "http://139.196.148.40:18008/get_order_pay_infos?sob_id=ioio&order_id="+order_id;
+	do_get_method(url,cb);
+};
 //查询物流信息
 var get_logistics_info = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/search_laster_logistics?order_id="+order_id;
@@ -3377,12 +3382,12 @@ exports.register = function(server, options, next){
 				}
 				var order_id = request.query.order_id;
 
-				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time",function(order,details,products,logistics_info,invoices,delivery_time){
+				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info",function(order,details,products,logistics_info,invoices,delivery_time,pay_info){
 						var invoices_map = {};
 						for (var i = 0; i < invoices.length; i++) {
 							invoices_map[invoices[i].order_id] = invoices[i];
 						}
-					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time});
+					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time,"pay_info":pay_info});
 				});
 
 				get_ec_order(order_id,function(err,results){
@@ -3390,10 +3395,14 @@ exports.register = function(server, options, next){
 						ep.emit("order", results.orders[0]);
 						ep.emit("details", results.details);
 						ep.emit("products", results.products);
+						ep.emit("pay_info", results.pay_info);
+						ep.emit("delivery_time", results.delivery_time);
 					}else {
 						ep.emit("order", {});
 						ep.emit("details", {});
 						ep.emit("products", {});
+						ep.emit("pay_info", []);
+						ep.emit("delivery_time", "未发货");
 					}
 				});
 				get_logistics_info(order_id,function(err,results){
@@ -3412,17 +3421,7 @@ exports.register = function(server, options, next){
 						ep.emit("invoices", []);
 					}
 				});
-				delivery_time_by_order(order_id,function(err,row){
-					if (!err) {
-						if (row.success) {
-							ep.emit("delivery_time", row.delivery_time);
-						}else {
-							ep.emit("delivery_time", "还没发货");
-						}
-					}else {
-						ep.emit("delivery_time", "还没发货");
-					}
-				});
+
 			}
 		},
 		//订单查看页面
