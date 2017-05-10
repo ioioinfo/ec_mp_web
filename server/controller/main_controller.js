@@ -3330,6 +3330,22 @@ exports.register = function(server, options, next){
 				return reply.view("after_sale");
 			}
 		},
+		//退货列表
+		{
+			method: 'GET',
+			path: '/return_list',
+			handler: function(request, reply){
+				return reply.view("return_list");
+			}
+		},
+		//退货列表明细
+		{
+			method: 'GET',
+			path: '/return_view',
+			handler: function(request, reply){
+				return reply.view("return_view");
+			}
+		},
 		//账户余额
 		{
 			method: 'GET',
