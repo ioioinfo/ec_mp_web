@@ -455,6 +455,11 @@ var delete_shopping_carts = function(ids,cb){
 	url = url + ids;
 	do_get_method(url,cb);
 };
+//删除购物车
+var delete_shopping_carts2 = function(data,cb){
+	var url = "http://127.0.0.1:18015/delete_shopping_carts2";
+	do_post_method(url,data,cb);
+};
 //购物车  商品数量+1
 var plus_shopping_carts = function(ids,cb){
 	var url = "http://127.0.0.1:18015/plus_shopping_carts?ids=";
@@ -740,14 +745,6 @@ exports.register = function(server, options, next){
 				return reply.view("account_safe");
 			}
 		},
-		//账户与安全
-		// {
-		// 	method: 'GET',
-		// 	path: '/place_order1',
-		// 	handler: function(request, reply){
-		// 		return reply.view("place_order1");
-		// 	}
-		// },
 		//退单完成
 		{
 			method: 'POST',
@@ -767,6 +764,31 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//购物车清空
+		{
+			method: 'POST',
+			path: '/delete_shopping_carts2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = "";
+				}
+				var cart_code = get_cookie_cart_code(request);
+				if (!cart_code) {
+					cart_code = "";
+				}
+				var data = {"person_id":person_id,"cart_code":cart_code};
+				console.log("data:"+JSON.stringify(data));
+				delete_shopping_carts2(data,function(err,row){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+
 		//查询退货单
 		{
 			method: 'GET',

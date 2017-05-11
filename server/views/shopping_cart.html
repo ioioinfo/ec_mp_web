@@ -661,6 +661,14 @@
             $(".head .jiantou").click(function(){
                 window.history.back();
             })
+            $(".title").click(function(){
+                console.log(123);
+                $.post("/delete_shopping_carts2",function(data){
+                    if (data.success) {
+                        location.href = "/cart_infos";
+                    }
+                });
+            });
   		});
     </script>
   </body>
