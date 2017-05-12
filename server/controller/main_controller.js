@@ -34,6 +34,11 @@ var find_sorts = function(cb){
 	var url = "http://127.0.0.1:18016/search_sorts";
 	do_get_method(url,cb);
 };
+//历史消费
+var amount_history = function(vip_id,cb){
+	var url = "http://139.196.148.40:18008/list_vip_amount_history?sob_id=ioio&vip_id="+vip_id;
+	do_get_method(url,cb);
+};
 //查询订单
 var search_order = function(order_id,cb) {
     var url = "http://211.149.248.241:18010/search_order_infos?order_id="+order_id;
@@ -174,6 +179,11 @@ var get_ec_orders = function(person_id,cb){
 //得到单个订单
 var get_ec_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_order?order_id="+order_id;
+	do_get_method(url,cb);
+};
+//订单信息
+var get_order_pay_infos = function(order_id,cb){
+	var url = "http://139.196.148.40:18008/get_order_pay_infos?sob_id=ioio&order_id="+order_id;
 	do_get_method(url,cb);
 };
 //查询物流信息
@@ -445,6 +455,11 @@ var delete_shopping_carts = function(ids,cb){
 	url = url + ids;
 	do_get_method(url,cb);
 };
+//删除购物车
+var delete_shopping_carts2 = function(data,cb){
+	var url = "http://127.0.0.1:18015/delete_shopping_carts2";
+	do_post_method(url,data,cb);
+};
 //购物车  商品数量+1
 var plus_shopping_carts = function(ids,cb){
 	var url = "http://127.0.0.1:18015/plus_shopping_carts?ids=";
@@ -610,6 +625,11 @@ var search_order_byStatus = function(person_id,status,cb){
 	url = url + person_id + "&status=" + status;
 	do_get_method(url,cb);
 }
+//发货时间
+var delivery_time_by_order = function(order_id,cb){
+	var url = "http://211.149.248.241:18013/logistics/delivery_time_by_order?org_code=ioio&order_id="+order_id;
+	do_get_method(url,cb);
+}
 //发布的头条列表
 var published_headlines = function(cb){
 	var url = "http://139.196.148.40:18005/list_headline_by_platform?platform_code=ioio&state=publish";
@@ -665,8 +685,58 @@ var finish_return_order = function(data,cb){
 	var url = "http://127.0.0.1:18010/finish_return_order";
 	do_post_method(url,data,cb);
 }
+//在线会员支付
+var online_card_pay = function(data,cb){
+	var url = "http://139.196.148.40:18008/online_card_pay";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//会员支付
+		{
+			method: 'POST',
+			path: '/online_card_pay',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var address = "网络订单";
+				var order_id = request.payload.order_id;
+				var paycode = request.payload.paycode;
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						var order = rows.rows[0];
+						var pay_amount = order.actual_price;
+						get_person_vip(person_id,function(err,content){
+							if (!err) {
+								var vip_id = content.row.vip_id;
+								var data = {
+									"sob_id" : "ioio",
+									"address" : address,
+									"order_id" : order_id,
+									"pay_amount" : pay_amount,
+									"operator" : person_id,
+									"main_role_id" : vip_id,
+									"paycode" : paycode
+								};
+								online_card_pay(data,function(err,row){
+									if (!err) {
+										return reply({"success":true});
+									}else {
+										return	reply({"success":false,"message":row.message,"service_info":service_info});
+									}
+								});
+							}else {
+								reply({"success":false,"message":content.message,"service_info":content.service_info});
+							}
+						});
+					}else {
+						return	reply({"success":false,"message":rows.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//账户与安全
 		{
 			method: 'GET',
@@ -675,14 +745,6 @@ exports.register = function(server, options, next){
 				return reply.view("account_safe");
 			}
 		},
-		//账户与安全
-		// {
-		// 	method: 'GET',
-		// 	path: '/place_order1',
-		// 	handler: function(request, reply){
-		// 		return reply.view("place_order1");
-		// 	}
-		// },
 		//退单完成
 		{
 			method: 'POST',
@@ -702,6 +764,31 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//购物车清空
+		{
+			method: 'POST',
+			path: '/delete_shopping_carts2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					person_id = "";
+				}
+				var cart_code = get_cookie_cart_code(request);
+				if (!cart_code) {
+					cart_code = "";
+				}
+				var data = {"person_id":person_id,"cart_code":cart_code};
+				console.log("data:"+JSON.stringify(data));
+				delete_shopping_carts2(data,function(err,row){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
+
 		//查询退货单
 		{
 			method: 'GET',
@@ -725,10 +812,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/search_return_list',
 			handler: function(request, reply){
-				var person_id = "";
-				if (request.query.person_id) {
-					person_id = request.query.person_id;
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
 				}
+				// var person_id = "";
+				// if (request.query.person_id) {
+				// 	person_id = request.query.person_id;
+				// }
 				search_return_list(person_id,function(err,rows){
 					if (!err) {
 						return reply({"success":true,"rows":rows.rows});
@@ -967,6 +1058,26 @@ exports.register = function(server, options, next){
 				var data = {"order_id":order_id,"order_status":1};
 
 				return reply.view("pay_success",{"order_id":order_id});
+			}
+		},
+		//历史消费
+		{
+			method: 'GET',
+			path: '/amount_history',
+			handler: function(request, reply){
+				var vip_id = request.query.vip_id;
+				if (!vip_id) {
+					return reply({"success":false,"message":"vip_id is null"});
+				}
+				amount_history(vip_id,function(err,rows){
+					if (!err) {
+						return reply({"success":true,"rows":rows.rows});
+					}else {
+						return reply({"success":false,"message":rows.message});
+					}
+				})
+
+
 			}
 		},
 		//支付失败页面
@@ -2523,7 +2634,6 @@ exports.register = function(server, options, next){
 					"end_province" :"广东省" ,
 					"end_city" : "",
 					"end_district" : ""
-
 				};
 				search_selected_carts(person_id,ids,function(err,results){
 					if (!err) {
@@ -2629,10 +2739,10 @@ exports.register = function(server, options, next){
 								}else {
 									total_data.lgtic_pay = lgtic_pay;
 								}
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
 							}else {
 								total_data.lgtic_pay = 150;
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":total_data,"logistics_type":logistics_type,"sku_id":sku_id});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
 							}
 						});
 				});
@@ -2657,7 +2767,7 @@ exports.register = function(server, options, next){
 							"total_weight" : parseInt(num)*product.weight
 						};
 						if (total_data.total_weight) {
-							data.weight = total_data.total_weight/1000;
+							data.weight = total_data.total_weight;
 						}
 						ep.emit("product", product);
 						ep.emit("total_data", total_data);
@@ -2782,7 +2892,7 @@ exports.register = function(server, options, next){
 				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id,"sku_id":sku_id};
 				save_fast_order_infos(data,function(err,content){
 					if (!err) {
-						return reply({"success":true,"message":"ok"});
+						return reply({"success":true,"message":"ok","order_id":content.order_id});
 					}else {
 						return reply({"success":false,"message":content.message});
 					}
@@ -2798,9 +2908,10 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				var ep =  eventproxy.create("persons","personsVip","person_info",
-					function(persons,personsVip,person_info){
-					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info});
+				var ep =  eventproxy.create("persons","personsVip","person_info","person",
+					function(persons,personsVip,person_info,person){
+						console.log("person:"+JSON.stringify(person));
+					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
 				var person_ids = [person_id];
 				console.log("person_ids:"+person_id);
@@ -2831,6 +2942,14 @@ exports.register = function(server, options, next){
 						ep.emit("person_info", []);
 					}
 				});
+				get_person_vip(person_id, function(err, content){
+					if (!err) {
+						var person = content.row;
+						ep.emit("person", person);
+					}else {
+						ep.emit("person", []);
+					}
+				});
 			}
 		},
 		//退出loginout
@@ -2857,9 +2976,12 @@ exports.register = function(server, options, next){
 				var order_id = request.query.order_id;
 				get_order(order_id,function(err,rows){
 					if (!err) {
-						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows)});
+						if (rows.rows[0].order_status!="-1" && rows.rows[0].order_status!="0" ) {
+							return reply({"success":false,"message":"订单已经付过款了"})
+						}
+						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
 					}else {
-						return reply({"success":false,"message":content.message})
+						return reply({"success":false,"message":rows.message})
 					}
 				});
 			}
@@ -3287,6 +3409,22 @@ exports.register = function(server, options, next){
 				return reply.view("after_sale");
 			}
 		},
+		//退货列表
+		{
+			method: 'GET',
+			path: '/return_list',
+			handler: function(request, reply){
+				return reply.view("return_list");
+			}
+		},
+		//退货列表明细
+		{
+			method: 'GET',
+			path: '/return_view',
+			handler: function(request, reply){
+				return reply.view("return_view");
+			}
+		},
 		//账户余额
 		{
 			method: 'GET',
@@ -3339,13 +3477,12 @@ exports.register = function(server, options, next){
 				}
 				var order_id = request.query.order_id;
 
-				var ep =  eventproxy.create("order","details","products","logistics_info","invoices",
-					function(order,details,products,logistics_info,invoices){
+				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info",function(order,details,products,logistics_info,invoices,delivery_time,pay_info){
 						var invoices_map = {};
 						for (var i = 0; i < invoices.length; i++) {
 							invoices_map[invoices[i].order_id] = invoices[i];
 						}
-					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map});
+					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time,"pay_info":pay_info});
 				});
 
 				get_ec_order(order_id,function(err,results){
@@ -3353,10 +3490,14 @@ exports.register = function(server, options, next){
 						ep.emit("order", results.orders[0]);
 						ep.emit("details", results.details);
 						ep.emit("products", results.products);
+						ep.emit("pay_info", results.pay_info);
+						ep.emit("delivery_time", results.delivery_time);
 					}else {
 						ep.emit("order", {});
 						ep.emit("details", {});
 						ep.emit("products", {});
+						ep.emit("pay_info", []);
+						ep.emit("delivery_time", "未发货");
 					}
 				});
 				get_logistics_info(order_id,function(err,results){
@@ -3375,6 +3516,7 @@ exports.register = function(server, options, next){
 						ep.emit("invoices", []);
 					}
 				});
+
 			}
 		},
 		//订单查看页面

@@ -834,7 +834,6 @@
                 </li>
               </ul>
             </div>
-<<<<<<< HEAD
         	<div id="place_order"></div>
             <!-- 快递配送方式 -->
             <div class="partone partone0">
@@ -850,33 +849,6 @@
         	  <div class="close close0">
                 确 定
               </div>
-=======
-          </div>
-          <div class="middle">
-            <div class="middle-shouhuoren middle-shouhuoren1">
-              <span class="span1">所在地区</span>
-              <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
-    		  <div class="address_seclect" >
-                  <table name="shareip">
-                   <select class="select" name="province" id="s1">
-                   <option></option>
-                   </select>
-                   <select class="select" name="city" id="s2">
-                   <option></option>
-                   </select>
-                   <select class="select" name="town" id="s3">
-                   <option></option>
-                   </select>
-                   <input id="address" name="address" type="hidden" value="" />
-                   <input type="button" value="提交" class="address_seclect_submit"/>
-    		   </table>
-              </div>
-    		</div>
-          </div>
-          <div class="middle">
-            <div class="middle-shouhuoren">
-              <span class="span1">街道</span><p><span class="span2 clear_ad2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
->>>>>>> 1384980e9d7164ce4679b389c2e31e4e78cdb020
             </div>
 
             <!-- 运费险 -->
@@ -1026,7 +998,7 @@
 
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
-          <p class="add-num click1"><span class="logistics_type">普通快递</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+          <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="invoice">
@@ -1045,7 +1017,7 @@
 		</div>
 		<div class="invoice">
 		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="invoice_color" id="padding-right1">￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
+		  <p class="add-num"><span class="invoice_color" id="padding-right1"><%- total_data.total_weight %>￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="leave">
@@ -1094,14 +1066,19 @@
 			var total_data = {{total_data|safe}};
 			var place_order = function(){
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
+				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name}));
 				$(".footer-right").click(function(){
                     set_address();
                     var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
                             var order_id = data.order_id;
-							location.href = "/pay_way?order_id="+order_id;
+                            console.log("logistics:"+logistics);
+                            if (logistics == "sf_collect") {
+                                location.href = "/pay_success";
+                            }else {
+                                location.href = "/pay_way?order_id="+order_id;
+                            }
 						}else {
 							alert(data.message);
 						}
@@ -1255,7 +1232,6 @@
                     logistics = $(this).data("id");
                     logistics_name = $(this).val();
                 });
-                $(".logistics_type").html(logistics_name);
                 set_address();
                 logistics_payment();
             });
