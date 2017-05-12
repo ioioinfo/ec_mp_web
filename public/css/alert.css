@@ -1,0 +1,53 @@
+/*弹出框*/
+.alertWrap{
+    max-width: 400px;
+    width: 80%;
+
+    position: absolute;
+    top: 200px;
+    left: 10%;
+    background: #fff;
+    border-radius: 4px;
+    border: 4px solid #E6E6FA;
+    display: none;
+}
+.alertTitle{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-indent: 10px;
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+    background: #F7F7F7;
+    box-shadow: 1px 1px 7px  #E0EEEE;
+}
+.alertInfor{
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    color: #565656;
+    margin-top: 15px;
+    text-indent: 15px;
+}
+.alertSubmit{
+    text-align: center;
+    margin-top: 36px;
+}
+.alertSubmit span:first-child{
+    height: 30px;
+    line-height: 30px;
+    background: #1B9AF7;
+}
+.alertSubmit span:first-child:hover{
+    background-color: #1B9AF7;
+    border-color: #1B9AF7;
+    opacity: 0.9;
+    color: #FFF;
+}
+.alertSubmit span:last-child{
+    height: 30px;
+    line-height: 30px;
+}
