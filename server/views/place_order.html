@@ -240,8 +240,8 @@
         .product-infor .product-infor-middle .p1{
           width: 100%;
           font-size: 14px;
-		  height: 65px;
-          line-height: 24px;
+		  height: 42px;
+          line-height: 20px;
           color: #223541;
           overflow: hidden;
           -webkit-line-clamp: 2;
@@ -264,12 +264,18 @@
         .product-infor .product-infor-middle .p2{
           margin-top: 5px;
           font-size: 12px;
-          padding: 5px 0;
+          padding: 4px 0;
+          overflow: hidden;
+        }
+        .product-infor .product-infor-middle .p3{
+          margin-top: 5px;
+          font-size: 12px;
+          padding: 4px 0;
           overflow: hidden;
         }
         .product-infor .product-infor-middle .p2 .p2-span1{
           color: #e51c23;
-          margin-top: 5px;
+          margin-top: 4px;
           font-size: 12px;
           float: left;
         }
@@ -285,8 +291,7 @@
           vertical-align: middle;
         }
         .product-infor .product-infor-middle .p3{
-          text-align: right;
-          padding-top: 15px;
+          padding-top: 5px;
         }
         .product-infor .product-infor-middle .p3 img{
           width: 16px;
@@ -990,7 +995,8 @@
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
 				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-				</div>
+                  <p class="p3">重量:<%- total_data.total_weight %></p>
+                </div>
 			  </div>
 			<% }); %>
 		</div>
