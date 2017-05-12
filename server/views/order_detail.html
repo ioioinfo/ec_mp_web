@@ -5,7 +5,8 @@
     <title>订单详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 	<meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/alert.css">
     <link rel="stylesheet" href="css/jinping.css">
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/react.min.js"></script>
@@ -438,7 +439,6 @@
     	            <p>￥ {{detail.price}}</p>
     	            <p class="yuanjia"><s>￥{{detail.marketing_price}}</s></p>
     	            <p>x{{detail.number}}</p>
-    	            <p class="tuikuan">退款</p>
     	          </div>
     	        </div>
     	      </div>
@@ -529,6 +529,21 @@
     	<div style="width:100%;height:56px;background:#fff;"></div>
     </div>
 
+    <!-- 点击退款弹出层 -->
+    <div class="alertWrap">
+        <p class="alertTitle">商品详情</p>
+        <p class="alertInfor alertInfor1">商品名称:　<span></span></p>
+        <p class="alertInfor alertInfor2">数　&nbsp;&nbsp;&nbsp;&nbsp;量:　<span></span></p>
+        <p class="alertInfor alertInfor3">金　&nbsp;&nbsp;&nbsp;&nbsp;额:　<span></span></p>
+        <p class="alertInfor alertInfor7">类　&nbsp;&nbsp;&nbsp;&nbsp;型:　<span></span></p>
+        <p class="alertInfor alertInfor4">业务日期:　<span></span></p>
+        <p class="alertInfor alertInfor5">操作日期:　<span></span></p>
+        <p class="alertInfor alertInfor6">说　&nbsp;&nbsp;&nbsp;&nbsp;明::　<span></span></p>
+        <p class="alertSubmit">
+             <span class="button button-action" onClick={this.handleClick}>取 消</span>
+             <span class="button button-action" onClick={this.handleDelete}>删 除</span>
+         </p>
+    </div>
 	<script>
     	$(function() {
 		$.ajax({
@@ -582,6 +597,11 @@
 				}
 			})
 		});
+
+        // 退款
+        $(".tuikuan").click(function(){
+            $(".alertWrap").show();
+        })
     });
 	</script>
   </body>
