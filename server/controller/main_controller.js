@@ -722,7 +722,15 @@ exports.register = function(server, options, next){
 								};
 								online_card_pay(data,function(err,row){
 									if (!err) {
-										return reply({"success":true});
+										var info = {"order_id":order_id,"order_status":1};
+										update_order_status(info,function(err,content){
+											if (!err) {
+												return reply({"success":true});
+											}else {
+												reply({"success":false,"message":content.message,"service_info":content.service_info});
+											}
+										});
+
 									}else {
 										return	reply({"success":false,"message":row.message,"service_info":service_info});
 									}
