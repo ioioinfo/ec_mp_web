@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/alert.css">
     <link rel="stylesheet" href="css/jinping.css">
     <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
     <script src="js/browser.min.js"></script>
@@ -393,6 +394,10 @@
 	  .footer ul li .last-p {
 	    background: #e84e40;
 	 }
+
+     .service  a{
+         color: #888;
+     }
     </style>
   </head>
   <body>
@@ -447,7 +452,7 @@
 
           <div class="background"></div>
           <div class="service">
-            <img src="images/mobile.png" alt=""> 联系客服
+            <img src="images/mobile.png" alt=""><a href="tel:0513-81188090">联系客服</a>
           </div>
           <div class="background"></div>
           <div class="pay">
@@ -515,7 +520,7 @@
         				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
         			</p>
         		{% elseif order.order_status=="交易成功" %}
-                    <li><a><p>申请退款</p></a></li>
+                    <li class="apply_product"><a><p>申请退款</p></a></li>
                     <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
         		{% elseif order.order_status=="交易关闭" %}
                     <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
@@ -531,17 +536,19 @@
 
     <!-- 点击退款弹出层 -->
     <div class="alertWrap">
-        <p class="alertTitle">商品详情</p>
-        <p class="alertInfor alertInfor1">商品名称:　<span></span></p>
-        <p class="alertInfor alertInfor2">数　&nbsp;&nbsp;&nbsp;&nbsp;量:　<span></span></p>
-        <p class="alertInfor alertInfor3">金　&nbsp;&nbsp;&nbsp;&nbsp;额:　<span></span></p>
-        <p class="alertInfor alertInfor7">类　&nbsp;&nbsp;&nbsp;&nbsp;型:　<span></span></p>
-        <p class="alertInfor alertInfor4">业务日期:　<span></span></p>
-        <p class="alertInfor alertInfor5">操作日期:　<span></span></p>
-        <p class="alertInfor alertInfor6">说　&nbsp;&nbsp;&nbsp;&nbsp;明::　<span></span></p>
+        <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Small button <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>yi</li>
+                <li>yi</li>
+                <li>yi</li>
+            </ul>
+        </div>
         <p class="alertSubmit">
-             <span class="button button-action" onClick={this.handleClick}>取 消</span>
-             <span class="button button-action" onClick={this.handleDelete}>删 除</span>
+             <span class="button button-action">取 消</span>
+             <span class="button button-action" >删 除</span>
          </p>
     </div>
 	<script>
@@ -599,7 +606,7 @@
 		});
 
         // 退款
-        $(".tuikuan").click(function(){
+        $(".apply_product").click(function(){
             $(".alertWrap").show();
         })
     });
