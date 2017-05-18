@@ -336,6 +336,7 @@
     	            <p class="yuanjia"><s>￥{{detail.price}}</s></p>
     	            <p>x{{detail.number}}</p>
     	          </div>
+                  <span><a href="return_apply?order_id={{order.order_id}}&detail_id={{detail.id}}"> 申请退款</a></span>
     	        </div>
     	      </div>
     	  {% endfor %}
@@ -385,7 +386,6 @@
     			</p>
     		{% elseif order.order_status=="交易成功" %}
     			<p class="product-submit">
-    				<span> 申请退款</span>
                     <span class="delete_order" data-id="{{order.order_id}}">
     					删除订单
     				</span>
