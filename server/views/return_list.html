@@ -11,7 +11,7 @@
     <script src="js/react-dom.min.js"></script>
     <script src="js/browser.min.js"></script>
     <script src="js/jinzhi.js"></script>
-    <title>填写订单</title>
+    <title>退货</title>
     <style media="screen">
       @media screen and (max-width:640px){
         *{
@@ -24,6 +24,7 @@
           width: 100%;
           height: 100%;
           position: relative;
+          background: #F5F5F5;
         }
 		input, textarea {
 			  font-size: 14px;
@@ -106,7 +107,7 @@
         /*商品详情*/
         .product-infor{
           width: 100%;
-          margin-bottom: 25px;
+          margin-bottom: 15px;
           overflow: hidden;
           background: #fff;
           padding: 5px 0;
@@ -134,7 +135,7 @@
 
         }
         .product-infor .product-infor-left img{
-          width: 100px;
+          width: 100%;
           height: 100px;
         }
         .product-infor .product-infor-middle{
@@ -198,32 +199,223 @@
         .product-infor .product-infor-middle .p3{
           padding-top: 5px;
         }
-
+        .return_wrap{
+            color: #8E9291;
+            position: relative;
+            background: #fff;
+            padding: 9px  2%;
+            margin-bottom: 15px;
+        }
+        .return_wrap .return_reason{
+            overflow: hidden;
+        }
+        .return_wrap .return_reason_name{
+            display: inline-block;
+            font-size: 14px;
+            float: left;
+            height: 16px;
+            line-height: 16px;
+        }
+        .return_wrap .return_input{
+            display: inline-block;
+            float: right;
+            outline-style: none;
+            border:none;
+            padding-right: 3.4%;
+        }
+        .return_wrap .select_ul{
+            position: absolute;
+            top: 32px;
+            right: 2.13333%;
+            background: #fff;
+            width: 122px;
+            display: none;
+            z-index: 99;
+        }
+        .return_wrap .select_ul li{
+            line-height: 26px;
+            padding-left: 5px;
+        }
+        .jiantou-right{
+            position: absolute;
+            top: 9px;
+            right: 2.4%;
+        }
+        .return_money_name{
+            display: inline-block;
+            font-size: 14px;
+            height: 16px;
+            line-height: 16px;
+        }
+        .return_money_color{
+            color: red;
+        }
+        .return_instructions_input{
+            display: inline-block;
+            outline-style: none;
+            width: 74.58333%;
+            border: none;
+            text-indent: 5px;
+        }
+        .button{
+            width: 96%;
+            position: absolute;
+            bottom: 0;
+            left: 2%;
+        }
+        button{
+            width: 100%;
+            height: 56px;
+            line-height: 56px;
+            background: #D81E06;
+            color: #fff;
+            border: none;
+            outline-style: none;
+        }
       }
 	</style>
   </head>
   <body>
-        <div class="head">
-              <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
-              <span class="title">填写订单</span>
-              <span class="menu"><img src="images/menu.png" alt=""></span>
-            </div>
-		<div class="white"></div>
-		<div class="product-infor">
-			  <div class="all">
-				<div class="product-infor-left">
-						<img src="" alt="">
-						<img src="images/no_picture.png" alt="">
-				</div>
-				<div class="product-infor-middle">
-				  <p class="p1">商品名称</p>
-				  <p class="p2"><span class="p2-span1">￥11</span><span class="p2-span2">x1</span></p>
-                  <p class="p3">重量:11</p>
+      <div id="return"></div>
+      <script type="text/babel">
+      class Wrap extends React.Component {
+        render() {
+            return (
+              <div className="wrap">
+                <Header/>
+                <div className="white"></div>
+                <Middle/>
+                <Button/>
+              </div>
+            );
+        }
+      };
+
+      class Header extends React.Component {
+        render() {
+            return (
+                <div className="head">
+                    <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                    <span className="title">退货</span>
+                    <span className="menu"><img src="images/menu.png" alt="" /></span>
                 </div>
-			  </div>
-		</div>
+            );
+        }
+      };
 
+      class Middle extends React.Component {
+        render() {
+            return (
+                <div>
+                    <Product/>
+                    <Reason/>
+                    <Money/>
+                    <Instructions/>
+                </div>
+            );
+        }
+      };
 
+      class Product extends React.Component {
+        render() {
+            return (
+                <div className="product-infor">
+        			  <div className="all">
+        				<div className="product-infor-left">
+    						<img src="" alt="" />
+    						<img src="images/no_picture.png" alt="" />
+        				</div>
+        				<div className="product-infor-middle">
+        				  <p className="p1">商品名称</p>
+        				  <p className="p2"><span className="p2-span1">￥11</span><span className="p2-span2">x1</span></p>
+                        </div>
+        			  </div>
+        		</div>
+            );
+        }
+      };
+      class Reason extends React.Component {
+          constructor(props) {
+            super(props);
+            this.handleClick = this.handleClick.bind(this);
+            this.handleClick1 = this.handleClick1.bind(this);
+          }
+          handleClick(e){
+              $(".select_ul").show();
+          }
+          handleClick1(e){
+              var id = e.target.id;
+              $(".return_input").html($("#"+id).html());
+              $(".select_ul").hide();
+          }
+        render() {
 
+            return (
+                <div className="return_wrap">
+                    <div className="return_reason">
+                        <span className="return_reason_name">退款原因</span>
+                        <span className="return_input" onClick={this.handleClick}>点击选择退款原因</span>
+                        <img className="jiantou-right" src="images/jiantou-right.png"/>
+                    </div>
+                    <ul className="select_ul">
+                        <li id="1" onClick={this.handleClick1}>错拍,多拍</li>
+                        <li id="2" onClick={this.handleClick1}>尺码不对</li>
+                        <li id="3" onClick={this.handleClick1}>不想买了</li>
+                    </ul>
+                </div>
+            );
+        }
+      };
+      class Money extends React.Component {
+        render() {
+
+            return (
+                <div className="return_wrap">
+                    <div className="return_reason">
+                        <span className="return_money_name">退款金额 : </span>
+                        <span className="return_money"> ￥<span className="return_money_color">100</span></span>
+                    </div>
+                </div>
+            );
+        }
+      };
+      class Instructions extends React.Component {
+        render() {
+
+            return (
+                <div className="return_wrap">
+                    <div className="return_reason">
+                        <span className="return_money_name">退款说明补充 : </span>
+                        <input type="text" className="return_instructions_input"/>
+                    </div>
+                </div>
+            );
+        }
+      };
+      class Button extends React.Component {
+        render() {
+
+            return (
+                <div className="button">
+                    <button>提 交</button>
+                </div>
+            );
+        }
+      };
+      // 返回到页面
+      ReactDOM.render(
+        <Wrap/>,
+        document.getElementById("return")
+      );
+      </script>
+      <script type="text/javascript">
+      // 返回顶部
+      $(function(){
+          // 返回上一层
+          $(".head .jiantou").click(function(){
+              window.history.back();
+          })
+      });
+      </script>
   </body>
 </html>
