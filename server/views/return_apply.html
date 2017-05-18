@@ -317,13 +317,30 @@
       };
 
       class Product extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = {pictures:[],product:{}}
+          }
+          componentDidMount() {
+              $.ajax({
+                   url: "/search_product_detail?product_id={{product_id}}",
+                   dataType: 'json',
+                   type: 'GET',
+                   success: function(data) {
+                      this.setState({pictures:data.pictures,product:data.product});
+                   }.bind(this),
+                   error: function(xhr, status, err) {
+                   }.bind(this)
+              });
+          }
 
         render() {
+            var img = this.state.pictures[0].location;
             return (
                 <div className="product-infor">
         			  <div className="all">
         				<div className="product-infor-left">
-    						<img src="" alt="" />
+    						<img src={img} alt="" />
     						<img src="images/no_picture.png" alt="" />
         				</div>
         				<div className="product-infor-middle">
