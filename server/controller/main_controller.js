@@ -753,6 +753,20 @@ exports.register = function(server, options, next){
 				return reply.view("account_safe");
 			}
 		},
+		//退货申请
+		{
+			method: 'GET',
+			path: '/return_apply',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var order_id = request.query.order_id;
+				var product_id = request.query.product_id;
+				return reply.view("return_apply",{"order_id":order_id,"product_id":product_id});
+			}
+		},
 		//退单完成
 		{
 			method: 'POST',
