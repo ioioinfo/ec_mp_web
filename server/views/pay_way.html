@@ -133,6 +133,7 @@
         <script type="text/javascript">
         var orders = {{rows|safe}};
         var order = orders[0];
+        var amount = order.actual_price;
             $(function(){
                 // 返回上一层
                 $(".header .jiantou").click(function(){
@@ -168,7 +169,25 @@
             constructor(props) {
     			super(props);
     			this.handlePay = this.handlePay.bind(this);
+                this.aliPay = this.aliPay.bind(this);
     		}
+            aliPay(e) {
+                $.ajax({
+    				url: "/use_alipay_interface",
+    				dataType: 'json',
+    				type: 'POST',
+    				data: {order_id:"{{order_id}}","pay_way":"ali_pay","amount":amount},
+    				success: function(data) {
+    					if (data.success) {
+                            location.href = data.url;
+    					}else {
+    						alert(data.message);
+    					}
+    				}.bind(this),
+    				error: function(xhr, status, err) {
+    				}.bind(this)
+    			});
+            }
             handlePay(e) {
                 $.ajax({
     				url: "/online_card_pay",
@@ -200,8 +219,10 @@
                     </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_zhifubao">
+                    <a onClick = {this.aliPay}>
                     <li><img src="images/zhifubaozhifu1.png" alt="" /><span>支付宝支付</span></li>
                     <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_weixin">
                     <li><img src="images/weixinzhifu1.png" alt="" /><span>微信支付</span></li>

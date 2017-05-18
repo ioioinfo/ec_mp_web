@@ -1253,26 +1253,59 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/use_alipay_interface',
 			handler: function(request, reply){
-				var order = request.payload.order;
-				order = JSON.parse(order);
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var order_id = request.payload.order_id;
+				var pay_way = request.payload.pay_way;
+				var amount = request.payload.amount;
+				if (!order_id ||!pay_way||!amount) {
+					return reply({"success":false,"message":"param null"});
+				}
 				var url = "/payment_page?pay_way=";
 				//拼数据，更新订单状态，根据不同支付方式
-				if (order.pay_way == "ali_pay") {
-					url = url + "ali_pay"+"&order_id="+order.order_id;
-				}else if (order.pay_way == "chat_pay") {
-					url = url + "chat_pay"+"&order_id="+order.order_id;
-				}
 
-				//修改订单状况
-				var data = {"order_id":order.order_id,"order_status":0};
-				update_order_status(data,function(err,content){
+				// if (pay_way == "ali_pay") {
+				// 	url = url + "ali_pay"+"&order_id="+order_id;
+				// }else if (pay_way == "chat_pay") {
+				// 	url = url + "chat_pay"+"&order_id="+order_id;
+				// }
+
+				var info = {
+					"sob_id" : sob_id,
+					"platform_code" : platform_code,
+					"business_code" : "member_recharge",
+					"address" : "上海",
+					"order_id" : order_id,
+					"pay_amount" : amount,
+					"operator" : person_id,
+					"main_role_id" : person_id,
+					"subject" : "购买商品",
+					"body" : "购买商品",
+					"return_url" : "http://shop.buy42.com/",
+					"callback_url" : "http://shop.buy42.com/"
+				};
+				trade_alipay(info,function(err,content){
 					if (!err) {
+						var url = content.url;
+
+						//修改订单状况
+						var data = {"order_id":order_id,"order_status":0};
+						update_order_status(data,function(err,content){
+							if (!err) {
+								return reply({"success":true,"url":url});
+							}else {
+								return reply({"success":false,"message":content.message,"service_info":service_info});
+							}
+						});
 					}else {
-						return reply({"success":false,"message":content.message,"service_info":service_info});
+						return reply({"success":false,"message":content.message});
 					}
 				});
-				return reply({"success":true,"url":url});
-				// return reply.view(url);
+
+
+
 			}
 		},
 
