@@ -176,6 +176,12 @@ var get_ec_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_orders?person_id="+person_id;
 	do_get_method(url,cb);
 };
+//mp 订单明细
+var get_mp_order_details = function(order_id,cb){
+	var url = "http://211.149.248.241:18010/get_mp_order_details?order_id=";
+	url = url + order_id;
+	do_get_method(url,cb);
+};
 //得到单个订单
 var get_ec_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_ec_order?order_id="+order_id;
@@ -534,6 +540,11 @@ var get_front_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_front_orders?person_id="+person_id;
 	do_get_method(url,cb);
 }
+// 商品信息
+var find_product_info = function(product_id,cb){
+	var url = "http://127.0.0.1:18010/product_info?product_id="+product_id;
+	do_get_method(url,cb);
+};
 //保存立即购买订单信息
 var save_fast_order_infos = function(data,cb){
 	var url = "http://127.0.0.1:18010/save_fast_order_infos";
@@ -763,8 +774,38 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var order_id = request.query.order_id;
-				var product_id = request.query.product_id;
-				return reply.view("return_apply",{"order_id":order_id,"product_id":product_id});
+				var detail_id = request.query.detail_id;
+				if (!order_id) {
+					return reply({"success":false,"message":"order_id is null","service_info":service_info});
+				}
+				if (!detail_id) {
+					return reply({"success":false,"message":"detail_id is null","service_info":service_info});
+				}
+				get_ec_orders(person_id,function(err,results){
+					if (!err) {
+						var order_list = results.orders;
+						var order_map = {};
+						for (var i = 0; i < order_list.length; i++) {
+							order_map[order_list[i].order_id]= order_list[i];
+						}
+						//状态1 订单不存在
+						if (!order_map[order_id] || order_list.length ==0) {
+							return reply.view("return_apply_failure",{"status":1});
+						}
+						if (order_map[order_id].order_status != "交易成功") {
+							//状态2，订单状态不适用退款
+							return reply.view("return_apply_failure",{"status":2});
+						}
+						var order_details = results.details;
+						if (!order_details[detail_id]) {
+							//状态3，没有该订单明细
+							return reply.view("return_apply_failure",{"status":3});
+						}
+						return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id});
+					}else {
+						return reply({"success":false,"message":results.message});
+					}
+				});
 			}
 		},
 		//退单完成
@@ -1705,6 +1746,49 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//产品查询
+		{
+			method: 'GET',
+			path: '/search_product_detail',
+			handler: function(request, reply){
+				var product_id = request.query.product_id;
+				if (!product_id) {
+					return reply({"success":false,"message":"params null","service_info":service_info});
+				}
+
+				var ep =  eventproxy.create("pictures","properties","product",
+					function(pictures,properties,product){
+						return reply({"success":true,"message":"ok","pictures":pictures,"properties":properties,"product":product,"service_info":service_info});
+				});
+
+				find_pictures_byId(product_id,function(err,rows){
+					if (!err) {
+						ep.emit("pictures", rows.rows);
+					}else {
+						console.log(rows.message);
+						ep.emit("pictures", []);
+					}
+				});
+
+				find_properties_by_product(product_id,function(err,row){
+					if (!err) {
+						ep.emit("properties", row.properties);
+					}else {
+						console.log(rows.message);
+						ep.emit("properties", []);
+					}
+				});
+
+				find_product_byId(product_id,function(err,row){
+					if (!err) {
+						ep.emit("product", row.row);
+					}else {
+						ep.emit("product", {});
+					}
+				});
+			}
+		},
+
 		//产品展示
 		{
 			method: 'GET',
@@ -3166,9 +3250,7 @@ exports.register = function(server, options, next){
 				}else {
 					get_ec_orders(person_id,function(err,results){
 						if (!err) {
-							if (true) {
-								return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
-							}
+							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
 							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
 						}
