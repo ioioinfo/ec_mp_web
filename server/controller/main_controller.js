@@ -1068,6 +1068,16 @@ exports.register = function(server, options, next){
 				return reply.view("pay_success",{"order_id":order_id});
 			}
 		},
+		//充值成功
+		{
+			method: 'GET',
+			path: '/recharge_success',
+			handler: function(request, reply){
+				var recharge_id = request.query.recharge_id;
+
+				return reply.view("recharge_success",{"recharge_id":recharge_id});
+			}
+		},
 		//历史消费
 		{
 			method: 'GET',
@@ -3485,12 +3495,31 @@ exports.register = function(server, options, next){
 				}
 				var order_id = request.query.order_id;
 
-				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info",function(order,details,products,logistics_info,invoices,delivery_time,pay_info){
+				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info","order_list",function(order,details,products,logistics_info,invoices,delivery_time,pay_info,order_list){
+						var order_map = {};
+						for (var i = 0; i < order_list.length; i++) {
+							order_map[order_list[i].order_id]= order_list[i];
+						}
+						if (!order_map[order_id] || order_list.length ==0) {
+							return reply.view("limited_orderView");
+						}
 						var invoices_map = {};
 						for (var i = 0; i < invoices.length; i++) {
 							invoices_map[invoices[i].order_id] = invoices[i];
 						}
 					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time,"pay_info":pay_info});
+				});
+
+				get_ec_orders(person_id,function(err,results){
+					if (!err) {
+						if (results.orders.length>0) {
+							ep.emit("order_list", results.orders);
+						}else {
+							ep.emit("order_list", []);
+						}
+					}else {
+						ep.emit("order_list", []);
+					}
 				});
 
 				get_ec_order(order_id,function(err,results){
