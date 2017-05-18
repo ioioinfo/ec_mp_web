@@ -284,8 +284,8 @@
               <div className="wrap">
                 <Header/>
                 <div className="white"></div>
-                <Middle/>
-                <Button/>
+                <Product/>
+                <Reason/>
               </div>
             );
         }
@@ -303,18 +303,6 @@
         }
       };
 
-      class Middle extends React.Component {
-        render() {
-            return (
-                <div>
-                    <Product/>
-                    <Reason/>
-                    <Money/>
-                    <Instructions/>
-                </div>
-            );
-        }
-      };
 
       class Product extends React.Component {
           constructor(props) {
@@ -327,7 +315,7 @@
                    dataType: 'json',
                    type: 'GET',
                    success: function(data) {
-                      this.setState({pictures:data.pictures,product:data.product});
+                      this.setState({pictures:data.pictures[0],product:data.product});
                    }.bind(this),
                    error: function(xhr, status, err) {
                    }.bind(this)
@@ -335,17 +323,25 @@
           }
 
         render() {
-            var img = this.state.pictures[0].location;
+             var src = this.state.pictures.location;
+             var img1 = <img src={src} alt="" />;
+             var img2 = <img src="images/no_picture.png" alt="" />
+             var img;
+             if(!src){
+                 img = img2;
+             }else {
+                 img = img1;
+             }
             return (
                 <div className="product-infor">
         			  <div className="all">
         				<div className="product-infor-left">
-    						<img src={img} alt="" />
-    						<img src="images/no_picture.png" alt="" />
+
+                            {img}
         				</div>
         				<div className="product-infor-middle">
-        				  <p className="p1">商品名称</p>
-        				  <p className="p2"><span className="p2-span1">￥11</span><span className="p2-span2">x1</span></p>
+        				  <p className="p1">{this.state.product.product_name}</p>
+        				  <p className="p2"><span className="p2-span1">￥{this.state.product.product_sale_price}</span><span className="p2-span2">x{{number}}</span></p>
                         </div>
         			  </div>
         		</div>
@@ -357,6 +353,7 @@
             super(props);
             this.handleClick = this.handleClick.bind(this);
             this.handleClick1 = this.handleClick1.bind(this);
+            this.handleClick2 = this.handleClick2.bind(this);
           }
           handleClick(e){
               $(".select_ul").show();
@@ -366,9 +363,30 @@
               $(".return_input").html($("#"+id).html());
               $(".select_ul").hide();
           }
+          handleClick2(e){
+              $.ajax({
+                    url: "/create_return_apply",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":"{{order_id}}","product_id":"{{product_id}}","return_reason":$(".return_input").html(),
+                            "number":"{{number}}","imgs":1,"other_reason":$(".return_instructions_input").val()},
+
+                    success: function(data) {
+                        if (data.success) {
+                            alert("提交成功！");
+                        }else {
+                            alert("提交失败！");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
+
+          }
         render() {
 
             return (
+                <div>
                 <div className="return_wrap">
                     <div className="return_reason">
                         <span className="return_reason_name">退款原因</span>
@@ -381,45 +399,27 @@
                         <li id="3" onClick={this.handleClick1}>不想买了</li>
                     </ul>
                 </div>
-            );
-        }
-      };
-      class Money extends React.Component {
-        render() {
-
-            return (
                 <div className="return_wrap">
                     <div className="return_reason">
                         <span className="return_money_name">退款金额 : </span>
                         <span className="return_money"> ￥<span className="return_money_color">100</span></span>
                     </div>
                 </div>
-            );
-        }
-      };
-      class Instructions extends React.Component {
-        render() {
-
-            return (
                 <div className="return_wrap">
                     <div className="return_reason">
                         <span className="return_money_name">退款说明补充 : </span>
                         <input type="text" className="return_instructions_input"/>
                     </div>
                 </div>
-            );
-        }
-      };
-      class Button extends React.Component {
-        render() {
-
-            return (
                 <div className="button">
-                    <button>提 交</button>
+                    <button onClick={this.handleClick2}>提 交</button>
                 </div>
+                </div>
+
             );
         }
       };
+
       // 返回到页面
       ReactDOM.render(
         <Wrap/>,
