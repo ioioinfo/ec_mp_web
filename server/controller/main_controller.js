@@ -7,6 +7,7 @@ var _ = require("lodash");
 var service_info = "web service";
 var org_code = "ioio";
 var platform_code = "ec_mobile";
+var sob_id = "ioio";
 
 var do_get_method = function(url,cb){
 	uu_request.get(url, function(err, response, body){
@@ -419,6 +420,11 @@ var register_activity = function(data,cb){
 	var url = "http://211.149.248.241:18004/trigger/register";
 	do_post_method(url,data,cb);
 };
+//支付宝付费
+var trade_alipay = function(data,cb){
+	var url = "http://139.196.148.40:18008/donate_trade_alipay";
+	do_post_method(url,data,cb);
+};
 //vip注册
 var do_vip = function(data, cb){
 	var url = "http://139.196.148.40:18003/vip/add_vip";
@@ -776,6 +782,7 @@ exports.register = function(server, options, next){
 				var order_id = request.query.order_id;
 				var detail_id = request.query.detail_id;
 				var product_id = request.query.product_id;
+				var number = request.query.number;
 				if (!order_id) {
 					return reply({"success":false,"message":"order_id is null","service_info":service_info});
 				}
@@ -785,7 +792,10 @@ exports.register = function(server, options, next){
 				if (!product_id) {
 					return reply({"success":false,"message":"product_id is null","service_info":service_info});
 				}
-				return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id,"product_id":product_id});
+				if (!number) {
+					return reply({"success":false,"message":"number is null","service_info":service_info});
+				}
+				return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id,"product_id":product_id,"number":number});
 				// get_ec_orders(person_id,function(err,results){
 				// 	if (!err) {
 				// 		var order_list = results.orders;
@@ -931,13 +941,17 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/create_return_apply',
 			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
 				var order_id = request.payload.order_id;
-				var person_id = request.payload.person_id;
 				var product_id = request.payload.product_id;
 				var return_reason = request.payload.return_reason;
 				var number = request.payload.number;
 				var imgs = request.payload.imgs;
-				if (!order_id || !person_id || !product_id || !return_reason || !number || !imgs) {
+				var other_reason = request.payload.other_reason;
+				if (!order_id || !product_id || !return_reason || !number || !imgs ||!other_reason) {
 					return reply({"success":false,"message":"param null"});
 				}
 				var data = {
@@ -946,7 +960,8 @@ exports.register = function(server, options, next){
 					"product_id" : product_id,
 					"return_reason" : return_reason,
 					"number" : number,
-					"imgs" : imgs
+					"imgs" : imgs,
+					"other_reason" : other_reason
 				};
 				create_return_apply(data, function(err,content){
 					if (!err) {
@@ -1725,7 +1740,30 @@ exports.register = function(server, options, next){
 						}
 						save_recharge_order(data,function(err,content){
 							if (!err) {
-								return reply({"success":true,"message":"ok"});
+								var order_id = content.order_id;
+								console.log("order_id:"+order_id);
+								var info = {
+									"sob_id" : sob_id,
+									"platform_code" : platform_code,
+									"business_code" : "member_recharge",
+									"address" : "上海",
+									"order_id" : order_id,
+									"pay_amount" : actual_price,
+									"operator" : person_id,
+									"main_role_id" : person_id,
+									"subject" : "会员充值",
+									"body" : "会员充值",
+									"return_url" : "http://shop.buy42.com/",
+									"callback_url" : "http://shop.buy42.com/"
+								};
+								trade_alipay(info,function(err,content){
+									if (!err) {
+										var url = content.url;
+										return reply({"success":true,"url":url});
+									}else {
+										return reply({"success":false,"message":content.message});
+									}
+								});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}

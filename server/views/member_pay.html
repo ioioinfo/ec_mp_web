@@ -259,7 +259,9 @@
 					type: 'GET',
 					data: ({marketing_price:this.state.selected.price,actual_price:this.state.selected.price1,pay_way:e.target.id,activity_id:activity_id}),
 					success: function(data) {
-
+                        if (data.success) {
+                            location.href = data.url;
+                        }
 					}.bind(this),
 					error: function(xhr, status, err) {
 					}.bind(this)
