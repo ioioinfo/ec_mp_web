@@ -176,7 +176,7 @@
     				url: "/use_alipay_interface",
     				dataType: 'json',
     				type: 'POST',
-    				data: {order_id:"{{order_id}}","pay_way":"ali_pay","amount":amount},
+    				data: {order_id:"{{order_id}}","pay_way":"ali_pay","amount":0.01},
     				success: function(data) {
     					if (data.success) {
                             location.href = data.url;
