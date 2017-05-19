@@ -38,6 +38,7 @@
           position: relative;
           overflow: hidden;
           border-bottom: 1px solid #eaeaea;
+          background: #f5f5f5;
         }
         .jiantou{
           display: inline-block;
@@ -129,26 +130,59 @@
     };
     // 消费记录
     class RecordList extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state={payitem:[]};
+        }
+        componentDidMount() {
+            $.ajax({
+                 url: "/list_vip_amount_history",
+                 dataType: 'json',
+                 type: 'GET',
+                 success: function(data) {
+                    this.setState({payitem:data.rows});
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                 }.bind(this)
+            });
+        }
       render() {
           return (
               <ul className="record_ul">
-                <RecordLi/>
+                {this.state.payitem.map(item => (
+                    <RecordLi item={item}/>))
+                }
               </ul>
           );
       }
     };
     class RecordLi extends React.Component {
       render() {
-          return (
-              <li className="record_li">
-                <a>
-                <div className="time">2017/5/9</div>
-                <div className="picture"><img src="images/yue.png" alt="" /></div>
-                <div className="number">-1111</div>
-                </a>
-              </li>
-              
-          );
+          var pay_amount = this.props.item.pay_amount;
+          if(pay_amount>0){
+              return (
+                  <li className="record_li">
+                    <a>
+                    <div className="time">{this.props.item.created_at_text}</div>
+                    <div className="picture"><img src="images/chongzhi.png" alt="" /></div>
+                    <div className="number"> +{pay_amount}</div>
+                    </a>
+                  </li>
+
+              );
+          }else {
+              return (
+                  <li className="record_li">
+                    <a>
+                    <div className="time">{this.props.item.created_at_text}</div>
+                    <div className="picture"><img src="images/yue.png" alt="" /></div>
+                    <div className="number">{pay_amount}</div>
+                    </a>
+                  </li>
+
+              );
+          }
+
       }
     };
 
