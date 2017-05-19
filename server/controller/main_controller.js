@@ -899,13 +899,9 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				// var person_id = "";
-				// if (request.query.person_id) {
-				// 	person_id = request.query.person_id;
-				// }
 				search_return_list(person_id,function(err,rows){
 					if (!err) {
-						return reply({"success":true,"rows":rows.rows});
+						return reply({"success":true,"rows":rows.rows,"products":rows.products});
 					}else {
 						return reply({"success":false,"message":rows.message,"service_info":service_info});
 					}
