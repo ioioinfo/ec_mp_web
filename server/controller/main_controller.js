@@ -795,37 +795,36 @@ exports.register = function(server, options, next){
 				if (!number) {
 					return reply({"success":false,"message":"number is null","service_info":service_info});
 				}
-				return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id,"product_id":product_id,"number":number});
-				// get_ec_orders(person_id,function(err,results){
-				// 	if (!err) {
-				// 		var order_list = results.orders;
-				// 		var order_map = {};
-				// 		for (var i = 0; i < order_list.length; i++) {
-				// 			order_map[order_list[i].order_id]= order_list[i];
-				// 		}
-				// 		//状态1 订单不存在
-				// 		if (!order_map[order_id] || order_list.length ==0) {
-				// 			return reply.view("return_apply_failure",{"status":1});
-				// 		}
-				// 		if (order_map[order_id].order_status != "交易成功") {
-				// 			//状态2，订单状态不适用退款
-				// 			return reply.view("return_apply_failure",{"status":2});
-				// 		}
-				// 		var order_details = results.details;
-				// 		var details_list = order_details[order_id];
-				// 		var detail_map = {};
-				// 		for (var i = 0; i < details_list.length; i++) {
-				// 			detail_map[details_list[i].id] = details_list[i];
-				// 		}
-				// 		if (!detail_map[detail_id]) {
-				// 			//状态3，没有该订单明细
-				// 			return reply.view("return_apply_failure",{"status":3});
-				// 		}
-				// 		return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id});
-				// 	}else {
-				// 		return reply({"success":false,"message":results.message});
-				// 	}
-				// });
+				get_ec_orders(person_id,function(err,results){
+					if (!err) {
+						var order_list = results.orders;
+						var order_map = {};
+						for (var i = 0; i < order_list.length; i++) {
+							order_map[order_list[i].order_id]= order_list[i];
+						}
+						//状态1 订单不存在
+						if (!order_map[order_id] || order_list.length ==0) {
+							return reply.view("return_apply_failure",{"status":1});
+						}
+						if (order_map[order_id].order_status != "交易成功") {
+							//状态2，订单状态不适用退款
+							return reply.view("return_apply_failure",{"status":2});
+						}
+						var order_details = results.details;
+						var details_list = order_details[order_id];
+						var detail_map = {};
+						for (var i = 0; i < details_list.length; i++) {
+							detail_map[details_list[i].id] = details_list[i];
+						}
+						if (!detail_map[detail_id]) {
+							//状态3，没有该订单明细
+							return reply.view("return_apply_failure",{"status":3});
+						}
+						return reply.view("return_apply",{"order_id":order_id,"detail_id":detail_id,"product_id":product_id,"number":number});
+					}else {
+						return reply({"success":false,"message":results.message});
+					}
+				});
 			}
 		},
 		//退单完成
@@ -961,7 +960,15 @@ exports.register = function(server, options, next){
 				};
 				create_return_apply(data, function(err,content){
 					if (!err) {
-						return reply({"success":true,"service_info":service_info});
+						//修改订单状况
+						var data = {"order_id":order_id,"order_status":9};
+						update_order_status(data,function(err,content){
+							if (!err) {
+								return reply({"success":true,"url":url});
+							}else {
+								return reply({"success":false,"message":content.message,"service_info":service_info});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":content.message,"service_info":service_info});
 					}
