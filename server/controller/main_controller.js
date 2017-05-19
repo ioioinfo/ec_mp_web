@@ -1279,8 +1279,8 @@ exports.register = function(server, options, next){
 					"main_role_id" : person_id,
 					"subject" : "购买商品",
 					"body" : "购买商品",
-					"return_url" : "http://shop.buy42.com/",
-					"callback_url" : "http://shop.buy42.com/"
+					"return_url" : "http://shop.buy42.com/pay_success",
+					"callback_url" : "http://shop.buy42.com/receive_pay_notify"
 				};
 				trade_alipay(info,function(err,content){
 					if (!err) {
@@ -1310,10 +1310,6 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/receive_pay_notify',
 			handler: function(request, reply){
-				var person_id = get_cookie_person(request);
-				if (!person_id) {
-					return reply.redirect("/chat_login");
-				}
 				var success = request.payload.success;
 				var order_id = request.payload.order_id;
 				//实际保存
