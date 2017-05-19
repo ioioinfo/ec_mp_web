@@ -219,9 +219,13 @@
   </head>
   <body>
       <div id="return"></div>
+      <script type="text/javascript">
+          var idItems;
+      </script>
       <script type="text/babel">
       class Wrap extends React.Component {
         render() {
+
             return (
               <div className="wrap">
                 <Header/>
@@ -233,6 +237,7 @@
       };
 
       class Header extends React.Component {
+
         render() {
             return (
                 <div className="head">
@@ -247,7 +252,7 @@
       class Middle extends React.Component {
           constructor(props) {
             super(props);
-            this.state = {returnitems:[]}
+            this.state = {returnitems:[],products:{}};
           }
           componentDidMount() {
               $.ajax({
@@ -255,7 +260,7 @@
                    dataType: 'json',
                    type: 'GET',
                    success: function(data) {
-                      this.setState({returnitems:data.rows});
+                       this.setState({returnitems:data.rows,products:data.products});
                    }.bind(this),
                    error: function(xhr, status, err) {
                    }.bind(this)
@@ -266,7 +271,7 @@
             return (
                 <div>
                 {this.state.returnitems.map(item => (
-                    <Product item={item}/>))
+                    <Product item={item} products={this.state.products} />))
                 }
                 </div>
             );
@@ -275,22 +280,30 @@
 
       class Product extends React.Component {
         render() {
+            var product = this.props.products[this.props.item.product_id];
+            var img =  product.img;
+            var src = "images/no_picture.png";
+
+            if(img){
+                src = img.location;
+            }
+
             return (
                 <div className="product-infor">
         			  <div className="all">
         				<div className="product-infor-left">
-    						<img src="" alt="" />
-    						<img src="images/no_picture.png" alt="" />
+    						<img src={src} alt="" />
         				</div>
         				<div className="product-infor-middle">
-        				  <p className="p1">商品名称</p>
-        				  <p className="p2"><span className="p2-span1">￥11</span><span className="p2-span2">x1</span></p>
+        				  <p className="p1">{product.product_name}</p>
+        				  <p className="p2"><span className="p2-span1">￥{product.product_sale_price}</span><span className="p2-span2">x1</span></p>
                           <p className="p3">退款金额 : 11</p>
                         </div>
         			  </div>
-                      <div className="statu_remind"><span className="statu_remind_span1">退款成功</span><span className="statu_remind_span2">查看详情</span></div>
+                      <div className="statu_remind"><span className="statu_remind_span1">{this.props.item.return_status}</span></div>
         		</div>
             );
+
         }
       };
 
