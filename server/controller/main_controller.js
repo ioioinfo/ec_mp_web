@@ -961,10 +961,10 @@ exports.register = function(server, options, next){
 				create_return_apply(data, function(err,content){
 					if (!err) {
 						//修改订单状况
-						var data = {"order_id":order_id,"order_status":9};
-						update_order_status(data,function(err,content){
+						var data2 = {"order_id":order_id,"order_status":9};
+						update_order_status(data2,function(err,content){
 							if (!err) {
-								return reply({"success":true,"url":url});
+								return reply({"success":true});
 							}else {
 								return reply({"success":false,"message":content.message,"service_info":service_info});
 							}
