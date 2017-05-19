@@ -152,7 +152,7 @@
                 <div className="header">
                   <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
                   <span className="title">支付成功</span>
-                  <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+                  <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
                 </div>
               );
           }
@@ -179,6 +179,14 @@
           <Wrap/>,
           document.getElementById("recharged")
         );
+        </script>
+        <script type="text/javascript">
+        $(function(){
+            // 返回上一层
+            $(".header .jiantou").click(function(){
+                window.history.back();
+            })
+        })
         </script>
     </body>
 </html>
