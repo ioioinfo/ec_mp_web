@@ -294,10 +294,7 @@
                 <input type="tel" value={this.state.vertify} placeholder="请输入验证码" id="vertify" className="verificationNum" onChange={this.handleChange} />
                 <span className="verificationimg"><img id="img"  src={this.state.src} onClick = {this.handleVertify}/></span>
               </div>
-              <div className="checkbox">
-                <span className="checkboxone"></span>
-                <span className="checkboxtwo"><input type="checkbox" value=""  className="checkboxNum" />自动登录</span>
-              </div>
+             
               <div className="submit">
                 <input type="submit" value="登 录" className="verificationNum" onClick = {this.handleLogin}/>
               </div>
