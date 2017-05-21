@@ -22,7 +22,6 @@ var do_get_method = function(url,cb){
 //所有post调用接口方法
 var do_post_method = function(url,data,cb){
 	uu_request.request(url, data, function(err, response, body) {
-		console.log(body);
 		if (!err && response.statusCode === 200) {
 			do_result(false, body, cb);
 		} else {
@@ -56,7 +55,6 @@ var login_set_cookie = function(request,person_id){
 	}
 	var cart_code = get_cookie_cart_code(request);
 	if (cart_code) {
-		console.log("person_id:"+person_id);
 		combine_shopping_cart(cart_code,person_id,function(err,result){
 		});
 	}
@@ -480,7 +478,6 @@ var plus_shopping_carts = function(ids,cb){
 };
 //查询同类商品
 var find_same_products = function(product_id, same_code, cb){
-	console.log("same_code:"+same_code);
 	var url = "http://127.0.0.1:18002/get_same_products?product_id=";
 	url = url + product_id + "&same_code=" + same_code;
 	do_get_method(url,cb);
@@ -702,6 +699,11 @@ var finish_return_order = function(data,cb){
 	var url = "http://127.0.0.1:18010/finish_return_order";
 	do_post_method(url,data,cb);
 }
+//退单完成
+var add_jifen = function(data,cb){
+	var url = "http://139.196.148.40:18003/vip/order_finish";
+	do_post_method(url,data,cb);
+}
 //在线会员支付
 var online_card_pay = function(data,cb){
 	var url = "http://139.196.148.40:18008/online_card_pay";
@@ -860,7 +862,6 @@ exports.register = function(server, options, next){
 					cart_code = "";
 				}
 				var data = {"person_id":person_id,"cart_code":cart_code};
-				console.log("data:"+JSON.stringify(data));
 				delete_shopping_carts2(data,function(err,row){
 					if (!err) {
 						return reply({"success":true});
@@ -1140,7 +1141,7 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
-		//支付成功页面,修改订单状态，积分累计，库存减少
+		//支付成功页面,库存减少
 		{
 			method: 'GET',
 			path: '/pay_success',
@@ -1312,7 +1313,7 @@ exports.register = function(server, options, next){
 			}
 		},
 
-		//支付宝回调，通知消息 流程 5  事件ID、时间，is_deal
+		//支付宝回调，通知消息 流程 5  事件ID、时间，is_deal，改变订单状态，积分累计
 		{
 			method: 'POST',
 			path: '/receive_pay_notify',
@@ -1322,7 +1323,6 @@ exports.register = function(server, options, next){
 				//实际保存
 				var info = {"id":order_id};
 				search_deal_event(info,function(err,rows){
-					console.log("rows:"+JSON.stringify(rows));
 					if (!err) {
 						if (rows.row.length>0) {
 							//有处理的，保存当前事件
@@ -1348,8 +1348,6 @@ exports.register = function(server, options, next){
 										info.is_deal = 1;
 										save_event(info,function(err,content){
 											if (!err) {
-												//回调阿里接口
-
 												return reply({"success":true,"message":"订单事件处理完"});
 											}else {
 												return reply({"success":false,"message":content.message,"service_info":service_info});
@@ -1419,7 +1417,6 @@ exports.register = function(server, options, next){
 			}
 		},
 
-
 		//上传保存图片
 		{
 			method: 'POST',
@@ -1487,7 +1484,6 @@ exports.register = function(server, options, next){
 					"batch_code" : batch_code,
 					"size_name" : size_name
 				};
-				console.log(JSON.stringify(product));
 				save_product_complex(product,function(err,result){
 					if (!err) {
 						var product_id = result.product_id;
@@ -1516,7 +1512,6 @@ exports.register = function(server, options, next){
 					"product_sale_price" : product_sale_price,
 					"industry_id" : 101
 				};
-				console.log(JSON.stringify(product));
 				save_product_simple(product,function(err,result){
 					if (!err) {
 						var product_id = result.product_id;
@@ -1602,7 +1597,6 @@ exports.register = function(server, options, next){
 				find_sorts(function(err, content){
 					if (!err) {
 						var  sorts = content.rows;
-						console.log("sorts: "+sorts);
 						var level_map = {};
 						for (var i = 0; i < sorts.length; i++) {
 							var parent_id = sorts[i].parent.toString() ;
@@ -1613,7 +1607,6 @@ exports.register = function(server, options, next){
 							level_sorts.push(sorts[i]);
 							level_map[parent_id] = level_sorts;
 						}
-						console.log("level_map: "+JSON.stringify(level_map));
 						return reply({"sorts":level_map});
 					}else {
 						return reply({"success":false,"message":content.message});
@@ -1629,7 +1622,6 @@ exports.register = function(server, options, next){
 				find_sorts(function(err, content){
 					if (!err) {
 						var  sorts = content.rows;
-						console.log("sorts: "+sorts);
 						var level_map = {};
 						for (var i = 0; i < sorts.length; i++) {
 							var parent_id = sorts[i].parent.toString() ;
@@ -1640,7 +1632,6 @@ exports.register = function(server, options, next){
 							level_sorts.push(sorts[i]);
 							level_map[parent_id] = level_sorts;
 						}
-						console.log("level_map: "+JSON.stringify(level_map));
 						var sorts_infos = JSON.stringify(level_map);
 						return reply.view("sort",{"sorts":level_map,"sorts_infos":sorts_infos});
 					}else {
@@ -1698,7 +1689,6 @@ exports.register = function(server, options, next){
 				search_object.sort_ids = request.query.sort_ids;
 				search_object.num = request.query.num;
 				search_object.lastest = request.query.lastest;
-				console.log("search_object:"+JSON.stringify(search_object));
 				search_all_products(search_object,function(err,results){
 					if (!err) {
 						if (results.rows.length == 0) {
@@ -1706,7 +1696,6 @@ exports.register = function(server, options, next){
 						}
 						var industry_id = results.rows[0].industry_id;
 						var saixuans = industries[industry_id].saixuan;
-						console.log("saixuans:"+JSON.stringify(saixuans));
 						var product_ids = [];
 						for (var i = 0; i < results.rows.length; i++) {
 							product_ids.push(results.rows[i].id);
@@ -1718,7 +1707,6 @@ exports.register = function(server, options, next){
 								for (var i = 0; i < content.rows.length; i++) {
 									comments_map[content.rows[i].product_id] = content.rows[i];
 								}
-								console.log("search_object:"+JSON.stringify(search_object));
 								return reply.view("search",{"products":results.rows,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans,"select_saixuans":search_object});
 							}else {
 								return reply({"success":false,"message":content.message});
@@ -1773,7 +1761,6 @@ exports.register = function(server, options, next){
 						save_recharge_order(data,function(err,content){
 							if (!err) {
 								var order_id = content.order_id;
-								console.log("order_id:"+order_id);
 								var info = {
 									"sob_id" : sob_id,
 									"platform_code" : platform_code,
@@ -1845,7 +1832,6 @@ exports.register = function(server, options, next){
 					if (!err) {
 						ep.emit("pictures", rows.rows);
 					}else {
-						console.log(rows.message);
 						ep.emit("pictures", []);
 					}
 				});
@@ -1854,7 +1840,6 @@ exports.register = function(server, options, next){
 					if (!err) {
 						ep.emit("properties", row.properties);
 					}else {
-						console.log(rows.message);
 						ep.emit("properties", []);
 					}
 				});
@@ -2101,7 +2086,6 @@ exports.register = function(server, options, next){
 					return reply({"success":false,"message":"param null"});
 				}
 				find_properties_by_product(product_id, function(err, result){
-					console.log("result:"+JSON.stringify(result));
 					if (!err) {
 						var properties = result.properties;
 						var property = {};
@@ -2363,7 +2347,6 @@ exports.register = function(server, options, next){
 					return reply({"success":false,"message":"param null"});
 				}
 				//判断是否登入
-				console.log("person_id:"+person_id);
 				if (!person_id) {
 					//判断cookie是否有存在  并查数据库购物车信息,如果不存在，自动生成新建购物车，有合并
 					if (!cart_code) {
@@ -2399,7 +2382,6 @@ exports.register = function(server, options, next){
 						"sku_id" : sku_id
 					};
 					search_shopping_cart(data,function(err,result){
-						console.log("result:"+JSON.stringify(result));
 						if (!err) {
 							return reply({"success":true,"all_items":result.all_items});
 						}else {
@@ -2416,7 +2398,6 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				var cart_code = get_cookie_cart_code(request);
-				console.log("cart_code:"+cart_code);
 				if (!person_id) {
 					person_id = "";
 				}
@@ -2426,7 +2407,6 @@ exports.register = function(server, options, next){
 				//查询购物车信息
 				sarch_cart_infos(person_id,cart_code,function(err,results){
 					if (!err) {
-						console.log("results:"+JSON.stringify(results));
 						var update_ids = [];
 						var total_data = results.total_data;
 						return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
@@ -2451,8 +2431,6 @@ exports.register = function(server, options, next){
 				var ids = [];
 				ids.push(id);
 				ids = JSON.stringify(ids);
-
-				console.log(ids);
 				delete_shopping_carts(ids,function(err,content){
 					if (!err) {
 						//查询购物车信息
@@ -2702,7 +2680,6 @@ exports.register = function(server, options, next){
 						if (!person_id) {
 							if (cart_code) {
 								find_none_person_cart(cart_code,function(err,results){
-									console.log("results:"+JSON.stringify(results));
 									if (!err) {
 										var update_ids = [];
 										var total_data = {};
@@ -2721,8 +2698,6 @@ exports.register = function(server, options, next){
 						}else {
 							find_person_cart(person_id,function(err,results){
 								if (!err) {
-									console.log("results:"+JSON.stringify(results));
-									console.log("total_data:"+JSON.stringify(results.total_data));
 									var total_data = {};
 									if(results.total_data){
 										total_data = results.total_data;
@@ -2758,9 +2733,7 @@ exports.register = function(server, options, next){
 					"person_id" : person_id,
 					"cart_code" : cart_code
 				};
-				console.log("data:"+JSON.stringify(data));
 				update_selected(data,function(err,results){
-					console.log("results:"+JSON.stringify(results));
 					if (!err) {
 						var total_data = {};
 						if(results.total_data){
@@ -2836,7 +2809,6 @@ exports.register = function(server, options, next){
 						if (results.success) {
 							var shopping_carts = results.shopping_carts;
 							var products = results.products;
-							console.log("product:"+JSON.stringify(products));
 							var total_data = results.total_data;
 							if (total_data.total_items) {
 								data.order_amount = total_data.total_items;
@@ -2864,7 +2836,6 @@ exports.register = function(server, options, next){
 							var addresses = results.rows;
 							for (var i = 0; i < addresses.length; i++) {
 								if (addresses[i].is_default ==1) {
-									console.log("addresses[i]:"+JSON.stringify(addresses[i]));
 									data.end_province = addresses[i].province;
 									data.end_city = addresses[i].city;
 									data.end_district = addresses[i].district;
@@ -2942,7 +2913,6 @@ exports.register = function(server, options, next){
 							}
 						});
 				});
-				console.log("sku_id:"+sku_id);
 				ep.emit("sku_id", sku_id);
 				var data = {
 					"weight" : 0,
@@ -2978,7 +2948,6 @@ exports.register = function(server, options, next){
 							var addresses = results.rows;
 							for (var i = 0; i < addresses.length; i++) {
 								if (addresses[i].is_default ==1) {
-									console.log("addresses[i]:"+JSON.stringify(addresses[i]));
 									data.end_province = addresses[i].province;
 									data.end_city = addresses[i].city;
 									data.end_district = addresses[i].district;
@@ -3106,11 +3075,9 @@ exports.register = function(server, options, next){
 				}
 				var ep =  eventproxy.create("persons","personsVip","person_info","person",
 					function(persons,personsVip,person_info,person){
-						console.log("person:"+JSON.stringify(person));
 					return reply.view("person_center",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
 				var person_ids = [person_id];
-				console.log("person_ids:"+person_id);
 				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var persons = content.rows;
@@ -3269,10 +3236,8 @@ exports.register = function(server, options, next){
 				person_ids.push(person_id);
 				var ep =  eventproxy.create("persons","personsVip","person_info","person",
 					function(persons,personsVip,person_info,person){
-						console.log("persons:"+persons);
 					return reply.view("person_info",{"success":true,"persons":persons,"personsVip":personsVip,"person_info":person_info,"person":person});
 				});
-				console.log("persons:"+JSON.stringify(person_ids));
 				find_persons(JSON.stringify(person_ids), function(err, content){
 					if (!err) {
 						var persons = content.rows;
@@ -3318,10 +3283,8 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				if (status && status !="") {
-					console.log("status:"+status);
 					search_order_byStatus(person_id,status,function(err,results){
 						if (!err) {
-							console.log("results:"+JSON.stringify(results));
 							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
 							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
@@ -3549,9 +3512,7 @@ exports.register = function(server, options, next){
 						}
 						product_ids = JSON.stringify(product_ids);
 						search_products_list(product_ids,function(err,results){
-							console.log("results:"+JSON.stringify(results));
 							if (!err) {
-								console.log("products"+JSON.stringify(results.products));
 								return reply.view("favorite_list",{"products":JSON.stringify(results.products)});
 							}else {
 								return reply.view("favorite_list",{"products":{}});
@@ -3637,7 +3598,6 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				person_id = JSON.stringify(person_id);
-				console.log("person_id:"+person_id);
 				return reply.view("jifen");
 			}
 		},
@@ -3826,7 +3786,6 @@ exports.register = function(server, options, next){
 					return reply({"success":false,"message":"param wrong","service_info":service_info});
 				}
 				do_register(data,function(err,result){
-					console.log("result:"+JSON.stringify(result));
 					if (!err) {
 						var info = {};
 						info.person_id = result.person_id;
