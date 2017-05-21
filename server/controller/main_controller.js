@@ -1288,7 +1288,7 @@ exports.register = function(server, options, next){
 					"subject" : "购买商品",
 					"body" : "购买商品",
 					"return_url" : "http://shop.buy42.com/pay_success",
-					"callback_url" : "http://shop.buy42.com/receive_pay_notify"
+					"callback_url" : "http://211.149.248.241:18000/receive_pay_notify"
 				};
 				trade_alipay(info,function(err,content){
 					if (!err) {
@@ -1329,8 +1329,6 @@ exports.register = function(server, options, next){
 							info.is_deal = 0;
 							save_event(info,function(err,content){
 								if (!err) {
-									//回调阿里接口
-
 									return reply({"success":true,"message":"已经处理事件了"});
 								}else {
 									return reply({"success":false,"message":content.message,"service_info":service_info});
