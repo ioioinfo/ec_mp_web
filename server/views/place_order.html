@@ -1056,9 +1056,17 @@
 				"city"	   : "",
 				"district" : ""
 			};
-            var logistics = "common";
+            var logistics = "";
+            var logistics_name = "";
+            var logistics_infos = {{logistics|safe}};
+            // logistics_infos = JSON.parse(logistics_infos);
+            for (var i = 0; i < logistics_infos.length; i++) {
+                if (logistics_infos[i].is_default == 1) {
+                    logistics = logistics_infos[i].id;
+                    logistics_name = logistics_infos[i].name;
+                }
+            }
             var state = 0;
-            var logistics_name = "普通快递";
 			var jifen = {{jifen||0}};
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
@@ -1067,7 +1075,7 @@
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
 				}
-			}
+			};
 			var invoices = {{invoices|safe}};
 			var total_data = {{total_data|safe}};
 			var place_order = function(){
@@ -1079,12 +1087,7 @@
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
                             var order_id = data.order_id;
-                            console.log("logistics:"+logistics);
-                            if (logistics == "sf_collect") {
-                                location.href = "/pay_success";
-                            }else {
-                                location.href = "/pay_way?order_id="+order_id;
-                            }
+                            location.href = "/pay_way?order_id="+order_id;
 						}else {
 							alert(data.message);
 						}
@@ -1192,11 +1195,7 @@
 			place_order();
             var set_address = function(){
                 address = {};
-                if (logistics) {
-                    address.type = logistics;
-                }else {
-                    address.type = "common";
-                }
+                address.type = logistics;
                 address.store_id = 1;
                 address.point_id = 1;
                 address.linkname =	$(".address-infor-name").data("id");

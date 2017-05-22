@@ -855,7 +855,14 @@
 
         		<div class="invoice">
         		  <span class="public-name">配送方式</span>
-        		  <p class="add-num click1"><span class="logistics_type">普通快递</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+        		  <p class="add-num click1">
+                      {% for logistic in logistics_type %}
+                        {% if logistic.is_default==1 %}
+                            <span class="logistics_type" data-id="{{logistic.id}}" data-name="{{logistic.name}}">{{logistic.name}}</span>
+                        {% endif %}
+                      {% endfor %}
+                      <span><img src="images/jiantou-right.png" alt="" class="img"></span>
+                  </p>
         		</div>
         		<div class="min-line"></div>
         		<div class="invoice">
@@ -1053,9 +1060,9 @@
         // 地区选择
 		$(function() {
 			var sku_id ="{{sku_id|safe}}";
-            var logistics = "common";
+            var logistics =  $(".logistics_type").data("id");
             var state = 0;
-            var logistics_name = "普通快递";
+            var logistics_name = $(".logistics_type").data("name");
 			var address = {
 				"linkname"     : "",
 				"mobile"   : "",
@@ -1129,11 +1136,7 @@
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {
                         var order_id = data.order_id;
-                        if (logistics == "sf_collect") {
-                            location.href = "/pay_success";
-                        }else {
-                            location.href = "/pay_way?order_id="+order_id;
-                        }
+                        location.href = "/pay_way?order_id="+order_id;
 					}else {
 						alert(data.message);
 					}
@@ -1268,11 +1271,7 @@
              //保存地址
              var set_address = function(){
                  address = {};
-                 if (logistics) {
-                     address.type = logistics;
-                 }else {
-                     address.type = "common";
-                 }
+                 address.type = logistics;
                  address.store_id = 1;
                  address.point_id = 1;
                  address.linkname =	$(".address-infor-name").data("id");

@@ -2785,7 +2785,7 @@ exports.register = function(server, options, next){
 								}else {
 									total_data.lgtic_pay = lgtic_pay;
 								}
-								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type});
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type)});
 							}else {
 								total_data.lgtic_pay = 150;
 								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
