@@ -744,7 +744,20 @@ exports.register = function(server, options, next){
 										var info = {"order_id":order_id,"order_status":1};
 										update_order_status(info,function(err,content){
 											if (!err) {
-												return reply({"success":true});
+												var infos = {
+													"order_id":order_id,
+													"vip_id":vip_id,
+													"order_desc":"会员卡购物",
+													"amount":pay_amount,
+													"platform_code":"ioio"
+												};
+												add_jifen(infos,function(err,content){
+													if (!err) {
+														return reply({"success":true});
+													}else {
+														reply({"success":false,"message":content.message,"service_info":content.service_info});
+													}
+												});
 											}else {
 												reply({"success":false,"message":content.message,"service_info":content.service_info});
 											}
