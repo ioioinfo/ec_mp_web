@@ -499,7 +499,7 @@
                     <li><a><p class="cancel_buy" data-id="{{order.order_id}}">不想买了</p></a></li>
                     <li><a href="pay_way?order_id={{order.order_id}}"><p>立即付款</p></a></li>
                 {% elseif order.order_status=="付款确认中" %}
-        			<!-- <li><a><p>正在确认付款中。。。</p></a></li> -->
+        			<li><a href="pay_way?order_id={{order.order_id}}"><p>继续付款</p></a></li>
         		{% elseif order.order_status=="等待卖家拣货" %}
                     <!-- <li><a><p>催货</p></a></li> -->
         		{% elseif order.order_status=="等待卖家发货" %}

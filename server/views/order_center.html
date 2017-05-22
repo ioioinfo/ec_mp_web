@@ -350,9 +350,12 @@
     			  </span>
     		  </p>
     	  	{% elseif order.order_status=="付款确认中" %}
-    			<!-- <p class="product-submit">
-    				正在确认付款中。。。
-    			</p> -->
+                <p class="product-submit">
+                     <span><a href="pay_way?order_id={{order.order_id}}">
+                         继续付款
+                        </a>
+                     </span>
+                 </p>
     		{% elseif order.order_status=="等待卖家拣货" %}
     			<!-- <p class="product-submit">
     				<span>
