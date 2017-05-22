@@ -732,6 +732,7 @@ exports.register = function(server, options, next){
 								var vip_id = content.row.vip_id;
 								var data = {
 									"sob_id" : "ioio",
+									"platform_code":"ec_mobile",
 									"address" : address,
 									"order_id" : order_id,
 									"pay_amount" : pay_amount,
@@ -1384,6 +1385,7 @@ exports.register = function(server, options, next){
 																var vip = content.row;
 																var payment ={
 																	"sob_id":"ioio",
+																	"platform_code":"ec_mobile",
 																	"address":"上海宝山",
 																	"pay_amount":order.actual_price,
 																	"effect_amount":order.marketing_price,
@@ -2302,7 +2304,7 @@ exports.register = function(server, options, next){
 							return reply({"success":false,"message":"vip id null"});
 						}
 						var personsVip = content.rows[0].vip_id;
-						var data = {"sob_id":org_code,"operator":person_id,"main_role_id":personsVip};
+						var data = {"sob_id":org_code,"platform_code":"ec_mobile","operator":person_id,"main_role_id":personsVip};
 						vip_card_paycode(data,function(err,result){
 							if (!err) {
 								return reply({"success":true,"row":result.row});
