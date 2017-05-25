@@ -856,14 +856,6 @@
               </div>
             </div>
 
-            <!-- 运费险 -->
-            <div class="partone partone1">
-              <p>运费险</p>
-              <!-- <p class="partone-p"><span>卖家赠送，若确认收货前退货，可获保险赔付</span><span><input type="checkbox" name="" value=""></span></p> -->
-              <div class="close close1">
-                关 闭
-              </div>
-            </div>
 
             <!-- 优惠券 -->
             <div class="partone partone2">
@@ -995,7 +987,7 @@
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
 				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-                  <p class="p3">重量:<%- total_data.total_weight %></p>
+                  <p class="p3">重量:<%- total_data.total_weight %> KG</p>
                 </div>
 			  </div>
 			<% }); %>
@@ -1023,7 +1015,7 @@
 		</div>
 		<div class="invoice">
 		  <span class="public-name">运费</span>
-		  <p class="add-num"><span class="invoice_color" id="padding-right1"><%- total_data.total_weight %>￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
+		  <p class="add-num"><span class="invoice_color" id="padding-right1">￥<%- total_data.lgtic_pay %></span><span class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 		<div class="leave">

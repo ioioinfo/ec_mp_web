@@ -1,486 +1,251 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>我的订单</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <head>
+        <meta charset="utf-8">
+        <title>我的订单</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" href="css/jinping.css">
+        <link rel="stylesheet" href="css/order_center.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+        <script src="js/jinzhi.js"></script>
 
-    <style media="screen">
-      @media screen and (max-width:640px){
-        *{
-          padding: 0;
-          margin: 0;
+    </head>
+    <body>
+        <div id="order"></div>
+        <script type="text/babel">
+        class Wrap extends React.Component {
+          render() {
+              return (
+                <div className="wrap">
+                  <Header/>
+                  <Middle/>
+                </div>
+              );
+            }
+        };
+        // 头部
+        class Header extends React.Component {
+            constructor(props) {
+              super(props);
+            }
+            componentDidMount() {
+                $.ajax({
+                     url: "/check_message_number",
+                     dataType: 'json',
+                     type: 'POST',
+                     success: function(data) {
+                         if (data.count == 0) {
+         					$(".headernewsnum").hide();
+         				}else {
+         					$(".headernewsnum").show();
+         					$(".headernewsnum").html(data.count);
+         				}
+                     }.bind(this),
+                     error: function(xhr, status, err) {
+                     }.bind(this)
+                });
+            }
+          render() {
+              return (
+                  <div className="top">
+                    <div className="back">
+                      <a href="person_center"><img src="images/back.png" alt="" /></a>
+                    </div>
+                    <p className="top-title">我的订单</p>
+                    <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
+                  </div>
+              );
+            }
+        };
+        // 中间部分
+        class Middle extends React.Component {
+            constructor(props) {
+              super(props);
+              this.loadData=this.loadData.bind(this);
+              this.handleClick=this.handleClick.bind(this);
+              this.state = {ordersiitem:[],detailsitems:{},products:{},status:""};
+            }
+            componentDidMount() {
+                this.loadData("");
+            }
+            loadData(status) {
+                $.ajax({
+                     url: "/order_center_data?status="+status,
+                     dataType: 'json',
+                     type: 'GET',
+                     success: function(data) {
+                         this.setState({ordersiitem:data.orders,detailsitems:data.details,products:data.products,status:status});
+                     }.bind(this),
+                     error: function(xhr, status, err) {
+                     }.bind(this)
+                });
+            }
+            handleClick(e){
+                var id = e.target.id;
+                $(".li_color").removeClass("li_color");
+                $("#"+id).addClass("li_color");
 
-        }
-        a{
-          text-decoration: none;
-          color: #000;
-        }
-        li{
-          list-style: none;
-        }
-        html,body{
-          width: 100%;
-          height: 100%;
-        }
-        #content{
-            height: 100%;
-        }
-         .top{
-          width: 100%;
-          height: 47px;
-          overflow: hidden;
-          border-bottom: 1px solid #e7e7e7;
-          box-shadow: 0 2px 5px #e7e7e7;
-          background: #fff;
-        }
-        .top .back{
-          width: 12.5333333%;
-          height: 47px;
-          float: left;
-          display: inline-block;
-          text-align: center;
-          line-height: 47px;
-
-        }
-        .top .back img{
-          width: 20px;
-          height: 20px;
-          vertical-align: middle;
-        }
-        .top .top-right{
-          width: 12.5333333%;
-          height: 47px;
-          float: right;
-          display: inline-block;
-          text-align: center;
-          line-height: 47px;
-          position: relative;
-        }
-        .top .top-right p{
-          display: inline-block;
-          width: 14px;
-          height: 14px;
-          line-height: 14px;
-          color: #fff;
-          position: absolute;
-          left: 25px;
-          top: 11px;
-          font-size: 12px;
-          background: #D81E06;
-          border-radius: 50%;
-          text-align: center;
-		  display: none;
-        }
-        .top .top-right img{
-          width: 20px;
-          height: 20px;
-          vertical-align: middle;
-        }
-        .top .top-title{
-          float: left;
-          width: 74.93333333%;
-          height: 47px;
-          line-height: 47px;
-          text-align: center;
-          color: #333;
-        }
-
-        /*导航*/
-        .nav{
-          width: 96%;
-          margin: 0 auto;
-        }
-        .nav .nav-ul{
-          width: 100%;
-          display: flex;
-          font-size: 14px;
-
-        }
-        .nav .nav-ul li{
-          flex: 1;
-          text-align: center;
-          height: 35px;
-          line-height: 35px;
-          text-align: center;
-        }
-        .nav .nav-ul li a{
-          display: block;
-        }
-        .nav-color{
-          border-bottom: 1px solid #ff5000;
-          box-sizing: border-box;
-          color: #ff5000;
-        }
-        .shop-infor{
-          width: 90%;
-          margin: 0 auto;
-          height: 35px;
-          line-height: 35px;
-          overflow: hidden;
-        }
-        .shop-infor .shop-infor-img{
-          margin-right:8.544px;
-          line-height: 0;
-          width: 16px;
-          height: 17px;
-          display: inline-block;
-        }
-        .shop-infor .shop-infor-img img{
-          width: 100%;
-          vertical-align: middle;
-        }
-        .middle .shop-infor .span1{
-          font-size: 14px;
-          color: #999;
-          vertical-align: middle;
-          display: inline-block;
-          margin-right: 5px;
-        }
-        .middle .shop-infor span img{
-          width: 15px;
-          height: 15px;
-          vertical-align: middle;
-        }
-        .middle .shop-infor .span2{
-          font-size: 14px;
-          color: #F72E0A;
-          vertical-align: middle;
-          float: right;
-          vertical-align: middle;
-        }
-        .middle .product-infor{
-          width: 100%;
-
-          overflow: hidden;
-          background: #F5F5F5;
-          padding: 5px 0;
-        }
-        .middle .product-infor .all{
-          width: 90%;
-          padding: 5px 0;
-          overflow: hidden;
-          margin: 0 auto;
-
-        }
-		.product-infor .product-infor-left{
-          float: left;
-          width: 15.11111%;
-          height: 52px;
-          margin-right: 2.962962%;
-        }
-        .product-infor .product-infor-left img{
-          width: 51px;
-          height: 52px;
-        }
-		.product-infor .product-infor-middle{
-          float: left;
-          width: 52.148148%;
-
-        }
-        .product-infor .product-infor-middle .p1{
-          width: 100%;
-          font-size: 14px;
-          line-height: 22px;
-          color: #223541;
-          overflow: hidden;
-          -webkit-line-clamp: 2;
-          -moz-line-clamp: 2;
-          -ms-line-clamp: 2;
-          -o-line-clamp: 2;
-          line-clamp: 2;
-          -webkit-box-orient: vertical;
-          -moz-box-orient: vertical;
-          -ms-box-orient: vertical;
-          -o-box-orient: vertical;
-          box-orient: vertical;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-box;
-          display: -o-box;
-          display: box;
-          word-break: break-all;
-        }
-        .product-infor .product-infor-middle .p2{
-          margin-top: 5px;
-          color: #999;
-          width: 100%;
-          font-size: 12px;
-          height: 18px;
-          overflow: hidden;
-
-        }
-        .product-infor .product-infor-middle .p3{
-          margin-top: 5px;
-          width: 48px;
-          font-size: 12px;
-          display: inline-block;
-          background: #ff5000;
-          color: #fff;
-          text-align: center;
-        }
-		.product-infor .product-infor-right{
-          width: 29.6296296%;
-          float: right;
-        }
-        .product-infor .product-infor-right p{
-          width: 100%;
-          text-align: right;
-          line-height: 13px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          margin-bottom: 5px;
-        }
-        .product-infor .product-infor-right p:first-child{
-          width: 100%;
-          text-align: right;
-          line-height: 13px;
-          font-weight: 700;
-        }
-        .product-money{
-          width: 100%;
-          text-align: right;
-        }
-        .product-money span{
-            display: inline-block;
-            padding: 4px 12px;
-			font-size: 14px;
-			color: #666;
-        }
-        .product-money span:last-child{
-            display: inline-block;
-            margin-right: 15px;
-        }
-        .product-submit{
-          width: 100%;
-          text-align: right;
-          margin: 6px 0;
-        }
-        .product-submit span{
-            display: inline-block;
-            padding: 2px 8px;
-            color: #999;
-            border: 1px solid #999;
-            margin-right: 15px;
-			font-size: 14px;
-        }
-        .product-submit span:last-child{
-            display: inline-block;
-            margin-right: 15px;
-            color: #FF5000;
-            border: 1px solid #FF5000;
-        }
-
-        .background{
-          width: 100%;
-          height: 10px;
-          background: #EEEEEE;
-        }
-        .footer{
-          width: 100%;
-          height: 46px;
-          text-align: center;
-          background: #eee;
-          color: #999;
-        }
-
-        .yuanjia{
-          color: #999;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="content">
-        <div class="top">
-          <div class="back">
-            <a href="person_center"><img src="images/back.png" alt=""></a>
-          </div>
-          <p class="top-title">我的订单</p>
-          <div class="top-right"><a href="/messages"><img src="images/news.png" alt=""><p class="headernewsnum"></p></a></div>
-        </div>
-        <div class="nav">
-          <ul class="nav-ul">
-            <li><a href="/order_center" class="nav-color">全部</a></li>
-            <li><a href="/order_center?status=-1">待付款</a></li>
-            <li><a href="/order_center?status=3">待发货</a></li>
-            <li><a href="/order_center?status=4">待收货</a></li>
-            <li style="display:none;"><a href="/order_center?status=12">待评价</a></li>
-          </ul>
-        </div>
-        <div class="middle">
-    	{% for order in orders %}
-          <div class="shop-infor">
-            <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
-            <span class="span1">自营店</span><span><img src="images/jiantou-right.png" alt=""></span><span class="span2">{{order.order_status}}</span>
-          </div>
-    	  {% for detail in details[order.order_id] %}
-    	      <div class="product-infor " data-id="{{detail.order_id}}">
-    	        <div class="all">
-    	          <div class="product-infor-left">
-    				  {% if products[detail.product_id].img %}
-    				  	<img src="{{products[detail.product_id].img.location}}" alt="">
-    				  {% else %}
-    					 <img src="images/no_picture.png" alt="">
-    				  {% endif %}
-    			  </div>
-    	          <div class="product-infor-middle">
-    	            <p class="p1">{{products[detail.product_id].product_name}}</p>
-    	            <p class="p2">{% if products[detail.product_id].color %}颜色:{{products[detail.product_id].color}} {% endif %}{% if products[detail.product_id].weight %}重量:{{products[detail.product_id].weight}}kg{% endif %}&nbsp;&nbsp;</p>
-    	          </div>
-    	          <div class="product-infor-right">
-    	            <p>￥ {{detail.price}}</p>
-    	            <p class="yuanjia"><s>￥{{detail.price}}</s></p>
-    	            <p>x{{detail.number}}</p>
-    	          </div>
-                  <span><a href="return_apply?order_id={{order.order_id}}&detail_id={{detail.id}}&product_id={{detail.product_id}}&number={{detail.number}}"> 申请退款</a></span>
-    	        </div>
-    	      </div>
-    	  {% endfor %}
-          <p class="product-money"><span>共{{order.total_number}}件商品</span><span>合计:￥{{order.actual_price}}</span><span>运费:￥{{order.logistics_price}}</span></p>
-    	  {% if order.order_status=="等待买家付款" %}
-    		  <p class="product-submit">
-    			  <span class="cancel_buy" data-id="{{order.order_id}}"> 不想买了</span>
-    			  <span><a href="pay_way?order_id={{order.order_id}}">
-    				  立即付款
-                  </a>
-    			  </span>
-    		  </p>
-    	  	{% elseif order.order_status=="付款确认中" %}
-                <p class="product-submit">
-                     <span><a href="pay_way?order_id={{order.order_id}}">
-                         继续付款
-                        </a>
-                     </span>
-                 </p>
-    		{% elseif order.order_status=="等待卖家拣货" %}
-    			<!-- <p class="product-submit">
-    				<span>
-    					催货
-    				</span>
-    			</p> -->
-    		{% elseif order.order_status=="等待卖家发货" %}
-    			<!-- <p class="product-submit">
-    				<span>
-    					催货
-    				</span>
-    			</p> -->
-            {% elseif order.order_status=="等待快递员揽货" %}
-    			<!-- <p class="product-submit">
-    				<span>
-    					催货
-    				</span>
-    			</p> -->
-    		{% elseif order.order_status=="卖家已发货" %}
-    			<p class="product-submit">
-    				<span>
-    					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
-    				</span>
-    			</p>
-    		{% elseif order.order_status=="等待买家收货" %}
-    			<p class="product-submit">
-    				<span>
-    					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
-    				</span>
-    				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
-    			</p>
-    		{% elseif order.order_status=="交易成功" %}
-    			<p class="product-submit">
-                    <span class="delete_order" data-id="{{order.order_id}}">
-    					删除订单
-    				</span>
-    			</p>
-    		{% elseif order.order_status=="交易关闭" %}
-    			<p class="product-submit">
-    				<span class="delete_order" data-id="{{order.order_id}}">
-    					删除订单
-    				</span>
-    			</p>
-    		{% elseif order.order_status=="退款中订单" %}
-    			<p class="product-submit">
-    				<span>
-    					查看流程
-    				</span>
-    			</p>
-    		{% elseif order.order_status=="退款完成" %}
-    			<p class="product-submit">
-                    <span class="delete_order" data-id="{{order.order_id}}">
-    					删除订单
-    				</span>
-    			</p>
-    		{% endif %}
-          <div class="background"></div>
-          <div class="background"></div>
-
-    	 {% endfor %}
-        </div>
-
-        <div class="footer">
-          没有更多内容
-        </div>
-    </div>
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/react.min.js"></script>
-    <script src="js/react-dom.min.js"></script>
-    <script src="js/browser.min.js"></script>
-    <script src="js/jinzhi.js"></script>
-
-
-	<script>
-	   $(function() {
-		$.ajax({
-			url: "/check_message_number",
-			dataType: 'json',
-			type: 'POST',
-			success: function(data) {
-				if (data.count == 0) {
-					$(".headernewsnum").hide();
-				}else {
-					$(".headernewsnum").show();
-					$(".headernewsnum").html(data.count);
-				}
-			},
-			error: function(xhr, status, err) {
-			}
-		});
-		$(".product-infor").click(function(){
-			var order_id = $(this).data("id");
-			location.href = "/order_detail?order_id=" + order_id;
-		});
-		$(".receive_product").click(function(){
-			var order_id = $(this).data("id");
-			$.get("/receive_goods",{order_id:order_id},function(data){
-				if (data.success) {
-					location.href = "/order_center";
-				}else {
-
-				}
-			})
-		});
-        $(".cancel_buy").click(function(){
-            var order_id = $(this).data("id");
-            var reason = "不想买了";
-            var order_status = "未付款";
-            $.post("/order_cancel",{order_id:order_id,reason:reason,order_status:order_status},function(data){
-                if (data.success) {
-                    location.href = "/order_center";
+                var status = "";
+                if (id != "all") {
+                    status = id;
                 }
-            })
-        });
-        $(".delete_order").click(function(){
-            var order_id = $(this).data("id");
-            $.post("/order_delete",{order_id:order_id},function(data){
-                if (data.success) {
-                    location.href = "/order_center";
-                }
-            })
-        });
+                this.loadData(status);
+            }
+          render() {
+              var productList = <p className="no_order">暂无信息</p>;
+              if (this.state.ordersiitem.length > 0) {
+                  productList = this.state.ordersiitem.map(item => (
+                      <ProductList key={item.order_id} item={item} detailsitems={this.state.detailsitems} products={this.state.products} status={status} loadData={this.loadData}/>));
+              }
+              return (
+                  <div className="order_center">
+                  <div className="nav">
+                    <ul className="nav-ul">
+                      <li id="all" className="li_color" onClick={this.handleClick}>全部</li>
+                      <li id="-1" onClick={this.handleClick}>待付款</li>
+                      <li id="2" onClick={this.handleClick}>待发货</li>
+                      <li id="5" onClick={this.handleClick}>待收货</li>
+                      <li id="10" onClick={this.handleClick}>退货</li>
+                    </ul>
+                  </div>
+                  {productList}
+                  </div>
+              );
+            }
+        };
+        // 商品信息
+        class ProductList extends React.Component {
+            constructor(props) {
+              super(props);
+              this.handleClick1=this.handleClick1.bind(this);
+              this.handleClick3=this.handleClick3.bind(this);
+            }
+            handleClick1(e){
+                var order_id = this.props.item.order_id;
+                var reason = "不想买了";
+                var order_status = "未付款";
+                $.ajax({
+                    url: "/order_cancel",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":order_id,"reason":reason,"order_status":order_status},
+                    success: function(data) {
+                        if (data.success) {
+                            this.props.loadData(this.props.status)
+                        }else {
+                            alert("取消失败");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
 
-    });
+            }
+            handleClick3(e){
+                var order_id = this.props.item.order_id;
+                $.ajax({
+                    url: "/order_delete",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":order_id},
+                    success: function(data) {
+                        if (data.success) {
+                            this.props.loadData(this.props.status)
+                        }else {
+                            alert("删除失败");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
 
-	</script>
-  </body>
+            }
+          render() {
+              var order_status = this.props.item.order_status;
+              var button_one = "",button_two = "",button_three = "",button_four = "";
+              if(order_status=="等待卖家拣货"){
+                  button_one = "";
+                  button_two = "";
+                  button_three = "";
+                  button_four = "";
+              }else if (order_status=="等待买家付款") {
+                  button_one = "不想买了";
+                  button_two = "";
+                  button_three = "删除订单";
+                  button_four = "立即付款";
+              }else if (order_status=="交易成功") {
+                  button_one = "";
+                  button_two = "";
+                  button_three = "删除订单";
+                  button_four = "";
+              }
+              return (
+                  <div className="public_all">
+                      <div className="public_market">
+                        <div className="public_market_img">
+                          <img src="images/shop.png" alt="" />
+                        </div>
+                        <span className="public_market_span1">自营店</span>
+                        <span><img src="images/jiantou-right.png" alt="" /></span>
+                        <span className="public_market_span2">{order_status}</span>
+                      </div>
+                      {this.props.detailsitems[this.props.item.order_id].map(item => (
+                          <Product key={item.product_id} item={item} order_status={order_status} products={this.props.products}/>))
+                      }
+                      <div className="product_yunfei">
+                          <span>共{this.props.item.total_number}件商品</span>
+                          <span>运费￥{this.props.item.logistics_price}</span>
+                          <span>共计￥{this.props.item.actual_price}</span>
+                      </div>
+                      <div className="product_button">
+                          <span onClick={this.handleClick1}>{button_one}</span>
+                          <span >{button_two}</span>
+                          <span onClick={this.handleClick3}>{button_three}</span>
+                          <span><a href={"pay_way?order_id="+this.props.item.order_id}>{button_four}</a></span>
+                      </div>
+                  </div>
+              );
+            }
+        };
+        // 商品信息
+        class Product extends React.Component {
+          render() {
+              var order_status = this.props.order_status;
+              var button = "";
+              if(order_status=="等待卖家拣货"){
+                  button = <span>申请退款</span>;
+              }
+              var product = this.props.products[this.props.item.product_id];
+              var src = "images/no_picture.png";
+              if (product.img) {
+                  src = product.img.location;
+              }
+              return (
+                  <div className="product_wrap">
+                    <div className="product_left_img"><img src={src} alt="" /></div>
+                    <div className="product_center_inf">
+                        <p>{product.product_name}</p>
+                    </div>
+                    <div className="product_right_price">
+                        <p className="product_price">￥{this.props.item.price}</p>
+                        <p className="product_number">x {this.props.item.number}</p>
+                        <p className="refund_button">{button}</p>
+                    </div>
+                  </div>
+              );
+            }
+        };
+
+        // 返回到页面
+        ReactDOM.render(
+          <Wrap/>,
+          document.getElementById("order")
+        );
+        </script>
+    </body>
 </html>
