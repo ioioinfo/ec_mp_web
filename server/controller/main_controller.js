@@ -349,6 +349,11 @@ var search_cart_code = function(data,cb){
 	var url = "http://127.0.0.1:18015/search_cart_code";
 	do_post_method(url,data,cb)
 };
+//变异订单
+var save_poor_orders = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_poor_orders";
+	do_post_method(url,data,cb)
+};
 //是否存在个人shopping_cart
 var search_shopping_cart = function(data,cb){
 	var url = "http://127.0.0.1:18015/search_shopping_cart";
@@ -1403,20 +1408,37 @@ exports.register = function(server, options, next){
 							var data = {"order_id":order_id,"order_status":1};
 							var boolean = order_id.indexOf("RC");
 							if (boolean==-1) {
-								//修改订单状态
-								update_order_status(data,function(err,content){
+								get_order(order_id,function(err,rows){
 									if (!err) {
-										//回调函数到支付宝接口
-										info.is_deal = 1;
-										save_event(info,function(err,content){
-											if (!err) {
-												return reply({"success":true,"message":"订单事件处理完"});
-											}else {
-												return reply({"success":false,"message":content.message,"service_info":service_info});
-											}
-										});
+										if (rows.rows[0].order_status=="0") {
+											//修改订单状态
+											update_order_status(data,function(err,content){
+												if (!err) {
+													//回调函数到支付宝接口
+													info.is_deal = 1;
+													save_event(info,function(err,content){
+														if (!err) {
+															return reply({"success":true,"message":"订单事件处理完"});
+														}else {
+															return reply({"success":false,"message":content.message,"service_info":service_info});
+														}
+													});
+												}else {
+													return reply({"success":false,"message":content.message,"service_info":service_info});
+												}
+											});
+										}else {
+											//处理不在付款中的订单 订单状态为 7 交易关闭，其他不管
+											save_poor_orders(data,function(err,content){
+												if (!err) {
+													return reply({"success":true,"message":"异常订单"});
+												}else {
+													return reply({"success":false,"message":content.message});
+												}
+											});
+										}
 									}else {
-										return reply({"success":false,"message":content.message,"service_info":service_info});
+										return reply({"success":false,"message":rows.message})
 									}
 								});
 							}else {
