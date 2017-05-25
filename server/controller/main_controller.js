@@ -1130,33 +1130,33 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var order_id = request.payload.order_id;
 				var reason = request.payload.reason;
-				var order_status = request.payload.order_status;
 				var data = {};
 				if (!order_id) {
 					return reply({"success":false,"message":"params null","service_info":service_info});
 				}
-				if (order_status == "未付款") {
-					data.order_id = order_id;
-					data.reason = reason;
-					data.status = "7";
-					order_cancel(data,function(err,content){
-						if (!err) {
-							get_order(order_id,function(err,rows){
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						var order_status = rows.rows[0].order_status;
+						if (order_status == "-1" || order_status == "0" ) {
+							data.order_id = order_id;
+							data.reason = reason;
+							data.status = "7";
+							order_cancel(data,function(err,content){
 								if (!err) {
-									var batch_id = rows.rows[0].id;
 									// unlock_stock();
 									return reply({"success":true});
 								}else {
-									return reply({"success":false,"message":rows.message})
+									return reply({"success":false,"message":content.message});
 								}
 							});
 						}else {
-							return reply({"success":false,"message":content.message});
+							return reply({"success":true,"message":"no change"});
 						}
-					});
-				}else {
-					return reply({"success":true,"message":"no change"});
-				}
+					}else {
+						return reply({"success":false,"message":rows.message})
+					}
+				});
+
 			}
 		},
 		//订单删除
@@ -3114,11 +3114,32 @@ exports.register = function(server, options, next){
 					return reply({"success":false,"message":"params wrong"});
 				}
 				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id,"sku_id":sku_id};
-				save_fast_order_infos(data,function(err,content){
+
+				var product_ids = [];
+				product_ids.push(product_id);
+				find_products(JSON.stringify(product_ids),function(err,rows){
 					if (!err) {
-						return reply({"success":true,"message":"ok","order_id":content.order_id});
+						var product = {"product_id":product_id,"industry_id":rows.rows[0].industry_id,"quantity":num};
+						var products = [];
+						products.push(product);
+						var id = uuidV1();
+						var info = {"batch_id":id,"products":JSON.stringify(products),"platform_code":"ioio"};
+						data.id = id;
+						lock_stock(info,function(err,content){
+							if (!err) {
+								save_fast_order_infos(data,function(err,content){
+									if (!err) {
+										return reply({"success":true,"message":"ok","order_id":content.order_id});
+									}else {
+										return reply({"success":false,"message":content.message});
+									}
+								});
+							}else {
+								return reply({"success":false,"message":content.message});
+							}
+						});
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":rows.message});
 					}
 				});
 			}
