@@ -740,53 +740,57 @@ exports.register = function(server, options, next){
 				var paycode = request.payload.paycode;
 				get_order(order_id,function(err,rows){
 					if (!err) {
-						var order = rows.rows[0];
-						var pay_amount = order.actual_price;
-						get_person_vip(person_id,function(err,content){
-							if (!err) {
-								var vip_id = content.row.vip_id;
-								var data = {
-									"sob_id" : "ioio",
-									"platform_code":"ec_mobile",
-									"address" : address,
-									"order_id" : order_id,
-									"pay_amount" : pay_amount,
-									"operator" : person_id,
-									"main_role_id" : vip_id,
-									"paycode" : paycode
-								};
-								online_card_pay(data,function(err,row){
-									if (!err) {
-										var info = {"order_id":order_id,"order_status":1};
-										update_order_status(info,function(err,content){
-											if (!err) {
-												var infos = {
-													"order_id":order_id,
-													"vip_id":vip_id,
-													"order_desc":"会员卡购物",
-													"amount":pay_amount,
-													"platform_code":"ioio"
-												};
-												add_jifen(infos,function(err,content){
-													if (!err) {
-														return reply({"success":true});
-													}else {
-														reply({"success":false,"message":content.message,"service_info":content.service_info});
-													}
-												});
-											}else {
-												reply({"success":false,"message":content.message,"service_info":content.service_info});
-											}
-										});
+						if (rows.rows[0].order_status=="-1") {
+							var order = rows.rows[0];
+							var pay_amount = order.actual_price;
+							get_person_vip(person_id,function(err,content){
+								if (!err) {
+									var vip_id = content.row.vip_id;
+									var data = {
+										"sob_id" : "ioio",
+										"platform_code":"ec_mobile",
+										"address" : address,
+										"order_id" : order_id,
+										"pay_amount" : pay_amount,
+										"operator" : person_id,
+										"main_role_id" : vip_id,
+										"paycode" : paycode
+									};
+									online_card_pay(data,function(err,row){
+										if (!err) {
+											var info = {"order_id":order_id,"order_status":1};
+											update_order_status(info,function(err,content){
+												if (!err) {
+													var infos = {
+														"order_id":order_id,
+														"vip_id":vip_id,
+														"order_desc":"会员卡购物",
+														"amount":pay_amount,
+														"platform_code":"ioio"
+													};
+													add_jifen(infos,function(err,content){
+														if (!err) {
+															return reply({"success":true});
+														}else {
+															reply({"success":false,"message":content.message,"service_info":content.service_info});
+														}
+													});
+												}else {
+													reply({"success":false,"message":content.message,"service_info":content.service_info});
+												}
+											});
 
-									}else {
-										return	reply({"success":false,"message":row.message,"service_info":service_info});
-									}
-								});
-							}else {
-								reply({"success":false,"message":content.message,"service_info":content.service_info});
-							}
-						});
+										}else {
+											return	reply({"success":false,"message":row.message,"service_info":service_info});
+										}
+									});
+								}else {
+									reply({"success":false,"message":content.message,"service_info":content.service_info});
+								}
+							});
+						}else {
+							return reply({"success":false,"message":"订单已经过期了"});
+						}
 					}else {
 						return	reply({"success":false,"message":rows.message,"service_info":service_info});
 					}
@@ -1304,42 +1308,46 @@ exports.register = function(server, options, next){
 				if (!order_id ||!pay_way||!amount) {
 					return reply({"success":false,"message":"param null"});
 				}
-
-
-				var info = {
-					"sob_id" : sob_id,
-					"platform_code" : platform_code,
-					"business_code" : "member_recharge",
-					"address" : "上海",
-					"order_id" : order_id,
-					"pay_amount" : amount,
-					"operator" : person_id,
-					"main_role_id" : person_id,
-					"subject" : "购买商品",
-					"body" : "购买商品",
-					"return_url" : "http://shop.buy42.com/pay_success",
-					"callback_url" : "http://211.149.248.241:18000/receive_pay_notify"
-				};
-				trade_alipay(info,function(err,content){
+				get_order(order_id,function(err,rows){
 					if (!err) {
-						var url = content.url;
-
-						//修改订单状况
-						var data = {"order_id":order_id,"order_status":0};
-						update_order_status(data,function(err,content){
-							if (!err) {
-								return reply({"success":true,"url":url});
-							}else {
-								return reply({"success":false,"message":content.message,"service_info":service_info});
-							}
-						});
+						if (rows.rows[0].order_status=="-1") {
+							var info = {
+								"sob_id" : sob_id,
+								"platform_code" : platform_code,
+								"business_code" : "member_recharge",
+								"address" : "上海",
+								"order_id" : order_id,
+								"pay_amount" : amount,
+								"operator" : person_id,
+								"main_role_id" : person_id,
+								"subject" : "购买商品",
+								"body" : "购买商品",
+								"return_url" : "http://shop.buy42.com/pay_success",
+								"callback_url" : "http://211.149.248.241:18000/receive_pay_notify"
+							};
+							trade_alipay(info,function(err,content){
+								if (!err) {
+									var url = content.url;
+									//修改订单状况
+									var data = {"order_id":order_id,"order_status":0};
+									update_order_status(data,function(err,content){
+										if (!err) {
+											return reply({"success":true,"url":url});
+										}else {
+											return reply({"success":false,"message":content.message,"service_info":service_info});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+						}else {
+							return reply({"success":false,"message":"订单已经过期了"})
+						}
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":rows.message})
 					}
 				});
-
-
-
 			}
 		},
 
