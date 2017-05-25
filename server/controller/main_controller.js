@@ -298,7 +298,12 @@ var get_store_infos = function(cb){
 	url = url + org_code;
 	do_get_method(url,cb);
 };
-
+//批量查询产品信息
+var find_products = function(product_ids,cb){
+	var url = "http://127.0.0.1:18002/find_products?product_ids=";
+	url = url + product_ids;
+	do_get_method(url,cb);
+};
 //门店列表
 var get_store_list = function(org_code,cb){
 	var url = "http://211.149.248.241:19999/store/list?org_code=";
@@ -578,6 +583,16 @@ var save_gender = function(data,cb){
 //保存生日
 var save_birthday = function(data,cb){
 	var url = "http://139.196.148.40:18003/person/save_birthday";
+	do_post_method(url,data,cb);
+}
+//锁库
+var lock_stock = function(data,cb){
+	var url = "http://211.149.248.241:12001/batch_lock_stock";
+	do_post_method(url,data,cb);
+}
+//解库
+var unlock_stock = function(data,cb){
+	var url = "http://211.149.248.241:12001/batch_unlock_stock";
 	do_post_method(url,data,cb);
 }
 //简单保存
@@ -1108,7 +1123,7 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
-		//取消订单 1:未付款
+		//取消订单 1:未付款 2.解锁
 		{
 			method: 'POST',
 			path: '/order_cancel',
@@ -1126,7 +1141,15 @@ exports.register = function(server, options, next){
 					data.status = "7";
 					order_cancel(data,function(err,content){
 						if (!err) {
-							return reply({"success":true});
+							get_order(order_id,function(err,rows){
+								if (!err) {
+									var batch_id = rows.rows[0].id;
+									// unlock_stock();
+									return reply({"success":true});
+								}else {
+									return reply({"success":false,"message":rows.message})
+								}
+							});
 						}else {
 							return reply({"success":false,"message":content.message});
 						}
@@ -1281,14 +1304,7 @@ exports.register = function(server, options, next){
 				if (!order_id ||!pay_way||!amount) {
 					return reply({"success":false,"message":"param null"});
 				}
-				var url = "/payment_page?pay_way=";
-				//拼数据，更新订单状态，根据不同支付方式
 
-				// if (pay_way == "ali_pay") {
-				// 	url = url + "ali_pay"+"&order_id="+order_id;
-				// }else if (pay_way == "chat_pay") {
-				// 	url = url + "chat_pay"+"&order_id="+order_id;
-				// }
 
 				var info = {
 					"sob_id" : sob_id,
@@ -3041,11 +3057,41 @@ exports.register = function(server, options, next){
 				var send_seller = request.payload.send_seller;
 				var address = request.payload.address;
 				var data = {"person_id":person_id,"total_data":total_data,"shopping_carts":shopping_carts,"send_seller":send_seller,"address":address};
-				save_order_infos(data,function(err,content){
+				var product_ids = [];
+				shopping_carts = JSON.parse(shopping_carts);
+				for (var i = 0; i < shopping_carts.length; i++) {
+					var cart = shopping_carts[i];
+					product_ids.push(cart.product_id);
+				}
+				var product_map = {};
+				find_products(JSON.stringify(product_ids),function(err,rows){
 					if (!err) {
-						return reply({"success":true,"order_id":content.order_id,"message":"ok"});
+						var products = rows.rows;
+						for (var i = 0; i < products.length; i++) {
+							product_map[products[i].id] = products[i].industry_id;
+						}
+						for (var i = 0; i < shopping_carts.length; i++) {
+							shopping_carts[i].industry_id = product_map[shopping_carts[i].product_id];
+							shopping_carts[i].quantity = shopping_carts[i].total_items;
+						}
+						var id = uuidV1();
+						var info = {"batch_id":id,"products":JSON.stringify(shopping_carts),"platform_code":"ioio"};
+						data.id = id;
+						lock_stock(info,function(err,content){
+							if (!err) {
+								save_order_infos(data,function(err,content){
+									if (!err) {
+										return reply({"success":true,"order_id":content.order_id,"message":"ok"});
+									}else {
+										return reply({"success":false,"message":content.message});
+									}
+								});
+							}else {
+								return reply({"success":false,"message":content.message});
+							}
+						});
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":rows.message});
 					}
 				});
 			}
