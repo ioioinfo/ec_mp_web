@@ -177,7 +177,7 @@ var get_ec_orders = function(person_id,cb){
 };
 //mp 订单明细
 var get_mp_order_details = function(order_id,cb){
-	var url = "http://211.149.248.241:18010/get_mp_order_details?order_id=";
+	var url = "http://127.0.0.1:18010/get_mp_order_details?order_id=";
 	url = url + order_id;
 	do_get_method(url,cb);
 };
@@ -1141,14 +1141,35 @@ exports.register = function(server, options, next){
 				get_order(order_id,function(err,rows){
 					if (!err) {
 						var order_status = rows.rows[0].order_status;
+						var id = rows.rows[0].id;
 						if (order_status == "-1" || order_status == "0" ) {
 							data.order_id = order_id;
 							data.reason = reason;
 							data.status = "7";
 							order_cancel(data,function(err,content){
 								if (!err) {
-									// unlock_stock();
-									return reply({"success":true});
+									get_mp_order_details(order_id,function(err,rows){
+										if (!err) {
+											var details = rows.details;
+											var products = [];
+											for (var i = 0; i < details.length; i++) {
+												var product = {};
+												product.product_id = details[i].product_id;
+												product.quantity = details[i].number;
+												products.push(product);
+											}
+											var info = {"batch_id":id,"products":JSON.stringify(products),"platform_code":"ioio"};
+											unlock_stock(info,function(err,content){
+												if (!err) {
+													return reply({"success":true});
+												}else {
+													return reply({"success":false,"message":content.message});
+												}
+											});
+										}else {
+											return reply({"success":false,"message":rows.message,"service_info":rows.service_info});
+										}
+									});
 								}else {
 									return reply({"success":false,"message":content.message});
 								}
@@ -3068,38 +3089,22 @@ exports.register = function(server, options, next){
 				var product_ids = [];
 				shopping_carts = JSON.parse(shopping_carts);
 				for (var i = 0; i < shopping_carts.length; i++) {
-					var cart = shopping_carts[i];
-					product_ids.push(cart.product_id);
+					shopping_carts[i].quantity = shopping_carts[i].total_items;
 				}
-				var product_map = {};
-				find_products(JSON.stringify(product_ids),function(err,rows){
+				var id = uuidV1();
+				var info = {"batch_id":id,"products":JSON.stringify(shopping_carts),"platform_code":"ioio"};
+				data.id = id;
+				lock_stock(info,function(err,content){
 					if (!err) {
-						var products = rows.rows;
-						for (var i = 0; i < products.length; i++) {
-							product_map[products[i].id] = products[i].industry_id;
-						}
-						for (var i = 0; i < shopping_carts.length; i++) {
-							shopping_carts[i].industry_id = product_map[shopping_carts[i].product_id];
-							shopping_carts[i].quantity = shopping_carts[i].total_items;
-						}
-						var id = uuidV1();
-						var info = {"batch_id":id,"products":JSON.stringify(shopping_carts),"platform_code":"ioio"};
-						data.id = id;
-						lock_stock(info,function(err,content){
+						save_order_infos(data,function(err,content){
 							if (!err) {
-								save_order_infos(data,function(err,content){
-									if (!err) {
-										return reply({"success":true,"order_id":content.order_id,"message":"ok"});
-									}else {
-										return reply({"success":false,"message":content.message});
-									}
-								});
+								return reply({"success":true,"order_id":content.order_id,"message":"ok"});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
 						});
 					}else {
-						return reply({"success":false,"message":rows.message});
+						return reply({"success":false,"message":content.message});
 					}
 				});
 			}
@@ -3123,31 +3128,23 @@ exports.register = function(server, options, next){
 				}
 				var data = {"person_id":person_id,"num":num,"address":address,"send_seller":send_seller,"product_id":product_id,"sku_id":sku_id};
 
-				var product_ids = [];
-				product_ids.push(product_id);
-				find_products(JSON.stringify(product_ids),function(err,rows){
+				var product = {"product_id":product_id,"quantity":num};
+				var products = [];
+				products.push(product);
+				var id = uuidV1();
+				var info = {"batch_id":id,"products":JSON.stringify(products),"platform_code":"ioio"};
+				data.id = id;
+				lock_stock(info,function(err,content){
 					if (!err) {
-						var product = {"product_id":product_id,"industry_id":rows.rows[0].industry_id,"quantity":num};
-						var products = [];
-						products.push(product);
-						var id = uuidV1();
-						var info = {"batch_id":id,"products":JSON.stringify(products),"platform_code":"ioio"};
-						data.id = id;
-						lock_stock(info,function(err,content){
+						save_fast_order_infos(data,function(err,content){
 							if (!err) {
-								save_fast_order_infos(data,function(err,content){
-									if (!err) {
-										return reply({"success":true,"message":"ok","order_id":content.order_id});
-									}else {
-										return reply({"success":false,"message":content.message});
-									}
-								});
+								return reply({"success":true,"message":"ok","order_id":content.order_id});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
 						});
 					}else {
-						return reply({"success":false,"message":rows.message});
+						return reply({"success":false,"message":content.message});
 					}
 				});
 			}
