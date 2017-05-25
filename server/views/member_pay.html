@@ -231,11 +231,37 @@
     };
 
     class Recharge2 extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+            this.handleClick = this.handleClick.bind(this);
+            this.state = {"cd_key":""};
+        }
+        handleChange(e) {
+			this.setState({cd_key: e.target.value});
+	    }
+        handleClick(e){
+            $.ajax({
+				url: "/card_recharge",
+				dataType: 'json',
+                data:{"cd_key":this.state.cd_key},
+				type: 'GET',
+				success: function(data) {
+					if (data.success) {
+                        alert("充值成功");
+					}else {
+					    alert("充值失败");
+					}
+				}.bind(this),
+				error: function(xhr, status, err) {
+				}.bind(this)
+			});
+        }
       render() {
           return (
               <div className="MainBottom_infor">
-                <p className="cardInput_out"><input type="text" name="" placeholder="请输入充值卡号" className="cardInput" /></p>
-                <p className="recharge">立即充值</p>
+                <p className="cardInput_out"><input type="text" name="" placeholder="请输入充值卡号" className="cardInput" value={this.state.cd_key} onChange={this.handleChange}/></p>
+                <p className="recharge" onClick = {this.handleClick}>立即充值</p>
               </div>
           );
       }

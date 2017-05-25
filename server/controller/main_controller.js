@@ -505,6 +505,11 @@ var sarch_cart_infos = function(person_id,cart_code,cb){
 	url = url + person_id + "&cart_code=" + cart_code;
 	do_get_method(url,cb);
 };
+//充值
+var use_cdkey = function(data,cb){
+	var url = "http://211.149.248.241:18004/use_cdkey";
+	do_post_method(url,data,cb);
+};
 //查询销售量
 var find_product_sales = function(product_id,cb){
 	var url = "http://211.149.248.241:16001/get_product_sales?product_id=";
@@ -3308,6 +3313,42 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//充值卡充值
+		{
+			method: 'GET',
+			path: '/card_recharge',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var cd_key = request.query.cd_key;
+				get_person_vip(person_id,function(err,content){
+					if (!err) {
+						var vip_id = content.row.vip_id;
+						var data = {"org_code":"ioio","campaign_code":"campaign_code","prop_code":cd_key,"transaction_code":1,"person_id":person_id};
+						use_cdkey(data,function(err,row){
+							if (!err) {
+								var pay_amount = row.row.prop_value;
+								var campaign_code = row.row.campaign_code;
+								var info = {"sob_id":"ioio","address":"上海宝山","pay_amount":pay_amount,"effect_amount":pay_amount,"operator":1,"main_role_name":"会员","main_role_id":vip_id,"pay_type":campaign_code,"platform_code":"ioio","paycode":cd_key};
+								vip_add_amount_begin(info,function(err,content){
+									if (!err) {
+										return reply({"success":true});
+									}else {
+										return reply({"success":false,"content":content.message});
+									}
+								});
+							}else {
+								return reply({"success":false,"message":row.message,"service_info":service_info});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":content.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 		//个人信息
 		{
 			method: 'GET',
@@ -3362,6 +3403,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/order_center',
 			handler: function(request, reply){
+				reply.view("order_center");
+			}
+		},
+		//订单中心
+		{
+			method: 'GET',
+			path: '/order_center_data',
+			handler: function(request, reply){
 				var status = request.query.status;
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
@@ -3370,7 +3419,7 @@ exports.register = function(server, options, next){
 				if (status && status !="") {
 					search_order_byStatus(person_id,status,function(err,results){
 						if (!err) {
-							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
+							return reply({"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
 							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
 						}
@@ -3378,7 +3427,7 @@ exports.register = function(server, options, next){
 				}else {
 					get_ec_orders(person_id,function(err,results){
 						if (!err) {
-							return reply.view("order_center",{"orders":results.orders,"details":results.details,"products":results.products});
+							return reply({"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
 							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
 						}
