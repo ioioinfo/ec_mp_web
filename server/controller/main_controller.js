@@ -734,8 +734,32 @@ var online_card_pay = function(data,cb){
 	var url = "http://139.196.148.40:18008/online_card_pay";
 	do_post_method(url,data,cb);
 }
+//设消息已读
+var set_notify_readed = function(data,cb){
+	var url = "http://139.196.148.40:18005/set_notify_readed";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	server.route([
+		//设消息已读
+		{
+			method: 'GET',
+			path: '/set_notify_readed',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var data = {"person_id":person_id,"platform_code":"ioio"};
+				set_notify_readed(data,function(err,content){
+					if (!err) {
+						return reply({"success":true});
+					}else {
+						return reply({"success":false,"message":content.message});
+					}
+				});
+			}
+		},
 		//会员支付
 		{
 			method: 'POST',
