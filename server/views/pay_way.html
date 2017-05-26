@@ -193,7 +193,7 @@
     				url: "/online_card_pay",
     				dataType: 'json',
     				type: 'POST',
-    				data: {order_id:"{{order_id}}",paycode:"123321"},
+    				data: {order_id:"{{order_id}}",auth_code:"123321"},
     				success: function(data) {
     					if (data.success) {
                             location.href = "/pay_success";
