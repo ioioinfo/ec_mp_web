@@ -60,7 +60,7 @@
         .searchfangdaImg{
           position: absolute;
           top: 10px;
-          left: 4.26829268%;
+          left: 10.26829268%;
         }
         input::-webkit-input-placeholder {
           color:    #fff;
@@ -76,7 +76,7 @@
         }
         .headersearch{
           display: inline-block;
-          width: 87.4666666%;
+          width: 82.4666666%;
           height: 25px;
           line-height: 25px;
           outline-style: none;
@@ -87,6 +87,7 @@
           color: #fff;
           font-size: 12px;
           text-align: left;
+          margin-left: 5%;
         }
         .headernews{
           display: inline-block;
@@ -359,12 +360,21 @@
          width: 35px;
          height: 35px;
        }
+
+       .search .back{
+        width: 5.3333%;
+        height: 20px;
+        position: absolute;
+        left: 1.3333333%;
+        top: 10px;
+       }
       }
     </style>
   </head>
   <body>
           <div class="header">
              <div class="search">
+                <img  src="images/goback.png" class="back" alt="">
                 <span class="headersearch">搜索</span>
                 <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
                 <div class="headernews">
@@ -598,7 +608,10 @@
       $(".goBack").click(function(){
           $(".SearchCeng").hide();
       })
-
+          // 返回上一层
+          $(".back").click(function(){
+              window.history.back();
+          });
 	})
 	</script>
 

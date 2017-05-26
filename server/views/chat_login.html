@@ -40,7 +40,7 @@
         .wrap{
           width: 100%;
           height: 100%;
-          padding-top: 80px;
+          padding-top: 50px;
           text-align: center;
         }
 		.goback{
@@ -159,7 +159,7 @@
             font-size: 12px;
             color: #D81E05;
             position: absolute;
-            top: 347px;
+            top: 299px;
             left: 21.33333%;
         }
 
@@ -294,7 +294,7 @@
                 <input type="tel" value={this.state.vertify} placeholder="请输入验证码" id="vertify" className="verificationNum" onChange={this.handleChange} />
                 <span className="verificationimg"><img id="img"  src={this.state.src} onClick = {this.handleVertify}/></span>
               </div>
-             
+
               <div className="submit">
                 <input type="submit" value="登 录" className="verificationNum" onClick = {this.handleLogin}/>
               </div>
