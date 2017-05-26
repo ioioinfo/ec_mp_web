@@ -124,6 +124,12 @@
                 margin-top: 7.5px;
                 vertical-align: super;
             }
+            .prompt{
+                text-align: center;
+                color: red;
+                font-size: 12px;
+                margin-top: 40px;
+            }
         }
 
         </style>
@@ -232,10 +238,12 @@
                     <li><img src="images/yinlianzhifu1.png" alt="" /><span>银联支付</span></li>
                     <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
                   </ul>
+                  <p className="prompt">温馨提示:该订单有效期15分钟</p>
                 </div>
               );
           }
         };
+
         // 返回到页面
         ReactDOM.render(
           <Wrap/>,

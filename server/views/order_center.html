@@ -100,7 +100,7 @@
               var productList = <p className="no_order">暂无信息</p>;
               if (this.state.ordersiitem.length > 0) {
                   productList = this.state.ordersiitem.map(item => (
-                      <ProductList key={item.order_id} item={item} detailsitems={this.state.detailsitems} products={this.state.products} status={status} loadData={this.loadData}/>));
+                      <ProductList key={item.order_id} item={item}  detailsitems={this.state.detailsitems} products={this.state.products} status={status} loadData={this.loadData}/>));
               }
               return (
                   <div className="order_center">
@@ -123,8 +123,13 @@
             constructor(props) {
               super(props);
               this.handleClick1=this.handleClick1.bind(this);
+              this.handleClick2=this.handleClick2.bind(this);
               this.handleClick3=this.handleClick3.bind(this);
+              this.handleClick4=this.handleClick4.bind(this);
+              this.handleClick5=this.handleClick5.bind(this);
+              this.handleClick6=this.handleClick6.bind(this);
             }
+            // 点击不想买了删除订单
             handleClick1(e){
                 var order_id = this.props.item.order_id;
                 var reason = "不想买了";
@@ -146,6 +151,7 @@
                 });
 
             }
+            // 删除订单
             handleClick3(e){
                 var order_id = this.props.item.order_id;
                 $.ajax({
@@ -163,29 +169,78 @@
                     error: function(xhr, status, err) {
                     }.bind(this)
                 });
+                $(".alertWrap").hide();
 
+            }
+            // 点击删除按钮弹出确认按钮
+            handleClick2(e){
+                $(".alertWrap").show();
+            }
+            // 隐藏弹出层
+            handleClick4(e){
+                $(".alertWrap").hide();
+            }
+            // 确认收货
+            handleClick5(e){
+                var order_id = this.props.item.order_id;
+                $.ajax({
+                    url: "/receive_goods",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":order_id},
+                    success: function(data) {
+                        if (data.success) {
+                            this.props.loadData(this.props.status)
+                        }else {
+                            alert("删除失败");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
+            }
+
+            // 查看订单
+            handleClick6(e){
+    			var order_id = this.props.item.order_id;
+    			location.href = "/order_detail?order_id=" + order_id;
             }
           render() {
               var order_status = this.props.item.order_status;
-              var button_one = "",button_two = "",button_three = "",button_four = "";
+              var button_one = "",button_two = "",button_three = "",button_four = "",button_five="";
+              var button = "";
               if(order_status=="等待卖家拣货"){
-                  button_one = "";
-                  button_two = "";
-                  button_three = "";
-                  button_four = "";
+                  button = "";
               }else if (order_status=="等待买家付款") {
-                  button_one = "不想买了";
-                  button_two = "";
-                  button_three = "删除订单";
-                  button_four = "立即付款";
+                  <div>
+                      <span onClick={this.handleClick1}>不想买了</span>
+                      <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
+                      <span><a href={"pay_way?order_id="+this.props.item.order_id}>立即付款</a></span>
+                  </div>
               }else if (order_status=="交易成功") {
-                  button_one = "";
-                  button_two = "";
-                  button_three = "删除订单";
-                  button_four = "";
+                  button =
+                  <div>
+                    <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
+                  </div>
+              }else if (order_status=="付款确认中") {
+
+                  button =
+                  <div>
+                      <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
+                      <span><a href={"pay_way?order_id="+this.props.item.order_id}>立即付款</a></span>
+                  </div>
+              }else if (order_status=="等待买家收货") {
+                  button =
+                  <div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}>查看物流</a></span>
+                      <span onClick={this.handleClick6}>确认收货</span>
+                  </div>
+              }else {
+
+                  button =<div><span className="removeproduct" onClick={this.handleClick2}>删除订单</span></div>
               }
               return (
-                  <div className="public_all">
+                  <div className="public_all" onClick={this.handleClick6}>
                       <div className="public_market">
                         <div className="public_market_img">
                           <img src="images/shop.png" alt="" />
@@ -195,7 +250,7 @@
                         <span className="public_market_span2">{order_status}</span>
                       </div>
                       {this.props.detailsitems[this.props.item.order_id].map(item => (
-                          <Product key={item.product_id} item={item} order_status={order_status} products={this.props.products}/>))
+                          <Product key={item.product_id} item={item} returniitem={this.props.item} order_status={order_status} products={this.props.products}/>))
                       }
                       <div className="product_yunfei">
                           <span>共{this.props.item.total_number}件商品</span>
@@ -203,10 +258,15 @@
                           <span>共计￥{this.props.item.actual_price}</span>
                       </div>
                       <div className="product_button">
-                          <span onClick={this.handleClick1}>{button_one}</span>
-                          <span >{button_two}</span>
-                          <span onClick={this.handleClick3}>{button_three}</span>
-                          <span><a href={"pay_way?order_id="+this.props.item.order_id}>{button_four}</a></span>
+                          {button}
+                      </div>
+                      <div className="alertWrap">
+                          <p className="alertTitle">系统提示</p>
+                          <p className="alertInfor">是否确认拒绝？</p>
+                          <p className="alertSubmit">
+                               <span className="button button-action" onClick={this.handleClick4}>取 消</span>
+                               <span className="button button-action" onClick={this.handleClick3}>确 认</span>
+                           </p>
                       </div>
                   </div>
               );
@@ -217,10 +277,13 @@
           render() {
               var order_status = this.props.order_status;
               var button = "";
-              if(order_status=="等待卖家拣货"){
-                  button = <span>申请退款</span>;
-              }
+
               var product = this.props.products[this.props.item.product_id];
+            //   不变的是字符串+变量
+              if(order_status=="等待卖家拣货"){
+                  button = <span><a href={"return_apply?order_id="+this.props.returniitem.order_id+"&detail_id="+this.props.item.id+"&product_id="+this.props.item.product_id+"&number="+this.props.item.number}>申请退款</a></span>;
+              }
+
               var src = "images/no_picture.png";
               if (product.img) {
                   src = product.img.location;
