@@ -620,8 +620,8 @@ var save_product_picture = function(data,cb){
 	do_post_method(url,data,cb);
 }
 //获取会员码
-var vip_card_paycode = function(data,cb){
-	var url = "http://139.196.148.40:18008/vip_card_paycode";
+var vip_card_auth_code = function(data,cb){
+	var url = "http://139.196.148.40:18008/vip_card_auth_code";
 	do_post_method(url,data,cb);
 }
 //更新订单状态
@@ -724,7 +724,7 @@ var finish_return_order = function(data,cb){
 	var url = "http://127.0.0.1:18010/finish_return_order";
 	do_post_method(url,data,cb);
 }
-//退单完成
+//积分
 var add_jifen = function(data,cb){
 	var url = "http://139.196.148.40:18003/vip/order_finish";
 	do_post_method(url,data,cb);
@@ -747,7 +747,7 @@ exports.register = function(server, options, next){
 				}
 				var address = "网络订单";
 				var order_id = request.payload.order_id;
-				var paycode = request.payload.paycode;
+				var auth_code = request.payload.auth_code;
 				get_order(order_id,function(err,rows){
 					if (!err) {
 						if (rows.rows[0].order_status=="-1") {
@@ -764,10 +764,11 @@ exports.register = function(server, options, next){
 										"pay_amount" : pay_amount,
 										"operator" : person_id,
 										"main_role_id" : vip_id,
-										"paycode" : paycode
+										"auth_code" : auth_code
 									};
 									online_card_pay(data,function(err,row){
 										if (!err) {
+											console.log("row:"+JSON.stringify(row));
 											var info = {"order_id":order_id,"order_status":1};
 											update_order_status(info,function(err,content){
 												if (!err) {
@@ -778,7 +779,9 @@ exports.register = function(server, options, next){
 														"amount":pay_amount,
 														"platform_code":"ioio"
 													};
+
 													add_jifen(infos,function(err,content){
+														console.log("content:"+JSON.stringify(content));
 														if (!err) {
 															return reply({"success":true});
 														}else {
@@ -2360,10 +2363,10 @@ exports.register = function(server, options, next){
 				return reply.view("pay_code");
 			}
 		},
-		//获取会员支付码 vip_card_paycode
+		//获取会员支付码 vip_card_auth_code
 		{
 			method: 'POST',
-			path: '/vip_card_paycode',
+			path: '/vip_card_auth_code',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
@@ -2377,7 +2380,7 @@ exports.register = function(server, options, next){
 						}
 						var personsVip = content.rows[0].vip_id;
 						var data = {"sob_id":org_code,"platform_code":"ec_mobile","operator":person_id,"main_role_id":personsVip};
-						vip_card_paycode(data,function(err,result){
+						vip_card_auth_code(data,function(err,result){
 							if (!err) {
 								return reply({"success":true,"row":result.row});
 							}else {
@@ -3326,11 +3329,21 @@ exports.register = function(server, options, next){
 			path: '/receive_goods',
 			handler: function(request, reply){
 				var order_id = request.query.order_id;
-				receive_goods_operations(order_id,function(err,result){
+				get_order(order_id,function(err,rows){
 					if (!err) {
-						return reply({"success":true});
+						if (rows.rows[0].order_status=="5") {
+							receive_goods_operations(order_id,function(err,result){
+								if (!err) {
+									return reply({"success":true});
+								}else {
+									return reply({"success":false,"message":result.message});
+								}
+							});
+						}else {
+							return reply({"success":false,"message":"status error"});
+						}
 					}else {
-
+						return reply({"success":false,"message":rows.message});
 					}
 				});
 			}
@@ -3353,7 +3366,7 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var pay_amount = row.row.prop_value;
 								var campaign_code = row.row.campaign_code;
-								var info = {"sob_id":"ioio","address":"上海宝山","pay_amount":pay_amount,"effect_amount":pay_amount,"operator":1,"main_role_name":"会员","main_role_id":vip_id,"pay_type":campaign_code,"platform_code":"ioio","paycode":cd_key};
+								var info = {"sob_id":"ioio","address":"上海宝山","pay_amount":pay_amount,"effect_amount":pay_amount,"operator":1,"main_role_name":"会员","main_role_id":vip_id,"pay_type":campaign_code,"platform_code":"ioio","auth_code":cd_key};
 								vip_add_amount_begin(info,function(err,content){
 									if (!err) {
 										return reply({"success":true});
