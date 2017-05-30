@@ -404,9 +404,11 @@
       	            </div>
       	            <div class="infor-right">
       	              <p class="infor-right-one">{{product.product_name}}</p>
+                      <div>
       	              <p class="infor-right-two">{% if product.weight %}<span>{{product.weight}}kg</span>{% endif %} {% if product.color %}<span>{{product.color}}</span>{% endif %}</p>
       	              <p class="infor-right-three">￥{{product.product_sale_price}}</p>
-      	              <p class="infor-right-four">{% if product.origin %}<span> {{product.origin}} </span>{% endif %}</p>
+                     </div>
+                      <p class="infor-right-four">{% if product.origin %}<span> {{product.origin}} </span>{% endif %}</p>
       	            </div>
       	          </a>
       	        </li>
