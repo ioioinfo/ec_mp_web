@@ -44,6 +44,7 @@
         position: relative;
         overflow: hidden;
         border-bottom: 1px solid #eaeaea;
+        background: #f5f5f5;
       }
       .jiantou{
         display: inline-block;
@@ -208,12 +209,13 @@
 		 };
 		 favorite();
 
-         // 返回上一层
-         $(".top img").click(function(){
-             window.history.back();
-         });
-
 	 });
+  </script>
+  <!-- 返回上一层 -->
+  <script type="text/javascript">
+           $(".head .jiantou").click(function(){
+               window.history.back();
+           })
   </script>
 </body>
 </html>
