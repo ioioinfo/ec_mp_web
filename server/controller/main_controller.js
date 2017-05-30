@@ -2002,7 +2002,11 @@ exports.register = function(server, options, next){
 							product.mp_persons = persons;
 							product.mp_personsVip = personsVip;
 							product.mp_saidans = saidans;
-							product.mp_product_details = product_details;
+							if (product_details == []) {
+								product.mp_product_details = product_details;
+							}else {
+								product.mp_product_details = product_details;
+							}
 							product.mp_page_name = page_name;
 							product.again_comments = again_comments;
 							var values = [];

@@ -1203,7 +1203,9 @@
           </ul>
         </div> -->
       <div class="content0">
-          {{product.mp_product_details[0].description|safe}}
+          {% if product.mp_product_details.length>0 %}
+            {{product.mp_product_details[0].description|safe}}
+          {% endif %}
           {% for img in product.mp_pictures %}
            <img src="{{img.location}}" alt="">
            {% endfor %}
