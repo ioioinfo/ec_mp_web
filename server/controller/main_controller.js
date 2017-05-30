@@ -558,6 +558,11 @@ var get_front_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_front_orders?person_id="+person_id;
 	do_get_method(url,cb);
 }
+//生成运单
+var logistics_order = function(data,cb){
+	var url = "http://211.149.248.241:18013/order/add";
+	do_post_method(url,data,cb);
+}
 // 商品信息
 var find_product_info = function(product_id,cb){
 	var url = "http://127.0.0.1:18010/product_info?product_id="+product_id;
@@ -807,7 +812,24 @@ exports.register = function(server, options, next){
 													add_jifen(infos,function(err,content){
 														console.log("content:"+JSON.stringify(content));
 														if (!err) {
-															return reply({"success":true});
+															var data2 = {
+																"order_id" :order_id,
+																"logi_code" : order.type,
+																"org_code" : "ioio",
+																"to_province" : order.province,
+																"to_city" : order.city,
+																"to_district" : order.district,
+																"to_detail_address" : order.detail_address,
+																"linkname" : order.linkname,
+																"mobile" : order.mobile
+															};
+															logistics_order(data2,function(err,content){
+																if (!err) {
+																	return reply({"success":true});
+																}else {
+																	reply({"success":false,"message":content.message,"service_info":content.service_info});
+																}
+															});
 														}else {
 															reply({"success":false,"message":content.message,"service_info":content.service_info});
 														}
