@@ -1,7 +1,9 @@
 $(function() {
     function hengshuping(){
         if(window.orientation==180||window.orientation==0){
+
             $(".hengPing").hide().siblings().not("script").show();
+
         }
         if(window.orientation==90||window.orientation==-90){
             $(".hengPing").show().siblings().not("script").hide();

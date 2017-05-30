@@ -462,9 +462,9 @@
             </div>
         </div>
     <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/jinzhi.js"></script>
 	<script>
 	$(function() {
+
 		//页面显示消息
 		$.ajax({
 			url: "/check_message_number",
@@ -612,6 +612,9 @@
           $(".back").click(function(){
               window.history.back();
           });
+
+
+
 	})
 	</script>
 
@@ -631,5 +634,25 @@
 
   });
 	</script>
+
+
+    <script type="text/javascript">
+    $(function() {
+        function hengshuping(){
+            if(window.orientation==180||window.orientation==0){
+
+                $(".hengPing").hide();
+
+            }
+            if(window.orientation==90||window.orientation==-90){
+                $(".hengPing").show();
+            }
+        }
+
+        $("body").append('<div class="hengPing"><span>请勿横屏哦</span></div>');
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+    });
+
+    </script>
   </body>
 </html>
