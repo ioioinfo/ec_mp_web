@@ -24,6 +24,7 @@
                 <div className="wrap">
                   <Header/>
                   <Middle/>
+                  <NoMore/>
                 </div>
               );
             }
@@ -215,7 +216,6 @@
                   <div>
                       <span onClick={this.handleClick1}>不想买了</span>
                       <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
-                      <span><a href={"pay_way?order_id="+this.props.item.order_id}>立即付款</a></span>
                   </div>
               }else if (order_status=="交易成功") {
                   button =
@@ -304,6 +304,14 @@
             }
         };
 
+        // 商品信息
+        class NoMore extends React.Component {
+          render() {
+              return (
+                  <p className="no_more">没有更多订单</p>
+              );
+            }
+        };
         // 返回到页面
         ReactDOM.render(
           <Wrap/>,
