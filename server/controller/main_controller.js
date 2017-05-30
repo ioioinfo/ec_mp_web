@@ -2155,7 +2155,7 @@ exports.register = function(server, options, next){
 						});
 						find_product_details(product_id, function(err, content){
 							if (!err) {
-								var  product_details = content.rows;
+								var  product_details = content.row;
 								ep.emit("product_details", product_details);
 							}else {
 								ep.emit("product_details", []);

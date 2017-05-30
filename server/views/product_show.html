@@ -1136,7 +1136,12 @@
       </div>
       <div class="content">
 		  <div class="price">
-
+              {% if product.product_brand %}
+              <div class="price-bottom">
+                <span>品牌:</span>
+                <span>{{product.product_brand}}</span>
+              </div>
+              {% endif %}
             <div class="price-bottom">
               <span>重量:</span>
               <span>{{product.weight || 0}}kg</span>
@@ -1190,17 +1195,18 @@
     </div>
     <!-- 产品详情 -->
     <div class="warp1">
-        <div class="content content-margin-top">
+        <!-- <div class="content content-margin-top">
           <ul>
   		{% for industry in industry_properties %}
             <li><p class="p1">{{ industry.name }}</p><p class="p2">{% if property[industry.name] %} {{ property[industry.name].value or '' }} {% endif %}</p></li>
   		{% endfor %}
           </ul>
-        </div>
+        </div> -->
       <div class="content0">
-         {% for img in product.mp_pictures %}
-          <img src="{{img.location}}" alt="">
-          {% endfor %}
+          {{product.mp_product_details[0].description|safe}}
+          {% for img in product.mp_pictures %}
+           <img src="{{img.location}}" alt="">
+           {% endfor %}
       </div>
 
 
