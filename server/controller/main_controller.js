@@ -402,6 +402,11 @@ var do_register = function(data, cb){
 	var url = "http://139.196.148.40:18666/user/register";
 	do_post_method(url,data,cb);
 };
+//查询运单号
+var get_logistics_id = function(order_id,cb){
+	var url = "http://211.149.248.241:18013/order/list_data?org_code=ioio&order_id="+order_id;
+	do_get_method(url,cb);
+}
 //根据id找到商品小图片
 var find_samll_picture = function(same_product_ids, cb){
 	var url = "http://127.0.0.1:18002/get_products_picture?product_ids=";
@@ -3531,11 +3536,23 @@ exports.register = function(server, options, next){
 			path: '/check_logistics',
 			handler: function(request, reply){
 				var order_id = request.query.order_id;
-				get_logistics_infos(order_id, function(err,results){
+				var company = request.query.company;
+				get_logistics_id(order_id,function(err,rows){
 					if (!err) {
-						return reply.view("check_logistics",{"logistics_infos":results.rows,"order_logistics":results.order_logistics});
+						var logistics = rows.rows;
+						var logistic_num = "";
+						for (var i = 0; i < logistics.length; i++) {
+							var logistic_num = logistic_num + logistics[i].logi_id;
+						}
+						get_logistics_infos(order_id, function(err,rows){
+							if (!err) {
+								return reply.view("check_logistics",{"logistics_infos":rows.rows,"company":company,"logistic_num":logistic_num});
+							}else {
+								return reply({"success":false,"message":rows.message});
+							}
+						});
 					}else {
-
+						return reply({"success":false,"message":rows.message});
 					}
 				});
 			}

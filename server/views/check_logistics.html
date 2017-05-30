@@ -172,9 +172,8 @@
 
      <!-- 物流状态信息 -->
       <div class="bottom">
-        <p><img src="images/i-5.png" alt=""><span>物流信息由{{order_logistics.transport_way}}快递提供</span></p>
-        <p class="bottom-p2"><span>运单号：</span><span>{{order_logistics.logistics_id}}</span></p>
-
+        <p><img src="images/i-5.png" alt=""><span>物流信息由{{company}}快递提供</span></p>
+        <p class="bottom-p2"><span>运单号：</span><span>{{logistic_num}}</span></p>
         <div class="product">
 		{% for logistics_info in logistics_infos %}
 			{% if loop.first %}
