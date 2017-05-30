@@ -579,6 +579,11 @@ var search_selected_carts = function(person_id,ids,cb){
 	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
+//物流公司查询 http://211.149.248.241:18013/logistics/companies
+var companies = function(cb){
+	var url = "http://211.149.248.241:18013/logistics/companies";
+	do_get_method(url,cb);
+};
 //查询购物车数量
 var check_cart_number = function(person_id,cart_code,cb){
 	var url = "http://127.0.0.1:18015/check_cart_number?person_id=";
@@ -3850,7 +3855,7 @@ exports.register = function(server, options, next){
 				}
 				var order_id = request.query.order_id;
 
-				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info","order_list",function(order,details,products,logistics_info,invoices,delivery_time,pay_info,order_list){
+				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info","order_list","companies",function(order,details,products,logistics_info,invoices,delivery_time,pay_info,order_list,companies){
 						var order_map = {};
 						for (var i = 0; i < order_list.length; i++) {
 							order_map[order_list[i].order_id]= order_list[i];
@@ -3862,7 +3867,11 @@ exports.register = function(server, options, next){
 						for (var i = 0; i < invoices.length; i++) {
 							invoices_map[invoices[i].order_id] = invoices[i];
 						}
-					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time,"pay_info":pay_info});
+						var companies_map = {};
+						for (var i = 0; i < companies.length; i++) {
+							companies_map[companies[i].logi_code] = companies[i].logi_name;
+						}
+					return reply.view("order_detail",{"order":order,"details":details,"products":products,"logistics_info":logistics_info,"invoices":invoices_map,"delivery_time":delivery_time,"pay_info":pay_info,"companies_map":companies_map});
 				});
 
 				get_ec_orders(person_id,function(err,results){
@@ -3908,7 +3917,13 @@ exports.register = function(server, options, next){
 						ep.emit("invoices", []);
 					}
 				});
-
+				companies(function(err,rows){
+					if (!err) {
+						ep.emit("companies", rows.rows);
+					}else {
+						ep.emit("companies", []);
+					}
+				});
 			}
 		},
 		//订单查看页面
