@@ -459,10 +459,6 @@
             <span>支付方式</span>
             <span>{% if pay_info.length>0 %} {{pay_info[0].pay_way}} {% endif %}</span>
           </div>
-          <div class="pay">
-            <span>发票信息</span>
-            <span>{% if invoices[order.order_id] %}  {{invoices[order.order_id].invoice_name}}  {% endif %}</span>
-          </div>
           <div class="background"></div>
     	  <div class="pay">
             <span>备注：</span>
@@ -491,6 +487,7 @@
           <p>创建时间：{{order.created_at | date('Y-m-d H:i:s',-8*60)}}</p>
           <p>付款时间：{% if pay_info.length>0 %} {{pay_info[0].created_at_text}} {% endif %}</p>
           <p>发货时间：{{delivery_time}}</p>
+          <p>承运公司：{{companies_map[order.type]}}</p>
         </div>
         <!-- 底部 -->
         <div class="footer">
