@@ -289,4 +289,30 @@
        margin-top: 10px;
        color: #868489;
    }
+
+  /*按钮样式*/
+  #shanchudingdan{
+      color: #666;
+      border: 1px solid #666;
+      border-radius: 2px;
+  }
+  #lijifukuan{
+      color: #FFA77F;
+      border: 1px solid #FFA77F;
+      padding: 2px 3px;
+      display: inline-block;
+      border-radius: 2px;
+  }
+  #chakanwuliu{
+      color: #666;
+      border: 1px solid #666;
+      border-radius: 2px;
+  }
+  #querenshouhuo{
+      color: #FFA77F;
+      border: 1px solid #FFA77F;
+      padding: 2px 3px;
+      display: inline-block;
+      border-radius: 2px;
+  }
 }

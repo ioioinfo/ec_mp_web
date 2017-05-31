@@ -56,6 +56,7 @@
                 position: absolute;
                 right: 10px;
                 top: 15px;
+                text-align: center;
             }
             .menu a{
                 font-size: 12px;
@@ -185,6 +186,13 @@
         );
         </script>
 
-
+        <script type="text/javascript">
+            $(function(){
+                // 返回上一层
+                $(".header .jiantou").click(function(){
+                    window.history.back();
+                })
+            })
+        </script>
     </body>
 </html>

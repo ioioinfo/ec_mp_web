@@ -24,7 +24,7 @@
         width: 100%;
         height: 100%;
         font-family: "\5FAE\8F6F\96C5\9ED1", Tahoma, Verdana, sans-serif, STHeiTi;
-        background: #EEEEEE;
+        background: #ffffff;
       }
       a{
         text-decoration: none;
@@ -39,14 +39,17 @@
         font-size: 0;
         position: relative;
         overflow: hidden;
-        background: #FAFAFA;
+        background: #f5f5f5;
       }
       .jiantou{
         display: inline-block;
-        width: 32px;
+        width: 20px;
         position: absolute;
         left: 10px;
-        top: 7px;
+        top: 13px;
+      }
+      .jiantou img{
+          width: 20px;
       }
       .title{
         display:block;
@@ -66,34 +69,41 @@
       .title span{
         color: #D81E06;
       }
+      .shop-wrap{
+          width: 96%;
+          margin: 7px auto;
+          box-shadow: 0 6px 12px rgba(0,0,0,.175);
+      }
+      .shop-wrap p{
+          text-indent: 5px;
+      }
       .shop-address-name{
-        width: 92%;
+        width: 100%;
         margin: 0 auto;
         line-height: 40px;
         font-size: 16px;
         color: #666;
       }
       .start-businsess{
-        width: 92%;
+        width: 100%;
         margin: 0 auto;
-        line-height: 25px;
-        font-size: 12px;
+        line-height: 28px;
+        font-size: 14px;
         color: #666;
       }
       .business-hours{
-        width: 92%;
+        width: 100%;
         margin: 0 auto;
         line-height: 16px;
-        font-size: 12px;
+        font-size: 14px;
         color: #666;
       }
       .shop-infor{
-        width: 92%;
         margin: 0 auto 14px;
-        line-height: 25px;
+        line-height: 28px;
         font-size: 14px;
         color: #666;
-        text-indent: 10px;
+        padding: 0 2%;
       }
       .shop-img{
         width: 96%;
@@ -110,15 +120,25 @@
         margin-right: 5px;
       }
 	  .style_p{
-		  margin:10px auto;
-		  border: 1px dashed rgb(112,180,44);
-		  width: 92%;
+		  margin:25px auto;
+		  border: 1px solid #e7e7e7;
 		  height: 1px;
 		  box-sizing: border-box;
+          display: block;
 	  }
 	  .MARGIN{
 		  line-height: 40px;
 	  }
+      .shop-infor span:first-child{
+          font-size: 16px;
+          margin-top: 35px;
+          display: block;
+          color: #171717;
+      }
+      .style_span{
+          font-size: 14px;
+          color: #444;
+      }
     }
     </style>
   </head>
@@ -158,7 +178,7 @@
         render() {
             return (
               <div className="header">
-                <span className="jiantou"><a href="/mendian_infos"><img src="images/jiantou.png" alt="" /></a></span>
+                <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
                 <span className="title">线下店详情</span>
                 <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
               </div>
@@ -181,14 +201,19 @@
             // var img=this.state.item.imgs;
             return (
               <div className="shop-address">
+                <div className="shop-wrap">
+                    <p className="shop-address-name">{this.state.item.name}</p>
 
-				<p className="shop-address-name">{this.state.item.name}</p>
+    				<p className="start-businsess">< img src="images/open.png" alt="" />开业时间：{this.state.item.time1}</p>
+                    <p className="business-hours">< img src="images/time.png" alt="" />营业时间：{this.state.item.time2}</p>
+    				<p className="start-businsess MARGIN">< img src="images/location2.png" alt="" /><u>{this.state.item.address}</u></p>
+                </div>
 
-				<p className="start-businsess">< img src="images/open.png" alt="" />开业时间：{this.state.item.time1}</p>
-                <p className="business-hours">< img src="images/time.png" alt="" />营业时间：{this.state.item.time2}</p>
-				<p className="start-businsess MARGIN">< img src="images/location2.png" alt="" /><u>{this.state.item.address}</u></p>
-				<p className="style_p"></p>
-                <p className="shop-infor">{{remark|safe}}</p>
+                <p className="shop-infor">
+                    <span>店铺描述</span>
+                    <span className="style_p"></span>
+                    <span className="style_span">{{remark|safe}}</span>
+                </p>
                 <p className="shop-img">
                 {this.state.item.imgs.map(item => (
                     <img src={item} alt="" />))
@@ -204,5 +229,15 @@
         document.getElementById("example")
       );
     </script>
+
+    <script type="text/javascript">
+    $(function(){
+        // 返回上一层
+        $(".header .jiantou").click(function(){
+            window.history.back();
+        })
+    })
+    </script>
+
   </body>
 </html>

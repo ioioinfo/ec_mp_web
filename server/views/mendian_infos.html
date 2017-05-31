@@ -84,7 +84,7 @@
           background: #fff;
           border-radius: 4px;
           padding: 10px;
-          margin: 7px 2%;
+          margin: 7px 0;
         }
         .newsTitle{
           width: 80%;
@@ -99,28 +99,28 @@
         }
         .newsimg{
           display: inline-block;
-          width: 14.444%;
-          height: 48px;
+          width: 19.444%;
+          height: 70px;
         }
         .newsimg img{
           width: 100%;
-          height: 48px;
         }
         .newsword{
           display: inline-block;
-          width: 82%;
+          width: 75%;
           vertical-align: top;
           padding-left: 10px;
-          font-size: 12px;
-          line-height: 20px;
-          height: 48px;
+          font-size: 16px;
           overflow:hidden;
           text-overflow:ellipsis;
         }
         .newsword span{
           display: block;
-          height: 24px;
-          line-height: 24px;
+          height: 35px;
+          line-height: 35px;
+        }
+        .newsword span:last-child{
+            font-size: 14px;
         }
         .newscontent{
           position: relative;
@@ -167,7 +167,7 @@
       render() {
           return (
               <div className="head">
-                <span className="jiantou"><img src="images/back.png" alt="" /></span>
+                <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
                 <span className="title">门店信息</span>
               </div>
           );

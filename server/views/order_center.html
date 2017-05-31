@@ -212,33 +212,58 @@
               var button_one = "",button_two = "",button_three = "",button_four = "",button_five="";
               var button = "";
               if(order_status=="等待卖家拣货"){
-                  button = "";
+                  button =
+                  (<div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id} id="chakanwuliu">查看物流</a></span>
+                  </div>)
+              }else if (order_status=="等待卖家发货") {
+                  button =
+                  (<div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                  </div>)
+              }else if (order_status=="等待快递员揽件") {
+                  button =
+                  (<div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                  </div>)
+              }else if (order_status=="卖家已发货") {
+                  button =
+                  (<div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                  </div>)
               }else if (order_status=="等待买家付款") {
-                  <div>
-                      <span onClick={this.handleClick1}>不想买了</span>
-                      <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
-                  </div>
+                  button =
+                 ( <div>
+                      <span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span>
+                      <span><a href={"pay_way?order_id="+this.props.item.order_id} id="lijifukuan">立即付款</a></span>
+                  </div>)
               }else if (order_status=="交易成功") {
                   button =
-                  <div>
-                    <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
-                  </div>
+                  (<div>
+                    <span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span>
+                  </div>)
+              }
+              else if (order_status=="交易关闭") {
+                  button =
+                  (<div>
+                    <span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span>
+                  </div>)
               }else if (order_status=="付款确认中") {
 
                   button =
-                  <div>
-                      <span className="removeproduct" onClick={this.handleClick2}>删除订单</span>
-                      <span><a href={"pay_way?order_id="+this.props.item.order_id}>立即付款</a></span>
-                  </div>
+                  (<div>
+                      <span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span>
+                      <span><a href={"pay_way?order_id="+this.props.item.order_id} id="lijifukuan">立即付款</a></span>
+                  </div>)
               }else if (order_status=="等待买家收货") {
                   button =
-                  <div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}>查看物流</a></span>
-                      <span onClick={this.handleClick6}>确认收货</span>
-                  </div>
+                  (<div>
+                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span onClick={this.handleClick6} id="querenshouhuo">确认收货</span>
+                  </div>)
               }else {
 
-                  button =<div><span className="removeproduct" onClick={this.handleClick2}>删除订单</span></div>
+                  button =(<div><span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span></div>)
               }
               return (
                   <div className="public_all" onClick={this.handleClick6}>
