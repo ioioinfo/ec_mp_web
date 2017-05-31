@@ -141,6 +141,7 @@
    width: 16.66667%;
    height: 60px;
    margin-right: 3%;
+   margin-left: 3%;
    float: left;
    }
    .product_left_img img{
@@ -285,10 +286,7 @@
    .no_more{
        text-align: center;
        font-size: 14px;
-       position: absolute;
-       bottom: 0;
-       left: 0;
-       right: 0;
+       margin-top: 10px;
        color: #868489;
    }
 }

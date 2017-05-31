@@ -68,7 +68,6 @@
             constructor(props) {
               super(props);
               this.loadData=this.loadData.bind(this);
-              this.handleClick=this.handleClick.bind(this);
               this.state = {ordersiitem:[],detailsitems:{},products:{},status:""};
             }
             componentDidMount() {
@@ -86,20 +85,21 @@
                      }.bind(this)
                 });
             }
-            handleClick(e){
-                var id = e.target.id;
+            handleClick(index,ids){
                 $(".li_color").removeClass("li_color");
-                $("#"+id).addClass("li_color");
+                $(".nav-ul li:nth-child("+index+")").addClass("li_color");
 
                 var status = "";
-                if (id != "all") {
-                    status = id;
+                if (ids.length > 0) {
+                    status = JSON.stringify(ids);
                 }
                 this.loadData(status);
             }
           render() {
               var productList = <p className="no_order">暂无信息</p>;
+              var no = "";
               if (this.state.ordersiitem.length > 0) {
+                  no = <NoMore/>;
                   productList = this.state.ordersiitem.map(item => (
                       <ProductList key={item.order_id} item={item}  detailsitems={this.state.detailsitems} products={this.state.products} status={status} loadData={this.loadData}/>));
               }
@@ -107,14 +107,15 @@
                   <div className="order_center">
                   <div className="nav">
                     <ul className="nav-ul">
-                      <li id="all" className="li_color" onClick={this.handleClick}>全部</li>
-                      <li id="-1" onClick={this.handleClick}>待付款</li>
-                      <li id="2" onClick={this.handleClick}>待发货</li>
-                      <li id="5" onClick={this.handleClick}>待收货</li>
-                      <li id="10" onClick={this.handleClick}>退货</li>
+                      <li className="li_color" onClick={this.handleClick.bind(this,1,[])}>全部</li>
+                      <li onClick={this.handleClick.bind(this,2,[-1,0])}>待付款</li>
+                      <li onClick={this.handleClick.bind(this,3,[1,2,3])}>待发货</li>
+                      <li onClick={this.handleClick.bind(this,4,[4,5])}>待收货</li>
+                      <li onClick={this.handleClick.bind(this,5,[9,10,11])}>退货</li>
                     </ul>
                   </div>
                   {productList}
+                  {no}
                   </div>
               );
             }
@@ -268,7 +269,7 @@
                                <span className="button button-action" onClick={this.handleClick3}>确 认</span>
                            </p>
                       </div>
-                       <NoMore/>
+
                   </div>
               );
             }
