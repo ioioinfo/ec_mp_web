@@ -72,7 +72,7 @@
       .shop-wrap{
           width: 96%;
           margin: 7px auto;
-          box-shadow: 0 6px 12px rgba(0,0,0,.175);
+          box-shadow: 0 6px 12px rgba(0,0,0,.115);
       }
       .shop-wrap p{
           text-indent: 5px;
@@ -120,7 +120,7 @@
         margin-right: 5px;
       }
 	  .style_p{
-		  margin:25px auto;
+		  margin:15px auto;
 		  border: 1px solid #e7e7e7;
 		  height: 1px;
 		  box-sizing: border-box;
@@ -138,6 +138,12 @@
       .style_span{
           font-size: 14px;
           color: #444;
+      }
+      .shop-infor .miaoshu img{
+          width: 25px;
+          height: 25px;
+          vertical-align: top;
+          margin-right: 7px;
       }
     }
     </style>
@@ -210,7 +216,7 @@
                 </div>
 
                 <p className="shop-infor">
-                    <span>店铺描述</span>
+                    <span className="miaoshu"><img src="images/miaoshu.png" alt="" />店铺描述</span>
                     <span className="style_p"></span>
                     <span className="style_span">{{remark|safe}}</span>
                 </p>
