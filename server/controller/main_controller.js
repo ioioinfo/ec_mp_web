@@ -3514,17 +3514,17 @@ exports.register = function(server, options, next){
 				if (status && status !="") {
 					search_order_byStatus(person_id,status,function(err,results){
 						if (!err) {
-							return reply({"orders":results.orders,"details":results.details,"products":results.products});
+							return reply({"success":true,"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
-							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
+							return reply({"success":false,"orders":[],"details":[],"products":[],"messsage":results.messsage});
 						}
 					});
 				}else {
 					get_ec_orders(person_id,function(err,results){
 						if (!err) {
-							return reply({"orders":results.orders,"details":results.details,"products":results.products});
+							return reply({"success":true,"orders":results.orders,"details":results.details,"products":results.products});
 						}else {
-							return reply.view("order_center",{"orders":[],"details":[],"products":[]});
+							return reply({"success":false,"orders":[],"details":[],"products":[],"messsage":results.messsage});
 						}
 					});
 				}
