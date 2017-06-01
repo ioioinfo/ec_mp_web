@@ -18,6 +18,7 @@
     <body>
         <div id="order"></div>
         <script type="text/babel">
+        var cur_order_id;
         class Wrap extends React.Component {
           render() {
               return (
@@ -68,11 +69,15 @@
             constructor(props) {
               super(props);
               this.loadData=this.loadData.bind(this);
+              this.handdelect=this.handdelect.bind(this);
+              this.handleClick4=this.handleClick4.bind(this);
               this.state = {ordersiitem:[],detailsitems:{},products:{},status:""};
             }
             componentDidMount() {
                 this.loadData("");
             }
+
+            // 根据不通statu获取订单
             loadData(status) {
                 $.ajax({
                      url: "/order_center_data?status="+status,
@@ -85,6 +90,28 @@
                      }.bind(this)
                 });
             }
+            // 删除订单   cur_order_id子元素获取id设置全局变量
+            handdelect(e){
+                if (!cur_order_id) {return;}
+                $.ajax({
+                    url: "/order_delete",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":cur_order_id},
+                    success: function(data) {
+                        if (data.success) {
+                            this.loadData(this.state.status)
+                        }else {
+                            alert("删除失败");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
+                $(".alertWrap").hide();
+            }
+
+
             handleClick(index,ids){
                 $(".li_color").removeClass("li_color");
                 $(".nav-ul li:nth-child("+index+")").addClass("li_color");
@@ -94,6 +121,12 @@
                     status = JSON.stringify(ids);
                 }
                 this.loadData(status);
+            }
+            // 隐藏弹出层
+            handleClick4(e){
+                event.stopPropagation();
+
+                $(".alertWrap").hide();
             }
           render() {
               var productList = <p className="no_order">暂无信息</p>;
@@ -115,6 +148,15 @@
                     </ul>
                   </div>
                   {productList}
+
+                  <div className="alertWrap">
+                      <p className="alertTitle">系统提示</p>
+                      <p className="alertInfor">是否确认删除？</p>
+                      <p className="alertSubmit">
+                           <span className="button button-action" onClick={this.handleClick4}>取 消</span>
+                           <span className="button button-action" onClick={this.handdelect}>确 认</span>
+                       </p>
+                  </div>
                   {no}
                   </div>
               );
@@ -126,10 +168,8 @@
               super(props);
               this.handleClick1=this.handleClick1.bind(this);
               this.handleClick2=this.handleClick2.bind(this);
-              this.handleClick3=this.handleClick3.bind(this);
-              this.handleClick4=this.handleClick4.bind(this);
               this.handleClick5=this.handleClick5.bind(this);
-              this.handleClick6=this.handleClick6.bind(this);
+              this.cancelClick=this.cancelClick.bind(this);
             }
             // 点击不想买了删除订单
             handleClick1(e){
@@ -145,43 +185,21 @@
                         if (data.success) {
                             this.props.loadData(this.props.status)
                         }else {
-                            alert("取消失败");
+                            alert("操作失败");
                         }
                     }.bind(this),
                     error: function(xhr, status, err) {
                     }.bind(this)
                 });
-
-            }
-            // 删除订单
-            handleClick3(e){
-                var order_id = this.props.item.order_id;
-                $.ajax({
-                    url: "/order_delete",
-                    dataType: 'json',
-                    type: 'POST',
-                    data: {"order_id":order_id},
-                    success: function(data) {
-                        if (data.success) {
-                            this.props.loadData(this.props.status)
-                        }else {
-                            alert("删除失败");
-                        }
-                    }.bind(this),
-                    error: function(xhr, status, err) {
-                    }.bind(this)
-                });
-                $(".alertWrap").hide();
 
             }
             // 点击删除按钮弹出确认按钮
             handleClick2(e){
+                event.stopPropagation();
+                cur_order_id = this.props.item.order_id;
                 $(".alertWrap").show();
             }
-            // 隐藏弹出层
-            handleClick4(e){
-                $(".alertWrap").hide();
-            }
+
             // 确认收货
             handleClick5(e){
                 var order_id = this.props.item.order_id;
@@ -194,7 +212,7 @@
                         if (data.success) {
                             this.props.loadData(this.props.status)
                         }else {
-                            alert("删除失败");
+                            alert("确认失败");
                         }
                     }.bind(this),
                     error: function(xhr, status, err) {
@@ -202,10 +220,24 @@
                 });
             }
 
-            // 查看订单
-            handleClick6(e){
-    			var order_id = this.props.item.order_id;
-    			location.href = "/order_detail?order_id=" + order_id;
+            // 取消订单
+            cancelClick(e){
+                var order_id = this.props.item.order_id;
+                $.ajax({
+                    url: "/order_cancel",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"order_id":order_id},
+                    success: function(data) {
+                        if (data.success) {
+                            this.props.loadData(this.props.status)
+                        }else {
+                            alert("取消失败");
+                        }
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                    }.bind(this)
+                });
             }
           render() {
               var order_status = this.props.item.order_status;
@@ -234,7 +266,7 @@
               }else if (order_status=="等待买家付款") {
                   button =
                  ( <div>
-                      <span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span>
+                      <span className="removeproduct" onClick={this.cancelClick} id="shanchudingdan">取消订单</span>
                       <span><a href={"pay_way?order_id="+this.props.item.order_id} id="lijifukuan">立即付款</a></span>
                   </div>)
               }else if (order_status=="交易成功") {
@@ -259,14 +291,14 @@
                   button =
                   (<div>
                       <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
-                      <span onClick={this.handleClick6} id="querenshouhuo">确认收货</span>
+                      <span onClick={this.handleClick5} id="querenshouhuo">确认收货</span>
                   </div>)
               }else {
 
                   button =(<div><span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span></div>)
               }
               return (
-                  <div className="public_all" onClick={this.handleClick6}>
+                  <div className="public_all" >
                       <div className="public_market">
                         <div className="public_market_img">
                           <img src="images/shop.png" alt="" />
@@ -276,7 +308,7 @@
                         <span className="public_market_span2">{order_status}</span>
                       </div>
                       {this.props.detailsitems[this.props.item.order_id].map(item => (
-                          <Product key={item.product_id} item={item} returniitem={this.props.item} order_status={order_status} products={this.props.products}/>))
+                          <Product key={item.product_id} item={item} returniitem={this.props.item} order_status={order_status} products={this.props.products} />))
                       }
                       <div className="product_yunfei">
                           <span>共{this.props.item.total_number}件商品</span>
@@ -286,14 +318,6 @@
                       <div className="product_button">
                           {button}
                       </div>
-                      <div className="alertWrap">
-                          <p className="alertTitle">系统提示</p>
-                          <p className="alertInfor">是否确认拒绝？</p>
-                          <p className="alertSubmit">
-                               <span className="button button-action" onClick={this.handleClick4}>取 消</span>
-                               <span className="button button-action" onClick={this.handleClick3}>确 认</span>
-                           </p>
-                      </div>
 
                   </div>
               );
@@ -301,6 +325,15 @@
         };
         // 商品信息
         class Product extends React.Component {
+            constructor(props) {
+              super(props);
+              this.handleClick6=this.handleClick6.bind(this);
+            }
+            // 查看订单
+            handleClick6(e){
+              var order_id = this.props.item.order_id;
+              location.href = "/order_detail?order_id=" + order_id;
+            }
           render() {
               var order_status = this.props.order_status;
               var button = "";
@@ -315,8 +348,9 @@
               if (product.img) {
                   src = product.img.location;
               }
+
               return (
-                  <div className="product_wrap">
+                  <div className="product_wrap" onClick={this.handleClick6}>
                     <div className="product_left_img"><img src={src} alt="" /></div>
                     <div className="product_center_inf">
                         <p>{product.product_name}</p>
