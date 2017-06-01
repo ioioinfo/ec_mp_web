@@ -1110,6 +1110,7 @@
      }
 	}
     </style>
+    <link rel="stylesheet" href="css/newflash.css">
   </head>
   <body>
 
@@ -1521,7 +1522,7 @@
         })
 		});
 	</script>
-    <script src="js/lunbo.min.js"></script>
+    <script src="js/newflash_v1.1.min.js"></script>
     <script type="text/javascript">
         // 返回到页面
         var images ={{ JSON.stringify(product.mp_pictures)|| safe}};
@@ -1530,7 +1531,7 @@
            items.push({id:i,img:images[i].location});
         }
 
-        ReactDOM.render(React.createElement(Lunbo, { items: items }), document.getElementById('lunbo'));
+        ReactDOM.render(React.createElement(Lunbo, { items: items, rate:356/375 }), document.getElementById('lunbo'));
     </script>
 
     <script type="text/javascript">
