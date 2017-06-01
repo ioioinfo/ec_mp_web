@@ -17,7 +17,8 @@
         <style media="screen">
             @media screen and (max-width:640px){
                 body{
-                    background: #9EA8B1;
+                    background:url(images/pay_back.jpg) no-repeat 0 0;
+                    background-size: cover;
                     position: relative;
                     height: auto;
                 }
@@ -26,7 +27,7 @@
                     height: 147px;
                     background: #F6F6F8;
                     text-align: center;
-                    margin: 150px auto 0;
+                    margin: 80px auto 0;
                     border-radius: 4px;
                     padding-top: 5px;
                     box-sizing: border-box;
@@ -35,26 +36,34 @@
                     background: none;
                 }
                 /*----头                  部----*/
-                .top{
-                  width: 96%;
+                .head{
+                  width: 100%;
                   height: 46px;
-                  line-height: 46px;
-                  margin: 0 auto;
-                  font-size: 0px;
+                  font-size: 0;
+                  position: relative;
+                  overflow: hidden;
+                  border-bottom: 1px solid #eaeaea;
+                  background: #f5f5f5;
                 }
-                .top img{
-                  width: 20px;
-                  height: 20px;
-                  vertical-align: middle;
-                }
-                .top span{
+                .jiantou{
                   display: inline-block;
-                  width:320px;
-                  font-size: 16px;
-                  text-align: center;
+                  width: 32px;
+                  position: absolute;
+                  left: 10px;
+                  top: 13px;
+                }
+                .head .jiantou img{
+                 width: 20px;
+                 height: 20px;
+                 vertical-align: middle;
+                }
+                .title{
+                  display:block;
+                  width: 200px;
                   line-height: 46px;
-                  vertical-align: middle;
-                  color: #fff;
+                  font-size: 16px;
+                  margin: 0 auto;
+                  text-align: center;
                 }
                 .time{
                     text-align: center;
@@ -72,9 +81,9 @@
     <body>
         <div id="content">
             <!--       头部      -->
-            <div class="top">
-              <img src="images/goback.png" alt="">
-              <span>扫码支付</span>
+            <div class="head">
+              <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+              <span class="title">扫码支付</span>
             </div>
             <div class="wrap">
                 <img id="barcode"/>
@@ -86,13 +95,13 @@
         <script type="text/javascript">
             function code(){
                 $.ajax({
-                  url: "/vip_card_paycode",
+                  url: "/vip_card_auth_code",
                   dataType: 'json',
                   type: 'POST',
                   success: function(data) {
                       if(data.success){
                           var row=data.row;
-                            JsBarcode("#barcode", row.paycode, {
+                            JsBarcode("#barcode", row.auth_code, {
                                 format: "CODE128"
                                 ,background: "#F6F6F8"
                                 ,fontSize: 12
@@ -139,7 +148,7 @@
             });
             $(function(){
                 // 返回上一层
-                $(".top img").click(function(){
+                $(".head .jiantou").click(function(){
                     window.history.back();
                 })
             })

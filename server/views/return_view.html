@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/jinping.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react.min.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/jinzhi.js"></script>
+    <title>退货详情</title>
+    <style media="screen">
+      @media screen and (max-width:640px){
+        *{
+          padding: 0;
+          margin: 0;
+        }
+        html,body{
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          background: #F5F5F5;
+        }
+		input, textarea {
+			  font-size: 14px;
+		  }
+		input[type="submit"],input[type="reset"],input[type="button"],button {
+		   -webkit-appearance: none;
+		}
+        p{
+          padding: 0;
+          margin: 0;
+        }
+        li{
+          list-style: none;
+        }
+        a{
+          text-decoration: none;
+          color: #000;
+        }
+        span{
+          color: #232326;
+        }
+
+        .head{
+          width: 100%;
+          height: 46px;
+          font-size: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .jiantou{
+          display: inline-block;
+          width: 32px;
+          position: absolute;
+          left: 10px;
+          top: 13px;
+        }
+        .head .jiantou img{
+            width: 20px;
+            height: 20px;
+        }
+        .title{
+          display:block;
+          width: 200px;
+          line-height: 46px;
+          font-size: 16px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .line{
+          width: 100%;
+          height: 6px;
+          background: #e6e6e6;
+          opacity: 0.5;
+        }
+        .white{
+          width: 100%;
+          height: 6px;
+          background: #fff;
+        }
+        .min-line{
+          width: 94%;
+          height: 1px;
+          background: #E6E6E6;
+          margin: 0 auto;
+        }
+
+         .jiantou-right{
+          display: inline-block;
+          width: 9px;
+          height: 16px;
+          position: absolute;
+          top: 40%;
+          right: 10px;
+        }
+         .jiantou-right img{
+          width: 9px;
+          height: 16px;
+        }
+        /*商品详情*/
+        .product-infor{
+          width: 100%;
+          margin-bottom: 15px;
+          overflow: hidden;
+          background: #fff;
+          padding: 5px 0;
+        }
+        .product-infor .all{
+          width: 96%;
+          padding: 15px 0 5px 0;
+          overflow: hidden;
+          margin: 0 auto;
+          border-bottom: 1px solid #eee;
+        }
+        .product-infor .p0{
+          width: 100%;
+          padding: 5px 0;
+          overflow: hidden;
+          background: #F5F5F5;
+          font-size: 14px;
+          text-indent: 2%;
+        }
+        .product-infor .product-infor-left{
+          float: left;
+          width: 27.77777%;
+          height: 100px;
+          margin-right: 2.77777%;
+
+        }
+        .product-infor .product-infor-left img{
+          width: 100%;
+          height: 100px;
+        }
+        .product-infor .product-infor-middle{
+          float: left;
+          width: 69.44444%;
+
+        }
+        .product-infor .product-infor-middle .p1{
+          width: 100%;
+          font-size: 14px;
+		  height: 42px;
+          line-height: 20px;
+          color: #223541;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          -moz-line-clamp: 2;
+          -ms-line-clamp: 2;
+          -o-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          -moz-box-orient: vertical;
+          -ms-box-orient: vertical;
+          -o-box-orient: vertical;
+          box-orient: vertical;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-box;
+          display: -o-box;
+          display: box;
+          word-break: break-all;
+        }
+        .product-infor .product-infor-middle .p2{
+          margin-top: 5px;
+          font-size: 12px;
+          padding: 4px 0;
+          overflow: hidden;
+        }
+        .product-infor .product-infor-middle .p3{
+          margin-top: 5px;
+          font-size: 12px;
+          padding: 4px 0;
+          overflow: hidden;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span1{
+          color: #e51c23;
+          margin-top: 4px;
+          font-size: 12px;
+          float: left;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span2{
+          color: #e51c23;
+          margin-top: 5px;
+          font-size: 12px;
+          float: right;
+        }
+        .product-infor .product-infor-middle .p2 .p2-span2 img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+        .product-infor .product-infor-middle .p3{
+          padding-top: 5px;
+        }
+        .statu{
+            width: 96%;
+            margin: 0 auto;
+            height:76px;
+            line-height: 76px;
+            font-size: 18px;
+            text-indent: 30px;
+            margin-bottom: 15px;
+            background: rgb(112,180,44);
+            color: #fff;
+            font-weight: 400;
+        }
+        .instructions{
+            width: 96%;
+            margin: 0 auto;
+            background: #fff;
+        }
+        .instructions p{
+            color: #B6B6B6;
+            font-size: 12px;
+            padding: 6px;
+        }
+      }
+	</style>
+  </head>
+  <body>
+      <div id="return"></div>
+      <script type="text/babel">
+      class Wrap extends React.Component {
+        render() {
+            return (
+              <div className="wrap">
+                <Header/>
+                <div className="white"></div>
+                <Statu/>
+                <Product/>
+                <Instructions/>
+              </div>
+            );
+        }
+      };
+
+      class Header extends React.Component {
+        render() {
+            return (
+                <div className="head">
+                    <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                    <span className="title">退货详情</span>
+                    <span className="menu"><img src="images/menu.png" alt="" /></span>
+                </div>
+            );
+        }
+      };
+      class Statu extends React.Component {
+        render() {
+            return (
+                <div className="statu">
+                    <p>请等待商家处理</p>
+                </div>
+            );
+        }
+      };
+      class Product extends React.Component {
+        render() {
+            return (
+                <div className="product-infor">
+        			  <div className="all">
+        				<div className="product-infor-left">
+    						<img src="" alt="" />
+    						<img src="images/no_picture.png" alt="" />
+        				</div>
+        				<div className="product-infor-middle">
+        				  <p className="p1">商品名称</p>
+        				  <p className="p2"><span className="p2-span1">￥11</span><span className="p2-span2">x1</span></p>
+                        </div>
+        			  </div>
+        		</div>
+            );
+        }
+      };
+      class Instructions extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = {item:{}}
+          }
+          componentDidMount() {
+              $.ajax({
+                   url: "/search_return_order?id=51fbe2b0-3303-11e7-abcc-776c7258d89c",
+                   dataType: 'json',
+                   type: 'GET',
+                   success: function(data) {
+                      this.setState({item:data.row});
+                   }.bind(this),
+                   error: function(xhr, status, err) {
+                   }.bind(this)
+              });
+          }
+        render() {
+            return (
+                <div className="instructions">
+                    <p>退货原因 : {this.state.item.return_reason}</p>
+                    <p>退款金额 : {this.state.item.number}</p>
+                    <p>申请时间 : {this.state.item.created_at}</p>
+                    <p>退款编号 : {this.state.item.id}</p>
+                </div>
+            );
+        }
+      };
+      // 返回到页面
+      ReactDOM.render(
+        <Wrap/>,
+        document.getElementById("return")
+      );
+      </script>
+      <script type="text/javascript">
+      // 返回顶部
+      $(function(){
+          // 返回上一层
+          $(".head .jiantou").click(function(){
+              window.history.back();
+          })
+      });
+      </script>
+  </body>
+</html>

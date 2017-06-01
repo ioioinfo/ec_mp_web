@@ -22,6 +22,9 @@
             #recharged{
                 height: 100%;
             }
+            a{
+                text-decoration: none;
+            }
             .header{
                 width: 100%;
                 height: 46px;
@@ -149,7 +152,7 @@
                 <div className="header">
                   <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
                   <span className="title">支付成功</span>
-                  <span className="menu"><img src="images/shouye1.png" alt="" /></span>
+                  <span className="menu"><a href="/"><img src="images/shouye1.png" alt="" /></a></span>
                 </div>
               );
           }
@@ -163,10 +166,10 @@
                         <p className="recharged_money">支付成功，耐心等待商品送达...</p>
                     </div>
                     <div className="recharged_ok">
-                        <p>订单详情</p><p>返回首页</p>
+                        <p><a href="order_center">订单详情</a></p><p><a href="/">返回首页</a></p>
                     </div>
                     <p className="smile"><img src="images/smile.png" alt="" /></p>
-                    <p className="person_center">转入商品分类</p>
+                    <p className="person_center"><a href="sort">转入商品分类</a></p>
                 </div>
               );
           }
@@ -176,6 +179,14 @@
           <Wrap/>,
           document.getElementById("recharged")
         );
+        </script>
+        <script type="text/javascript">
+        $(function(){
+            // 返回上一层
+            $(".header .jiantou").click(function(){
+                window.history.back();
+            })
+        })
         </script>
     </body>
 </html>

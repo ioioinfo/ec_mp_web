@@ -60,7 +60,7 @@
         .searchfangdaImg{
           position: absolute;
           top: 10px;
-          left: 4.26829268%;
+          left: 10.26829268%;
         }
         input::-webkit-input-placeholder {
           color:    #fff;
@@ -76,7 +76,7 @@
         }
         .headersearch{
           display: inline-block;
-          width: 87.4666666%;
+          width: 82.4666666%;
           height: 25px;
           line-height: 25px;
           outline-style: none;
@@ -87,6 +87,7 @@
           color: #fff;
           font-size: 12px;
           text-align: left;
+          margin-left: 5%;
         }
         .headernews{
           display: inline-block;
@@ -359,12 +360,21 @@
          width: 35px;
          height: 35px;
        }
+
+       .search .back{
+        width: 5.3333%;
+        height: 20px;
+        position: absolute;
+        left: 1.3333333%;
+        top: 10px;
+       }
       }
     </style>
   </head>
   <body>
           <div class="header">
              <div class="search">
+                <img  src="images/goback.png" class="back" alt="">
                 <span class="headersearch">搜索</span>
                 <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
                 <div class="headernews">
@@ -378,7 +388,7 @@
           </div>
           <div class="word">
             <ul class="word-next">
-              <li class="red"><a ><span>综合</span><span><img src="images/jiantou-down-2.png" alt=""></span></a></li>
+              <li class=""><a ><span>综合</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
       		<li class="price"><a><span>价格</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
               <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
@@ -390,13 +400,15 @@
       	        <li>
       	          <a href="/product_show?product_id={{product.id}}">
       	            <div class="infor-left">
-      	              <img class="loading" src="images/load.png" data-src="{{product.img.location}}" alt="">
+      	              <img class="loading" src="images/load.gif" data-src="{{product.img.location}}" alt="">
       	            </div>
       	            <div class="infor-right">
       	              <p class="infor-right-one">{{product.product_name}}</p>
+                      <div>
       	              <p class="infor-right-two">{% if product.weight %}<span>{{product.weight}}kg</span>{% endif %} {% if product.color %}<span>{{product.color}}</span>{% endif %}</p>
       	              <p class="infor-right-three">￥{{product.product_sale_price}}</p>
-      	              <p class="infor-right-four"><span>南通</span></p>
+                     </div>
+                      <p class="infor-right-four">{% if product.origin %}<span> {{product.origin}} </span>{% endif %}</p>
       	            </div>
       	          </a>
       	        </li>
@@ -452,9 +464,9 @@
             </div>
         </div>
     <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/jinzhi.js"></script>
 	<script>
 	$(function() {
+
 		//页面显示消息
 		$.ajax({
 			url: "/check_message_number",
@@ -506,6 +518,7 @@
 				object.sort = "price_desc";
 			}
 			location.href = change_url();
+
 		});
 		//滚动显示
 		$(".headersearch").val(object.q);
@@ -598,6 +611,12 @@
       $(".goBack").click(function(){
           $(".SearchCeng").hide();
       })
+          // 返回上一层
+          $(".back").click(function(){
+              location.href = "/";
+          });
+
+
 
 	})
 	</script>
@@ -618,5 +637,25 @@
 
   });
 	</script>
+
+
+    <script type="text/javascript">
+    $(function() {
+        function hengshuping(){
+            if(window.orientation==180||window.orientation==0){
+
+                $(".hengPing").hide();
+
+            }
+            if(window.orientation==90||window.orientation==-90){
+                $(".hengPing").show();
+            }
+        }
+
+        $("body").append('<div class="hengPing"><span>请勿横屏哦</span></div>');
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+    });
+
+    </script>
   </body>
 </html>

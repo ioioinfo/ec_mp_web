@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <title>新闻详情</title>
+    <title>退款失败</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jinping.css">
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -14,13 +14,16 @@
     <script src="js/jinzhi.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <style media="screen">
+    body{
+        background: #eee;
+    }
     .top{
      width: 100%;
      height: 47px;
      overflow: hidden;
      border-bottom: 1px solid #e7e7e7;
      box-shadow: 0 2px 5px #e7e7e7;
-     background: #f5f5f5;
+     background: #fafafa;
      margin-bottom: 20px;
    }
    .top .back{
@@ -74,11 +77,12 @@
      text-align: center;
      color: #333;
    }
-   .margin_bottom{
-       margin-bottom: 7px;
-   }
-   .thumbnail{
-       border: none;
+   .middle{
+      width: 100%;
+      text-align: center;
+      line-height: 100px;
+      height: 100px;
+      color: #999999;
    }
     }
     </style>
@@ -91,7 +95,7 @@
           return (
             <div className="wrap">
               <Header/>
-              <NewsInfor/>
+              <Middle/>
             </div>
           );
       }
@@ -102,69 +106,22 @@
           return (
               <div className="top">
                 <div className="back">
-                  <img src="images/jiantou.png" alt="" />
+                  <img src="images/back.png" alt="" />
                 </div>
-                <p className="top-title">新闻</p>
-                <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
+                <p className="top-title">退款申请</p>
+                <div className="top-right"><a href="/messages"><img src="images/news.png" alt=""/><p className="headernewsnum"></p></a></div>
               </div>
           );
       }
     };
-
-    // 中间新闻部分
-    class NewsInfor extends React.Component {
-        constructor(props) {
-          super(props);
-          this.state={item:{imgs:[]}};
-        }
-        componentDidMount() {
-            $.ajax({
-                 url: "/announce_view?news_id={{news_id}}",
-                 dataType: 'json',
-                 type: 'GET',
-                 success: function(data) {
-                    this.setState({item:data.rows});
-                 }.bind(this),
-                 error: function(xhr, status, err) {
-                 }.bind(this)
-            });
-        }
+    // 中间部分
+    class Middle extends React.Component {
 
       render() {
-
           return (
-              <div className="container-fluid">
-              	<div className="row-fluid">
-              		<div className="span12">
-              					<div className="thumbnail">
-                                    {this.state.item.imgs.map(item => (
-                                        <Img item={item} />))
-                                    }
-              						<div className="caption">
-              							<h3>
-              								{this.state.item.title}
-              							</h3>
-                                        <h5>
-              								{this.state.item.pub_date_text}
-              							</h5>
-                                        <hr/>
-              							<p dangerouslySetInnerHTML={% raw %}{{__html: this.state.item.content}}{% endraw %}>
-              							</p>
-                                    </div>
-              					</div>
-
-              		</div>
-              	</div>
-              </div>
-          );
-      }
-    };
-    // 头部
-    class Img extends React.Component {
-      render() {
-          var img = "{{image_host}}/images/"+this.props.item;
-          return (
-              <img alt="" src={img} className="margin_bottom" />
+            <div className="middle">
+              暂未购买此商品
+            </div>
           );
       }
     };

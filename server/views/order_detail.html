@@ -5,9 +5,11 @@
     <title>订单详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 	<meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/alert.css">
     <link rel="stylesheet" href="css/jinping.css">
     <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/react.min.js"></script>
     <script src="js/react-dom.min.js"></script>
     <script src="js/browser.min.js"></script>
@@ -392,6 +394,10 @@
 	  .footer ul li .last-p {
 	    background: #e84e40;
 	 }
+
+     .service  a{
+         color: #888;
+     }
     </style>
   </head>
   <body>
@@ -399,7 +405,7 @@
         <!-- 头部 -->
         <div class="top">
           <div class="back">
-            <img src="images/back.png" alt="">
+            <img src="images/jiantou.png" alt="">
           </div>
           <p class="top-title">订单详情</p>
           <div class="top-right"><a href="/messages"><img src="images/new3.png" alt=""><p class="headernewsnum"></p></a></div>
@@ -409,11 +415,19 @@
         <div class="content">
           <div class="Delivery-infor">
             <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order.linkname}}</span>
-            <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}}</span>
+            <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}} </span>
           </div>
           <div class="Delivery-infor-bottom">
             <span>{{order.detail_address}}</span>
           </div>
+          {% if !(order.order_status == "等待买家付款" || order.order_status == "付款确认中" || order.order_status == "交易关闭") %}
+          <div class="Delivery-status">
+            <span>{{logistics_info.detail_desc|safe}}</span>
+            <span>
+                <a href="/check_logistics?order_id={{order.order_id}}">></a>
+            </span>
+          </div>
+          {% endif %}
           <div class="background"></div>
           <div class="shop-infor">
             <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>
@@ -438,7 +452,6 @@
     	            <p>￥ {{detail.price}}</p>
     	            <p class="yuanjia"><s>￥{{detail.marketing_price}}</s></p>
     	            <p>x{{detail.number}}</p>
-    	            <p class="tuikuan">退款</p>
     	          </div>
     	        </div>
     	      </div>
@@ -447,16 +460,12 @@
 
           <div class="background"></div>
           <div class="service">
-            <img src="images/mobile.png" alt=""> 联系客服
+            <img src="images/mobile.png" alt=""><a href="tel:0513-81188090">联系客服</a>
           </div>
           <div class="background"></div>
           <div class="pay">
             <span>支付方式</span>
-            <span>{{order.pay_way}}</span>
-          </div>
-          <div class="pay">
-            <span>发票信息</span>
-            <span>{% if invoices[order.order_id] %}  {{invoices[order.order_id].invoice_name}}  {% endif %}</span>
+            <span>{% if pay_info.length>0 %} {{pay_info[0].pay_way}} {% endif %}</span>
           </div>
           <div class="background"></div>
     	  <div class="pay">
@@ -482,23 +491,71 @@
         <div class="background"></div>
         <div class="order-time">
     	  <p>订单号：{{order.order_id}}</p>
-          <p>支付交易号：2017021221001001200270165991</p>
+          <p>支付交易号：{% if pay_info.length>0 %} {{pay_info[0].pay_log_id}} {% endif %}</p>
           <p>创建时间：{{order.created_at | date('Y-m-d H:i:s',-8*60)}}</p>
-          <p>付款时间：2017-02-14  14：22</p>
-          <p>发货时间：2017-02-14  18：22</p>
+          <p>付款时间：{% if pay_info.length>0 %}{{pay_info[0].created_at_text}}{% endif %}</p>
+          <p>发货时间：{{delivery_time}}</p>
+          <p>承运公司：{{companies_map[order.type]}}</p>
         </div>
         <!-- 底部 -->
         <div class="footer">
           <ul>
-            <li><a href="#"><p>删除订单</p></a></li>
-            <li><a href="/go_comment"><p>商品评价</p></a></li>
-            <li><a href="#"><p>确认收货</p></a></li>
-            <li><a href="#"><p class="last-p">再次购买</p></a></li>
+                {% if order.order_status == "等待买家付款" %}
+                    <li><a><p class="cancel_buy" data-id="{{order.order_id}}">不想买了</p></a></li>
+                    <li><a href="pay_way?order_id={{order.order_id}}"><p>立即付款</p></a></li>
+                {% elseif order.order_status=="付款确认中" %}
+        			<li><a href="pay_way?order_id={{order.order_id}}"><p>继续付款</p></a></li>
+        		{% elseif order.order_status=="等待卖家拣货" %}
+                    <!-- <li><a><p>催货</p></a></li> -->
+        		{% elseif order.order_status=="等待卖家发货" %}
+        			<!-- <li><a><p>催货</p></a></li> -->
+                {% elseif order.order_status=="等待快递员揽货" %}
+            		<!-- <li><a><p>催货</p></a></li> -->
+        		{% elseif order.order_status=="卖家已发货" %}
+        			<p class="product-submit">
+        				<span>
+        					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+        				</span>
+        			</p>
+        		{% elseif order.order_status=="等待买家收货" %}
+        			<p class="product-submit">
+        				<span>
+        					<a href="/check_logistics?order_id={{order.order_id}}" style="color:#999;">查看物流</a>
+        				</span>
+        				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
+        			</p>
+        		{% elseif order.order_status=="交易成功" %}
+                    <li class="apply_product"><a><p>申请退款</p></a></li>
+                    <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% elseif order.order_status=="交易关闭" %}
+                    <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% elseif order.order_status=="退款中订单" %}
+                    <li><a><p>查看流程</p></a></li>
+        		{% elseif order.order_status=="退款完成" %}
+        			<li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
+        		{% endif %}
           </ul>
         </div>
     	<div style="width:100%;height:56px;background:#fff;"></div>
     </div>
 
+    <!-- 点击退款弹出层 -->
+    <div class="alertWrap">
+        <div class="btn-group">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Small button <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>yi</li>
+                <li>yi</li>
+                <li>yi</li>
+            </ul>
+        </div>
+        <p class="alertSubmit">
+             <span class="button button-action">取 消</span>
+             <span class="button button-action" >删 除</span>
+         </p>
+    </div>
 	<script>
     	$(function() {
 		$.ajax({
@@ -523,7 +580,41 @@
 			var product_id = $(this).data("id");
 			location.href = "/product_show?product_id=" + product_id;
 		});
-	});
+        //取消订单
+        $(".cancel_buy").click(function(){
+            var order_id = $(this).data("id");
+            var reason = "不想买了";
+            var order_status = "未付款";
+            $.post("/order_cancel",{order_id:order_id,reason:reason,order_status:order_status},function(data){
+                if (data.success) {
+                    location.href = "/order_detail?order_id="+order_id;
+                }
+            })
+        });
+        //删除订单
+        $(".delete_order").click(function(){
+            var order_id = $(this).data("id");
+            $.post("/order_delete",{order_id:order_id},function(data){
+                if (data.success) {
+                    location.href = "/order_center";
+                }
+            })
+        });
+        //收货
+        $(".receive_product").click(function(){
+			var order_id = $(this).data("id");
+			$.get("/receive_goods",{order_id:order_id},function(data){
+				if (data.success) {
+					location.href = "/order_detail?order_id="+order_id;
+				}
+			})
+		});
+
+        // 退款
+        $(".apply_product").click(function(){
+            $(".alertWrap").show();
+        })
+    });
 	</script>
   </body>
 </html>

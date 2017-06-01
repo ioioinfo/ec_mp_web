@@ -240,8 +240,8 @@
         .product-infor .product-infor-middle .p1{
           width: 100%;
           font-size: 14px;
-		  height: 65px;
-          line-height: 24px;
+		  height: 42px;
+          line-height: 20px;
           color: #223541;
           overflow: hidden;
           -webkit-line-clamp: 2;
@@ -264,12 +264,18 @@
         .product-infor .product-infor-middle .p2{
           margin-top: 5px;
           font-size: 12px;
-          padding: 5px 0;
+          padding: 4px 0;
+          overflow: hidden;
+        }
+        .product-infor .product-infor-middle .p3{
+          margin-top: 5px;
+          font-size: 12px;
+          padding: 4px 0;
           overflow: hidden;
         }
         .product-infor .product-infor-middle .p2 .p2-span1{
           color: #e51c23;
-          margin-top: 5px;
+          margin-top: 4px;
           font-size: 12px;
           float: left;
         }
@@ -285,8 +291,7 @@
           vertical-align: middle;
         }
         .product-infor .product-infor-middle .p3{
-          text-align: right;
-          padding-top: 15px;
+          padding-top: 5px;
         }
         .product-infor .product-infor-middle .p3 img{
           width: 16px;
@@ -834,7 +839,6 @@
                 </li>
               </ul>
             </div>
-<<<<<<< HEAD
         	<div id="place_order"></div>
             <!-- 快递配送方式 -->
             <div class="partone partone0">
@@ -850,53 +854,9 @@
         	  <div class="close close0">
                 确 定
               </div>
-=======
-          </div>
-          <div class="middle">
-            <div class="middle-shouhuoren middle-shouhuoren1">
-              <span class="span1">所在地区</span>
-              <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
-    		  <div class="address_seclect" >
-                  <table name="shareip">
-                   <select class="select" name="province" id="s1">
-                   <option></option>
-                   </select>
-                   <select class="select" name="city" id="s2">
-                   <option></option>
-                   </select>
-                   <select class="select" name="town" id="s3">
-                   <option></option>
-                   </select>
-                   <input id="address" name="address" type="hidden" value="" />
-                   <input type="button" value="提交" class="address_seclect_submit"/>
-    		   </table>
-              </div>
-    		</div>
-          </div>
-          <div class="middle">
-            <div class="middle-shouhuoren">
-              <span class="span1">街道</span><p><span class="span2 clear_ad2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
->>>>>>> 1384980e9d7164ce4679b389c2e31e4e78cdb020
             </div>
 
-            <!-- 运费险 -->
-            <div class="partone partone1">
-              <p>运费险</p>
-              <!-- <p class="partone-p"><span>卖家赠送，若确认收货前退货，可获保险赔付</span><span><input type="checkbox" name="" value=""></span></p> -->
-              <div class="close close1">
-                关 闭
-              </div>
-            </div>
 
-            <!-- 优惠券 -->
-            <div class="partone partone2">
-              <p>优惠券</p>
-              <!-- <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p> -->
-              <!-- <p class="partone-p"><span>满100减10元（1张）</span><span><input type="checkbox" name="" value=""></span></p> -->
-              <div class="close close2">
-                关 闭
-              </div>
-            </div>
 
             <!-- 选择地址 -->
         	<div class="">	</div>
@@ -1018,7 +978,8 @@
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
 				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-				</div>
+                  <p class="p3">重量:<%- (total_data.total_weight) %> KG</p>
+                </div>
 			  </div>
 			<% }); %>
 		</div>
@@ -1026,19 +987,10 @@
 
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
-          <p class="add-num click1"><span class="logistics_type">普通快递</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+          <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">运费险</span>
-		  <p class="add-num click2"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
-		<div class="invoice">
-		  <span class="public-name">优惠券</span>&nbsp;<span style="color:#e51c23;">0张可用</span>
-		  <p class="add-num click3"><span>请选择</span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
-		</div>
-		<div class="min-line"></div>
+
 		<div class="invoice">
 		  <span class="public-name">商品金额</span>
 		  <p class="add-num"><span class="product-number">共<%- total_data.total_items %>件</span><span class="red">￥<%- total_data.total_prices %></span></span></p>
@@ -1078,9 +1030,17 @@
 				"city"	   : "",
 				"district" : ""
 			};
-            var logistics = "common";
+            var logistics = "";
+            var logistics_name = "";
+            var logistics_infos = {{logistics|safe}};
+            // logistics_infos = JSON.parse(logistics_infos);
+            for (var i = 0; i < logistics_infos.length; i++) {
+                if (logistics_infos[i].is_default == 1) {
+                    logistics = logistics_infos[i].id;
+                    logistics_name = logistics_infos[i].name;
+                }
+            }
             var state = 0;
-            var logistics_name = "普通快递";
 			var jifen = {{jifen||0}};
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
@@ -1089,19 +1049,33 @@
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
 				}
-			}
+			};
+            var no_sale = "";
+            var check_is_sale = function(){
+                for (var i = 0; i < shopping_carts.length; i++) {
+                    if (products[shopping_carts[i].product_id].is_sale ==1) {
+                        no_sale = no_sale + products[shopping_carts[i].product_id].product_name +"是非卖品！";
+                    }
+                }
+                if (no_sale!="") {
+                    alert(no_sale+"请重新选择商品！");
+                    location.href = "/cart_infos";
+                }
+            };
 			var invoices = {{invoices|safe}};
 			var total_data = {{total_data|safe}};
+            total_data.total_weight = parseFloat(total_data.total_weight).toFixed(2);
 			var place_order = function(){
+                check_is_sale();
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen}));
+				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name}));
 				$(".footer-right").click(function(){
                     set_address();
                     var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
                             var order_id = data.order_id;
-							location.href = "/pay_way?order_id="+order_id;
+                            location.href = "/pay_way?order_id="+order_id;
 						}else {
 							alert(data.message);
 						}
@@ -1209,11 +1183,7 @@
 			place_order();
             var set_address = function(){
                 address = {};
-                if (logistics) {
-                    address.type = logistics;
-                }else {
-                    address.type = "common";
-                }
+                address.type = logistics;
                 address.store_id = 1;
                 address.point_id = 1;
                 address.linkname =	$(".address-infor-name").data("id");
@@ -1255,7 +1225,6 @@
                     logistics = $(this).data("id");
                     logistics_name = $(this).val();
                 });
-                $(".logistics_type").html(logistics_name);
                 set_address();
                 logistics_payment();
             });

@@ -22,8 +22,6 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background: url(images/chongzhi.jpg) no-repeat;
-            background-size: auto;
             position: relative;
             z-index: -11;
           }
@@ -41,6 +39,7 @@
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid #eaeaea;
+            background: #f5f5f5;
           }
           .jiantou{
             display: inline-block;
@@ -64,8 +63,7 @@
           }
         /*中间部分*/
         .Main{
-          width: 96%;
-          margin: 50px auto 0;
+          margin: 20px auto 0;
 
         }
         .MainTop_title{
@@ -116,10 +114,10 @@
           margin-top: 30px;
         }
         .recharge_ul2{
-            width: 96%;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
+            background: #f6f6f6;
         }
         .recharge_ul2 li{
             width: 20%;
@@ -131,7 +129,7 @@
         }
         .recharge_ul1{
             width: 96%;
-            margin: 90px auto 0;
+            margin: 56px auto 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -233,11 +231,37 @@
     };
 
     class Recharge2 extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+            this.handleClick = this.handleClick.bind(this);
+            this.state = {"cd_key":""};
+        }
+        handleChange(e) {
+			this.setState({cd_key: e.target.value});
+	    }
+        handleClick(e){
+            $.ajax({
+				url: "/card_recharge",
+				dataType: 'json',
+                data:{"cd_key":this.state.cd_key},
+				type: 'GET',
+				success: function(data) {
+					if (data.success) {
+                        alert("充值成功");
+					}else {
+					    alert("充值失败");
+					}
+				}.bind(this),
+				error: function(xhr, status, err) {
+				}.bind(this)
+			});
+        }
       render() {
           return (
               <div className="MainBottom_infor">
-                <p className="cardInput_out"><input type="text" name="" placeholder="请输入充值卡号" className="cardInput" /></p>
-                <p className="recharge">立即充值</p>
+                <p className="cardInput_out"><input type="text" name="" placeholder="请输入充值卡号" className="cardInput" value={this.state.cd_key} onChange={this.handleChange}/></p>
+                <p className="recharge" onClick = {this.handleClick}>立即充值</p>
               </div>
           );
       }
@@ -259,7 +283,9 @@
 					type: 'GET',
 					data: ({marketing_price:this.state.selected.price,actual_price:this.state.selected.price1,pay_way:e.target.id,activity_id:activity_id}),
 					success: function(data) {
-
+                        if (data.success) {
+                            location.href = data.url;
+                        }
 					}.bind(this),
 					error: function(xhr, status, err) {
 					}.bind(this)
