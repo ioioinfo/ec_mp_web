@@ -978,7 +978,7 @@
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
 				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-                  <p class="p3">重量:<%- total_data.total_weight %> KG</p>
+                  <p class="p3">重量:<%- (total_data.total_weight) %> KG</p>
                 </div>
 			  </div>
 			<% }); %>
@@ -990,7 +990,7 @@
           <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
-	
+
 		<div class="invoice">
 		  <span class="public-name">商品金额</span>
 		  <p class="add-num"><span class="product-number">共<%- total_data.total_items %>件</span><span class="red">￥<%- total_data.total_prices %></span></span></p>
@@ -1064,6 +1064,7 @@
             };
 			var invoices = {{invoices|safe}};
 			var total_data = {{total_data|safe}};
+            total_data.total_weight = parseFloat(total_data.total_weight).toFixed(2);
 			var place_order = function(){
                 check_is_sale();
 				var t = _.template($("#place_order_infos").html());

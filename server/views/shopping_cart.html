@@ -565,8 +565,11 @@
 							ids.push(shopping_cart.id);
 						}
 				   });
-				   ids = JSON.stringify(ids);
-					location.href = "/place_order?ids="+ids;
+                   if (ids.length>0) {
+                       location.href = "/place_order?ids="+JSON.stringify(ids);
+                   }else {
+                       alert("请选择商品！");
+                   }
 				});
 				$(".delete").click(function(){
 					var id = $(this).data("id");
@@ -662,7 +665,7 @@
             $(".head .jiantou").click(function(){
                 window.history.back();
             })
-            
+
   		});
     </script>
   </body>

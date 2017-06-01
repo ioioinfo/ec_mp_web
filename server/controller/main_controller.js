@@ -2949,6 +2949,9 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var ids = request.query.ids;
+				if (JSON.parse(ids).length==0) {
+					return reply.redirect("/cart_infos");
+				}
 				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
 					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
 						logistics_payment(data,function(err,result){
@@ -3078,6 +3081,7 @@ exports.register = function(server, options, next){
 								}else {
 									total_data.lgtic_pay = lgtic_pay;
 								}
+								total_data.total_weight = parseFloat(total_data.total_weight).toFixed(2);
 								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
 							}else {
 								total_data.lgtic_pay = 150;
@@ -3560,7 +3564,38 @@ exports.register = function(server, options, next){
 			path: '/check_logistics',
 			handler: function(request, reply){
 				var order_id = request.query.order_id;
-				var company = request.query.company;
+				if (!order_id) {
+					return reply({"success":false,"message":"order_id null"});
+				}
+
+				var ep =  eventproxy.create("order","logistics_infos","companies","logistic_num", function(order,logistics_infos,companies,logistic_num){
+
+						var companies_map = {};
+						for (var i = 0; i < companies.length; i++) {
+							companies_map[companies[i].logi_code] = companies[i].logi_name;
+						}
+						var company = companies_map[order.type];
+
+						return reply.view("check_logistics",{"logistics_infos":logistics_infos,"company":company,"logistic_num":logistic_num});
+
+				});
+
+				get_ec_order(order_id,function(err,results){
+					if (!err) {
+						ep.emit("order", results.orders[0]);
+					}else {
+						ep.emit("order", {});
+					}
+				});
+
+				companies(function(err,rows){
+					if (!err) {
+						ep.emit("companies", rows.rows);
+					}else {
+						ep.emit("companies", []);
+					}
+				});
+
 				get_logistics_id(order_id,function(err,rows){
 					if (!err) {
 						var logistics = rows.rows;
@@ -3568,17 +3603,20 @@ exports.register = function(server, options, next){
 						for (var i = 0; i < logistics.length; i++) {
 							var logistic_num = logistic_num + logistics[i].logi_id;
 						}
-						get_logistics_infos(order_id, function(err,rows){
-							if (!err) {
-								return reply.view("check_logistics",{"logistics_infos":rows.rows,"company":company,"logistic_num":logistic_num});
-							}else {
-								return reply({"success":false,"message":rows.message});
-							}
-						});
+						ep.emit("logistic_num", logistic_num);
 					}else {
-						return reply({"success":false,"message":rows.message});
+						ep.emit("logistic_num", "");
 					}
 				});
+
+				get_logistics_infos(order_id, function(err,rows){
+					if (!err) {
+						ep.emit("logistics_infos", rows.rows);
+					}else {
+						ep.emit("logistics_infos", []);
+					}
+				});
+
 			}
 		},
 		//地址管理
@@ -3895,7 +3933,9 @@ exports.register = function(server, options, next){
 					return reply.redirect("/chat_login");
 				}
 				var order_id = request.query.order_id;
-
+				if (!order_id) {
+					return reply({"success":false,"message":"order_id null"});
+				}
 				var ep =  eventproxy.create("order","details","products","logistics_info","invoices","delivery_time","pay_info","order_list","companies",function(order,details,products,logistics_info,invoices,delivery_time,pay_info,order_list,companies){
 						var order_map = {};
 						for (var i = 0; i < order_list.length; i++) {
