@@ -415,15 +415,19 @@
         <div class="content">
           <div class="Delivery-infor">
             <span><img src="images/person.png" alt="" class="Delivery-infor-img">{{order.linkname}}</span>
-            <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}} || {{companies_map[order.type]}}</span>
+            <span><img src="images/mob.png" alt="" class="Delivery-infor-img Delivery-infor-size">{{order.mobile}} </span>
           </div>
           <div class="Delivery-infor-bottom">
             <span>{{order.detail_address}}</span>
           </div>
+          {% if !(order.order_status == "等待买家付款" || order.order_status == "付款确认中" || order.order_status == "交易关闭") %}
           <div class="Delivery-status">
             <span>{{logistics_info.detail_desc|safe}}</span>
-            <span><a href="/check_logistics?order_id={{order.order_id}}&company={{companies_map[order.type]}}">></a></span>
+            <span>
+                <a href="/check_logistics?order_id={{order.order_id}}&company={{companies_map[order.type]}}">></a>
+            </span>
           </div>
+          {% endif %}
           <div class="background"></div>
           <div class="shop-infor">
             <div class="shop-infor-img"><img src="images/shop.png" alt=""></div>

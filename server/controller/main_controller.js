@@ -1253,19 +1253,18 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
-				var data = {};
-				data.order_id = order_id;
 				var order_id = request.payload.order_id;
 				if (!order_id) {
 					return reply({"success":false,"message":"params null","service_info":service_info});
 				}
+				var data = {};
+				data.order_id = order_id;
 				get_order(order_id,function(err,rows){
 					if (!err) {
 						if (rows.rows[0].person_id != person_id) {
 							return reply({"success":false,"message":"no order","service_info":service_info});
 						}
 						var order_status = rows.rows[0].order_status;
-						var id = rows.rows[0].id;
 						if (order_status == "-1" || order_status == "0" ) {
 							order_cancel_operation(data,function(err,content){
 								if (!err) {

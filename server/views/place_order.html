@@ -1054,9 +1054,22 @@
 					address = addresses[i];
 				}
 			};
+            var no_sale = "";
+            var check_is_sale = function(){
+                for (var i = 0; i < shopping_carts.length; i++) {
+                    if (products[shopping_carts[i].product_id].is_sale ==1) {
+                        no_sale = no_sale + products[shopping_carts[i].product_id].product_name +"是非卖品！";
+                    }
+                }
+                if (no_sale!="") {
+                    alert(no_sale+"请重新选择商品！");
+                    location.href = "/cart_infos";
+                }
+            };
 			var invoices = {{invoices|safe}};
 			var total_data = {{total_data|safe}};
 			var place_order = function(){
+                check_is_sale();
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name}));
 				$(".footer-right").click(function(){
