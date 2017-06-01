@@ -664,6 +664,11 @@ var order_cancel = function(data,cb){
 	var url = "http://127.0.0.1:18010/order_cancel";
 	do_post_method(url,data,cb);
 }
+//取消订单
+var order_cancel_operation = function(data,cb){
+	var url = "http://127.0.0.1:18010/order_cancel_operation";
+	do_post_method(url,data,cb);
+}
 //充值积分
 var vip_add_amount_begin = function(data,cb){
 	var url = "http://139.196.148.40:18008/vip_add_amount_begin";
@@ -1201,6 +1206,10 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/order_cancel',
 			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
 				var order_id = request.payload.order_id;
 				var reason = request.payload.reason;
 				var data = {};
@@ -1209,36 +1218,18 @@ exports.register = function(server, options, next){
 				}
 				get_order(order_id,function(err,rows){
 					if (!err) {
+						if (rows.rows[0].person_id != person_id) {
+							return reply({"success":false,"message":"no order","service_info":service_info});
+						}
 						var order_status = rows.rows[0].order_status;
 						var id = rows.rows[0].id;
 						if (order_status == "-1" || order_status == "0" ) {
 							data.order_id = order_id;
 							data.reason = reason;
 							data.status = "7";
-							order_cancel(data,function(err,content){
+							order_cancel_operation(data,function(err,content){
 								if (!err) {
-									get_mp_order_details(order_id,function(err,rows){
-										if (!err) {
-											var details = rows.details;
-											var products = [];
-											for (var i = 0; i < details.length; i++) {
-												var product = {};
-												product.product_id = details[i].product_id;
-												product.quantity = details[i].number;
-												products.push(product);
-											}
-											var info = {"batch_id":id,"products":JSON.stringify(products),"platform_code":"ioio"};
-											unlock_stock(info,function(err,content){
-												if (!err) {
-													return reply({"success":true});
-												}else {
-													return reply({"success":false,"message":content.message});
-												}
-											});
-										}else {
-											return reply({"success":false,"message":rows.message,"service_info":rows.service_info});
-										}
-									});
+									return reply({"success":true});
 								}else {
 									return reply({"success":false,"message":content.message});
 								}
@@ -1258,18 +1249,52 @@ exports.register = function(server, options, next){
 			method: 'POST',
 			path: '/order_delete',
 			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var data = {};
+				data.order_id = order_id;
 				var order_id = request.payload.order_id;
 				if (!order_id) {
 					return reply({"success":false,"message":"params null","service_info":service_info});
 				}
-				var data = {"order_id":order_id};
-				order_delete(data,function(err,content){
+				get_order(order_id,function(err,rows){
 					if (!err) {
-						return reply({"success":true});
+						if (rows.rows[0].person_id != person_id) {
+							return reply({"success":false,"message":"no order","service_info":service_info});
+						}
+						var order_status = rows.rows[0].order_status;
+						var id = rows.rows[0].id;
+						if (order_status == "-1" || order_status == "0" ) {
+							order_cancel_operation(data,function(err,content){
+								if (!err) {
+									order_delete(data,function(err,content){
+										if (!err) {
+											return reply({"success":true});
+										}else {
+											return reply({"success":false,"message":content.message});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+						}else {
+							order_delete(data,function(err,content){
+								if (!err) {
+									return reply({"success":true});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+						}
 					}else {
-						return reply({"success":false,"message":content.message});
+						return reply({"success":false,"message":rows.message})
 					}
 				});
+
+
 			}
 		},
 		//支付成功页面,库存减少
