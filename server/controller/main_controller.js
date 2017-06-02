@@ -148,7 +148,7 @@ var update_favorite = function(data,cb){
 };
 //根据personid找头像
 var find_persons = function(persons, cb){
-	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
+	var url = "http://139.196.148.40:18003/person/get_avatar?person_ids=";
 	url = url + persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };

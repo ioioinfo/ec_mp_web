@@ -37,7 +37,7 @@
         }
         .background{
           width: 100%;
-          height: 50px;
+          height: 70px;
           background: #fff;
         }
         /*头部搜索框*/
@@ -63,16 +63,12 @@
           left: 10.26829268%;
         }
         input::-webkit-input-placeholder {
-          color:    #fff;
+          color:    #888;
+          text-align: center;
         }
         input:-moz-placeholder {
-          color:    #fff;
-        }
-        input::-webkit-input-results {
-          color:    #fff;
-        }
-        input:-moz-results {
-          color:    #fff;
+          color:    #888;
+          text-align: center;
         }
         .headersearch{
           display: inline-block;
@@ -202,7 +198,6 @@
           position: fixed;
           top: 0;
           right: 0;
-          bottom: 0;
           background:#fff;
           z-index: 2;
           display: none;
@@ -369,6 +364,31 @@
         left: 1.3333333%;
         top: 10px;
        }
+       .price_interval_warp{
+           width: 96%;
+           margin: 17px auto 0;
+
+       }
+       .price_interval{
+           width: 100%;
+           height: 35px;
+           line-height: 35px;
+           display: flex;
+           margin-top: 17px;
+       }
+       .price_interval .interval{
+           display: block;
+       }
+       .price_interval input{
+           width: 40%;
+           border: 1px solid #eee;
+           border-radius: 6px;
+       }
+       .price_interval span{
+           width: 20%;
+           font-size: 18px;
+           text-align: center;
+       }
       }
     </style>
   </head>
@@ -432,11 +452,21 @@
       	        </ul>
       	      </div>
       	  {% endfor %}
+            <div class="price_interval_warp">
+                <p>价格区间</p>
+                <div class="price_interval">
+                    <input type="text" name="" value="" placeholder="最低价" class="interval">
+                    <span class="interval">-</span>
+                    <input type="text" name="" value="" placeholder="最高价" class="interval">
+                </div>
+            </div>
+            <div class="background">
+
+            </div>
             <div class="shaixuansubmit">
               <p class="shaixuanNo">重置</p>
               <p class="shaixuanYes">确定</p>
             </div>
-            <div class="background"></div>
           </div>
           <!-- 遮罩层 -->
           <div class="zhezhaoceng"></div>

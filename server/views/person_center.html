@@ -374,7 +374,7 @@
      	 <!--       头部      -->
      	 <header class="header">
      	   <div class="person-details">
-     		{% if persons.length >0  %}
+     		{% if persons.length >0 && persons[0].avatar_url  %}
      		 	<img src="{{ image_host }}/images/{{persons[0].avatar_url}}" alt="">
      		 {% else %}
      		 	<a href="person_info"><img src="images/header.png" alt=""></a>
