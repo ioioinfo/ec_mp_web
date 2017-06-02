@@ -389,7 +389,7 @@
           <div class="word">
             <ul class="word-next">
               <li class="time"><a ><span>上架时间</span><span><img id="time-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
-      		<li class="price"><a><span>价格</span><span><img id="price-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
+      		  <li class="price"><a><span>价格</span><span><img id="price-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
               <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
           </div>
@@ -466,7 +466,7 @@
     <script src="js/jquery-3.1.1.min.js"></script>
 	<script>
 	$(function() {
-
+        $("#price-img").attr("src","images/jiantou-down-1.png");
 		//页面显示消息
 		$.ajax({
 			url: "/check_message_number",
@@ -493,8 +493,6 @@
         }else if (object.sort == "time_asc") {
             $("#time-img").attr("src","images/jiantou-down-3.png");
         }
-
-
 
 		var change_url = function(){
 			var arr = [];
@@ -540,8 +538,10 @@
 			}
 			if (object.sort == "price_desc") {
 				object.sort = "price_asc";
+                $("#price-img").attr("src","images/jiantou-down-2.png");
 			} else {
 				object.sort = "price_desc";
+                $("#price-img").attr("src","images/jiantou-down-3.png");
 			}
 			location.href = change_url();
 		});
