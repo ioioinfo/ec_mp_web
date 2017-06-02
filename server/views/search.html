@@ -388,8 +388,8 @@
           </div>
           <div class="word">
             <ul class="word-next">
-              <li class=""><a ><span>综合</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
-      		<li class="price"><a><span>价格</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+              <li class=""><a ><span>上架时间</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+      		<li class="price"><a><span>价格</span><span><img id="price-img" src="images/"  alt=""></span></a></li>
               <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
           </div>
@@ -466,7 +466,7 @@
     <script src="js/jquery-3.1.1.min.js"></script>
 	<script>
 	$(function() {
-
+        $("#price-img").attr("src","images/jiantou-down-1.png");
 		//页面显示消息
 		$.ajax({
 			url: "/check_message_number",
@@ -506,18 +506,33 @@
 			}
 			return url+arr.join("&");
 		};
+
+
 		//价格排序
 		$(".price").click(function(){
+
 			if ("{{products}}" == "") {
 				alert("当前没有商品供排序！");
 				return;
 			}
 			if (object.sort == "price_desc") {
 				object.sort = "price_asc";
+                $("#price-img").attr("src","images/jiantou-down-2.png");
 			} else {
 				object.sort = "price_desc";
+                $("#price-img").attr("src","images/jiantou-down-3.png");
 			}
 			location.href = change_url();
+
+            if(location.href = change_url()){
+                if (object.sort == "price_desc") {
+    				object.sort = "price_asc";
+                    $("#price-img").attr("src","images/jiantou-down-2.png");
+    			} else {
+    				object.sort = "price_desc";
+                    $("#price-img").attr("src","images/jiantou-down-3.png");
+    			}
+            }
 
 		});
 		//滚动显示
