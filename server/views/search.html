@@ -388,8 +388,8 @@
           </div>
           <div class="word">
             <ul class="word-next">
-              <li class="time"><a ><span>上架时间</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
-      		<li class="price"><a><span>价格</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+              <li class="time"><a ><span>上架时间</span><span><img id="time-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
+      		<li class="price"><a><span>价格</span><span><img id="price-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
               <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
           </div>
@@ -483,6 +483,19 @@
 			}
 		});
 		var object = {{search_object | safe}};
+        //设置排序样式
+        if (object.sort == "price_desc") {
+            $("#price-img").attr("src","images/jiantou-down-2.png");
+        }else if (object.sort == "price_asc") {
+            $("#price-img").attr("src","images/jiantou-down-3.png");
+        }else if (object.sort == "time_desc") {
+            $("#time-img").attr("src","images/jiantou-down-2.png");
+        }else if (object.sort == "time_asc") {
+            $("#time-img").attr("src","images/jiantou-down-3.png");
+        }
+
+
+
 		var change_url = function(){
 			var arr = [];
 			var url = "/search?";
@@ -544,6 +557,9 @@
             if (object.sort && object.sort=="price_desc" || object.sort=="price_asc") {
                 $(".word .word-next li").removeClass("red");
 				$(".price").addClass("red");
+			}else if (object.sort && object.sort=="time_desc" || object.sort=="time_asc") {
+                $(".word .word-next li").removeClass("red");
+				$(".time").addClass("red");
 			}
 			$(".infor-left .loading").each(function(index) {
 				var imgHeight = $(this).offset().top;
@@ -623,10 +639,10 @@
       $(".goBack").click(function(){
           $(".SearchCeng").hide();
       })
-          // 返回上一层
-          $(".back").click(function(){
-              location.href = "/";
-          });
+      // 返回上一层
+      $(".back").click(function(){
+          location.href = "/";
+      });
 
 
 
