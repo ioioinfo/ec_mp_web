@@ -13,7 +13,6 @@
     <script src="{{static_host}}/react-dom.min.js"></script>
 
 	<style media="screen">
-	@media screen and (max-width:640px){
 	  *{
 		padding: 0;
 		margin: 0;
@@ -636,14 +635,12 @@
 	  }
 	  .hot-img-warp li .hot-img-top{
 		  width: 83.333333%;
-		height: 100px;
 		margin: 0 auto;
 		background: #eee;
 
 	  }
 	  .hot  li .hot-img-top img{
 		width: 100%;
-		height: 100px;
 	  }
 	  .hot-img-warp li p{
 		font-size: 12px;
@@ -760,7 +757,8 @@
 		font-size: 12px;
 		position: absolute;
 		top: 2px;
-		left: 31px;
+		left: 56.3841%;
+
 	  }
       /*详情*/
   .warp1{
@@ -1077,12 +1075,13 @@
          margin: 12px 0;
          border: 1px dotted #666;
      }
-
+     .head-p1{
+         text-align: right;
+     }
      .head .head-p2{
          flex: 2;
          text-align: center;
      }
-	}
     </style>
     <link rel="stylesheet" href="css/newflash.css">
   </head>
@@ -1272,7 +1271,7 @@
 
 
 
-    <div style="background:#fff;height:75px;width:100%;font-size:12px;color:#999;text-align:center">没有更多</div>
+    <div style="background:#fff;height:75px;width:100%;font-size:12px;color:#999;text-align:center">别拉了，没有了！</div>
 	<ul class="footernav">
 		<li class="footernavLi"><a href="/"><p class="footernav_p1"><img src="images/shouye3.png" alt="" /></p><p class="footernav-word">首页</p></a></li>
         <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="images/shoucang.png" alt="" /></p><p class="footernav-word footernav-word1">收藏</p></a></li>
@@ -1287,6 +1286,7 @@
         $(".head .head-p1").click(function(){
           $(".middle").hide();
           $(".warp1").hide();
+          $(".warp2").hide();
           $(".content1").hide();
           var rolo=$(this).data("rolo");
           $("."+rolo).show();
