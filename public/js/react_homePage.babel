@@ -305,7 +305,7 @@
   class Background0 extends React.Component {
     render() {
         return (
-          <div className="background0">没有更多商品</div>
+          <div className="background0">别拉了，没有啦！</div>
         );
     }
   };
