@@ -201,7 +201,7 @@
         /*商品详情*/
         .product-infor{
           width: 100%;
-          margin-bottom: 25px;
+          margin-bottom: 15px;
           overflow: hidden;
           background: #fff;
           padding: 5px 0;
@@ -262,16 +262,17 @@
           word-break: break-all;
         }
         .product-infor .product-infor-middle .p2{
-          margin-top: 5px;
+          margin-top: 30px;
           font-size: 12px;
           padding: 4px 0;
           overflow: hidden;
         }
-        .product-infor .product-infor-middle .p3{
+        .p3{
           margin-top: 5px;
-          font-size: 12px;
+          font-size: 14px;
           padding: 4px 0;
           overflow: hidden;
+          text-indent: 10px;
         }
         .product-infor .product-infor-middle .p2 .p2-span1{
           color: #e51c23;
@@ -978,13 +979,13 @@
 				<div class="product-infor-middle">
 				  <p class="p1"><%- products[shopping_cart.product_id].product_name %></p>
 				  <p class="p2"><span class="p2-span1">￥<%- products[shopping_cart.product_id].product_sale_price %></span><span class="p2-span2">x<%- shopping_cart.total_items %></span></p>
-                  <p class="p3">重量:<%- (total_data.total_weight) %> KG</p>
+
                 </div>
 			  </div>
 			<% }); %>
 		</div>
 
-
+         <p class="p3">重量:<%- (total_data.total_weight) %> KG</p>
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
           <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
