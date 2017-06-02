@@ -148,7 +148,7 @@ var update_favorite = function(data,cb){
 };
 //根据personid找头像
 var find_persons = function(persons, cb){
-	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
+	var url = "http://139.196.148.40:18003/person/get_avatar?person_ids=";
 	url = url + persons + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
@@ -1857,6 +1857,8 @@ exports.register = function(server, options, next){
 				search_object.sort_ids = request.query.sort_ids;
 				search_object.num = request.query.num;
 				search_object.lastest = request.query.lastest;
+				search_object.price1 = request.query.price1;
+				search_object.price2 = request.query.price2;
 				search_all_products(search_object,function(err,results){
 					if (!err) {
 						if (results.rows.length == 0) {

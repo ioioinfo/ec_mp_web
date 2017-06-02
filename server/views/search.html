@@ -453,9 +453,9 @@
             <div class="price_interval_warp">
                 <p>价格区间</p>
                 <div class="price_interval">
-                    <input type="text" name="" value="" placeholder="最低价" class="interval">
+                    <input type="text" name="" value="" placeholder="最低价" class="interval price1">
                     <span class="interval">-</span>
-                    <input type="text" name="" value="" placeholder="最高价" class="interval">
+                    <input type="text" name="" value="" placeholder="最高价" class="interval price2">
                 </div>
             </div>
             <div class="background">
@@ -544,6 +544,12 @@
 			if (object.sort) {
 				arr.push("sort=" + object.sort);
 			}
+            if (object.price1) {
+				arr.push("price1=" + object.price1);
+			}
+            if (object.price2) {
+				arr.push("price2=" + object.price2);
+			}
 			return url+arr.join("&");
 		};
         //时间排序
@@ -630,6 +636,12 @@
 				var value = $(this).data("val");
 				object[name] = value;
 			});
+            if ($(".price1").val()) {
+                object.price1 = $(".price1").val();
+            }
+            if ($(".price2").val()) {
+                object.price2 = $(".price2").val();
+            }
 			location.href = change_url();
         });
         $(".shaixuan .shaixuanlineblock1 li").click(function(){
@@ -646,6 +658,8 @@
         });
         $(".shaixuanNo").click(function(){
             $(".shaixuan .shaixuanlineblock li").removeClass("on");
+            $(".price1").val("");
+            $(".price2").val("");
         });
 
 
