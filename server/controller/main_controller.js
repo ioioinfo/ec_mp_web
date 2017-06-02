@@ -1857,6 +1857,8 @@ exports.register = function(server, options, next){
 				search_object.sort_ids = request.query.sort_ids;
 				search_object.num = request.query.num;
 				search_object.lastest = request.query.lastest;
+				search_object.price1 = request.query.price1;
+				search_object.price2 = request.query.price2;
 				search_all_products(search_object,function(err,results){
 					if (!err) {
 						if (results.rows.length == 0) {
