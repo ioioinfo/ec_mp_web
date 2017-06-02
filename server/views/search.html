@@ -388,7 +388,7 @@
           </div>
           <div class="word">
             <ul class="word-next">
-              <li class=""><a ><span>综合</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+              <li class="time"><a ><span>综合</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
       		<li class="price"><a><span>价格</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
               <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
@@ -506,6 +506,20 @@
 			}
 			return url+arr.join("&");
 		};
+        //时间排序
+		$(".time").click(function(){
+			if ("{{products}}" == "") {
+				alert("当前没有商品供排序！");
+				return;
+			}
+			if (object.sort == "time_desc") {
+				object.sort = "time_asc";
+			} else {
+				object.sort = "time_desc";
+			}
+			location.href = change_url();
+
+		});
 		//价格排序
 		$(".price").click(function(){
 			if ("{{products}}" == "") {
