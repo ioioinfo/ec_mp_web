@@ -767,6 +767,7 @@
         width: 100%;
         display: none;
         margin-top: 17px;
+        margin-top: 55px;
       }
       .warp1 .nav{
         width: 96%;
@@ -864,77 +865,38 @@
 	   width: 100%;
 	   overflow: hidden;
 	   display: none;
-	 }
-	 .warp2 .content-nav {
-	   width: 92%;
-	   margin: 0 auto;
-	   border-bottom: 1px solid #eee;
-	 }
-	 .warp2 .content-nav span{
-	   display: inline-block;
-	   font-size: 12px;
-	   color: #666;
-	   background: #f5f5f5;
-	   padding: 9px 15px;
-	   border-radius: 20px;
-	   margin: 15px 0;
-	   margin-right: 15px;
-	 }
-	 .warp2 .content-nav .color{
-	   background: #DD2727;
-	   color: #fff;
-	 }
-	 .warp2 .content-infor{
-	   width: 92%;
-	   margin: 0 auto;
-	   border-bottom: 1px solid #eee;
-	 }
-	 .warp2 .content-infor .p-name{
-	   color: #252525;
-	   font-size: 12px;
-	   margin-top: 20px;
-
-	 }
-	 .warp2 .content-infor .p-kind{
-	   color: #999;
-	   font-size: 12px;
-	   margin: 20px 0;
-
-	 }
-	 .warp2 .content-infor .p-infor{
-	   color: #051b28;
-	   font-size: 12px;
-	   margin: 20px 0;
-	   line-height: 22px;
-
-	 }
-	 .warp2 .content-infor .p-img{
-	   margin: 10px 0 20px 0;
-	 }
-	 .warp2 .content-infor .p-img img{
-	   width: 28.9855%;
-	   height: 100px;
-	 }
-	 .warp2 .content-infor .p-img img:nth-child(3n+2){
-	   margin: 0 6.52173913%;
-	 }
-	 .warp2 .content-infor .p-zhuijia{
-	   color: #dd2727;
-	   font-size: 12px;
-	   margin: 20px 0;
-	   line-height: 22px;
-	 }
-	 .warp2 .content-infor .p-zhuijia span{
-	   color: #999;
-
-	 }
-	 .warp2 .content-infor .p-zhuijia-infor{
-	   color: #051b28;
-	   font-size: 12px;
-	   margin: 20px 0;
-	   line-height: 22px;
+       margin-top: 55px;
 	 }
 
+     .courierinfor{
+         width: 96%;
+         margin: 0 auto;
+     }
+     .courierinfor img{
+         width: 100%;
+     }
+     .courierinfor .p3{
+         font-size: 14px;
+         line-height: 30px;
+         word-wrap: break-word;
+         word-break: normal;
+     }
+     .courierinfor .p4{
+         font-size: 12px;
+         line-height: 30px;
+         word-wrap: break-word;
+         word-break: normal;
+     }
+     .courierinfor .p2{
+         font-size: 16px;
+         line-height: 30px;
+         word-wrap: break-word;
+         word-break: normal;
+         margin-top: 30px;
+     }
+     .courierinfor .last{
+         margin-bottom: 30px;
+     }
 	 /*新样式*/
 	 .head .head-lastp{
 	   position: relative;
@@ -1115,6 +1077,11 @@
          margin: 12px 0;
          border: 1px dotted #666;
      }
+
+     .head .head-p2{
+         flex: 2;
+         text-align: center;
+     }
 	}
     </style>
     <link rel="stylesheet" href="css/newflash.css">
@@ -1125,6 +1092,7 @@
 		<p class="headback"><img src="images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
         <p data-rolo="warp1" class="head-p1">详情</p>
+        <p data-rolo="warp2" class="head-p1 head-p2">快递售后</p>
 
         <p class="head-lastp"><a href="/messages"><img src="images/news.png" alt="" class="headernimg" />
 
@@ -1138,8 +1106,8 @@
           <!-- 轮播 -->
         <div class="top-img" id="lunbo"></div>
         <div class="top-infor">
-          <p class="price"><span>￥</span><span>{{product.product_sale_price}}</span></p>
-          <p class="ad"><span>￥</span><span><s>{{product.product_marketing_price}}</s></span></p>
+          <p class="price"><span>义卖 ￥</span><span>{{product.product_sale_price}}</span></p>
+          <p class="ad"><span>原价 ￥</span><span><s>{{product.product_marketing_price}}</s></span></p>
           <p class="ad"><span></span></p>
         </div>
       </div>
@@ -1222,6 +1190,27 @@
            <img src="{{img.location}}" alt="">
            {% endfor %}
       </div>
+    </div>
+    <div class="warp2">
+        <div class="courierinfor">
+          <img src="images/courier.png" alt="" />
+          <p className="p3">客户服务联系</p>
+          <p class="p4"><a href="tel:0513-81188090">电话 ：0513-81188090</a></p>
+          <p class="p2">退货</p>
+          <p class="p3">我能够退货吗？</p>
+          <p class="p4">我们支持7天内无理由退货。商品不得被损害、弄脏、清洗、改变，任何标签或标牌都必须保留完整。</p>
+          <p class="p3">谁安排退货快递并支付退货运费？</p>
+          <p class="p4">请注意：除质量问题外，您需要自己安排退货快递并承担费用。
+              如果物品在没有损坏的情况下，退货原因在于我们，善淘会给
+              您及时退款并承担运费。如果善淘寄过去的东西损坏，则需要
+              您提供相应照片，我们将直接退款，物品无需寄回。如果您选
+              择保留部分商品因此只取消部分订单，则不会为您退还运费。
+              请注意：如果您已申请并收到发票，则发票必须和退货一起寄
+              回给我们，否则不予退货。
+          </p>
+          <p class="p3">退货地址？</p>
+          <p class="p4 last">江苏省南通市崇川区紫琅路二号同道楼三楼303 善淘网收</p>
+        </div>
     </div>
 	<script id="hot-img1" type="text/template">
 		<ul class="hot-img-warp">
