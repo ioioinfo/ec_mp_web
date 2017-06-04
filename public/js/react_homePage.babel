@@ -111,7 +111,7 @@
                  {img:"http://static.buy42.com/ht_sy_my.jpg",name:"母婴童装",href:"search?sort_id=007"},
                  {img:"http://static.buy42.com/ht_sy_sp.jpg",name:"饰品",href:"search?sort_id=004002"},
                  {img:"http://static.buy42.com/ht_sy_cj.jpg",name:"厨房用品",href:"search?sort_id=009002001"},
-                 {img:"http://static.buy42.com/ht_sy_jj.jpg",name:"家具家纺"},
+                 {img:"http://static.buy42.com/ht_sy_jj.jpg",name:"家具家纺",href:"search?sort_id=009"},
                  {img:"http://static.buy42.com/ht_sy_jz.jpg",name:"残障伙伴兼职",href:"part_job"},
                  {img:"http://static.buy42.com/ht_sy_gy.jpg",name:"关于善淘",href:"about_us"}];
                  this.setState({navitems:nav});
