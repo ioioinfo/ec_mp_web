@@ -206,7 +206,7 @@
                 $.ajax({
                     url: "/receive_goods",
                     dataType: 'json',
-                    type: 'POST',
+                    type: 'GET',
                     data: {"order_id":order_id},
                     success: function(data) {
                         if (data.success) {
@@ -262,6 +262,7 @@
                   button =
                   (<div>
                       <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span onClick={this.handleClick5} id="querenshouhuo">确认收货</span>
                   </div>)
               }else if (order_status=="等待买家付款") {
                   button =
@@ -340,7 +341,7 @@
 
               var product = this.props.products[this.props.item.product_id];
             //   不变的是字符串+变量
-              if(order_status=="等待卖家拣货"){
+              if(order_status=="交易成功"){
                   button = <span><a href={"return_apply?order_id="+this.props.returniitem.order_id+"&detail_id="+this.props.item.id+"&product_id="+this.props.item.product_id+"&number="+this.props.item.number}>申请退款</a></span>;
               }
 
