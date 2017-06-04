@@ -1877,7 +1877,16 @@ exports.register = function(server, options, next){
 								for (var i = 0; i < content.rows.length; i++) {
 									comments_map[content.rows[i].product_id] = content.rows[i];
 								}
-								return reply.view("search",{"products":results.rows,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans,"select_saixuans":search_object});
+								//控制门店
+								var products = results.rows;
+								var products_list = [];
+								for (var i = 0; i < products.length; i++) {
+									if (products[i].origin =="南通") {
+										products_list.push(products[i]);
+									}
+								}
+
+								return reply.view("search",{"products":products_list,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans,"select_saixuans":search_object});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
@@ -3421,7 +3430,7 @@ exports.register = function(server, options, next){
 				var order_id = request.query.order_id;
 				get_order(order_id,function(err,rows){
 					if (!err) {
-						if (rows.rows[0].order_status=="5") {
+						if (rows.rows[0].order_status=="5"|| rows.rows[0].order_status=="4") {
 							receive_goods_operations(order_id,function(err,result){
 								if (!err) {
 									return reply({"success":true});
