@@ -166,33 +166,33 @@
         class ProductList extends React.Component {
             constructor(props) {
               super(props);
-              this.handleClick1=this.handleClick1.bind(this);
+            //   this.handleClick1=this.handleClick1.bind(this);
               this.handleClick2=this.handleClick2.bind(this);
               this.handleClick5=this.handleClick5.bind(this);
               this.cancelClick=this.cancelClick.bind(this);
             }
             // 点击不想买了删除订单
-            handleClick1(e){
-                var order_id = this.props.item.order_id;
-                var reason = "不想买了";
-                var order_status = "未付款";
-                $.ajax({
-                    url: "/order_cancel",
-                    dataType: 'json',
-                    type: 'POST',
-                    data: {"order_id":order_id,"reason":reason,"order_status":order_status},
-                    success: function(data) {
-                        if (data.success) {
-                            this.props.loadData(this.props.status)
-                        }else {
-                            alert("操作失败");
-                        }
-                    }.bind(this),
-                    error: function(xhr, status, err) {
-                    }.bind(this)
-                });
-
-            }
+            // handleClick1(e){
+            //     var order_id = this.props.item.order_id;
+            //     var reason = "不想买了";
+            //     var order_status = "未付款";
+            //     $.ajax({
+            //         url: "/order_cancel",
+            //         dataType: 'json',
+            //         type: 'POST',
+            //         data: {"order_id":order_id,"reason":reason,"order_status":order_status},
+            //         success: function(data) {
+            //             if (data.success) {
+            //                 this.props.loadData(this.props.status)
+            //             }else {
+            //                 alert("操作失败");
+            //             }
+            //         }.bind(this),
+            //         error: function(xhr, status, err) {
+            //         }.bind(this)
+            //     });
+            //
+            // }
             // 点击删除按钮弹出确认按钮
             handleClick2(e){
                 event.stopPropagation();
