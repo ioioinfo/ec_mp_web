@@ -967,7 +967,9 @@
 		<div class="line"></div>
 		<div class="white"></div>
 		<div class="product-infor">
-		  <% _.forEach(shopping_carts, function(shopping_cart) {  %>
+        <% _.forEach(mendians_list, function(mendian) {  %>
+            门店：<%- mendian %>
+		  <% _.forEach(mendians_map[mendian], function(shopping_cart) {  %>
 			  <div class="all">
 				<div class="product-infor-left">
 					<% if(products[shopping_cart.product_id].img){ %>
@@ -983,6 +985,7 @@
                 </div>
 			  </div>
 			<% }); %>
+        <% }); %>
 		</div>
 
          <p class="p3">重量:<%- (total_data.total_weight) %> KG</p>
@@ -1046,6 +1049,8 @@
 			var shopping_carts = {{shopping_carts|safe}};
 			var products = {{products|safe}};
 			var addresses = {{addresses|safe}};
+            var mendians_list = {{mendians_list | safe}};
+            var mendians_map = {{mendians_map | safe}};
 			for (var i = 0; i < addresses.length; i++) {
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
@@ -1069,7 +1074,7 @@
 			var place_order = function(){
                 check_is_sale();
 				var t = _.template($("#place_order_infos").html());
-				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name}));
+				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name,mendians_list:mendians_list,mendians_map:mendians_map}));
 				$(".footer-right").click(function(){
                     set_address();
                     var send_seller = $("#send_seller").val();
