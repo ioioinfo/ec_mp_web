@@ -2575,6 +2575,30 @@ exports.register = function(server, options, next){
 			}
 		},
 		//购物车展示
+		// {
+		// 	method: 'GET',
+		// 	path: '/cart_infos',
+		// 	handler: function(request, reply){
+		// 		var person_id = get_cookie_person(request);
+		// 		var cart_code = get_cookie_cart_code(request);
+		// 		if (!person_id) {
+		// 			person_id = "";
+		// 		}
+		// 		if (!cart_code) {
+		// 			cart_code = uuidV1();
+		// 		}
+		// 		//查询购物车信息
+		// 		sarch_cart_infos(person_id,cart_code,function(err,results){
+		// 			if (!err) {
+		// 				var update_ids = [];
+		// 				var total_data = results.total_data;
+		// 				return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+		// 			}else {
+		// 				return reply({"success":false,"message":results.message});
+		// 			}
+		// 		});
+		// 	}
+		// },
 		{
 			method: 'GET',
 			path: '/cart_infos',
@@ -2592,7 +2616,21 @@ exports.register = function(server, options, next){
 					if (!err) {
 						var update_ids = [];
 						var total_data = results.total_data;
-						return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+						var shopping_carts = results.shopping_carts;
+						var products = results.products;
+						var mendians_list = [];
+						var mendians_map = {};
+						for (var i = 0; i < shopping_carts.length; i++) {
+							var origin = products[shopping_carts[i].product_id].origin;
+							var product_id = shopping_carts[i].product_id;
+							if (!mendians_map[origin]) {
+								mendians_map[origin] = [];
+								mendians_list.push(origin);
+							}
+							mendians_map[origin].push(shopping_carts[i]);
+						}
+
+						return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
 					}else {
 						return reply({"success":false,"message":results.message});
 					}
