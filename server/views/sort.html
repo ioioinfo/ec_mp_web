@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="css/jinping.css">
-
-    <script src="{{static_host}}/jquery-3.1.1.min.js"></script>
-    <script src="js/jinzhi.js"></script>
-	<script src="{{static_host}}/lodash.min.js" type="text/javascript"></script>
     <style>
   *{
       padding: 0;
@@ -109,6 +105,7 @@
       height: 14px;
       line-height: 14px;
       border-radius: 7px;
+      display: none;
     }
     .headernimg{
       vertical-align: middle;
@@ -348,6 +345,9 @@
               </div>
             </div>
         </div>
+    <script src="{{static_host}}/jquery-3.1.1.min.js"></script>
+    <script src="js/jinzhi.js"></script>
+	<script src="{{static_host}}/lodash.min.js" type="text/javascript"></script>
 	<script id="sort_infos" type="text/template">
 		<div class="main-img ">
           <img src="{{static_host}}/<%- parent.img_location %>" alt="">
