@@ -577,30 +577,34 @@
 					var id = $(this).data("id");
 					$.get("/delete_cart",{id:id},function(data){
 						if (data.success) {
-							shopping_carts = JSON.parse(data.shopping_carts);
-							total_data = JSON.parse(data.total_data);
+							shopping_carts = data.shopping_carts;
+							total_data = data.total_data;
+                            mendians_list = data.mendians_list;
+                            mendians_map = data.mendians_map;
 							fresh_carts();
 						}
 					});
 				});
 				$(".plus").click(function(){
 					var id = $(this).data("id");
-					console.log(id);
 					$.post("/plus_cart",{id:id},function(data){
 						if (data.success) {
-							shopping_carts = JSON.parse(data.shopping_carts);
-							total_data = JSON.parse(data.total_data);
+							shopping_carts = data.shopping_carts;
+							total_data = data.total_data;
+                            mendians_list = data.mendians_list;
+                            mendians_map = data.mendians_map;
 							fresh_carts();
 						}
 					});
 				});
 				$(".reduce").click(function(){
 					var id = $(this).data("id");
-					console.log(id);
 					$.post("/reduce_cart",{id:id},function(data){
 						if (data.success) {
-							shopping_carts = JSON.parse(data.shopping_carts);
-							total_data = JSON.parse(data.total_data);
+							shopping_carts = data.shopping_carts;
+							total_data = data.total_data;
+                            mendians_list = data.mendians_list;
+                            mendians_map = data.mendians_map;
 							fresh_carts();
 						}
 					});
@@ -620,8 +624,10 @@
 							}
 							$.post("/update_cart_number",{id:id,num:num},function(data){
 								if (data.success) {
-									shopping_carts = JSON.parse(data.shopping_carts);
-									total_data = JSON.parse(data.total_data);
+									shopping_carts = data.shopping_carts;
+									total_data = data.total_data;
+                                    mendians_list = data.mendians_list;
+                                    mendians_map = data.mendians_map;
 									fresh_carts();
 								}
 							});
@@ -643,6 +649,8 @@
 					if (data.success) {
 						shopping_carts = data.shopping_carts;
 						total_data = data.total_data;
+                        mendians_list = data.mendians_list;
+                        mendians_map = data.mendians_map;
 						fresh_carts();
 					}else {
 					}
@@ -654,6 +662,8 @@
 					if (data.success) {
 						shopping_carts = data.shopping_carts;
 						total_data = data.total_data;
+                        mendians_list = data.mendians_list;
+                        mendians_map = data.mendians_map;
 						fresh_carts();
 					}else {
 					}

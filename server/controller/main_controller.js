@@ -1879,14 +1879,14 @@ exports.register = function(server, options, next){
 								}
 								//控制门店
 								var products = results.rows;
-								var products_list = [];
-								for (var i = 0; i < products.length; i++) {
-									if (products[i].origin =="南通") {
-										products_list.push(products[i]);
-									}
-								}
+								// var products_list = [];
+								// for (var i = 0; i < products.length; i++) {
+								// 	if (products[i].origin =="南通") {
+								// 		products_list.push(products[i]);
+								// 	}
+								// }
 
-								return reply.view("search",{"products":products_list,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans,"select_saixuans":search_object});
+								return reply.view("search",{"products":products,"comments":comments_map,"search_object":JSON.stringify(search_object),"saixuans":saixuans,"select_saixuans":search_object});
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
@@ -2659,7 +2659,20 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var update_ids = [];
 								var total_data = results.total_data;
-								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+								var shopping_carts = results.shopping_carts;
+								var products = results.products;
+								var mendians_list = [];
+								var mendians_map = {};
+								for (var i = 0; i < shopping_carts.length; i++) {
+									var origin = products[shopping_carts[i].product_id].origin;
+									var product_id = shopping_carts[i].product_id;
+									if (!mendians_map[origin]) {
+										mendians_map[origin] = [];
+										mendians_list.push(origin);
+									}
+									mendians_map[origin].push(shopping_carts[i]);
+								}
+								return reply({"success":true,"shopping_carts":results.shopping_carts,"update_ids":update_ids,"products":results.products,"total_data":total_data,"mendians_list":mendians_list,"mendians_map":mendians_map});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}
@@ -2694,7 +2707,20 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var update_ids = [];
 								var total_data = results.total_data;
-								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+								var shopping_carts = results.shopping_carts;
+								var products = results.products;
+								var mendians_list = [];
+								var mendians_map = {};
+								for (var i = 0; i < shopping_carts.length; i++) {
+									var origin = products[shopping_carts[i].product_id].origin;
+									var product_id = shopping_carts[i].product_id;
+									if (!mendians_map[origin]) {
+										mendians_map[origin] = [];
+										mendians_list.push(origin);
+									}
+									mendians_map[origin].push(shopping_carts[i]);
+								}
+								return reply({"success":true,"shopping_carts":results.shopping_carts,"update_ids":update_ids,"products":results.products,"total_data":total_data,"mendians_list":mendians_list,"mendians_map":mendians_map});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}
@@ -2729,7 +2755,20 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var update_ids = [];
 								var total_data = results.total_data;
-								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+								var shopping_carts = results.shopping_carts;
+								var products = results.products;
+								var mendians_list = [];
+								var mendians_map = {};
+								for (var i = 0; i < shopping_carts.length; i++) {
+									var origin = products[shopping_carts[i].product_id].origin;
+									var product_id = shopping_carts[i].product_id;
+									if (!mendians_map[origin]) {
+										mendians_map[origin] = [];
+										mendians_list.push(origin);
+									}
+									mendians_map[origin].push(shopping_carts[i]);
+								}
+								return reply({"success":true,"shopping_carts":results.shopping_carts,"update_ids":update_ids,"products":results.products,"total_data":total_data,"mendians_list":mendians_list,"mendians_map":mendians_map});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}
@@ -2768,7 +2807,20 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var update_ids = [];
 								var total_data = results.total_data;
-								return reply({"success":true,"shopping_carts":JSON.stringify(results.shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data)});
+								var shopping_carts = results.shopping_carts;
+								var products = results.products;
+								var mendians_list = [];
+								var mendians_map = {};
+								for (var i = 0; i < shopping_carts.length; i++) {
+									var origin = products[shopping_carts[i].product_id].origin;
+									var product_id = shopping_carts[i].product_id;
+									if (!mendians_map[origin]) {
+										mendians_map[origin] = [];
+										mendians_list.push(origin);
+									}
+									mendians_map[origin].push(shopping_carts[i]);
+								}
+								return reply({"success":true,"shopping_carts":results.shopping_carts,"update_ids":update_ids,"products":results.products,"total_data":total_data,"mendians_list":mendians_list,"mendians_map":mendians_map});
 							}else {
 								return reply({"success":false,"message":results.message});
 							}

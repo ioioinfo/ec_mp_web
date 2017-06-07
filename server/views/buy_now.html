@@ -1113,7 +1113,9 @@
 			}
 			place_order();
 			$(".footer-right").click(function(){
-				set_address();
+                address.type = logistics;
+                address.store_id = 1;
+                address.point_id = 1;
                 var send_seller = $("#send_seller").val();
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {

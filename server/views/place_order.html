@@ -1076,7 +1076,9 @@
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name,mendians_list:mendians_list,mendians_map:mendians_map}));
 				$(".footer-right").click(function(){
-                    set_address();
+                    address.type = logistics;
+                    address.store_id = 1;
+                    address.point_id = 1;
                     var send_seller = $("#send_seller").val();
 					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
@@ -1189,9 +1191,6 @@
 			place_order();
             var set_address = function(){
                 address = {};
-                address.type = logistics;
-                address.store_id = 1;
-                address.point_id = 1;
                 address.linkname =	$(".address-infor-name").data("id");
                 address.mobile = $(".address-infor-mobile").data("id");
                 address.detail_address = $(".address-infor-address").data("id");
