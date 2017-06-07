@@ -246,22 +246,22 @@
               if(order_status=="等待卖家拣货"){
                   button =
                   (<div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id} id="chakanwuliu">查看物流</a></span>
+                      <span id="chakanwuliu"><a href={"check_logistics?order_id="+this.props.item.order_id} >查看物流</a></span>
                   </div>)
               }else if (order_status=="等待卖家发货") {
                   button =
                   (<div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span id="chakanwuliu"><a href={"check_logistics?order_id="+this.props.item.order_id}  >查看物流</a></span>
                   </div>)
               }else if (order_status=="等待快递员揽件") {
                   button =
                   (<div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span id="chakanwuliu"><a href={"check_logistics?order_id="+this.props.item.order_id}  >查看物流</a></span>
                   </div>)
               }else if (order_status=="卖家已发货") {
                   button =
                   (<div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span id="chakanwuliu"><a href={"check_logistics?order_id="+this.props.item.order_id}  >查看物流</a></span>
                       <span onClick={this.handleClick5} id="querenshouhuo">确认收货</span>
                   </div>)
               }else if (order_status=="等待买家付款") {
@@ -291,7 +291,7 @@
               }else if (order_status=="等待买家收货") {
                   button =
                   (<div>
-                      <span><a href={"check_logistics?order_id="+this.props.item.order_id}  id="chakanwuliu">查看物流</a></span>
+                      <span id="chakanwuliu"><a href={"check_logistics?order_id="+this.props.item.order_id}  >查看物流</a></span>
                       <span onClick={this.handleClick5} id="querenshouhuo">确认收货</span>
                   </div>)
               }else {

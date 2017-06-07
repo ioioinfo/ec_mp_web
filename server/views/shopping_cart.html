@@ -320,6 +320,14 @@
             text-align: center;
             line-height: 300px;
             }
+
+            .mendian_name{
+                font-size: 12px;
+                padding: 5px 10px;
+                margin-top: 7px;
+                background: #fff;
+                border-bottom: 1px solid #eee;
+            }
     </style>
   </head>
   <body>
@@ -367,7 +375,7 @@
         <script id="cart_infos" type="text/template">
             <ul class="list">
             <% _.forEach(mendians_list, function(mendian) {  %>
-                门店：<%- mendian %>
+                <p class="mendian_name">门店：<%- mendian %></p>
                 <% _.forEach(mendians_map[mendian], function(shopping_cart) {  %>
               <li>
                 <div class="behind delete" data-id="<%- shopping_cart.id %>">
