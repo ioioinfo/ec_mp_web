@@ -799,6 +799,13 @@
         #padding-right1{
             padding-right: 0;
         }
+        .mendian_name{
+            font-size: 12px;
+            padding: 5px 10px;
+            margin-top: 7px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
       }
 	</style>
   </head>
@@ -968,7 +975,7 @@
 		<div class="white"></div>
 		<div class="product-infor">
         <% _.forEach(mendians_list, function(mendian) {  %>
-            门店：<%- mendian %>
+            <p class="mendian_name">门店：<%- mendian %></p>
 		  <% _.forEach(mendians_map[mendian], function(shopping_cart) {  %>
 			  <div class="all">
 				<div class="product-infor-left">

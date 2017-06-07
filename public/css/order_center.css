@@ -303,9 +303,12 @@
       border-radius: 2px;
   }
   #chakanwuliu{
-      color: #666;
+
       border: 1px solid #666;
       border-radius: 2px;
+  }
+  #chakanwuliu a{
+      color: #666;
   }
   #querenshouhuo{
       color: #FFA77F;
