@@ -1113,15 +1113,6 @@
                     }
 				});
 
-				//运费险
-				$(".click2").click(function(){
-				  $(".partone1").css("display","block");
-				  $(".opacity").css("display","block");
-				});
-				$(".close1").click(function(){
-				  $(".partone1").css("display","none");
-				  $(".opacity").css("display","none");
-				});
 				//优惠卷
 				$(".click3").click(function(){
 				  $(".partone2").css("display","block");
@@ -1132,10 +1123,8 @@
 				  $(".opacity").css("display","none");
 				});
 				$(".opacity").click(function(){
-
 					$(".new-address").css("display","none");
 					$(".partone0").css("display","none");
-					$(".partone1").css("display","none");
 				  $(".partone2").css("display","none");
 				  $(".partone3").css("display","none");
 				  $(".opacity").css("display","none");
@@ -1209,6 +1198,9 @@
                 }
             };
             var logistics_payment = function(){
+                address.type = logistics;
+                address.store_id = 1;
+                address.point_id = 1;
                 var info = {
                     "type" : address.type,
                     "store_id" : address.store_id,
