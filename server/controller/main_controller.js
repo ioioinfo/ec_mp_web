@@ -3012,7 +3012,23 @@ exports.register = function(server, options, next){
 						if(results.total_data){
 							total_data = results.total_data;
 						}
-						return reply({"success":true,"shopping_carts":results.shopping_carts,"total_data":results.total_data});
+						var shopping_carts = results.shopping_carts;
+						var products = results.products;
+						var total_data = results.total_data;
+
+						var mendians_list = [];
+						var mendians_map = {};
+						for (var i = 0; i < shopping_carts.length; i++) {
+							var origin = products[shopping_carts[i].product_id].origin;
+							var product_id = shopping_carts[i].product_id;
+							if (!mendians_map[origin]) {
+								mendians_map[origin] = [];
+								mendians_list.push(origin);
+							}
+							mendians_map[origin].push(shopping_carts[i]);
+						}
+
+						return reply({"success":true,"shopping_carts":shopping_carts,"total_data":total_data,"mendians_list":mendians_list,"mendians_map":mendians_map});
 					}else {
 						return reply({"success":false,"message":results.message});
 					}
