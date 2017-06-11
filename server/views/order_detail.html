@@ -438,7 +438,7 @@
               </div>
               <div class="Delivery-infor-bottom">
                 <p>收货人: {{order.linkname}}{{order.mobile}} </p>
-                <p>{{order.detail_address}}</p>
+                <p>{{order.province}}{{order.city}}{{order.district}}{{order.detail_address}}</p>
               </div>
           </div>
           {% if !(order.order_status == "等待买家付款" || order.order_status == "付款确认中" || order.order_status == "交易关闭") %}
