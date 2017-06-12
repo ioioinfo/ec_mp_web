@@ -93,20 +93,20 @@
           border: 1px solid #666;
           display: inline-block;
           border-radius: 4px;
-          width: 57.8777%;
+          width: 66.8777%;
         }
         .MainBottom_infor .cardInput{
           width: 100%;
           height: 35px;
           border-radius: 4px;
-          font-size: 14px;
+          font-size: 16px;
           border: none;
           text-indent: 10px;
         }
         .MainBottom_infor .recharge{
-          width: 57.8777%;
-          height: 30px;
-          line-height: 30px;
+          width: 66.8777%;
+          height:48px;
+          line-height: 48px;
           text-align: center;
           background: rgb(112,180,44);
           color: #fff;
@@ -253,6 +253,7 @@
 					}else {
 					    alert("充值失败");
 					}
+                    $(".cardInput").val("");
 				}.bind(this),
 				error: function(xhr, status, err) {
 				}.bind(this)
