@@ -1933,7 +1933,7 @@ exports.register = function(server, options, next){
 					if (!err) {
 						var rates = row.row.rates;
 						for (var i = 0; i < rates.length; i++) {
-							if (rates[i].price1 = data.actual_price) {
+							if (rates[i].price1 == data.actual_price) {
 								data.marketing_price = rates[i].price;
 							}
 						}
@@ -1951,8 +1951,8 @@ exports.register = function(server, options, next){
 									"main_role_id" : person_id,
 									"subject" : "会员充值",
 									"body" : "会员充值",
-									"return_url" : "http://shop.buy42.com/",
-									"callback_url" : "http://shop.buy42.com/"
+									"return_url" : "http://shop.buy42.com/pay_success",
+									"callback_url" : "http://211.149.248.241:18000/receive_pay_notify"
 								};
 								trade_alipay(info,function(err,content){
 									if (!err) {
