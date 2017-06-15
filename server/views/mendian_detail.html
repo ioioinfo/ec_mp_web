@@ -12,6 +12,7 @@
     <script src="{{static_host}}/react-dom.min.js"></script>
     <script src="{{static_host}}/browser.min.js"></script>
     <script src="js/jinzhi.js"></script>
+    <script src="js/clipboard.min.js"></script>
     <style media="screen">
     @media screen and (max-width:1025px){
       *{
@@ -29,6 +30,10 @@
       a{
         text-decoration: none;
       }
+      input[type="submit"],input[type="reset"],input[type="button"],button {
+           -webkit-appearance: none;
+        }
+
       .wrap{
         width: 100%;
         height: 100%;
@@ -145,6 +150,28 @@
           vertical-align: top;
           margin-right: 7px;
       }
+
+      .copy{
+          padding: 2px 6px;
+          border-radius: 3px;
+          background: #D4E1F2;
+          color: #374E78;
+          margin-left: 9px;
+      }
+
+      #address_name{
+          outline-style: none;
+          border: none;
+          color: #666;
+          font-size: 14px;
+      }
+      #copy_input{
+          border: none;
+          padding: 3px 4px;
+          margin-left: 7px;
+          outline-style: none;
+          border-radius: 3px;
+      }
     }
     </style>
   </head>
@@ -159,9 +186,11 @@
 		}
 		var points = store.points[0];
 		var address = points.province+points.city+points.district+points.detail_address;
+
       function getAddressData(parmas,cb){
         var infor={name:store.org_store_name,time1:store.open_date_text,time2:"8:00  - 20:00 ",
         word:store.remark,
+
         imgs:imgs,
 		address:address};
         cb({item:infor});
@@ -197,11 +226,13 @@
             super(props);
             this.state = {item: {imgs:[]}};
         }
+
         componentDidMount() {
           getAddressData({},function(data) {
             this.setState(data);
           }.bind(this));
-
+          $("#address_name").val(address);
+          copyToClipboard();
         }
         render() {
             // var img=this.state.item.imgs;
@@ -212,7 +243,7 @@
 
     				<p className="start-businsess">< img src="images/open.png" alt="" />开业时间：{this.state.item.time1}</p>
                     <p className="business-hours">< img src="images/time.png" alt="" />营业时间：{this.state.item.time2}</p>
-    				<p className="start-businsess MARGIN">< img src="images/location2.png" alt="" /><u>{this.state.item.address}</u></p>
+    				<p className="start-businsess MARGIN">< img src="images/location2.png" alt="" /><input type="text"  id="address_name" /><button  id="copy_input" className="btn" data-clipboard-action="copy" data-clipboard-target="#address_name">复制地址</button> </p>
                 </div>
 
                 <p className="shop-infor">
@@ -242,8 +273,19 @@
         $(".header .jiantou").click(function(){
             window.history.back();
         })
-    })
-    </script>
 
+
+
+    });
+    // 点击复制
+    var copyToClipboard = function () {
+        var clipboard = new Clipboard('.btn');
+        clipboard.on('success', function(e) {
+            e.clearSelection();
+            alert("复制成功");
+        });
+
+    }
+    </script>
   </body>
 </html>
