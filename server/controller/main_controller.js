@@ -232,7 +232,7 @@ var find_total_comments = function(product_id, cb){
 };
 //根据personid找头像
 var find_comments_persons = function(person_id, cb){
-	var url = "http://139.196.148.40:18003/get_person_avatar?person_ids=";
+	var url = "http://139.196.148.40:18003/person/get_avatar?person_ids=";
 	url = url + person_id + "&scope_code=" +org_code;
 	do_get_method(url,cb);
 };
