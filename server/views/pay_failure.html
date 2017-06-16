@@ -92,7 +92,10 @@
                 border-radius: 4px;
                 background: #fff;
                 color: #92A0AF;
-                display: flex;
+                display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+                display:-webkit-flex;/* Chrome 21+ */
+                display:-ms-flexbox;/* WP IE 10 */
+                display:flex;/* android 4.4 */
             }
             .recharged_ok p{
                 flex: 1;

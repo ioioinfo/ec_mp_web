@@ -171,10 +171,13 @@
         .navUl{
             width: 96%;
             margin: 22px auto;
-            display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
-            display:-webkit-flex;/* Chrome 21+ */
-            display:-ms-flexbox;/* WP IE 10 */
-            display:flex;/* android 4.4 */
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            display: -o-flex;
+            display: flex;
+
+            flex-wrap:-webkit-wrap;
             flex-wrap:wrap;
         }
         .navUl .homeNavli{
@@ -224,8 +227,14 @@
         /*猜你喜欢*/
         .homeLike{
             width: 100%;
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            display: -o-flex;
             display: flex;
-            flex-wrap: wrap;
+
+            flex-wrap:-webkit-wrap;
+            flex-wrap:wrap;
             justify-content: space-around;
         }
         .homeLikeLi{
@@ -293,8 +302,13 @@
         /*活动内容*/
         .activity_ul{
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
+            display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+            display:-webkit-flex;/* Chrome 21+ */
+            display:-ms-flexbox;/* WP IE 10 */
+            display:flex;/* android 4.4 */
+
+            flex-wrap:-webkit-wrap;
+            flex-wrap:wrap;
             justify-content: space-around;
         }
         .activity_li{
