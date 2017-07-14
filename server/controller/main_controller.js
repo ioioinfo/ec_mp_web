@@ -812,7 +812,6 @@ exports.register = function(server, options, next){
 									};
 									online_card_pay(data,function(err,row){
 										if (!err) {
-											console.log("row:"+JSON.stringify(row));
 											var info = {"order_id":order_id,"order_status":1};
 											update_order_status(info,function(err,content){
 												if (!err) {
@@ -825,7 +824,7 @@ exports.register = function(server, options, next){
 													};
 
 													add_jifen(infos,function(err,content){
-														console.log("content:"+JSON.stringify(content));
+														
 														if (!err) {
 															var data2 = {
 																"order_id" :order_id,
@@ -3056,123 +3055,228 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
-		//下订单
-		// {
-		// 	method: 'GET',
-		// 	path: '/place_order',
-		// 	handler: function(request, reply){
-		// 		var person_id = get_cookie_person(request);
-		// 		if (!person_id) {
-		// 			return reply.redirect("/chat_login");
-		// 		}
-		// 		var ids = request.query.ids;
-		// 		if (JSON.parse(ids).length==0) {
-		// 			return reply.redirect("/cart_infos");
-		// 		}
-		// 		var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
-		// 			function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
-		// 				logistics_payment(data,function(err,result){
-		// 					if (!err) {
-		// 						var lgtic_pay = result.row.user_amount;
-		// 						if (!lgtic_pay && lgtic_pay!=0) {
-		// 							lgtic_pay = 150;
-		// 						}else {
-		// 							total_data.lgtic_pay = lgtic_pay;
-		// 						}
-		// 						return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type)});
-		// 					}else {
-		// 						total_data.lgtic_pay = 150;
-		// 						return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
-		// 					}
-		// 				});
-		// 		});
-		// 		var data = {
-		// 			"weight" : 0,
-		// 			"order_amount" : 0,
-		// 			"type" : "common",
-		// 			"store_id" : 1,
-		// 			"point_id" : null,
-		// 			"end_province" :"广东省" ,
-		// 			"end_city" : "",
-		// 			"end_district" : ""
-		// 		};
-		// 		search_selected_carts(person_id,ids,function(err,results){
-		// 			if (!err) {
-		// 				if (results.success) {
-		// 					var shopping_carts = results.shopping_carts;
-		// 					var products = results.products;
-		// 					var total_data = results.total_data;
-		// 					if (total_data.total_items) {
-		// 						data.order_amount = total_data.total_items;
-		// 					}
-		// 					if (total_data.total_weight) {
-		// 						data.weight = total_data.total_weight;
-		// 					}
-		// 					ep.emit("shopping_carts", shopping_carts);
-		// 					ep.emit("products", products);
-		// 					ep.emit("total_data", total_data);
-		// 				}else {
-		// 					ep.emit("shopping_carts", []);
-		// 					ep.emit("products", {});
-		// 					ep.emit("total_data", {});
-		// 				}
-		// 			}else {
-		// 				ep.emit("shopping_carts", []);
-		// 				ep.emit("products", {});
-		// 				ep.emit("total_data", {});
-		// 			}
-		// 		});
-		// 		search_addresses(person_id,function(err,results){
-		// 			if (!err) {
-		// 				if (results.success) {
-		// 					var addresses = results.rows;
-		// 					for (var i = 0; i < addresses.length; i++) {
-		// 						if (addresses[i].is_default ==1) {
-		// 							data.end_province = addresses[i].province;
-		// 							data.end_city = addresses[i].city;
-		// 							data.end_district = addresses[i].district;
-		// 						}
-		// 					}
-		// 					ep.emit("addresses", addresses);
-		// 				}else {
-		// 					ep.emit("addresses", []);
-		// 				}
-		// 			}else {
-		// 				ep.emit("addresses", []);
-		// 			}
-		// 		});
-		// 		// search_ec_invoices(person_id,function(err,results){
-		// 		// 	if (!err) {
-		// 		// 		if (results.success) {
-		// 		// 			// var invoices = results.rows;
-		// 		// 			// ep.emit("invoices", invoices);
-		// 		// 			ep.emit("invoices", []);
-		// 		// 		}else {
-		// 		// 			ep.emit("invoices", []);
-		// 		// 		}
-		// 		// 	}else {
-		// 		// 		ep.emit("invoices", []);
-		// 		// 	}
-		// 		// });
-		// 		ep.emit("invoices", []);
-		// 		get_person_vip(person_id,function(err,content){
-		// 			if (!err) {
-		// 				var jifen = content.row.integral;
-		// 				ep.emit("jifen", jifen);
-		// 			}else {
-		// 				ep.emit("jifen", "");
-		// 			}
-		// 		});
-		// 		get_logistics_type(function(err,content){
-		// 			if (!err) {
-		// 				var logistics_type = content.rows
-		// 				ep.emit("logistics_type", logistics_type);
-		// 			}else {
-		// 				ep.emit("logistics_type", []);
-		// 			}
-		// 		});
-		// 	}
-		// },
+		//下订单(没按门店的)
+		{
+			method: 'GET',
+			path: '/place_order2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var ids = request.query.ids;
+				if (JSON.parse(ids).length==0) {
+					return reply.redirect("/cart_infos");
+				}
+				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
+					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
+						logistics_payment(data,function(err,result){
+							if (!err) {
+								var lgtic_pay = result.row.user_amount;
+								if (!lgtic_pay && lgtic_pay!=0) {
+									lgtic_pay = 150;
+								}else {
+									total_data.lgtic_pay = lgtic_pay;
+								}
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type)});
+							}else {
+								total_data.lgtic_pay = 150;
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type});
+							}
+						});
+				});
+				var data = {
+					"weight" : 0,
+					"order_amount" : 0,
+					"type" : "common",
+					"store_id" : 1,
+					"point_id" : null,
+					"end_province" :"广东省" ,
+					"end_city" : "",
+					"end_district" : ""
+				};
+				search_selected_carts(person_id,ids,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var shopping_carts = results.shopping_carts;
+							var products = results.products;
+							var total_data = results.total_data;
+							if (total_data.total_items) {
+								data.order_amount = total_data.total_items;
+							}
+							if (total_data.total_weight) {
+								data.weight = total_data.total_weight;
+							}
+							ep.emit("shopping_carts", shopping_carts);
+							ep.emit("products", products);
+							ep.emit("total_data", total_data);
+						}else {
+							ep.emit("shopping_carts", []);
+							ep.emit("products", {});
+							ep.emit("total_data", {});
+						}
+					}else {
+						ep.emit("shopping_carts", []);
+						ep.emit("products", {});
+						ep.emit("total_data", {});
+					}
+				});
+				search_addresses(person_id,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var addresses = results.rows;
+							for (var i = 0; i < addresses.length; i++) {
+								if (addresses[i].is_default ==1) {
+									data.end_province = addresses[i].province;
+									data.end_city = addresses[i].city;
+									data.end_district = addresses[i].district;
+								}
+							}
+							ep.emit("addresses", addresses);
+						}else {
+							ep.emit("addresses", []);
+						}
+					}else {
+						ep.emit("addresses", []);
+					}
+				});
+				ep.emit("invoices", []);
+				get_person_vip(person_id,function(err,content){
+					if (!err) {
+						var jifen = content.row.integral;
+						ep.emit("jifen", jifen);
+					}else {
+						ep.emit("jifen", "");
+					}
+				});
+				get_logistics_type(function(err,content){
+					if (!err) {
+						var logistics_type = content.rows
+						ep.emit("logistics_type", logistics_type);
+					}else {
+						ep.emit("logistics_type", []);
+					}
+				});
+			}
+		},
+		//订单按门店的
+		{
+			method: 'GET',
+			path: '/place_order1',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var ids = request.query.ids;
+				if (JSON.parse(ids).length==0) {
+					return reply.redirect("/cart_infos");
+				}
+				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
+					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
+						logistics_payment(data,function(err,result){
+							if (!err) {
+								var lgtic_pay = result.row.user_amount;
+								if (!lgtic_pay && lgtic_pay!=0) {
+									lgtic_pay = 150;
+								}else {
+									total_data.lgtic_pay = lgtic_pay;
+								}
+
+								var mendians_list = [];
+								var mendians_map = {};
+								for (var i = 0; i < shopping_carts.length; i++) {
+									var origin = products[shopping_carts[i].product_id].origin;
+									var product_id = shopping_carts[i].product_id;
+									if (!mendians_map[origin]) {
+										mendians_map[origin] = [];
+										mendians_list.push(origin);
+									}
+									mendians_map[origin].push(shopping_carts[i]);
+								}
+
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
+							}else {
+								total_data.lgtic_pay = 150;
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"mendians_map":[],"mendians_list":mendians_list});
+							}
+						});
+				});
+				var data = {
+					"weight" : 0,
+					"order_amount" : 0,
+					"type" : "common",
+					"store_id" : 1,
+					"point_id" : null,
+					"end_province" :"广东省" ,
+					"end_city" : "",
+					"end_district" : ""
+				};
+				search_selected_carts(person_id,ids,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var shopping_carts = results.shopping_carts;
+							var products = results.products;
+							var total_data = results.total_data;
+							if (total_data.total_items) {
+								data.order_amount = total_data.total_items;
+							}
+							if (total_data.total_weight) {
+								data.weight = total_data.total_weight;
+							}
+							ep.emit("shopping_carts", shopping_carts);
+							ep.emit("products", products);
+							ep.emit("total_data", total_data);
+						}else {
+							ep.emit("shopping_carts", []);
+							ep.emit("products", {});
+							ep.emit("total_data", {});
+						}
+					}else {
+						ep.emit("shopping_carts", []);
+						ep.emit("products", {});
+						ep.emit("total_data", {});
+					}
+				});
+				search_addresses(person_id,function(err,results){
+					if (!err) {
+						if (results.success) {
+							var addresses = results.rows;
+							for (var i = 0; i < addresses.length; i++) {
+								if (addresses[i].is_default ==1) {
+									data.end_province = addresses[i].province;
+									data.end_city = addresses[i].city;
+									data.end_district = addresses[i].district;
+								}
+							}
+							ep.emit("addresses", addresses);
+						}else {
+							ep.emit("addresses", []);
+						}
+					}else {
+						ep.emit("addresses", []);
+					}
+				});
+				ep.emit("invoices", []);
+				get_person_vip(person_id,function(err,content){
+					if (!err) {
+						var jifen = content.row.integral;
+						ep.emit("jifen", jifen);
+					}else {
+						ep.emit("jifen", "");
+					}
+				});
+				get_logistics_type(function(err,content){
+					if (!err) {
+						var logistics_type = content.rows
+						ep.emit("logistics_type", logistics_type);
+					}else {
+						ep.emit("logistics_type", []);
+					}
+				});
+			}
+		},
+		//订单按门店的,并且分单的
 		{
 			method: 'GET',
 			path: '/place_order',
