@@ -99,7 +99,10 @@
         }
         .nav ul{
           width: 100%;
-          display: flex;
+          display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+          display:-webkit-flex;/* Chrome 21+ */
+          display:-ms-flexbox;/* WP IE 10 */
+          display:flex;/* android 4.4 */
           text-align: center;
           background: #404042;
         }
@@ -628,7 +631,10 @@
         }
         .fapiao .fapiao-infor .fapiao-title{
           width: 90%;
-          display: flex;
+          display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+          display:-webkit-flex;/* Chrome 21+ */
+          display:-ms-flexbox;/* WP IE 10 */
+          display:flex;/* android 4.4 */
           justify-content:space-between;
           margin: 10px auto 0;
         }
@@ -672,7 +678,10 @@
         .fapiao .fapiao-infor .fapiaotaitou-span3{
           display: inline-block;
           width: 100%;
-          display: flex;
+          display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+          display:-webkit-flex;/* Chrome 21+ */
+          display:-ms-flexbox;/* WP IE 10 */
+          display:flex;/* android 4.4 */
           justify-content:space-between;
           margin-top: 10px;
           border: none;

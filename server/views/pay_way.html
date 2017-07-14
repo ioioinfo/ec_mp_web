@@ -79,8 +79,10 @@
             }
             .payway_money{
                 width: 100%;
-                display: -webkit-flex; /* Safari */
-                display: flex;
+                display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+                display:-webkit-flex;/* Chrome 21+ */
+                display:-ms-flexbox;/* WP IE 10 */
+                display:flex;/* android 4.4 */
                 box-sizing: border-box;
                 height: 40px;
                 line-height: 40px;
@@ -129,6 +131,14 @@
                 color: red;
                 font-size: 12px;
                 margin-top: 40px;
+            }
+            .payway_way_weixin .pay_remaking{
+              font-size: 12px;
+              color: red;
+            }
+            .payway_way_yinlian .pay_remaking{
+              font-size: 12px;
+              color: red;
             }
         }
 
@@ -231,11 +241,11 @@
                     </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_weixin">
-                    <li><img src="images/weixinzhifu1.png" alt="" /><span>微信支付</span></li>
+                    <li><img src="images/weixinzhifu1.png" alt="" /><span>微信支付</span> <span className="pay_remaking">暂未开通</span></li>
                     <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_yinlian">
-                    <li><img src="images/yinlianzhifu1.png" alt="" /><span>银联支付</span></li>
+                    <li><img src="images/yinlianzhifu1.png" alt="" /><span>银联支付</span> <span className="pay_remaking">暂未开通</span></li>
                     <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
                   </ul>
                   <p className="prompt">温馨提示:该订单有效期15分钟</p>

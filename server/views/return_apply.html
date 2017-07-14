@@ -46,12 +46,13 @@
         span{
           color: #232326;
         }
-
+        #return,.wrap{
+          height: 100%;
+        }
         .head{
           width: 100%;
           height: 46px;
           font-size: 0;
-          position: relative;
           overflow: hidden;
         }
         .jiantou{
@@ -146,7 +147,7 @@
         .product-infor .product-infor-middle .p1{
           width: 100%;
           font-size: 14px;
-		  height: 42px;
+	        height: 42px;
           line-height: 20px;
           color: #223541;
           overflow: hidden;
@@ -172,6 +173,7 @@
           font-size: 12px;
           padding: 4px 0;
           overflow: hidden;
+          margin-top: 30px;
         }
         .product-infor .product-infor-middle .p3{
           margin-top: 5px;
@@ -205,6 +207,7 @@
             background: #fff;
             padding: 9px  2%;
             margin-bottom: 15px;
+
         }
         .return_wrap .return_reason{
             overflow: hidden;
@@ -222,6 +225,7 @@
             outline-style: none;
             border:none;
             padding-right: 3.4%;
+            font-size: 14px;
         }
         .return_wrap .select_ul{
             position: absolute;
@@ -235,6 +239,7 @@
         .return_wrap .select_ul li{
             line-height: 26px;
             padding-left: 5px;
+            font-size: 14px;
         }
         .jiantou-right{
             position: absolute;
@@ -242,35 +247,54 @@
             right: 2.4%;
         }
         .return_money_name{
-            display: inline-block;
             font-size: 14px;
-            height: 16px;
-            line-height: 16px;
+            height: 30px;
+            line-height: 30px;
+            vertical-align: top;
         }
         .return_money_color{
             color: red;
         }
+        .return_money{
+          vertical-align: -webkit-baseline-middle;
+        }
+        .return_reason .return_reason_warp{
+          display: inline-block;
+          border: 1px solid #999;
+          border-radius: 4px;
+          width: 100%;
+          box-sizing: border-box;
+        }
         .return_instructions_input{
-            display: inline-block;
-            outline-style: none;
-            width: 74.58333%;
-            border: none;
-            text-indent: 5px;
+          outline-style: none;
+          width: 100%;
+          text-indent: 5px;
+          word-break: normal;
+          word-wrap: break-word;
+          height: 70px;
+          border: none;
+          padding-top: 3px;
+          color: #666;
         }
         .button{
-            width: 96%;
-            position: absolute;
-            bottom: 0;
-            left: 2%;
+          display: inline-block;
+          color: #fff;
+          border: none;
+          outline-style: none;
+          font-size: 16px;
+          position: absolute;
+          top: 15px;
+          right: 10px;
+          color: #232326;
         }
-        button{
-            width: 100%;
-            height: 56px;
-            line-height: 56px;
-            background: #D81E06;
-            color: #fff;
-            border: none;
-            outline-style: none;
+        .remind{
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            line-height: 30px;
+        }
+        .public_height{
+          position: relative;
         }
       }
 	</style>
@@ -279,6 +303,31 @@
       <div id="return"></div>
       <script type="text/babel">
       class Wrap extends React.Component {
+        constructor(props) {
+          super(props);
+          this.handleClick2 = this.handleClick2.bind(this);
+        }
+        handleClick2(e){
+            $.ajax({
+                  url: "/create_return_apply",
+                  dataType: 'json',
+                  type: 'POST',
+                  data: {"order_id":"{{order_id}}","product_id":"{{product_id}}","return_reason":$(".return_input").html(),
+                          "number":"{{number}}","imgs":1,"other_reason":$(".return_instructions_input").val()},
+
+                  success: function(data) {
+                      if (data.success) {
+                          location.href="order_center";
+
+                      }else {
+                          alert("提交失败！");
+                      }
+                  }.bind(this),
+                  error: function(xhr, status, err) {
+                  }.bind(this)
+              });
+
+        }
         render() {
             return (
               <div className="wrap">
@@ -286,6 +335,7 @@
                 <div className="white"></div>
                 <Product/>
                 <Reason/>
+                <span className="button" onClick={this.handleClick2}>提 交</span>
               </div>
             );
         }
@@ -307,7 +357,7 @@
       class Product extends React.Component {
           constructor(props) {
             super(props);
-            this.state = {pictures:[],product:{}}
+            this.state = {pictures:[],product:{}};
           }
           componentDidMount() {
               $.ajax({
@@ -334,17 +384,16 @@
              }
             return (
                 <div className="product-infor">
-        			  <div className="all">
-        				<div className="product-infor-left">
-
-                            {img}
-        				</div>
-        				<div className="product-infor-middle">
-        				  <p className="p1">{this.state.product.product_name}</p>
-        				  <p className="p2"><span className="p2-span1">￥{this.state.product.product_sale_price}</span><span className="p2-span2">x{{number}}</span></p>
-                        </div>
-        			  </div>
-        		</div>
+          			  <div className="all">
+            				<div className="product-infor-left">
+                      {img}
+            				</div>
+            				<div className="product-infor-middle">
+            				  <p className="p1">{this.state.product.product_name}</p>
+            				  <p className="p2"><span className="p2-span1">￥{this.state.product.product_sale_price}</span><span className="p2-span2">x{{number}}</span></p>
+                    </div>
+          			  </div>
+                </div>
             );
         }
       };
@@ -353,36 +402,17 @@
             super(props);
             this.handleClick = this.handleClick.bind(this);
             this.handleClick1 = this.handleClick1.bind(this);
-            this.handleClick2 = this.handleClick2.bind(this);
+
           }
           handleClick(e){
-              $(".select_ul").show();
+              $(".select_ul").toggle();
           }
           handleClick1(e){
               var id = e.target.id;
               $(".return_input").html($("#"+id).html());
               $(".select_ul").hide();
           }
-          handleClick2(e){
-              $.ajax({
-                    url: "/create_return_apply",
-                    dataType: 'json',
-                    type: 'POST',
-                    data: {"order_id":"{{order_id}}","product_id":"{{product_id}}","return_reason":$(".return_input").html(),
-                            "number":"{{number}}","imgs":1,"other_reason":$(".return_instructions_input").val()},
 
-                    success: function(data) {
-                        if (data.success) {
-                            alert("提交成功！");
-                        }else {
-                            alert("提交失败！");
-                        }
-                    }.bind(this),
-                    error: function(xhr, status, err) {
-                    }.bind(this)
-                });
-
-          }
         render() {
 
             return (
@@ -407,13 +437,12 @@
                 </div>
                 <div className="return_wrap">
                     <div className="return_reason">
-                        <span className="return_money_name">退款说明补充 : </span>
-                        <input type="text" className="return_instructions_input"/>
+                        <p className="return_money_name">退款说明补充 : </p>
+                        <span className="return_reason_warp"><textarea className="return_instructions_input"></textarea></span>
                     </div>
                 </div>
-                <div className="button">
-                    <button onClick={this.handleClick2}>提 交</button>
-                </div>
+                <p className="remind">退货请选择韵达，中通或申通快递，请在退款说明写明退货快递单号。</p>
+
                 </div>
 
             );
