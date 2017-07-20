@@ -1075,32 +1075,29 @@
 				}
 			};
             var no_sale = "";
-            var check_is_sale = function(){
-                for (var i = 0; i < shopping_carts.length; i++) {
-                    if (products[shopping_carts[i].product_id].is_sale ==0) {
-                        no_sale = no_sale + products[shopping_carts[i].product_id].product_name +"是非卖品！";
-                    }
-                }
-                if (no_sale!="") {
-                    alert(no_sale+"请重新选择商品！");
-                    location.href = "/cart_infos";
-                }
-            };
+            // var check_is_sale = function(){
+            //     for (var i = 0; i < shopping_carts.length; i++) {
+            //         if (products[shopping_carts[i].product_id].is_sale ==0) {
+            //             no_sale = no_sale + products[shopping_carts[i].product_id].product_name +"是非卖品！";
+            //         }
+            //     }
+            //     if (no_sale!="") {
+            //         alert(no_sale+"请重新选择商品！");
+            //         location.href = "/cart_infos";
+            //     }
+            // };
 			var total_data = {{total_data|safe}};
             for (var i = 0; i < mendians_list.length; i++) {
                 total_data.total_weight[mendians_list[i]] = parseFloat(total_data.total_weight[mendians_list[i]]).toFixed(2);
                 logistics_total[mendians_list[i]] = logistics;
             }
 			var place_order = function(){
-                check_is_sale();
+                // check_is_sale();
 				var t = _.template($("#place_order_infos").html());
 				$("#place_order").html(t({shopping_carts:shopping_carts,products:products,address:address,total_data:total_data,jifen:jifen,logistics_name,mendians_list:mendians_list,mendians_map:mendians_map}));
 				$(".footer-right").click(function(){
-                    address.type = logistics;
-                    address.store_id = "413bde20-6895-11e7-b2c5-00163e1206a9";
-                    address.point_id = 1;
                     var send_seller = $("#send_seller").val();
-					$.post("/order_save",{total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
+					$.post("/order_save2",{"logistics_total":JSON.stringify(logistics_total),total_data:JSON.stringify(total_data),shopping_carts:JSON.stringify(shopping_carts),address:JSON.stringify(address),send_seller:send_seller},function(data){
 						if (data.success) {
                             var order_id = data.order_id;
                             location.href = "/pay_way?order_id="+order_id;

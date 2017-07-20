@@ -566,6 +566,11 @@ var save_order_infos = function(data,cb){
 	var url = "http://127.0.0.1:18010/save_order_infos";
 	do_post_method(url,data,cb);
 }
+//保存订单信息,分单
+var save_order_infos2 = function(data,cb){
+	var url = "http://127.0.0.1:18010/save_order_infos2";
+	do_post_method(url,data,cb);
+}
 //得到前台所有订单
 var get_front_orders = function(person_id,cb){
 	var url = "http://127.0.0.1:18010/get_front_orders?person_id="+person_id;
@@ -775,7 +780,7 @@ var set_notify_readed = function(data,cb){
 exports.register = function(server, options, next){
 	var get_logistics_list = function(list,total_data,cb) {
 		var lgtic = {};
-		async.each(list, function(data, cb2) {
+		async.eachLimit(list,1, function(data, cb2) {
 			get_store_id(JSON.stringify([data.mendian]),function(err,rows){
 				if (!err) {
 					data.store_id = rows.rows[0].store_id;
@@ -3103,13 +3108,23 @@ exports.register = function(server, options, next){
 					"mendian":""
 				};
 				for (var i = 0; i < total_data.mendian.length; i++) {
-					var info = data;
+					var info = {
+						"weight" : 0,
+						"order_amount" : 0,
+						"type" : "common",
+						"store_id" : 1,
+						"point_id" : null,
+						"end_province" :address.province,
+						"end_city" : address.city,
+						"end_district" : address.district,
+						"mendian":""
+					};
 					var mendian = total_data.mendian[i];
 					info.mendian = mendian;
 					if (logistics_total[mendian]) {
 						info.type = logistics_total[mendian];
 					}
-					if (total_data.total_items[mendian]) {
+					if (total_data.total_prices[mendian]) {
 						info.order_amount = total_data.total_prices[mendian];
 					}
 					if (total_data.total_weight[mendian]) {
@@ -3428,25 +3443,27 @@ exports.register = function(server, options, next){
 							}
 							mendians_map[origin].push(shopping_carts[i]);
 						}
-
+						console.log("data_list:"+JSON.stringify(data_list));
 						get_logistics_list(data_list,total_data,function(total_data){
+							var items_all=0, weight_all=0, prices_all=0,lgtic_all=0;
 							for (var i = 0; i < total_data.mendian.length; i++) {
 								var mendian = total_data.mendian[i];
-								var items_all=0, weight_all=0, prices_all=0,lgtic_all=0;
+								if (!total_data.lgtic_pay[mendian]) {
+									total_data.lgtic_pay[mendian] = 0;
+								}
 								items_all = items_all + total_data.total_items[mendian];
 								weight_all = weight_all + total_data.total_weight[mendian];
 								prices_all = prices_all + total_data.total_prices[mendian];
 								lgtic_all = lgtic_all + total_data.lgtic_pay[mendian];
-								var acount = {};
-								acount = {
-									"items_all":items_all,
-									"weight_all":weight_all,
-									"prices_all":prices_all,
-									"lgtic_all":lgtic_all
-								}
-								total_data.acount = acount;
 							}
-
+							var acount = {};
+							acount = {
+								"items_all":items_all,
+								"weight_all":weight_all,
+								"prices_all":prices_all,
+								"lgtic_all":lgtic_all
+							}
+							total_data.acount = acount;
 							return reply.view("place_order0",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
 						});
 				});
@@ -3468,8 +3485,19 @@ exports.register = function(server, options, next){
 							var shopping_carts = results.shopping_carts;
 							var products = results.products;
 							var total_data = results.total_data;
+							console.log("total_data:"+JSON.stringify(total_data));
 							for (var i = 0; i < total_data.mendian.length; i++) {
-								var info = data;
+								var info = {
+									"weight" : 0,
+									"order_amount" : 0,
+									"type" : "common",
+									"store_id" : 1,
+									"point_id" : null,
+									"end_province" :"广东省" ,
+									"end_city" : "",
+									"end_district" : "",
+									"mendian":""
+								};
 								var mendian = total_data.mendian[i];
 								info.mendian = mendian;
 								if (total_data.total_items[mendian]) {
@@ -3699,6 +3727,105 @@ exports.register = function(server, options, next){
 					}else {
 						return reply({"success":false,"message":content.message});
 					}
+				});
+			}
+		},
+		//多订单，拆单
+		{
+			method: 'POST',
+			path: '/order_save2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				if (!request.payload.total_data || !request.payload.shopping_carts || !request.payload.address|| !request.payload.logistics_total) {
+					return reply({"success":false,"message":"params wrong"});
+				}
+
+				var logistics_total = JSON.parse(request.payload.logistics_total);
+				var address = JSON.parse(request.payload.address);
+				var total_data = JSON.parse(request.payload.total_data);
+
+				var data_list = [];
+				var data = {
+					"weight" : 0,
+					"order_amount" : 0,
+					"type" : "common",
+					"store_id" : 1,
+					"point_id" : null,
+					"end_province" :address.province,
+					"end_city" : address.city,
+					"end_district" : address.district,
+					"mendian":""
+				};
+				for (var i = 0; i < total_data.mendian.length; i++) {
+					var info = {
+						"weight" : 0,
+						"order_amount" : 0,
+						"type" : "common",
+						"store_id" : 1,
+						"point_id" : null,
+						"end_province" :address.province,
+						"end_city" : address.city,
+						"end_district" : address.district,
+						"mendian":""
+					};
+					var mendian = total_data.mendian[i];
+					info.mendian = mendian;
+					if (logistics_total[mendian]) {
+						info.type = logistics_total[mendian];
+					}
+					if (total_data.total_prices[mendian]) {
+						info.order_amount = total_data.total_prices[mendian];
+					}
+					if (total_data.total_weight[mendian]) {
+						info.weight = total_data.total_weight[mendian];
+					}
+					data_list.push(info);
+				}
+				get_logistics_list(data_list,total_data,function(total_data){
+					for (var i = 0; i < total_data.mendian.length; i++) {
+						var mendian = total_data.mendian[i];
+						var lgtic_all = 0;
+						lgtic_all = lgtic_all + total_data.lgtic_pay[mendian];
+						total_data.acount.lgtic_all = lgtic_all;
+					}
+					var shopping_carts = request.payload.shopping_carts;
+					var send_seller = request.payload.send_seller;
+					if (!send_seller) {
+						send_seller ="";
+					}
+					var data ={"person_id":person_id,
+						"total_data":JSON.stringify(total_data),
+						"shopping_carts":shopping_carts,
+						"send_seller":send_seller,
+						"address":JSON.stringify(address),
+						"logistics_total":JSON.stringify(logistics_total)
+					};
+					var product_ids = [];
+					shopping_carts = JSON.parse(shopping_carts);
+					for (var i = 0; i < shopping_carts.length; i++) {
+						shopping_carts[i].quantity = shopping_carts[i].total_items;
+					}
+					var id = uuidV1();
+					var info ={"batch_id":id,
+					"products":JSON.stringify(shopping_carts),
+					"platform_code":"ioio"};
+					// lock_stock(info,function(err,content){
+					// 	if (!err) {
+							save_order_infos2(data,function(err,content){
+								if (!err) {
+									return reply({"success":true,"message":"ok"});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+					// 	}else {
+					// 		return reply({"success":false,"message":content.message});
+					// 	}
+					// });
+
 				});
 			}
 		},
