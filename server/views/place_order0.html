@@ -1007,7 +1007,7 @@
          <p class="p3">重量:<%- (total_data.total_weight[mendian]) %> KG</p>
 		<div class="invoice">
 		  <span class="public-name">配送方式</span>
-          <p class="add-num click1"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
+          <p class="add-num click1" data-id="<%- mendian %>"><span class="logistics_type"><%- logistics_name %></span><span><img src="images/jiantou-right.png" alt="" class="img"></span></p>
 		</div>
 		<div class="min-line"></div>
 
@@ -1051,10 +1051,11 @@
 				"city"	   : "",
 				"district" : ""
 			};
+            var mendian = "";
+            var logistics_total = {};
             var logistics = "";
             var logistics_name = "";
             var logistics_infos = {{logistics|safe}};
-            // logistics_infos = JSON.parse(logistics_infos);
             for (var i = 0; i < logistics_infos.length; i++) {
                 if (logistics_infos[i].is_default == 1) {
                     logistics = logistics_infos[i].id;
@@ -1088,6 +1089,7 @@
 			var total_data = {{total_data|safe}};
             for (var i = 0; i < mendians_list.length; i++) {
                 total_data.total_weight[mendians_list[i]] = parseFloat(total_data.total_weight[mendians_list[i]]).toFixed(2);
+                logistics_total[mendians_list[i]] = logistics;
             }
 			var place_order = function(){
                 check_is_sale();
@@ -1107,10 +1109,11 @@
 						}
 					});
 				});
-
 				//配送方式
 				$(".opacity").css("height",$(document).height());
 		        $(".click1").click(function(){
+                  mendian = $(this).data("id");
+                  console.log("mendian:"+mendian);
 		          $(".partone0").css("display","block");
 		          $(".opacity").css("display","block");
 		        });
@@ -1178,6 +1181,7 @@
                                 if (addresses[i].address_id == address_id) {
                                     address = addresses[i];
                                     place_order();
+                                    logistics_payment_address();
                                 }
                             }
                         }
@@ -1208,23 +1212,25 @@
                     alert("没有地址！");
                 }
             };
+            //计算运费，选择配送方式
             var logistics_payment = function(){
                 address.type = logistics;
                 address.store_id = "413bde20-6895-11e7-b2c5-00163e1206a9";
                 address.point_id = 1;
                 var info = {
+                    "mendian": mendian,
                     "type" : address.type,
                     "store_id" : address.store_id,
                     "point_id" : address.point_id = 1,
-                    "weight" : total_data.total_weight,
-                    "order_amount" : total_data.total_items,
+                    "weight" : total_data.total_weight[mendian],
+                    "order_amount" : total_data.total_prices[mendian],
                     "end_province" :address.province,
                     "end_city" : address.city,
                     "end_district" : address.district
                 };
-                $.post("/logistics_payment",{"info":JSON.stringify(info)},function(data){
+                $.post("/logistics_payment2",{"info":JSON.stringify(info)},function(data){
                     if (data.success) {
-                        total_data.lgtic_pay = data.lgtic_pay;
+                        total_data.lgtic_pay[mendian] = data.lgtic_pay;
                         $(".partone0").css("display","none");
                         $(".opacity").css("display","none");
                         place_order();
@@ -1234,12 +1240,27 @@
                     }
                 });
             };
+            //计算运费，切换地址
+            var logistics_payment_address = function(){
+                // var logistics_total = JSON.stringify(logistics_total);
+                // var address = JSON.stringify(address);
+                // var total_data = JSON.stringify(total_data);
+                $.post("/logistics_payment_address",{"logistics_total":JSON.stringify(logistics_total),"address":JSON.stringify(address),"total_data":JSON.stringify(total_data)},function(data){
+                    if (data.success) {
+                        total_data = data.total_data;
+                        place_order();
+                    }else {
+                        alert(data.message);
+                    }
+                });
+            };
             //确认按钮
             $(".close0").click(function(){
                 $.each($('.is_selected:checkbox:checked'),function(){
                     logistics = $(this).data("id");
                     logistics_name = $(this).val();
                 });
+                logistics_total[mendian] = logistics;
                 set_address();
                 logistics_payment();
             });
@@ -1290,7 +1311,6 @@
                     $(".detail_address").val("");
                     $(".street-address").val("");
                     $(".clear_ad1").html("请选择");
-
                   }
               });
           });

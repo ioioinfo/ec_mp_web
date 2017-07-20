@@ -3081,6 +3081,82 @@ exports.register = function(server, options, next){
 				});
 			}
 		},
+		//计算运费,带地址的
+		{
+			method: 'POST',
+			path: '/logistics_payment_address',
+			handler: function(request, reply){
+				var logistics_total = JSON.parse(request.payload.logistics_total);
+				var address = JSON.parse(request.payload.address);
+				var total_data = JSON.parse(request.payload.total_data);
+
+				var data_list = [];
+				var data = {
+					"weight" : 0,
+					"order_amount" : 0,
+					"type" : "common",
+					"store_id" : 1,
+					"point_id" : null,
+					"end_province" :address.province,
+					"end_city" : address.city,
+					"end_district" : address.district,
+					"mendian":""
+				};
+				for (var i = 0; i < total_data.mendian.length; i++) {
+					var info = data;
+					var mendian = total_data.mendian[i];
+					info.mendian = mendian;
+					if (logistics_total[mendian]) {
+						info.type = logistics_total[mendian];
+					}
+					if (total_data.total_items[mendian]) {
+						info.order_amount = total_data.total_prices[mendian];
+					}
+					if (total_data.total_weight[mendian]) {
+						info.weight = total_data.total_weight[mendian];
+					}
+					data_list.push(info);
+				}
+				get_logistics_list(data_list,total_data,function(total_data){
+					for (var i = 0; i < total_data.mendian.length; i++) {
+						var mendian = total_data.mendian[i];
+						var lgtic_all = 0;
+						lgtic_all = lgtic_all + total_data.lgtic_pay[mendian];
+						total_data.acount.lgtic_all = lgtic_all;
+					}
+
+					return reply({"success":true,"total_data":total_data});
+				});
+			}
+		},
+		//计算运费,带门店的
+		{
+			method: 'POST',
+			path: '/logistics_payment2',
+			handler: function(request, reply){
+				var info = request.payload.info;
+				info =JSON.parse(info);
+				get_store_id(JSON.stringify([info.mendian]),function(err,rows){
+					if (!err) {
+						info.store_id = rows.rows[0].store_id;
+						logistics_payment(info,function(err,result){
+							if (!err) {
+								var lgtic_pay = result.row.user_amount;
+								if (!lgtic_pay && lgtic_pay!=0) {
+									lgtic_pay = 150;
+								}
+								return reply({"success":true,"lgtic_pay":lgtic_pay});
+							}else {
+								lgtic_pay = 150;
+								return reply({"success":false,"message":result.message,"service_info":result.service_info});
+							}
+						});
+					}else {
+						return reply({"success":false,"message":rows.message,"service_info":rows.service_info});
+					}
+				});
+			}
+		},
 		//计算运费
 		{
 			method: 'POST',
@@ -3372,7 +3448,7 @@ exports.register = function(server, options, next){
 							}
 
 							return reply.view("place_order0",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
-						})
+						});
 				});
 				var data_list = [];
 				var data = {
@@ -3397,7 +3473,7 @@ exports.register = function(server, options, next){
 								var mendian = total_data.mendian[i];
 								info.mendian = mendian;
 								if (total_data.total_items[mendian]) {
-									info.order_amount = total_data.total_items[mendian];
+									info.order_amount = total_data.total_prices[mendian];
 								}
 								if (total_data.total_weight[mendian]) {
 									info.weight = total_data.total_weight[mendian];
