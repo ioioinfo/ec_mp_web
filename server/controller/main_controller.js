@@ -1,6 +1,7 @@
 // Base routes for item..
 const uu_request = require('../utils/uu_request');
 ﻿var industries = require('../utils/industries.js');
+var async = require('async');
 var eventproxy = require('eventproxy');
 const uuidV1 = require('uuid/v1');
 var _ = require("lodash");
@@ -97,6 +98,13 @@ var get_cookie_cart_code = function(request){
 var find_favorite = function(product_id,person_id,cb){
 	var url = "http://139.196.148.40:18003/favorite/get_by_person_and_product?product_id=";
 	url = url + product_id +"&person_id=" + person_id;
+	do_get_method(url,cb);
+};
+//门店id
+var get_store_id = function(list,cb){
+	var url = "http://211.149.248.241:18013/freightage/list_by_abbrs?abbrs=";
+	url = url + encodeURIComponent(list) +"&org_code=" + org_code;
+	console.log("url:"+url);
 	do_get_method(url,cb);
 };
 //推荐
@@ -584,6 +592,11 @@ var search_selected_carts = function(person_id,ids,cb){
 	url = url + person_id + "&ids=" + ids;
 	do_get_method(url,cb);
 };
+var search_selected_carts2 = function(person_id,ids,cb){
+	var url = "http://127.0.0.1:18015/search_selected_carts2?person_id=";
+	url = url + person_id + "&ids=" + ids;
+	do_get_method(url,cb);
+};
 //物流公司查询 http://211.149.248.241:18013/logistics/companies
 var companies = function(cb){
 	var url = "http://211.149.248.241:18013/logistics/companies";
@@ -760,6 +773,40 @@ var set_notify_readed = function(data,cb){
 	do_post_method(url,data,cb);
 }
 exports.register = function(server, options, next){
+	var get_logistics_list = function(list,total_data,cb) {
+		var lgtic = {};
+		async.each(list, function(data, cb2) {
+			get_store_id(JSON.stringify([data.mendian]),function(err,rows){
+				if (!err) {
+					data.store_id = rows.rows[0].store_id;
+					logistics_payment(data,function(err,result){
+						if (!err) {
+							var lgtic_pay = result.row.user_amount;
+							console.log("lgtic_pay:"+lgtic_pay);
+							console.log("data:"+JSON.stringify(data));
+							if (!lgtic_pay && lgtic_pay!=0) {
+								lgtic[data.mendian] = 150;
+							}else {
+								lgtic[data.mendian] = lgtic_pay;
+							}
+							total_data.lgtic_pay = lgtic;
+							cb2();
+						}else {
+							lgtic[data.mendian] = 150;
+							total_data.lgtic_pay = lgtic;
+							cb2();
+						}
+					});
+				}else {
+					lgtic[data.mendian] = 150;
+					total_data.lgtic_pay = lgtic;
+					cb2();
+				}
+			});
+		}, function(err) {
+			cb(total_data);
+		});
+	};
 	server.route([
 		//设消息已读
 		{
@@ -824,7 +871,7 @@ exports.register = function(server, options, next){
 													};
 
 													add_jifen(infos,function(err,content){
-														
+
 														if (!err) {
 															var data2 = {
 																"order_id" :order_id,
@@ -3162,7 +3209,7 @@ exports.register = function(server, options, next){
 		//订单按门店的
 		{
 			method: 'GET',
-			path: '/place_order1',
+			path: '/place_order',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
@@ -3174,6 +3221,18 @@ exports.register = function(server, options, next){
 				}
 				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
 					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
+						var mendians_list = [];
+						var mendians_map = {};
+						for (var i = 0; i < shopping_carts.length; i++) {
+							var origin = products[shopping_carts[i].product_id].origin;
+							var product_id = shopping_carts[i].product_id;
+							if (!mendians_map[origin]) {
+								mendians_map[origin] = [];
+								mendians_list.push(origin);
+							}
+							mendians_map[origin].push(shopping_carts[i]);
+						}
+
 						logistics_payment(data,function(err,result){
 							if (!err) {
 								var lgtic_pay = result.row.user_amount;
@@ -3183,22 +3242,12 @@ exports.register = function(server, options, next){
 									total_data.lgtic_pay = lgtic_pay;
 								}
 
-								var mendians_list = [];
-								var mendians_map = {};
-								for (var i = 0; i < shopping_carts.length; i++) {
-									var origin = products[shopping_carts[i].product_id].origin;
-									var product_id = shopping_carts[i].product_id;
-									if (!mendians_map[origin]) {
-										mendians_map[origin] = [];
-										mendians_list.push(origin);
-									}
-									mendians_map[origin].push(shopping_carts[i]);
-								}
-
-								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),
+								"mendians_map":JSON.stringify(mendians_map)});
 							}else {
 								total_data.lgtic_pay = 150;
-								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"mendians_map":[],"mendians_list":mendians_list});
+								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),
+								"mendians_map":JSON.stringify(mendians_map)});
 							}
 						});
 				});
@@ -3206,7 +3255,7 @@ exports.register = function(server, options, next){
 					"weight" : 0,
 					"order_amount" : 0,
 					"type" : "common",
-					"store_id" : 1,
+					"store_id" : "413bde20-6895-11e7-b2c5-00163e1206a9",
 					"point_id" : null,
 					"end_province" :"广东省" ,
 					"end_city" : "",
@@ -3279,7 +3328,7 @@ exports.register = function(server, options, next){
 		//订单按门店的,并且分单的
 		{
 			method: 'GET',
-			path: '/place_order',
+			path: '/place_order3',
 			handler: function(request, reply){
 				var person_id = get_cookie_person(request);
 				if (!person_id) {
@@ -3289,36 +3338,43 @@ exports.register = function(server, options, next){
 				if (JSON.parse(ids).length==0) {
 					return reply.redirect("/cart_infos");
 				}
-				var ep =  eventproxy.create("shopping_carts","products","addresses","invoices","total_data","jifen", "logistics_type",
-					function(shopping_carts,products,addresses,invoices,total_data,jifen,logistics_type){
-						logistics_payment(data,function(err,result){
-							if (!err) {
-								var lgtic_pay = result.row.user_amount;
-								if (!lgtic_pay && lgtic_pay!=0) {
-									lgtic_pay = 150;
-								}else {
-									total_data.lgtic_pay = lgtic_pay;
-								}
+				var ep =  eventproxy.create("shopping_carts","products","addresses","total_data","jifen", "logistics_type",
+					function(shopping_carts,products,addresses,total_data,jifen,logistics_type){
 
-								var mendians_list = [];
-								var mendians_map = {};
-								for (var i = 0; i < shopping_carts.length; i++) {
-									var origin = products[shopping_carts[i].product_id].origin;
-									var product_id = shopping_carts[i].product_id;
-									if (!mendians_map[origin]) {
-										mendians_map[origin] = [];
-										mendians_list.push(origin);
-									}
-									mendians_map[origin].push(shopping_carts[i]);
-								}
-
-								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
-							}else {
-								total_data.lgtic_pay = 150;
-								return reply.view("place_order",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"invoices":JSON.stringify(invoices),"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"mendians_map":[],"mendians_list":mendians_list});
+						var mendians_list = [];
+						var mendians_map = {};
+						for (var i = 0; i < shopping_carts.length; i++) {
+							var origin = products[shopping_carts[i].product_id].origin;
+							var product_id = shopping_carts[i].product_id;
+							if (!mendians_map[origin]) {
+								mendians_map[origin] = [];
+								mendians_list.push(origin);
 							}
-						});
+							mendians_map[origin].push(shopping_carts[i]);
+						}
+
+						get_logistics_list(data_list,total_data,function(total_data){
+							for (var i = 0; i < total_data.mendian.length; i++) {
+								var mendian = total_data.mendian[i];
+								var items_all=0, weight_all=0, prices_all=0,lgtic_all=0;
+								items_all = items_all + total_data.total_items[mendian];
+								weight_all = weight_all + total_data.total_weight[mendian];
+								prices_all = prices_all + total_data.total_prices[mendian];
+								lgtic_all = lgtic_all + total_data.lgtic_pay[mendian];
+								var acount = {};
+								acount = {
+									"items_all":items_all,
+									"weight_all":weight_all,
+									"prices_all":prices_all,
+									"lgtic_all":lgtic_all
+								}
+								total_data.acount = acount;
+							}
+
+							return reply.view("place_order0",{"shopping_carts":JSON.stringify(shopping_carts),"products":JSON.stringify(products),"addresses":JSON.stringify(addresses),"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"logistics":JSON.stringify(logistics_type),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
+						})
 				});
+				var data_list = [];
 				var data = {
 					"weight" : 0,
 					"order_amount" : 0,
@@ -3327,19 +3383,26 @@ exports.register = function(server, options, next){
 					"point_id" : null,
 					"end_province" :"广东省" ,
 					"end_city" : "",
-					"end_district" : ""
+					"end_district" : "",
+					"mendian":""
 				};
-				search_selected_carts(person_id,ids,function(err,results){
+				search_selected_carts2(person_id,ids,function(err,results){
 					if (!err) {
 						if (results.success) {
 							var shopping_carts = results.shopping_carts;
 							var products = results.products;
 							var total_data = results.total_data;
-							if (total_data.total_items) {
-								data.order_amount = total_data.total_items;
-							}
-							if (total_data.total_weight) {
-								data.weight = total_data.total_weight;
+							for (var i = 0; i < total_data.mendian.length; i++) {
+								var info = data;
+								var mendian = total_data.mendian[i];
+								info.mendian = mendian;
+								if (total_data.total_items[mendian]) {
+									info.order_amount = total_data.total_items[mendian];
+								}
+								if (total_data.total_weight[mendian]) {
+									info.weight = total_data.total_weight[mendian];
+								}
+								data_list.push(info);
 							}
 							ep.emit("shopping_carts", shopping_carts);
 							ep.emit("products", products);
@@ -3347,7 +3410,7 @@ exports.register = function(server, options, next){
 						}else {
 							ep.emit("shopping_carts", []);
 							ep.emit("products", {});
-							ep.emit("total_data", {});
+							ep.emit("total_data", []);
 						}
 					}else {
 						ep.emit("shopping_carts", []);
@@ -3374,7 +3437,6 @@ exports.register = function(server, options, next){
 						ep.emit("addresses", []);
 					}
 				});
-				ep.emit("invoices", []);
 				get_person_vip(person_id,function(err,content){
 					if (!err) {
 						var jifen = content.row.integral;
@@ -3431,7 +3493,7 @@ exports.register = function(server, options, next){
 					"weight" : 0,
 					"order_amount" : num,
 					"type" : "common",
-					"store_id" : 1,
+					"store_id" : "413bde20-6895-11e7-b2c5-00163e1206a9",
 					"point_id" : 1,
 					"end_province" :"广东省" ,
 					"end_city" : "",

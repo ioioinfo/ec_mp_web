@@ -1123,7 +1123,7 @@
 			place_order();
 			$(".footer-right").click(function(){
                 address.type = logistics;
-                address.store_id = 1;
+                address.store_id = "413bde20-6895-11e7-b2c5-00163e1206a9";
                 address.point_id = 1;
                 var send_seller = $("#send_seller").val();
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
@@ -1265,7 +1265,7 @@
              var set_address = function(){
                  address = {};
                  address.type = logistics;
-                 address.store_id = 1;
+                 address.store_id = "413bde20-6895-11e7-b2c5-00163e1206a9";
                  address.point_id = 1;
                  address.linkname =	$(".address-infor-name").data("id");
                  address.mobile = $(".address-infor-mobile").data("id");
