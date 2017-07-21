@@ -3812,8 +3812,8 @@ exports.register = function(server, options, next){
 					var info ={"batch_id":id,
 					"products":JSON.stringify(shopping_carts),
 					"platform_code":"ioio"};
-					// lock_stock(info,function(err,content){
-					// 	if (!err) {
+					lock_stock(info,function(err,content){
+						if (!err) {
 							save_order_infos2(data,function(err,content){
 								if (!err) {
 									return reply({"success":true,"message":"ok"});
@@ -3821,10 +3821,10 @@ exports.register = function(server, options, next){
 									return reply({"success":false,"message":content.message});
 								}
 							});
-					// 	}else {
-					// 		return reply({"success":false,"message":content.message});
-					// 	}
-					// });
+						}else {
+							return reply({"success":false,"message":content.message});
+						}
+					});
 
 				});
 			}
