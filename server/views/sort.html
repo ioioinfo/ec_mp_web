@@ -384,6 +384,20 @@
 	</script>
     <script>
   $(function() {
+      //购物车里商品数量显示
+      var check_cart_number = function(){
+          $.get("/check_cart_number",function(data){
+              if (data.success) {
+                  if (data.number) {
+                      $(".footernav-wordnum").html(data.number);
+                      $(".footernav-wordnum").show();
+                  }else {
+                      $(".footernav-wordnum").hide();
+                  }
+              }
+          })
+      };
+      check_cart_number();
 		$.ajax({
 			url: "/check_message_number",
 			dataType: 'json',
