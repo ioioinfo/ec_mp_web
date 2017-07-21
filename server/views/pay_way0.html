@@ -148,9 +148,11 @@
         <div id="payway"></div>
         <script type="text/javascript">
         var orders = {{rows|safe}};
+        var order_ids =[];
         var amount = 0;
         for (var i = 0; i < orders.length; i++) {
             amount = amount + orders[i].actual_price;
+            order_ids.push(orders[i].order_id);
         }
             $(function(){
                 // 返回上一层
@@ -182,7 +184,6 @@
               );
           }
         };
-        // 充值成功提醒
         class PayWay extends React.Component {
             constructor(props) {
     			super(props);
@@ -191,10 +192,10 @@
     		}
             aliPay(e) {
                 $.ajax({
-    				url: "/use_alipay_interface",
+    				url: "/use_alipay_interface2",
     				dataType: 'json',
     				type: 'POST',
-    				data: {order_id:"{{order_id}}","pay_way":"ali_pay","amount":amount},
+    				data: {order_ids:JSON.stringify(order_ids),"pay_way":"ali_pay","amount":amount},
     				success: function(data) {
     					if (data.success) {
                             location.href = data.url;
@@ -211,7 +212,7 @@
     				url: "/online_card_pay",
     				dataType: 'json',
     				type: 'POST',
-    				data: {order_id:"{{order_id}}",auth_code:"123321"},
+    				data: {order_ids:JSON.stringify(order_ids),auth_code:"123321"},
     				success: function(data) {
     					if (data.success) {
                             location.href = "/pay_success";

@@ -446,6 +446,12 @@ var trade_alipay = function(data,cb){
 	var url = "http://139.196.148.40:18008/donate_trade_alipay";
 	do_post_method(url,data,cb);
 };
+//支付宝付费 合并支付
+var trade_alipay2 = function(data,cb){
+	var url = "http://139.196.148.40:18008/donate_trade_alipay_merge";
+	do_post_method(url,data,cb);
+};
+
 //vip注册
 var do_vip = function(data, cb){
 	var url = "http://139.196.148.40:18003/vip/add_vip";
@@ -1518,6 +1524,97 @@ exports.register = function(server, options, next){
 						return reply({"success":false,"message":rows.message})
 					}
 				});
+			}
+		},
+		//支付宝接口 ， 商家id，金额，编号，md5 流程 2  多单支付
+		{
+			method: 'POST',
+			path: '/use_alipay_interface2',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var order_ids = request.payload.order_ids;
+				var pay_way = request.payload.pay_way;
+				var amount = request.payload.amount;
+				if (!order_ids ||!pay_way||!amount) {
+					return reply({"success":false,"message":"param null"});
+				}
+				search_orders_infos(order_ids,function(err,rows){
+					if (!err) {
+						if (rows.rows.length==0) {
+							return reply({"success":false,"message":"找不到订单"})
+						}
+						var orders = rows.rows;
+						var pay_more = [];
+						var order_infos = [];
+						for (var i = 0; i < orders.length; i++) {
+							var order = orders[i];
+							var order_info = {
+								"order_id":order.order_id,
+								"pay_amount":order.actual_price
+							}
+							order_infos.push(order_info);
+							if (order.order_status!="-1" && order.order_status!="0" ) {
+								pay_more.push(order.order_id);
+							}
+						}
+						if (pay_more.length==0) {
+
+							var info = {
+								"sob_id" : sob_id,
+								"platform_code" : "wx_ec",
+								"business_code" : "member_recharge",
+								"address" : "上海",
+								"operator" : person_id,
+								"main_role_id" : person_id,
+								"subject" : "购买商品",
+								"body" : "购买商品",
+								"return_url" : "http://shop.buy42.com/pay_success",
+								"callback_url" : "http://211.149.248.241:18000/receive_pay_notify",
+								"orders" : JSON.stringify(order_infos)
+							};
+							console.log("info:"+JSON.stringify(info));
+							trade_alipay2(info,function(err,content){
+								console.log("content:"+JSON.stringify(content));
+								if (!err) {
+									var url = content.url;
+									order_ids = JSON.parse(order_ids);
+									var fail = false;
+									//修改订单状况
+									async.eachLimit(order_ids,1, function(order_id, cb) {
+										var data = {"order_id":order_id,"order_status":0};
+										update_order_status(data,function(err,content){
+											if (!err) {
+												cb();
+											}else {
+												fail = true;
+											}
+										});
+									}, function(err) {
+										if (err) {
+											console.error("err: " + err);
+										}
+										if (fail) {
+											return reply({"success":false,"message":"更新状态失败"});
+										}else {
+											return reply({"success":true,"url":url});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+
+						}else {
+							return reply({"success":false,"pay_more":pay_more,"message":"订单已过期"});
+						}
+					}else {
+						return reply({"success":false,"message":rows.message})
+					}
+				});
+
 			}
 		},
 
@@ -3979,7 +4076,11 @@ exports.register = function(server, options, next){
 								pay_more.push(order.order_id);
 							}
 						}
-						return reply.view("pay_way0",{"rows":JSON.stringify(orders),"order_ids":ids,"pay_more":pay_more});
+						if (pay_more.length==0) {
+							return reply.view("pay_way0",{"rows":JSON.stringify(orders),"order_ids":ids,"pay_more":pay_more});
+						}else {
+							return reply({"success":false,"pay_more":pay_more,"message":"订单已支付过了"});
+						}
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}
