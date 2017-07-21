@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="format-detection" content="telephone=no" />
+        <title>支付方式</title>
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/jinping.css">
+        <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
+        <script src="{{static_host}}/react.min.js"></script>
+        <script src="{{static_host}}/react-dom.min.js"></script>
+        <script src="{{static_host}}/browser.min.js"></script>
+        <script src="js/jinzhi.js"></script>
+        <style media="screen">
+        @media screen and (max-width:768px){
+            body,html{
+                background: #fff;
+                height: 100%;
+                width: 100%;
+            }
+            #recharged{
+                height: 100%;
+            }
+            .header{
+                width: 100%;
+                height: 46px;
+                font-size: 0;
+                position: relative;
+                overflow: hidden;
+                background: #FAFAFA;
+            }
+            .jiantou{
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                left: 10px;
+                top: 7px;
+            }
+            .jiantou img{
+                width: 20px;
+                height: 20px;
+                margin-top: 6px;
+            }
+            .title{
+                display:block;
+                width: 200px;
+                line-height: 46px;
+                font-size: 16px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .menu{
+                width: 48px;
+                display: inline-block;
+                position: absolute;
+                right: 10px;
+                top: 15px;
+            }
+            .menu a{
+                font-size: 12px;
+                color: #bebebe;
+                text-decoration: none;
+            }
+            .title span{
+                color: #D81E06;
+            }
+            .recharged_infor{
+                position: relative;
+            }
+
+            .payway_width{
+                padding:0 20px;
+
+            }
+            .payway_border{
+                border-bottom: 1px solid #EEF3F2;
+            }
+            .payway_money{
+                width: 100%;
+                display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
+                display:-webkit-flex;/* Chrome 21+ */
+                display:-ms-flexbox;/* WP IE 10 */
+                display:flex;/* android 4.4 */
+                box-sizing: border-box;
+                height: 40px;
+                line-height: 40px;
+                font-size: 12px;
+                color: #899999;
+                margin-top: 30px;
+            }
+            .payway_width li:first-child{
+                width: 70%;
+            }
+            .payway_width li:last-child{
+                width: 30%;
+                text-align: right;
+                color: #DD7276;
+            }
+            .payway_width li{
+                display: inline-block;
+                justify-content:space-between;
+            }
+            .payway_way_infor{
+                padding: 5px 0;
+            }
+            .payway_way_infor li{
+                height: 40px;
+                line-height: 40px;
+            }
+            .payway_way_infor li img{
+                margin-top: 5px;
+                width: 30px;
+                height: 30px;
+            }
+            .payway_way_infor li span{
+                color: #7A7A7A;
+                font-size: 14px;
+                vertical-align: top;
+                margin-left: 7px;
+            }
+            .payway_way_infor .payway_way_right img{
+                width: 15px;
+                height: 15px;
+                margin-top: 7.5px;
+                vertical-align: super;
+            }
+            .prompt{
+                text-align: center;
+                color: red;
+                font-size: 12px;
+                margin-top: 40px;
+            }
+            .payway_way_weixin .pay_remaking{
+              font-size: 12px;
+              color: red;
+            }
+            .payway_way_yinlian .pay_remaking{
+              font-size: 12px;
+              color: red;
+            }
+        }
+
+        </style>
+    </head>
+    <body>
+        <div id="payway"></div>
+        <script type="text/javascript">
+        var orders = {{rows|safe}};
+        var amount = 0;
+        for (var i = 0; i < orders.length; i++) {
+            amount = amount + orders[i].actual_price;
+        }
+            $(function(){
+                // 返回上一层
+                $(".header .jiantou").click(function(){
+                    window.history.back();
+                });
+            })
+        </script>
+        <script type="text/babel">
+        class Wrap extends React.Component {
+          render() {
+              return (
+                <div className="wrap">
+                  <Header/>
+                  <PayWay/>
+                </div>
+              );
+          }
+        };
+        // 头部
+        class Header extends React.Component {
+          render() {
+              return (
+                <div className="header">
+                  <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                  <span className="title">支付方式</span>
+                  <span className="menu"><a href="/order_center">订单中心</a></span>
+                </div>
+              );
+          }
+        };
+        // 充值成功提醒
+        class PayWay extends React.Component {
+            constructor(props) {
+    			super(props);
+    			this.handlePay = this.handlePay.bind(this);
+                this.aliPay = this.aliPay.bind(this);
+    		}
+            aliPay(e) {
+                $.ajax({
+    				url: "/use_alipay_interface",
+    				dataType: 'json',
+    				type: 'POST',
+    				data: {order_id:"{{order_id}}","pay_way":"ali_pay","amount":amount},
+    				success: function(data) {
+    					if (data.success) {
+                            location.href = data.url;
+    					}else {
+    						alert(data.message);
+    					}
+    				}.bind(this),
+    				error: function(xhr, status, err) {
+    				}.bind(this)
+    			});
+            }
+            handlePay(e) {
+                $.ajax({
+    				url: "/online_card_pay",
+    				dataType: 'json',
+    				type: 'POST',
+    				data: {order_id:"{{order_id}}",auth_code:"123321"},
+    				success: function(data) {
+    					if (data.success) {
+                            location.href = "/pay_success";
+    					}else {
+    						alert(data.message);
+    					}
+    				}.bind(this),
+    				error: function(xhr, status, err) {
+    				}.bind(this)
+    			});
+            }
+          render() {
+              return (
+                <div className="payway payway_width">
+                  <ul className="payway_money payway_border">
+                    <li>订单金额：</li>
+                    <li>{amount}元</li>
+                  </ul>
+                  <ul className="payway_way_infor payway_border payway_way_vip">
+                    <a onClick = {this.handlePay}>
+                    <li><img src="images/vipzhifu.png" alt="" /><span>会员卡支付</span></li>
+                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    </a>
+                  </ul>
+                  <ul className="payway_way_infor payway_border payway_way_zhifubao">
+                    <a onClick = {this.aliPay}>
+                    <li><img src="images/zhifubaozhifu1.png" alt="" /><span>支付宝支付</span></li>
+                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    </a>
+                  </ul>
+                  <ul className="payway_way_infor payway_border payway_way_weixin">
+                    <li><img src="images/weixinzhifu1.png" alt="" /><span>微信支付</span> <span className="pay_remaking">暂未开通</span></li>
+                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                  </ul>
+                  <ul className="payway_way_infor payway_border payway_way_yinlian">
+                    <li><img src="images/yinlianzhifu1.png" alt="" /><span>银联支付</span> <span className="pay_remaking">暂未开通</span></li>
+                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                  </ul>
+                  <p className="prompt">温馨提示:该订单有效期15分钟</p>
+                </div>
+              );
+          }
+        };
+
+        // 返回到页面
+        ReactDOM.render(
+          <Wrap/>,
+          document.getElementById("payway")
+        );
+        </script>
+    </body>
+</html>

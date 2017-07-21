@@ -727,6 +727,11 @@ var get_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_order?order_id="+order_id;
 	do_get_method(url,cb);
 }
+//查询批量订单
+var search_orders_infos = function(order_ids,cb){
+	var url = "http://127.0.0.1:18010/search_orders_infos?order_ids="+order_ids;
+	do_get_method(url,cb);
+}
 //查询充值订单
 var get_recharge_order = function(order_id,cb){
 	var url = "http://127.0.0.1:18010/get_recharge_order?order_id="+order_id;
@@ -3815,8 +3820,9 @@ exports.register = function(server, options, next){
 					lock_stock(info,function(err,content){
 						if (!err) {
 							save_order_infos2(data,function(err,content){
+								console.log("content:"+JSON.stringify(content));
 								if (!err) {
-									return reply({"success":true,"message":"ok"});
+									return reply({"success":true,"message":"ok","ids":content.ids});
 								}else {
 									return reply({"success":false,"message":content.message});
 								}
@@ -3948,6 +3954,32 @@ exports.register = function(server, options, next){
 							return reply({"success":false,"message":"订单已经付过款了"})
 						}
 						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
+					}else {
+						return reply({"success":false,"message":rows.message})
+					}
+				});
+			}
+		},
+		//支付页面
+		{
+			method: 'GET',
+			path: '/pay_way2',
+			handler: function(request, reply){
+				var ids = request.query.ids;
+				search_orders_infos(ids,function(err,rows){
+					if (!err) {
+						if (rows.rows.length==0) {
+							return reply({"success":false,"message":"找不到订单"})
+						}
+						var orders = rows.rows;
+						var pay_more = [];
+						for (var i = 0; i < orders.length; i++) {
+							var order = orders[i];
+							if (order.order_status!="-1" && order.order_status!="0" ) {
+								pay_more.push(order.order_id);
+							}
+						}
+						return reply.view("pay_way0",{"rows":JSON.stringify(orders),"order_ids":ids,"pay_more":pay_more});
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}
