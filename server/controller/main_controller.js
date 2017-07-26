@@ -4302,7 +4302,7 @@ exports.register = function(server, options, next){
 				if (!order_id) {
 					return reply({"success":false,"message":"order_id null"});
 				}
-
+				
 				var ep =  eventproxy.create("order","logistics_infos","companies","logistic_num", function(order,logistics_infos,companies,logistic_num){
 
 						var companies_map = {};
@@ -4336,7 +4336,7 @@ exports.register = function(server, options, next){
 						var logistics = rows.rows;
 						var logistic_num = "";
 						for (var i = 0; i < logistics.length; i++) {
-							var logistic_num = logistic_num + logistics[i].logi_id;
+							var logistic_num = logistic_num + logistics[i].logi_no;
 						}
 						ep.emit("logistic_num", logistic_num);
 					}else {

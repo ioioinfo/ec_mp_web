@@ -5,7 +5,7 @@
    <title></title>
    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
    <meta name="format-detection" content="telephone=no" />
-   <title>代发货</title>
+   <title>查看物流</title>
    <link rel="stylesheet" href="css/reset.css">
    <link rel="stylesheet" href="css/jinping.css">
    <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
@@ -173,8 +173,8 @@
 
      <!-- 物流状态信息 -->
       <div class="bottom">
-        <p><img src="images/i-5.png" alt=""><span>物流信息由{{company}}快递提供</span></p>
-        <p class="bottom-p2"><span>运单号：</span><span>{{logistic_num}}</span></p>
+        <p><img src="images/i-5.png" alt=""><span>{{company}}快递</span></p>
+        <p class="bottom-p2"><span>物流单号：</span><span>{{logistic_num}}</span></p>
         <div class="product">
 		{% for logistics_info in logistics_infos %}
 			{% if loop.first %}
