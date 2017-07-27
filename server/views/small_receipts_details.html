@@ -150,26 +150,28 @@
       </div>
 
       <div class="mendian_infor">
-        <p>欢迎光临善淘网新闸路店</p>
+        <p>欢迎光临善淘网{{row.store.org_store_name}}</p>
         <p>地址：静安区新闸路1132号</p>
         <p>电话：021-62600655</p>
       </div>
 
       <ul class="product_detail">
-        <li>
-          <p class="product_name">休闲超薄防水石英真皮带大表盘男士手表q160315001爱心企业捐赠</p>
-          <p class="product_number">99</p>
-          <p class="product_price">9666.88</p>
-        </li>
+         {% for order_detail in order_details %}
+            <li>
+              <p class="product_name">{{order_detail.product.product_name}}</p>
+              <p class="product_number">{{order_detail.number}}</p>
+              <p class="product_price">{{order_detail.product.product_sale_price}}</p>
+            </li>
+        {% endfor %}
       </ul>
 
       <div class="product_money">
-        <p><span>销售金额</span><span>999</span></p>
+        <p><span>销售金额</span><span>{{row.actual_price}}</span></p>
         <p><span>折扣金额</span><span>0</span></p>
-        <p><span>应收</span><span>999</span></p>
-        <p><span>实收</span><span>999</span></p>
-        <p><span>支付方式</span><span>现金</span></p>
-        <p><span>收据号</span><span>1234567</span></p>
+        <p><span>应收</span><span>{{row.actual_price}}</span></p>
+        <p><span>实收</span><span>{{row.actual_price}}</span></p>
+        <p><span>支付方式</span><span>{{row.pay_infos[0].pay_way}}</span></p>
+        <p><span>收据号</span><span>{{row.pay_infos[0].pay_log_id}}</span></p>
       </div>
 
       <div class="product_intor">
