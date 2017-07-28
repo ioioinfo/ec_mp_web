@@ -4302,7 +4302,7 @@ exports.register = function(server, options, next){
 				if (!order_id) {
 					return reply({"success":false,"message":"order_id null"});
 				}
-				
+
 				var ep =  eventproxy.create("order","logistics_infos","companies","logistic_num", function(order,logistics_infos,companies,logistic_num){
 
 						var companies_map = {};
@@ -4768,7 +4768,7 @@ exports.register = function(server, options, next){
 						row.pay_ways = "";
 					}
 
-                    return reply.view("small_receipts_details",{"row":row});
+                    return reply.view("small_receipts_details",{"row":row,"order_details":row.order_details,"product":row.product,});
                 });
             }
         },
