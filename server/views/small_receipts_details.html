@@ -9,175 +9,223 @@
     <link rel="stylesheet" href="css/jinping.css">
 
     <style media="screen">
-    @media screen and (max-width:768px){
-      *{
-          padding: 0;
-          margin: 0;
-      }
-      html,body{
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-          position: relative;
-      }
-      li{
-          list-style: none;
-          float: left;
-      }
-      a{
-          text-decoration: none;
-          color: #000;
-      }
-      /*隐藏滚动条*/
-      ::-webkit-scrollbar {
-          display: none;
-      }
-      #content{
-          height: 100%;
-      }
-      .head{
-          margin: 0 auto;
-          width:89.33333%;
-          overflow: hidden;
-      }
-      .goback{
-          position: absolute;
-          top: 17px;
-          left: 5px;
-          width: 13px;
-          height: 15px;
-      }
-      .head-top{
-          width: 100%;
-          height: 50px;
-          line-height: 50px;
-          text-align: center;
-          font-size: 18px;
-          font-weight: bold;
-          color: #999;
+        @media screen and (max-width:768px){
+        *{
+            padding: 0;
+            margin: 0;
         }
-        .mendian_infor{
-          overflow: hidden;
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+			position: relative;
         }
-        .mendian_infor p{
-          text-align: center;
-          height: 20px;
-          line-height: 20px;
-          color: #999;
-          font-size: 12px;
+        li{
+            list-style: none;
+            float: left;
         }
-        .product_detail{
-          overflow: hidden;
-          width: 96%;
-          margin: 10px auto;
+        a{
+            text-decoration: none;
+            color: #000;
         }
-        .product_detail li{
-          width: 100%;
-          height: 16px;
-          margin: 7px 0;
+        /*隐藏滚动条*/
+        ::-webkit-scrollbar {
+            display: none;
         }
-        .product_detail li p{
-          display: inline-block;
-          font-size: 12px;
-          color: #999;
+        #content{
+            height: 100%;
         }
-        .product_price{
-          float: right;
-          width: 48px;
-          text-align: right;
-          margin-top: 2px
+        .head{
+            margin: 0 auto;
+            width:89.33333%;
+            overflow: hidden;
+            border-bottom: 1px solid #f5f0f5;
         }
-        .product_number{
-
-          width: 22px;
-          text-align: center;
+		.goback{
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+          }
+        .head-top{
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            background: url({{ image_host }}/images/weixin-head1.png) no-repeat 0 0;
+            background-size:100% 60px;
+            font-size: 18px;
+            font-weight: bold;
         }
-        .product_name{
-          width: 70%;
-          word-break:keep-all;/* 不换行 */
-          white-space:nowrap;/* 不换行 */
-          overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-          text-overflow:ellipsis;/*当对象内文本溢出时显示省略标记(...)*/
+        .head-bottom span{
+            color: #00bcd4;
+            font-size: 12px;
+            display: inline-block;
+            line-height: 30px;
         }
-        .product_money{
-          width: 96%;
-          margin: 0 auto;
-          font-size: 12px;
-          color: #999;
+        .head-bottom span:last-child{
+            float: right;
+            padding-right: 15px;
+        }
+        .head-bottom span:first-child{
+            padding-left: 15px;
+        }
+        .content{
+            margin: 0 auto;
+            width:89.33333%;
+            height: 100px;
+            overflow: hidden;
+            border-bottom: 1px solid #f5f0f5;
+        }
+        .left{
+            float: left;
+            width: 21.791%;
+            height: 67px;
+            margin-top: 15px;
+        }
+        .left img{
+            width: 100%;
+            height: 67px;
+        }
+        .right{
+            float: right;
+            margin-top: 10px;
+            width: 72.626865%;
+        }
+        .right span{
+            font-size: 12px;
+            color: #3d3d3d;
+            font-weight: 400;
+            display: inline-block;
 
         }
-        .product_money p{
-          padding: 4px 0;
+        .right .red{
+            color: red;
+            font-size: 16px;
+			display: inline-block;
+            width: 13%;
+			text-align: right;
         }
-        .product_money p span:last-child{
-          float: right;
+        /*.right p:first-child{
+            text-align: right;
+        }*/
+        /*.right p:last-child{
+            text-align: right;
+        }*/
+		.right .right_p2{
+		   text-align: right;
+		 }
+		.right .right_p2 span{
+            margin-left: 10px;
+			line-height: 30px;
+          }
+		.right .right_p1 span:first-child{
+            float: left;
+            display: inline-block;
+            width: 85%;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+			line-height: 20px;
+          }
+        .infor{
+            width: 89.33333%;
+            margin: 0 auto;
+            font-size: 14px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f5f0f5;
+            overflow: hidden;
         }
-        .product_intor{
-          overflow: hidden;
-          width: 96%;
-          margin: 0 auto;
+        .infor p span{
+            line-height: 30px;
         }
-        .product_intor p{
-          display: inline-block;
-          box-sizing: border-box;
+        .infor p span:last-child{
+            float: right;
         }
-        .product_intor_left{
-          width: 30%;
-          vertical-align: middle;
+        .money{
+            width: 89.333333%;
+            text-align: right;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
-        .product_intor p img{
-          width: 100%;
+        .money p span{
+            display: inline-block;
+            line-height: 36px;
+            color: #3d3d3d;
         }
-        .product_intor_right{
-          width: 67%;
-          vertical-align: middle;
+        .money p .number{
+            color: red;
+            font-size: 28px;
         }
+        .fish{
+            width: 180px;
+            height: 180px;
+            position: absolute;
+            left:-42px;
+            bottom:-40px;
 
+        }
+        .fish img{
+            width: 180px;
+            height: 180px;
+        }
+        .footer{
+            text-align: center;
+            line-height: 25px;
+            height: 25px;
+            font-size: 12px;
+            color: #bab8ba;
+
+        }
     }
     </style>
 </head>
 <body>
     <div id="content">
-
-      <div class="head">
-        <img src="images/back.png" class="goback" alt="" />
-        <div class="head-top">
-          <a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
-            <span>Buy 42</span>
-          </a>
+        <div class="head">
+    		    <img src="images/back.png" class="goback" alt="" />
+            <div class="head-top">
+    			<a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
+                  <span>{{ row.store.org_store_name }}</span>
+    		    </a>
+            </div>
+            <div class="head-bottom">
+                <span>会员号：123456789</span><span>小票号：{{ row.order_id }}</span>
+            </div>
         </div>
-      </div>
-
-      <div class="mendian_infor">
-        <p>欢迎光临善淘网{{row.store.org_store_name}}</p>
-        <p>地址：静安区新闸路1132号</p>
-        <p>电话：021-62600655</p>
-      </div>
-
-      <ul class="product_detail">
-         {% for order_detail in order_details %}
-            <li>
-              <p class="product_name">{{order_detail.product.product_name}}</p>
-              <p class="product_number">{{order_detail.number}}</p>
-              <p class="product_price">{{order_detail.product.product_sale_price}}</p>
-            </li>
+        {% for order_detail in row.order_details %}
+        <div class="content">
+            <div class="left">
+                {% if (order_detail.product.img) %}
+                <img src="{{ order_detail.product.img.location }}" alt="">
+                {% endif %}
+            </div>
+    		<div class="right">
+    			<p class="right_p1"><span>{{ order_detail.product.product_name }}</span><span class="red">X{{ order_detail.number }}</span></p>
+            	<p class="right_p2"><span>单价：￥{{ order_detail.price }}</span><span>成交价：￥{{ order_detail.total_price }}</span></p>
+    		</div>
+        </div>
         {% endfor %}
-      </ul>
-
-      <div class="product_money">
-        <p><span>销售金额</span><span>{{row.actual_price}}</span></p>
-        <p><span>折扣金额</span><span>0</span></p>
-        <p><span>应收</span><span>{{row.actual_price}}</span></p>
-        <p><span>实收</span><span>{{row.actual_price}}</span></p>
-        <p><span>支付方式</span><span>{{row.pay_infos[0].pay_way}}</span></p>
-        <p><span>收据号</span><span>{{row.pay_infos[0].pay_log_id}}</span></p>
-      </div>
-
-      <div class="product_intor">
-        <p class="product_intor_left"><img src="images/wangdianerweima.jpg" alt="" /></p>
-        <p class="product_intor_right">欢迎关注公众号，进入在线慈善商店<br/>发现更多<br/>每一个都有价值</p>
-      </div>
+        <div class="infor">
+            <p><span>件数：{{ row.total_number }}</span><span>找零：￥{{ row.changes }}</span></p>
+            <p><span>降价优惠合计：￥{{ row.card_reduce }}</span><span>分头舍去：{{ row.small_change }}</span></p>
+            <p><span>折扣总额：￥{{ row.card_reduce }}</span><span>应收:￥{{ row.actual_price }}</span></p>
+            <p><span>实收：￥{{ row.ready_pay }}</span></p>
+        </div>
+        <div class="money">
+            <p><span>结算：</span><span>￥</span><span class="number">{{ row.actual_price - row.small_change }}</span></p>
+            <p><span>获得积分：{{ row.gain_point }}分</span></p>
+            <p><span>结算方式：{{ row.pay_ways }}</span></p>
+            <div class="fish"><img src="images/fish-1.png" alt=""></div>
+        </div>
+        <div class="footer">
+            没有更多啦、、、、
+        </div>
     </div>
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
     <script src="js/jinzhi.js"></script>
