@@ -1176,6 +1176,7 @@
                                 if (addresses[i].address_id == address_id) {
                                     address = addresses[i];
                                     place_order();
+                                    logistics_payment();
                                 }
                             }
                         }
@@ -1215,7 +1216,7 @@
                     "store_id" : address.store_id,
                     "point_id" : address.point_id = 1,
                     "weight" : total_data.total_weight,
-                    "order_amount" : total_data.total_items,
+                    "order_amount" : total_data.total_prices,
                     "end_province" :address.province,
                     "end_city" : address.city,
                     "end_district" : address.district

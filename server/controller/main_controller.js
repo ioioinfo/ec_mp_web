@@ -3679,6 +3679,7 @@ exports.register = function(server, options, next){
 				var ep =  eventproxy.create("product","addresses","invoices","total_data","jifen", "logistics_type","sku_id",
 					function(product,addresses,invoices,total_data,jifen,logistics_type,sku_id){
 						logistics_payment(data,function(err,result){
+							console.log("result:"+JSON.stringify(result));
 							if (!err) {
 								var lgtic_pay = result.row.user_amount;
 								if (!lgtic_pay && lgtic_pay!=0) {
