@@ -3460,8 +3460,8 @@ exports.register = function(server, options, next){
 							var shopping_carts = results.shopping_carts;
 							var products = results.products;
 							var total_data = results.total_data;
-							if (total_data.total_items) {
-								data.order_amount = total_data.total_items;
+							if (total_data.total_prices) {
+								data.order_amount = total_data.total_prices;
 							}
 							if (total_data.total_weight) {
 								data.weight = total_data.total_weight;
@@ -3602,7 +3602,7 @@ exports.register = function(server, options, next){
 								};
 								var mendian = total_data.mendian[i];
 								info.mendian = mendian;
-								if (total_data.total_items[mendian]) {
+								if (total_data.total_prices[mendian]) {
 									info.order_amount = total_data.total_prices[mendian];
 								}
 								if (total_data.total_weight[mendian]) {
@@ -3715,6 +3715,9 @@ exports.register = function(server, options, next){
 						};
 						if (total_data.total_weight) {
 							data.weight = total_data.total_weight;
+						}
+						if (total_data.total_prices) {
+							data.order_amount = total_data.total_prices;
 						}
 						ep.emit("product", product);
 						ep.emit("total_data", total_data);
