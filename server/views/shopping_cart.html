@@ -253,6 +253,7 @@
             right: 0;
             color: #707070;
             background: #fff;
+            z-index: 999;
             }
             .footer-left{
             float: left;
@@ -508,7 +509,7 @@
 
 			})
 			.on("touchend",function(){
-			  if(change>-20){
+			  if(change>-50){
 				$(this).animate({"left":"0"},200);
 			  }else {
 				$(this).animate({"left":"-68px"},50);
@@ -527,8 +528,8 @@
 			var total_data = {{total_data|safe}};
 			var update_ids = {{update_ids | safe}};
 			var selected = 0;
-            var mendians_list = {{mendians_list | safe}};
-            var mendians_map = {{mendians_map | safe}};
+      var mendians_list = {{mendians_list | safe}};
+      var mendians_map = {{mendians_map | safe}};
 
 			var all_carts_status = function(){
 				var all_selected = 1;
