@@ -19,12 +19,12 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: './public/js/app/[name].js'
+        filename: './public/js/app/[name].min.js'
     },
     resolve: {
         modules: [__dirname, '../node_modules','components'],
         alias: {
-
+    
         },
         extensions: ['.js','.jsx']
     },
@@ -39,5 +39,8 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/
             }
         ]
-   }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };
