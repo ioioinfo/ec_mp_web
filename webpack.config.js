@@ -13,6 +13,8 @@
  └──────────────────────────────────────────────────────────────┘
 */
 
+var webpack = require("webpack");
+
 module.exports = {
     entry: {
         index: './app/index.jsx',
