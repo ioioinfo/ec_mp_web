@@ -1486,7 +1486,7 @@ exports.register = function(server, options, next){
 				}
 				get_order(order_id,function(err,rows){
 					if (!err) {
-						if (rows.rows[0].order_status=="-1") {
+						if (rows.rows[0].order_status=="-1" ||rows.rows[0].order_status=="0") {
 							var info = {
 								"sob_id" : sob_id,
 								"platform_code" : platform_code,
