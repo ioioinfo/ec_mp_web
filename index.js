@@ -69,6 +69,9 @@ server.register([
     {
         register: require('./server/controller/help_controller.js')
     },
+    {
+        register: require('./server/controller/seo_controller.js')
+    },
 
 ], function () {
     //Start the server
