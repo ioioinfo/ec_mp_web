@@ -43,7 +43,7 @@ server.register([
     {
         register: require("good"),
         options: {
-            ops: {interval: 5000},
+            ops: false,
             reporters: {
                 myConsoleReporter: [{
                     module: 'good-console'
