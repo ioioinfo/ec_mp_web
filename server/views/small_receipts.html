@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <title>收银小票</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
 
     <style media="screen">
         @media screen and (max-width:768px){
@@ -114,7 +114,7 @@
       <script src="{{static_host}}/react.min.js"></script>
       <script src="{{static_host}}/react-dom.min.js"></script>
       <script src="{{static_host}}/browser.min.js"></script>
-      <script src="js/jinzhi.js"></script>
+      <script src="{{static_host}}/js/jinzhi.js"></script>
 
 	  <script type="text/javascript">
 	  		var get_Cashier_data = function(cb){
@@ -144,7 +144,7 @@
         render() {
             return (
                 <div className="head">
-                  <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                  <span className="jiantou"><img src="{{static_host}}/images/jiantou.png" alt="" /></span>
                   <span className="title">收银小票</span>
                 </div>
             );
@@ -183,7 +183,7 @@
         render() {
           var d="";
           if($.inArray(this.props.item.name,this.props.selected)!=-1){
-            d=<img src="images/yikaifapiao.png" alt="" />;
+            d=<img src="{{static_host}}/images/yikaifapiao.png" alt="" />;
           }
 		  var href = "/order_view?order_id=" + this.props.item.order_id;
 	        return (

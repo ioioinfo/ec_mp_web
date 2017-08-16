@@ -5,8 +5,8 @@
     <title>小票明细</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
 
     <style media="screen">
         @media screen and (max-width:768px){
@@ -188,7 +188,7 @@
 <body>
     <div id="content">
         <div class="head">
-    		    <img src="images/back.png" class="goback" alt="" />
+    		    <img src="{{static_host}}/images/back.png" class="goback" alt="" />
             <div class="head-top">
     			<a href="/mendian_detail?store_id={{ row.store.org_store_id }}">
                   <span>{{ row.store.org_store_name }}</span>
@@ -228,7 +228,7 @@
         </div>
     </div>
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
-    <script src="js/jinzhi.js"></script>
+    <script src="{{static_host}}/js/jinzhi.js"></script>
 
     <script type="text/javascript">
     // 返回上一层

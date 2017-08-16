@@ -5,13 +5,13 @@
     <title>商品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
     <script src="{{static_host}}/react.min.js"></script>
     <script src="{{static_host}}/react-dom.min.js"></script>
     <script src="{{static_host}}/browser.min.js"></script>
-    <script src="js/jinzhi.js"></script>
+    <script src="{{static_host}}/js/jinzhi.js"></script>
 	<style media="screen">
 	@media screen and (max-width:640px){
 	  *{
@@ -215,7 +215,7 @@
 		-webkit-border-radius: 2px 0 0 2px;
 	  }
 	  .middle-number-right .middle-a3 .middle-em{
-		background: url("images/reduce3.png") no-repeat;
+		background: url("{{static_host}}/images/reduce3.png") no-repeat;
 		background-size: 12px 12px;
 		height: 12px;
 		width: 12px;
@@ -1078,12 +1078,12 @@
   <body>
 
     <div class="head">
-		<p><img src="images/jiantou.png" alt=""></p>
+		<p><img src="{{static_host}}/images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
         <p data-rolo="warp1" class="head-p1">详情</p>
         <p data-rolo="content1" class="head-p1">包装售后</p>
 
-        <p class="head-lastp"><img src="images/news.png" alt="" class="headernimg" />
+        <p class="head-lastp"><img src="{{static_host}}/images/news.png" alt="" class="headernimg" />
 			<a href="/messages">
 	        	<span class="headernewsnum"></span>
 			</a>
@@ -1170,7 +1170,7 @@
         <span data-role="content" class="navspan2">产品参数</span>
       </div>
       <div class="content0">
-        <img src="images/tuwenjieshao.png" alt="">
+        <img src="{{static_host}}/images/tuwenjieshao.png" alt="">
       </div>
       <div class="content">
         <ul>
@@ -1211,7 +1211,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1230,7 +1230,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1249,7 +1249,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>

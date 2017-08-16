@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/jinping.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/search.css">
     <title>搜索内容</title>
     <style media="screen">
         *{
@@ -395,12 +395,12 @@
   <body>
           <div class="header">
              <div class="search">
-                <img  src="images/goback.png" class="back" alt="">
+                <img  src="{{static_host}}/images/goback.png" class="back" alt="">
                 <span class="headersearch">搜索</span>
-                <span class="searchfangda"><img src="images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
+                <span class="searchfangda"><img src="{{static_host}}/images/fangdajing.png" alt="" class="searchfangdaImg" /></span>
                 <div class="headernews">
                <a href="/messages">
-                     <img src="images/new2.png" alt="" class="headernimg" />
+                     <img src="{{static_host}}/images/new2.png" alt="" class="headernimg" />
                      <span class="headernewsnum"></span>
                </a>
                 </div>
@@ -409,9 +409,9 @@
           </div>
           <div class="word">
             <ul class="word-next">
-              <li class="time"><a ><span>上架时间</span><span><img id="time-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
-      		  <li class="price"><a><span>价格</span><span><img id="price-img" src="images/jiantou-down-1.png" alt=""></span></a></li>
-              <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="images/jiantou-down-1.png" alt=""></span></a></li>
+              <li class="time"><a ><span>上架时间</span><span><img id="time-img" src="{{static_host}}/images/jiantou-down-1.png" alt=""></span></a></li>
+      		  <li class="price"><a><span>价格</span><span><img id="price-img" src="{{static_host}}/images/jiantou-down-1.png" alt=""></span></a></li>
+              <li class="word-nextshaixuan"><a ><span>筛选</span><span><img src="{{static_host}}/images/jiantou-down-1.png" alt=""></span></a></li>
             </ul>
           </div>
       	{% if products.length >0 %}
@@ -421,7 +421,7 @@
       	        <li>
       	          <a href="/product_show?product_id={{product.id}}">
       	            <div class="infor-left">
-      	              <img class="loading" src="images/load.gif" data-src="{{product.img.location}}" alt="">
+      	              <img class="loading" src="{{static_host}}/images/load.gif" data-src="{{product.img.location}}" alt="">
       	            </div>
       	            <div class="infor-right">
       	              <p class="infor-right-one">{{product.product_name}}</p>
@@ -444,7 +444,7 @@
           <div class="shaixuan">
       	  {% for saixuan in saixuans %}
       	      <div class="shaixuanline shaixuanline1">
-      	        <span>{{saixuan.name}}</span><span class="shaixuanlineInput"><img src="images/jiantou-down-1.png" alt=""></span>
+      	        <span>{{saixuan.name}}</span><span class="shaixuanlineInput"><img src="{{static_host}}/images/jiantou-down-1.png" alt=""></span>
       	        <ul class="shaixuanlineblock shaixuanlineblock{{saixuan.number}}">
       			{% for val in saixuan.value %}
       			  <li data-name="{{saixuan.field_name}}" data-val="{{val}}" {% if select_saixuans[saixuan.field_name] == val %} class="on" {% endif %}><a>{{val}}</a></li>
@@ -472,11 +472,11 @@
           <div class="zhezhaoceng"></div>
 
           <!-- 返回顶部 -->
-      	<div class="top"><img src="images/scroll-to-top-icon.png" alt="" /></div>
+      	<div class="top"><img src="{{static_host}}/images/scroll-to-top-icon.png" alt="" /></div>
         <!-- =================分割线   搜索弹出层================= -->
         <div class="SearchCeng">
             <div class="SearchCeng_top">
-              <span class="goBack"><img src="images/jiantou.png" alt="" /></span>
+              <span class="goBack"><img src="{{static_host}}/images/jiantou.png" alt="" /></span>
               <input type="text" name="" value="" placeholder="搜索" class="SearchCengInput">
               <span class="SearchCeng_top_no">取消</span>
             </div>
@@ -497,7 +497,7 @@
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
 	<script>
 	$(function() {
-        $("#price-img").attr("src","images/jiantou-down-1.png");
+        $("#price-img").attr("src","{{static_host}}/images/jiantou-down-1.png");
 
 		//页面显示消息
 		$.ajax({
@@ -517,13 +517,13 @@
 		var object = {{search_object | safe}};
         //设置排序样式
         if (object.sort == "price_desc") {
-            $("#price-img").attr("src","images/jiantou-down-2.png");
+            $("#price-img").attr("src","{{static_host}}/images/jiantou-down-2.png");
         }else if (object.sort == "price_asc") {
-            $("#price-img").attr("src","images/jiantou-down-3.png");
+            $("#price-img").attr("src","{{static_host}}/images/jiantou-down-3.png");
         }else if (object.sort == "time_desc") {
-            $("#time-img").attr("src","images/jiantou-down-2.png");
+            $("#time-img").attr("src","{{static_host}}/images/jiantou-down-2.png");
         }else if (object.sort == "time_asc") {
-            $("#time-img").attr("src","images/jiantou-down-3.png");
+            $("#time-img").attr("src","{{static_host}}/images/jiantou-down-3.png");
         }
 
 		var change_url = function(){
@@ -576,10 +576,10 @@
 			}
 			if (object.sort == "price_desc") {
 				object.sort = "price_asc";
-                $("#price-img").attr("src","images/jiantou-down-2.png");
+                $("#price-img").attr("src","{{static_host}}/images/jiantou-down-2.png");
 			} else {
 				object.sort = "price_desc";
-                $("#price-img").attr("src","images/jiantou-down-3.png");
+                $("#price-img").attr("src","{{static_host}}/images/jiantou-down-3.png");
 			}
 			location.href = change_url();
 		});

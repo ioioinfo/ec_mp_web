@@ -5,9 +5,9 @@
     <title>商品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/jinping.css">
-	<script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
-	<script src="{{static_host}}/lodash.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
+    <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
+    <script src="{{static_host}}/lodash.min.js" type="text/javascript"></script>
     <script src="{{static_host}}/react.min.js"></script>
     <script src="{{static_host}}/react-dom.min.js"></script>
 
@@ -68,7 +68,7 @@
 		margin-top: 2px;
 		float: left;
 		display: block;
-		background: url("images/product-detail-sprites-mjs.png") no-repeat 0 0;
+		background: url("{{static_host}}/images/product-detail-sprites-mjs.png") no-repeat 0 0;
 		background-size: 100px 100px;
 		background-position: -14px -17px;
 	  }
@@ -211,7 +211,7 @@
 		-webkit-border-radius: 2px 0 0 2px;
 	  }
 	  .middle-number-right .middle-a3 .middle-em{
-		background: url("images/reduce3.png") no-repeat;
+		background: url("{{static_host}}/images/reduce3.png") no-repeat;
 		background-size: 12px 12px;
 		height: 12px;
 		width: 12px;
@@ -219,11 +219,11 @@
 		margin: 6px;
 	  }
 	  .middle-number-right .middle-a3 .middle-em.reduce{
-		background: url("images/reduce.png") no-repeat;
+		background: url("{{static_host}}/images/reduce.png") no-repeat;
 		background-size: 12px 12px;
 	  }
 	  .middle-number-right .middle-a3 .push{
-		background: url("images/product-detail-sprites-mjs.png") no-repeat;
+		background: url("{{static_host}}/images/product-detail-sprites-mjs.png") no-repeat;
 		background-position: -32px -67px;
 		background-size: 100px 100px;
 		height: 12px;
@@ -427,17 +427,17 @@
 		vertical-align: middle;
 	  }
 	  .top-service .discount-coupon .span3{
-		background: url(images/i-11.png) no-repeat 0 0 ;
+		background: url({{static_host}}/images/i-11.png) no-repeat 0 0 ;
 		background-size: contain;
 		vertical-align: middle;
 	  }
 	  .top-service .discount-coupon .span4{
-		background: url(images/i-12.png) no-repeat 0 0 ;
+		background: url({{static_host}}/images/i-12.png) no-repeat 0 0 ;
 		background-size: contain;
 		vertical-align: middle;
 	  }
 	  .top-service .discount-coupon .span5{
-		background: url(images/i-13.png) no-repeat 0 0 ;
+		background: url({{static_host}}/images/i-13.png) no-repeat 0 0 ;
 		background-size: contain;
 		vertical-align: middle;
 	  }
@@ -1081,17 +1081,17 @@
          text-align: center;
      }
     </style>
-    <link rel="stylesheet" href="css/newflash.css">
+    <link rel="stylesheet" href="{{static_host}}/css/newflash.css">
   </head>
   <body>
 
     <div class="head">
-		<p class="headback"><img src="images/jiantou.png" alt=""></p>
+		<p class="headback"><img src="{{static_host}}/images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
         <p data-rolo="warp1" class="head-p1">详情</p>
         <p data-rolo="warp2" class="head-p1 head-p2">快递售后</p>
 
-        <p class="head-lastp"><a href="/messages"><img src="images/news.png" alt="" class="headernimg" />
+        <p class="head-lastp"><a href="/messages"><img src="{{static_host}}/images/news.png" alt="" class="headernimg" />
 
 	        	<span class="headernewsnum"></span>
 			</a>
@@ -1167,7 +1167,7 @@
         <div class="hot-img hot-img3">
         </div>
         <div class="line" style="width:100%;height:10px;background:#f4f4f4"></div>
-        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+        <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
       </div>
     </div>
     <!-- 产品详情 -->
@@ -1190,7 +1190,7 @@
     </div>
     <div class="warp2">
         <div class="courierinfor">
-          <img src="images/courier.png" alt="" />
+          <img src="{{static_host}}/images/courier.png" alt="" />
           <p className="p3">客户服务联系</p>
           <p class="p4"><a href="tel:0513-81188090">电话 ：0513-81188090</a></p>
           <p class="p2">退货</p>
@@ -1218,7 +1218,7 @@
 					<% if(product.img){ %>
 					   <img src="<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1237,7 +1237,7 @@
 					<% if(product.img){ %>
 					   <img src="<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1256,7 +1256,7 @@
 					<% if(product.img){ %>
 					   <img src="<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1271,9 +1271,9 @@
 
     <div style="background:#fff;height:75px;width:100%;font-size:12px;color:#999;text-align:center">别拉了，没有了！</div>
 	<ul class="footernav">
-		<li class="footernavLi"><a href="/"><p class="footernav_p1"><img src="images/shouye3.png" alt="" /></p><p class="footernav-word">首页</p></a></li>
-        <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="images/shoucang.png" alt="" /></p><p class="footernav-word footernav-word1">收藏</p></a></li>
-        <li class="footernavLi"><a href="/cart_infos"><p class="footernav_p1"><img src="images/gouwuche2.png" alt="" /></p><p class="footernav-word">购物车<span class="footernav-wordnum">0</span></p></a></li>
+		<li class="footernavLi"><a href="/"><p class="footernav_p1"><img src="{{static_host}}/images/shouye3.png" alt="" /></p><p class="footernav-word">首页</p></a></li>
+        <li class="footernavLi favorite"><a><p class="footernav_p1"><img src="{{static_host}}/images/shoucang.png" alt="" /></p><p class="footernav-word footernav-word1">收藏</p></a></li>
+        <li class="footernavLi"><a href="/cart_infos"><p class="footernav_p1"><img src="{{static_host}}/images/gouwuche2.png" alt="" /></p><p class="footernav-word">购物车<span class="footernav-wordnum">0</span></p></a></li>
         <li class="footernavLi1 footernavLi2" id="shopping_cart"><a><p>加入购物车</p></a></li>
         <li class="footernavLi1 footernavLi3"><a><p id="buy_immediate">立即购买</p></a></li>
 
@@ -1516,7 +1516,7 @@
         })
 		});
 	</script>
-    <script src="js/newflash_v1.1.min.js"></script>
+    <script src="{{static_host}}/js/newflash_v1.1.min.js"></script>
     <script type="text/javascript">
         // 返回到页面
         var images ={{ JSON.stringify(product.mp_pictures)|| safe}};

@@ -5,14 +5,14 @@
         <title>我的订单</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
-        <link rel="stylesheet" href="css/jinping.css">
-        <link rel="stylesheet" href="css/order_center.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
+        <link rel="stylesheet" href="{{static_host}}/css/order_center.css">
+        <link rel="stylesheet" href="{{static_host}}/css/bootstrap.min.css">
         <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
         <script src="{{static_host}}/react.min.js"></script>
         <script src="{{static_host}}/react-dom.min.js"></script>
         <script src="{{static_host}}/browser.min.js"></script>
-        <script src="js/jinzhi.js"></script>
+        <script src="{{static_host}}/js/jinzhi.js"></script>
 
     </head>
     <body>
@@ -56,10 +56,10 @@
               return (
                   <div className="top">
                     <div className="back">
-                      <a href="person_center"><img src="images/jiantou.png" alt="" /></a>
+                      <a href="person_center"><img src="{{static_host}}/images/jiantou.png" alt="" /></a>
                     </div>
                     <p className="top-title">我的订单</p>
-                    <div className="top-right"><a href="/messages"><img src="images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
+                    <div className="top-right"><a href="/messages"><img src="{{static_host}}/images/news.png" alt="" /><p className="headernewsnum"></p></a></div>
                   </div>
               );
             }
@@ -302,10 +302,10 @@
                   <div className="public_all" >
                       <div className="public_market">
                         <div className="public_market_img">
-                          <img src="images/shop.png" alt="" />
+                          <img src="{{static_host}}/images/shop.png" alt="" />
                         </div>
                         <span className="public_market_span1">自营店</span>
-                        <span><img src="images/jiantou-right.png" alt="" /></span>
+                        <span><img src="{{static_host}}/images/jiantou-right.png" alt="" /></span>
                         <span className="public_market_span2">{order_status}</span>
                       </div>
                       {this.props.detailsitems[this.props.item.order_id].map(item => (
@@ -345,7 +345,7 @@
                   button = <span><a href={"return_apply?order_id="+this.props.returniitem.order_id+"&detail_id="+this.props.item.id+"&product_id="+this.props.item.product_id+"&number="+this.props.item.number}>申请退款</a></span>;
               }
 
-              var src = "images/no_picture.png";
+              var src = "{{static_host}}/images/no_picture.png";
               if (product.img) {
                   src = product.img.location;
               }

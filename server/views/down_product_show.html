@@ -5,9 +5,9 @@
     <title>商品下架</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/lunbo.css">
-	<script src="js/jquery-3.1.1.min.js"type="text/javascript"></script>
-	<script src="js/lodash.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{static_host}}/css/lunbo.css">
+    <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
+    <script src="{{static_host}}/js/lodash.min.js" type="text/javascript"></script>
     <script src="{{static_host}}/react.min.js"></script>
     <script src="{{static_host}}/react-dom.min.js"></script>
 
@@ -1112,12 +1112,12 @@
   <body>
 
     <div class="head">
-		<p><img src="images/jiantou.png" alt=""></p>
+		<p><img src="{{static_host}}/images/jiantou.png" alt=""></p>
         <p data-rolo="middle" class="head-p1 spancolor1">商品</p>
         <p data-rolo="warp1" class="head-p1">详情</p>
         <p data-rolo="content1" class="head-p1">包装售后</p>
 
-        <p class="head-lastp"><img src="images/news.png" alt="" class="headernimg" />
+        <p class="head-lastp"><img src="{{static_host}}/images/news.png" alt="" class="headernimg" />
 			<a href="/messages">
 	        	<span class="headernewsnum"></span>
 			</a>
@@ -1193,7 +1193,7 @@
         <div class="hot-img hot-img3">
         </div>
         <div class="line" style="width:100%;height:10px;background:#f5edf5"></div>
-        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"type="text/javascript"></script>
+        <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
       </div>
     </div>
     <!-- 产品详情 -->
@@ -1206,7 +1206,7 @@
           </ul>
         </div>
       <div class="content0">
-        <img src="images/tuwenjieshao.png" alt="">
+        <img src="{{static_host}}/images/tuwenjieshao.png" alt="">
       </div>
 
 
@@ -1249,7 +1249,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1268,7 +1268,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>
@@ -1287,7 +1287,7 @@
 					<% if(product.img){ %>
 					   <img src="images/<%- product.img.location %>" alt="">
 				   <% }else{ %>
-					   <img src="images/no_picture.png" alt="">
+					   <img src="{{static_host}}/images/no_picture.png" alt="">
 				   <% } %>
 				</div>
 				<p><%- product.product_name %></p>

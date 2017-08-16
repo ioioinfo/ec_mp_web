@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
     <script src="{{static_host}}/react.min.js"></script>
     <script src="{{static_host}}/react-dom.min.js"></script>
     <script src="{{static_host}}/browser.min.js"></script>
-    <script src="js/jinzhi.js"></script>
+    <script src="{{static_host}}/js/jinzhi.js"></script>
     <title>退货申请</title>
     <style media="screen">
       @media screen and (max-width:768px){
@@ -345,9 +345,9 @@
         render() {
             return (
                 <div className="head">
-                    <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                    <span className="jiantou"><img src="{{static_host}}/images/jiantou.png" alt="" /></span>
                     <span className="title">退货申请</span>
-                    <span className="menu"><img src="images/menu.png" alt="" /></span>
+                    <span className="menu"><img src="{{static_host}}/images/menu.png" alt="" /></span>
                 </div>
             );
         }
@@ -375,7 +375,7 @@
         render() {
              var src = this.state.pictures.location;
              var img1 = <img src={src} alt="" />;
-             var img2 = <img src="images/no_picture.png" alt="" />
+             var img2 = <img src="{{static_host}}/images/no_picture.png" alt="" />
              var img;
              if(!src){
                  img = img2;
@@ -421,7 +421,7 @@
                     <div className="return_reason">
                         <span className="return_reason_name">退款原因</span>
                         <span className="return_input" onClick={this.handleClick}>点击选择退款原因</span>
-                        <img className="jiantou-right" src="images/jiantou-right.png"/>
+                        <img className="jiantou-right" src="{{static_host}}/images/jiantou-right.png"/>
                     </div>
                     <ul className="select_ul">
                         <li id="1" onClick={this.handleClick1}>错拍,多拍</li>

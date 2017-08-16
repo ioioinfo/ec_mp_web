@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
         <title>支付方式</title>
-        <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="css/jinping.css">
+        <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+        <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
         <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
         <script src="{{static_host}}/react.min.js"></script>
         <script src="{{static_host}}/react-dom.min.js"></script>
         <script src="{{static_host}}/browser.min.js"></script>
-        <script src="js/jinzhi.js"></script>
+        <script src="{{static_host}}/js/jinzhi.js"></script>
         <style media="screen">
         @media screen and (max-width:768px){
             body,html{
@@ -129,7 +129,7 @@
             .prompt{
                 text-align: center;
                 color: red;
-                font-size: 12px;
+                font-size: 16px;
                 margin-top: 40px;
             }
             .payway_way_weixin .pay_remaking{
@@ -173,7 +173,7 @@
           render() {
               return (
                 <div className="header">
-                  <span className="jiantou"><img src="images/jiantou.png" alt="" /></span>
+                  <span className="jiantou"><img src="{{static_host}}/images/jiantou.png" alt="" /></span>
                   <span className="title">支付方式</span>
                   <span className="menu"><a href="/order_center">订单中心</a></span>
                 </div>
@@ -230,25 +230,25 @@
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_vip">
                     <a onClick = {this.handlePay}>
-                    <li><img src="images/vipzhifu.png" alt="" /><span>会员卡支付</span></li>
-                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    <li><img src="{{static_host}}/images/vipzhifu.png" alt="" /><span>会员卡支付</span></li>
+                    <li className="payway_way_right"><img src="{{static_host}}/images/jiantou-right.png" alt="" /></li>
                     </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_zhifubao">
                     <a onClick = {this.aliPay}>
                     <li><img src="images/zhifubaozhifu1.png" alt="" /><span>支付宝支付</span></li>
-                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    <li className="payway_way_right"><img src="{{static_host}}/images/jiantou-right.png" alt="" /></li>
                     </a>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_weixin">
                     <li><img src="images/weixinzhifu1.png" alt="" /><span>微信支付</span> <span className="pay_remaking">暂未开通</span></li>
-                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    <li className="payway_way_right"><img src="{{static_host}}/images/jiantou-right.png" alt="" /></li>
                   </ul>
                   <ul className="payway_way_infor payway_border payway_way_yinlian">
                     <li><img src="images/yinlianzhifu1.png" alt="" /><span>银联支付</span> <span className="pay_remaking">暂未开通</span></li>
-                    <li className="payway_way_right"><img src="images/jiantou-right.png" alt="" /></li>
+                    <li className="payway_way_right"><img src="{{static_host}}/images/jiantou-right.png" alt="" /></li>
                   </ul>
-                  <p className="prompt">温馨提示:该订单有效期15分钟</p>
+                  <p className="prompt">温馨提示:该订单有效期30分钟</p>
                 </div>
               );
           }

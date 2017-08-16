@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
-    <script src="js/jinzhi.js"></script>
+    <script src="{{static_host}}/js/jinzhi.js"></script>
     <title>立即购买</title>
     <style media="screen">
       @media screen and (max-width:768px){
@@ -802,35 +802,35 @@
     <div>
         <div id="content">
             <div class="head">
-              <span class="jiantou"><img src="images/jiantou.png" alt=""></span>
+              <span class="jiantou"><img src="{{static_host}}/images/jiantou.png" alt=""></span>
               <span class="title">填写订单</span>
 
-              <span class="menu"><img src="images/menu.png" alt=""></span>
+              <span class="menu"><img src="{{static_host}}/images/menu.png" alt=""></span>
             </div>
             <div class="line"></div>
             <div class="nav">
               <ul>
                 <li>
                   <a href="/">
-                    <p class="nav-top"><img src="images/shouye-4.png" alt=""></p>
+                    <p class="nav-top"><img src="{{static_host}}/images/shouye-4.png" alt=""></p>
                     <p class="nav-bottom">首页</p>
                   </a>
                 </li>
                 <li>
                   <a href="/search_area">
-                    <p class="nav-top"><img src="images/search-1.png" alt=""></p>
+                    <p class="nav-top"><img src="{{static_host}}/images/search-1.png" alt=""></p>
                     <p class="nav-bottom">搜索</p>
                   </a>
                 </li>
                 <li>
                   <a href="/cart_infos">
-                    <p class="nav-top"><img src="images/car-1.png" alt=""></p>
+                    <p class="nav-top"><img src="{{static_host}}/images/car-1.png" alt=""></p>
                     <p class="nav-bottom">购物车</p>
                   </a>
                 </li>
                 <li>
                   <a href="/person_center">
-                    <p class="nav-top"><img src="images/header-3.png" alt=""></p>
+                    <p class="nav-top"><img src="{{static_host}}/images/header-3.png" alt=""></p>
                     <p class="nav-bottom">我的</p>
                   </a>
                 </li>
@@ -849,7 +849,7 @@
         				{% if product.img %}
         					<img src="{{product.img.location}}" alt="">
         				{% else %}
-        					<img src="images/no_picture.png" alt="">
+        					<img src="{{static_host}}/images/no_picture.png" alt="">
         				{% endif %}
         			</div>
         			<div class="product-infor-middle">
@@ -869,7 +869,7 @@
                             <span class="logistics_type" data-id="{{logistic.id}}" data-name="{{logistic.name}}">{{logistic.name}}</span>
                         {% endif %}
                       {% endfor %}
-                      <span><img src="images/jiantou-right.png" alt="" class="img"></span>
+                      <span><img src="{{static_host}}/images/jiantou-right.png" alt="" class="img"></span>
                   </p>
         		</div>
         		<div class="min-line"></div>
@@ -948,7 +948,7 @@
               <div class="middle">
                 <div class="middle-shouhuoren middle-shouhuoren1">
                   <span class="span1">所在地区</span>
-                  <p><span class="span2 clear_ad1">请选择</span><span><img src="images/jiantou-right.png" alt=""></span></p>
+                  <p><span class="span2 clear_ad1">请选择</span><span><img src="{{static_host}}/images/jiantou-right.png" alt=""></span></p>
         		  <div class="address_seclect" >
                       <table name="shareip">
                        <select class="select" name="province" id="s1">
@@ -997,7 +997,7 @@
         $(".nav").toggle();
       })
     </script>
-	<script src="js/lodash.min.js" type="text/javascript"></script>
+	<script src="{{static_host}}/js/lodash.min.js" type="text/javascript"></script>
 	<script id="change_address_infos" type="text/template">
 		<p>更换地址</p>
 		<% _.forEach(addresses, function(address,index) {  %>
@@ -1036,7 +1036,7 @@
 				<p>添加新地址或者更换地址</p>
 			</div>
 		  <% } %>
-		  <span class="jiantou-right"><img src="images/jiantou-right.png" alt=""></span>
+		  <span class="jiantou-right"><img src="{{static_host}}/images/jiantou-right.png" alt=""></span>
 	</script>
 
 	<script>

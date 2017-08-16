@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>个人信息</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/jinping.css">
+    <link rel="stylesheet" href="{{static_host}}/css/reset.css">
+    <link rel="stylesheet" href="{{static_host}}/css/jinping.css">
     <script src="{{static_host}}/jquery-3.1.1.min.js"type="text/javascript"></script>
     <script src="{{static_host}}/react.min.js"></script>
     <script src="{{static_host}}/react-dom.min.js"></script>
     <script src="{{static_host}}/browser.min.js"></script>
-    <script src="js/jinzhi.js"></script>
+    <script src="{{static_host}}/js/jinzhi.js"></script>
     <style media="screen">
       @media screen and (max-width:768px){
         *{
@@ -314,16 +314,16 @@
     <div id="content">
         <div class="wrap">
             <div class="top">
-              <span><a href="/configure"><img src="images/jiantou.png" alt=""></a></span>
+              <span><a href="/configure"><img src="{{static_host}}/images/jiantou.png" alt=""></a></span>
               <span>个人信息</span>
               <span class="save"></span>
             </div>
           <div class="middle">
             <ul class="middle-ul">
-              <li class="middle-li"><p class="middle-p1 p">头像</p><p class="middle-p2 p"><span class="header">{% if persons[0] %}<img src="images/{{persons[0].avatar_url}}" alt="">{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
+              <li class="middle-li"><p class="middle-p1 p">头像</p><p class="middle-p2 p"><span class="header">{% if persons[0] %}<img src="{{static_host}}/images/{{persons[0].avatar_url}}" alt="">{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
               <li class="middle-li"><p class="middle-p1">用户名</p><p class="middle-p2"><span>{{person.username}}</span></p></li>
-              <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span class="nick_name">{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="images/rightjiantou.png" alt=""></p></li>
-              <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3 p4"><span>{{person_info.gender}}</span><img src="images/rightjiantou.png" alt=""></p></li>
+              <li class="middle-li"><p class="middle-p1 p2">昵称</p><p class="middle-p2 p2"><span class="nick_name">{% if persons[0] %}{{persons[0].nickname}}{% endif %}</span><img src="{{static_host}}/images/rightjiantou.png" alt=""></p></li>
+              <li class="middle-li"><p class="middle-p1 p3">性别</p><p class="middle-p2 p3 p4"><span>{{person_info.gender}}</span><img src="{{static_host}}/images/rightjiantou.png" alt=""></p></li>
               <li class="middle-li"><p class="middle-p1">出生日期</p><p class="middle-p2"><span><input  type="date"  name=""  value="{{person_info.birthday}}" placeholder="点击选择日期" class="date"></li>
             </ul>
           </div>
@@ -336,8 +336,8 @@
         <div class="header-images">
           <div class="header-images-infor">
             <p>修改头像</p>
-            <p class="xiangce"><img src="images/i-15.png" alt=""><span>相册</span></p>
-            <p><img src="images/i-16.png" alt=""><span>拍照</span></p>
+            <p class="xiangce"><img src="{{static_host}}/images/i-15.png" alt=""><span>相册</span></p>
+            <p><img src="{{static_host}}/images/i-16.png" alt=""><span>拍照</span></p>
           </div>
         </div>
 
