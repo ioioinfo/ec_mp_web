@@ -53,6 +53,19 @@
            height: 20px;
            vertical-align: middle;
           }
+          .shuoming{
+            display: inline-block;
+            width: 32px;
+            position: absolute;
+            right: 10px;
+            top: 13px;
+          }
+          .head .shuoming img{
+           width: 20px;
+           height: 20px;
+           vertical-align: middle;
+          }
+
           .title{
             display:block;
             width: 200px;
@@ -207,6 +220,7 @@
               <div className="head">
                 <span className="jiantou"><img src="{{static_host}}/images/jiantou.png" alt="" /></span>
                 <span className="title">会员充值</span>
+                <span className="shuoming"><a href="member_right"><img src="images/huiyuanshuoming.png" alt="" /></a></span>
               </div>
           );
       }
@@ -364,7 +378,7 @@
         <script type="text/javascript">
             $(function(){
                 // 返回上一层
-                $(".head img").click(function(){
+                $(".head .jiantou img").click(function(){
                     window.history.back();
                 });
 
