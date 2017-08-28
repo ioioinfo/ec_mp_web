@@ -1388,11 +1388,11 @@
 				success: function(data) {
 					if (data.success) {
 						if (data.is_active == 1) {
-							$(".favorite img").attr("src","images/shoucangjia.png");
+							$(".favorite img").attr("src","{{static_host}}/images/shoucangjia.png");
 
 							is_active = 1;
 						}else {
-							$(".favorite img").attr("src","images/shoucang.png");
+							$(".favorite img").attr("src","{{static_host}}/images/shoucang.png");
 							is_active = 0;
 						}
 					}
@@ -1446,12 +1446,12 @@
 				$.post("/update_favorite",{is_active:is_active,product_id:product_id},function(data){
 					if (data.success) {
 						if (is_active == 1) {
-							$(".favorite img").attr("src","images/shoucang.png");
+							$(".favorite img").attr("src","{{static_host}}/images/shoucang.png");
                             $(".favorite .footernav-word1").html("收藏");
 							is_active = 0;
 							return;
 						}else {
-							$(".favorite img").attr("src","images/shoucangjia.png");
+							$(".favorite img").attr("src","{{static_host}}/images/shoucangjia.png");
                             $(".favorite .footernav-word1").html("已收藏");
 							is_active = 1;
 						}
