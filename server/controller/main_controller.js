@@ -788,6 +788,11 @@ var set_notify_readed = function(data,cb){
 	var url = "http://139.196.148.40:18005/set_notify_readed";
 	do_post_method(url,data,cb);
 }
+//查询库存
+var query_product_stock = function(data,cb){
+	var url = "http://211.149.248.241:12001/query_product_stock";
+	do_post_method(url,data,cb);
+}
 exports.register = function(server, options, next){
 	var get_logistics_list = function(list,total_data,cb) {
 		var lgtic = {};
@@ -2773,17 +2778,33 @@ exports.register = function(server, options, next){
 						var products = results.products;
 						var mendians_list = [];
 						var mendians_map = {};
+						var product_ids = [];
 						for (var i = 0; i < shopping_carts.length; i++) {
 							var origin = products[shopping_carts[i].product_id].origin;
 							var product_id = shopping_carts[i].product_id;
+							product_ids.push(product_id);
 							if (!mendians_map[origin]) {
 								mendians_map[origin] = [];
 								mendians_list.push(origin);
 							}
 							mendians_map[origin].push(shopping_carts[i]);
 						}
-
-						return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map)});
+						var data = {
+							"product_ids":JSON.stringify(product_ids),
+							"industry_id":102
+						}
+						query_product_stock(data,function(err,rows){
+							if (!err) {
+								var stock_map = {};
+								for (var i = 0; i < rows.rows.length; i++) {
+									var product = rows.rows[i];
+									stock_map[product.product_id] = product.quantity;
+								}
+								return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map),"stock_map":JSON.stringify(stock_map)});
+							}else {
+								return reply({"success":false,"message":results.message});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":results.message});
 					}

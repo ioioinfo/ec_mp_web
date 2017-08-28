@@ -411,6 +411,7 @@
                     <div class="infor-three">
                         <span class="price">￥</span>
                         <span class="price red"><%- products[shopping_cart.product_id].product_sale_price %></span>
+                        <span>库存:  <%- stock_map[shopping_cart.product_id]%></span>
                         <p class="add">
                             <span  <% if(shopping_cart.total_items <= 1){ %> id="color" <% } %> class="reduce"  data-id="<%- shopping_cart.id %>">-</span>
                             <span>
@@ -531,7 +532,7 @@
 			var selected = 0;
       var mendians_list = {{mendians_list | safe}};
       var mendians_map = {{mendians_map | safe}};
-
+      var stock_map = {{stock_map | safe}};
 			var all_carts_status = function(){
 				var all_selected = 1;
 				_.each(shopping_carts,function(shopping_cart) {
@@ -549,7 +550,7 @@
 				}
 				all_carts_status();
 				var t = _.template($("#cart_infos").html());
-				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data,selected:selected,mendians_list:mendians_list,mendians_map:mendians_map}));
+				$("#carts").html(t({shopping_carts:shopping_carts,products:products,update_ids:update_ids,total_data:total_data,selected:selected,mendians_list:mendians_list,mendians_map:mendians_map,stock_map:stock_map}));
 				delete_model();
 				$(".circle").click(function(){
 					var selected = $(this).data("select");
@@ -570,11 +571,29 @@
 				});
 				$(".footer-right").click(function(){
 					var ids = [];
+                    var selected_map = {};
 					_.forEach(shopping_carts, function(shopping_cart) {
 						if (shopping_cart.is_selected == 1) {
+                            selected_map[shopping_cart.id] = shopping_cart;
 							ids.push(shopping_cart.id);
 						}
 				   });
+                   var over_product_ids = [];
+                   var num_flag = 0;
+                   for (var i = 0; i < ids.length; i++) {
+                       var cart_id = ids[i]
+                       var buy_num = selected_map[cart_id].total_items;
+                       var stock_num = stock_map[selected_map[cart_id].product_id];
+                       if (stock_num<buy_num) {
+                           over_product_ids.push(selected_map[cart_id].product_id);
+                           num_flag = 1;
+                           break;
+                       }
+                   }
+                   if (num_flag == 1) {
+                       alert("商品没有足够库存，不能结算！");
+                       return;
+                   }
                    if (ids.length>0) {
                        location.href = "/place_order?ids="+JSON.stringify(ids);
                    }else {
