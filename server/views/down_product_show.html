@@ -1460,24 +1460,13 @@
 			});
 			//加入购物车
 			$("#shopping_cart").click(function(){
-				var num = $(".middle-number-input2").val();
-				var product_id = "{{product.id}}";
-				var product_price = "{{product.product_sale_price || 999999}}";
-				sku_id = "5e6032da-1cfd-11e7-b73f-52540022a5f2";
-				$.post("/shopping_cart",{product_id:product_id,product_price:product_price,num:num,sku_id:sku_id},function(data){
-					if (data.success) {
-						check_cart_number();
-					}else {
-						alert(data.message);
-					}
-				})
+				alert("该商品已下架");
+                return;
 			});
 			//立即购买
 			$("#buy_immediate").click(function(){
-				sku_id = "5e6032da-1cfd-11e7-b73f-52540022a5f2";
-				var num = $(".middle-number-input2").val();
-				var product_id = "{{product.id}}";
-				location.href = "/buy_now?id="+JSON.stringify(product_id)+"&num="+num+"&sku_id="+sku_id;
+                alert("该商品已下架");
+                return;
 			});
 			$(".middle-number-input2").change(function(){
 				var num = $(".middle-number-input2").val();

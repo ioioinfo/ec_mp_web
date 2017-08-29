@@ -2259,7 +2259,7 @@ exports.register = function(server, options, next){
 								var pictures = content.rows;
 								ep.emit("pictures", pictures);
 							}else {
-								ep.emit("pictures", {});
+								ep.emit("pictures", []);
 							}
 						});
 						find_product_sales(product_id, function(err, content){
