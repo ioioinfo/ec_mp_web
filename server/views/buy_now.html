@@ -1063,6 +1063,7 @@
 			};
             var total_data = {{total_data|safe}};
 			var addresses = {{addresses|safe}};
+            var mendians_list = {{mendians_list|safe}};
 			for (var i = 0; i < addresses.length; i++) {
 				if (addresses[i].is_default ==1) {
 					address = addresses[i];
@@ -1126,6 +1127,7 @@
                 address.type = logistics;
                 address.store_id = "413bde20-6895-11e7-b2c5-00163e1206a9";
                 address.point_id = 1;
+                address.mendians_list = mendians_list;
                 var send_seller = $("#send_seller").val();
 				$.post("/buy_now_save_order",{product_id:"{{product.id |safe}}",num:"{{total_data2.total_items |safe}}",address:JSON.stringify(address),send_seller:send_seller,sku_id:sku_id},function(data){
 					if (data.success) {

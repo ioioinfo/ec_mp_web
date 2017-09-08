@@ -3699,6 +3699,8 @@ exports.register = function(server, options, next){
 				}
 				var ep =  eventproxy.create("product","addresses","invoices","total_data","jifen", "logistics_type","sku_id",
 					function(product,addresses,invoices,total_data,jifen,logistics_type,sku_id){
+						var mendians_list = [];
+						mendians_list.push(product.origin);
 						logistics_payment(data,function(err,result){
 							console.log("result:"+JSON.stringify(result));
 							if (!err) {
@@ -3709,10 +3711,10 @@ exports.register = function(server, options, next){
 									total_data.lgtic_pay = lgtic_pay;
 								}
 								total_data.total_weight = parseFloat(total_data.total_weight).toFixed(2);
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"jifen":jifen,"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data,"mendians_list":JSON.stringify(mendians_list)});
 							}else {
 								total_data.lgtic_pay = 150;
-								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data});
+								return reply.view("buy_now",{"product":product,"addresses":JSON.stringify(addresses),"invoices":invoices,"total_data":JSON.stringify(total_data),"logistics_type":logistics_type,"sku_id":sku_id,"total_data2":total_data,"mendians_list":JSON.stringify(mendians_list)});
 							}
 						});
 				});
