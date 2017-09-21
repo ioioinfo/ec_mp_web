@@ -72,6 +72,9 @@ server.register([
     {
         register: require('./server/controller/seo_controller.js')
     },
+    {
+        register: require('./server/controller/wx_controller.js')
+    },
 
 ], function () {
     //Start the server
