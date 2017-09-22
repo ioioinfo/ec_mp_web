@@ -2936,7 +2936,8 @@ exports.register = function(server, options, next){
 							mendians_map[origin].push(shopping_carts[i]);
 						}
 						if (product_ids.length==0) {
-							return reply.view("shopping_cart",{"success":true});
+							var stock_map = {};
+							return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map),"stock_map":JSON.stringify(stock_map)});
 						}else {
 							var data = {
 								"product_ids":JSON.stringify(product_ids),
