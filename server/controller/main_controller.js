@@ -1571,12 +1571,12 @@ exports.register = function(server, options, next){
 							};
 							trade_weixinpay(info,function(err,content){
 								if (!err) {
-									var url = content.url;
+									var row = content.row;
 									//修改订单状况
 									var data = {"order_id":order_id,"order_status":0};
 									update_order_status(data,function(err,content){
 										if (!err) {
-											return reply({"success":true,"url":url});
+											return reply({"success":true,"row":row});
 										}else {
 											return reply({"success":false,"message":content.message,"service_info":service_info});
 										}
@@ -2207,8 +2207,8 @@ exports.register = function(server, options, next){
 									};
 									trade_weixinpay(info,function(err,content){
 										if (!err) {
-											var url = content.url;
-											return reply({"success":true,"url":url});
+											var row = content.row;
+											return reply({"success":true,"row":row});
 										}else {
 											return reply({"success":false,"message":content.message});
 										}
