@@ -835,6 +835,20 @@ exports.register = function(server, options, next){
 					}
 			}
 	};
+    
+    //页面获取微信id
+	var cookie_get_openid = function(request,cb) {
+		var state;
+		var openid = "";
+
+		if (request.state && request.state.cookie) {
+			state = request.state.cookie;
+			if (state[cookie_key]) {
+				openid = state[cookie_key];
+			}
+		}
+		cb(openid);
+    };
 
 	var get_logistics_list = function(list,total_data,cb) {
 		var lgtic = {};
@@ -5234,7 +5248,19 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/',
 			handler: function(request, reply){
-				return reply.view("homePage");
+                //判断是否在微信中浏览
+                var is_in_wechat = /(micromessenger|webbrowser)/.test(request.headers["user-agent"].toLowerCase());
+                if (is_in_wechat) {
+                    cookie_get_openid(request, function(openid){
+                        if (openid) {
+                            return reply.view("homePage");
+                        } else {
+                            return reply.redirect("/");
+                        }
+                    });
+                } else {
+                    return reply.view("homePage");
+                }
 			}
 		},
 		//微信openid
