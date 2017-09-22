@@ -4228,7 +4228,18 @@ exports.register = function(server, options, next){
 						if (rows.rows[0].order_status!="-1" && rows.rows[0].order_status!="0" ) {
 							return reply({"success":false,"message":"订单已经付过款了"})
 						}
-						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
+
+						var p_url = request.connection.info.protocol + '://' + request.info.host + request.url.path;
+
+						page_get_openid(request,function(openid) {
+							if (openid) {
+								wx_api.jsapi_ticket(platform_id,p_url, function(err,info) {
+										return reply.view("pay_way",{"info":info,"openid":openid,"rows":JSON.stringify(rows.rows),"order_id":order_id});
+								});
+							} else {
+								return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}
