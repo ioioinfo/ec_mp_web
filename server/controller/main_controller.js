@@ -489,10 +489,9 @@ var find_none_person_cart = function(cart_code,cb){
 	do_get_method(url,cb);
 };
 //删除购物车
-var delete_shopping_carts = function(ids,cb){
-	var url = "http://127.0.0.1:18015/delete_shopping_carts?ids=";
-	url = url + ids;
-	do_get_method(url,cb);
+var delete_shopping_carts = function(data,cb){
+	var url = "http://127.0.0.1:18015/delete_shopping_carts";
+	do_post_method(url,data,cb);
 };
 //删除购物车
 var delete_shopping_carts2 = function(data,cb){
@@ -518,10 +517,9 @@ var reduce_shopping_carts = function(ids,cb){
 	do_get_method(url,cb);
 };
 //购物车  商品数量修改
-var update_shopping_carts = function(ids,num,cb){
-	var url = "http://127.0.0.1:18015/update_shopping_carts?ids=";
-	url = url + ids + "&num=" + num;
-	do_get_method(url,cb);
+var update_cart_number = function(data,cb){
+	var url = "http://127.0.0.1:18015/update_cart_number";
+	do_post_method(url,data,cb);
 };
 //查询购物车
 var sarch_cart_infos = function(person_id,cart_code,cb){
@@ -2826,7 +2824,8 @@ exports.register = function(server, options, next){
 				var ids = [];
 				ids.push(id);
 				ids = JSON.stringify(ids);
-				delete_shopping_carts(ids,function(err,content){
+				var data = {"ids":ids}
+				delete_shopping_carts(data,function(err,content){
 					if (!err) {
 						//查询购物车信息
 						sarch_cart_infos(person_id,cart_code,function(err,results){
@@ -2974,7 +2973,11 @@ exports.register = function(server, options, next){
 				if (!cart_code) {
 					cart_code = "";
 				}
-				update_shopping_carts(ids,num,function(err,content){
+				var data = {
+					"ids":ids,
+					"num":num
+				}
+				update_cart_number(data,function(err,content){
 					if (!err) {
 						//查询购物车信息
 						sarch_cart_infos(person_id,cart_code,function(err,results){
