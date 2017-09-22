@@ -1,6 +1,8 @@
 var _ = require('lodash');
 var crypto = require('crypto');
 
+const wx_reply = require('../utils/wx_reply');
+
 //静态页面 帮助控制器
 exports.register = function(server, options, next){
 
@@ -40,6 +42,28 @@ exports.register = function(server, options, next){
                 return reply("入口错误");
             }
         },
+    },
+
+    {
+        method: 'POST',
+        path: '/wechat',
+        handler: function(request, reply) {
+            var body = request.payload;
+
+            wx_reply.process_xml(body, function(xml,msg_type,openid,resp) {
+                if (msg_type == "text") {
+                    var content = xml.Content[0];
+
+                    if (content == "openid") {
+                      return reply(resp.text({content:openid}));
+                    }
+
+                    return reply(resp.text({content:"你好"}));
+                } else {
+                  return reply(resp.text({content:"你好"}));
+                }
+            });
+        }
     },
 
   ]);
