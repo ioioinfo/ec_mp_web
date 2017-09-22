@@ -446,6 +446,10 @@ var trade_alipay = function(data,cb){
 	var url = "http://139.196.148.40:18008/donate_trade_alipay";
 	do_post_method(url,data,cb);
 };
+var trade_weixinpay = function(data,cb){
+	var url = "http://139.196.148.40:18008/wx_mp_pay";
+	do_post_method(url,data,cb);
+};
 //支付宝付费 合并支付
 var trade_alipay2 = function(data,cb){
 	var url = "http://139.196.148.40:18008/donate_trade_alipay_merge";
@@ -1505,6 +1509,67 @@ exports.register = function(server, options, next){
 								"callback_url" : "http://211.149.248.241:18000/receive_pay_notify"
 							};
 							trade_alipay(info,function(err,content){
+								if (!err) {
+									var url = content.url;
+									//修改订单状况
+									var data = {"order_id":order_id,"order_status":0};
+									update_order_status(data,function(err,content){
+										if (!err) {
+											return reply({"success":true,"url":url});
+										}else {
+											return reply({"success":false,"message":content.message,"service_info":service_info});
+										}
+									});
+								}else {
+									return reply({"success":false,"message":content.message});
+								}
+							});
+						}else {
+							return reply({"success":false,"message":"订单已经过期了"})
+						}
+					}else {
+						return reply({"success":false,"message":rows.message})
+					}
+				});
+			}
+		},
+		//微信支付，一单的
+		{
+			method: 'POST',
+			path: '/use_weixinpay_interface',
+			handler: function(request, reply){
+				var person_id = get_cookie_person(request);
+				if (!person_id) {
+					return reply.redirect("/chat_login");
+				}
+				var order_id = request.payload.order_id;
+				var pay_way = request.payload.pay_way;
+				var amount = request.payload.amount;
+				var openid = request.payload.openid;
+
+				if (!order_id ||!pay_way||!amount || !openid) {
+					return reply({"success":false,"message":"param null"});
+				}
+				get_order(order_id,function(err,rows){
+					if (!err) {
+						if (rows.rows[0].order_status=="-1" ||rows.rows[0].order_status=="0") {
+							var info = {
+								"sob_id" : sob_id,
+								"platform_code" : platform_code,
+								"business_code" : "member_recharge",
+								"address" : "上海",
+								"order_id" : order_id,
+								"pay_amount" : amount,
+								"operator" : person_id,
+								"main_role_id" : person_id,
+								"subject" : "购买商品",
+								"body" : "购买商品",
+								"return_url" : "http://shop.buy42.com/pay_success",
+								"callback_url" : "http://211.149.248.241:18000/receive_pay_notify",
+								"openid":openid,
+								"mp_platform_id":"shantao_dingyue"
+							};
+							trade_weixinpay(info,function(err,content){
 								if (!err) {
 									var url = content.url;
 									//修改订单状况
