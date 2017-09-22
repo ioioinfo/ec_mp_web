@@ -205,7 +205,7 @@
             position: relative;
             background: #fff;
             padding: 9px  2%;
-            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
 
         }
         .return_wrap .return_reason{
@@ -332,7 +332,7 @@
                 <Header/>
                 <div className="white"></div>
                 <Product/>
-                <Reason/>
+
                 <span className="button" onClick={this.handleClick2}>提 交</span>
               </div>
             );
@@ -391,6 +391,7 @@
             				  <p className="p2"><span className="p2-span1">￥{this.state.product.product_sale_price}</span><span className="p2-span2">x{{number}}</span></p>
                     </div>
           			  </div>
+                  <Reason product={this.state.product}/>
                 </div>
             );
         }
@@ -430,7 +431,7 @@
                 <div className="return_wrap">
                     <div className="return_reason">
                         <span className="return_money_name">退款金额 : </span>
-                        <span className="return_money"> ￥<span className="return_money_color">100</span></span>
+                        <span className="return_money"> ￥<span className="return_money_color">{this.props.product.product_sale_price}</span></span>
                     </div>
                 </div>
                 <div className="return_wrap">
