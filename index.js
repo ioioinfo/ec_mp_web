@@ -53,6 +53,8 @@ server.register([
     },
     {
         register: require('./server/db/db_mysql.js')
+    }, {
+        register: require('./server/services/services.js')
     },
     {
         register: require('./server/assets/index.js')

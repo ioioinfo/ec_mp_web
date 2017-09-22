@@ -796,6 +796,46 @@ var query_product_stock = function(data,cb){
 	do_post_method(url,data,cb);
 }
 exports.register = function(server, options, next){
+	var wx_api = server.plugins.services.wx_api;
+
+	var platform_id = "shantao_dingyue";
+
+	var cookie_options = {ttl:10*365*24*60*60*1000};
+	var cookie_key = platform_id + "_shantao_ec_mp_cookie";
+
+	//页面获取微信id
+	var page_get_openid = function(request,cb) {
+			var state;
+			var openid = "";
+
+			if (request.query.openid) {
+					openid = request.query.openid;
+					cb(openid);
+			} else {
+					if (request.state && request.state.cookie) {
+							state = request.state.cookie;
+							if (state[cookie_key]) {
+									openid = state[cookie_key];
+							}
+					}
+					if (openid) {
+							console.log("cookie openid:" + openid);
+							cb(openid);
+					}else {
+							// cb("owHd9s_erpLPfU4uv0uiGzB1JeOI");
+							var code = request.query.code;
+							if (!code) {
+									cb(null);
+							} else {
+									wx_api.page_get_access_token(platform_id, code, function(err,openid) {
+											console.log("page openid:" + openid);
+											cb(openid);
+									});
+							}
+					}
+			}
+	};
+
 	var get_logistics_list = function(list,total_data,cb) {
 		var lgtic = {};
 		async.eachLimit(list,1, function(data, cb2) {
@@ -1571,12 +1611,12 @@ exports.register = function(server, options, next){
 							};
 							trade_weixinpay(info,function(err,content){
 								if (!err) {
-									var url = content.url;
+									var row = content.row;
 									//修改订单状况
 									var data = {"order_id":order_id,"order_status":0};
 									update_order_status(data,function(err,content){
 										if (!err) {
-											return reply({"success":true,"url":url});
+											return reply({"success":true,"row":row});
 										}else {
 											return reply({"success":false,"message":content.message,"service_info":service_info});
 										}
@@ -2207,8 +2247,8 @@ exports.register = function(server, options, next){
 									};
 									trade_weixinpay(info,function(err,content){
 										if (!err) {
-											var url = content.url;
-											return reply({"success":true,"url":url});
+											var row = content.row;
+											return reply({"success":true,"row":row});
 										}else {
 											return reply({"success":false,"message":content.message});
 										}
@@ -2234,10 +2274,22 @@ exports.register = function(server, options, next){
 				if (!person_id) {
 					return reply.redirect("/chat_login");
 				}
+
+				var p_url = request.connection.info.protocol + '://' + request.info.host + request.url.path;
+
 				get_recharge_campaign(activity_id,function(err,row){
 					if (!err) {
 						var rates = row.row.rates;
-						return reply.view("member_pay",{"success":false,"message":"ok","rates":JSON.stringify(rates),"activity_id":activity_id});
+
+						page_get_openid(request,function(openid) {
+							if (openid) {
+								wx_api.jsapi_ticket(platform_id,p_url, function(err,info) {
+										return reply.view("member_pay",{info:info,openid:openid,"rates":JSON.stringify(rates),"activity_id":activity_id});
+								});
+							} else {
+								return reply.view("member_pay",{"success":false,"message":"ok","rates":JSON.stringify(rates),"activity_id":activity_id});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":row.message})
 					}
@@ -5166,8 +5218,24 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/',
 			handler: function(request, reply){
-
 				return reply.view("homePage");
+			}
+		},
+		//微信openid
+		{
+			method: 'GET',
+			path: '/wx_auth',
+			handler: function(request, reply){
+				page_get_openid(request,function(openid) {
+					var cookie = request.state.cookie;
+					if (!cookie) {
+							cookie = {};
+					}
+					if (openid) {
+						cookie[cookie_key] = openid;
+					}
+					return reply.redirect('/').state('cookie', cookie, cookie_options);
+				});
 			}
 		},
 		//登入忘记密码
