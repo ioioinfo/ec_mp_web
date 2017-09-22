@@ -200,7 +200,34 @@
 		function get_recharge_campaign(parmas,cb){
 			cb({priceitems:rates,selected:{price:rates[0].price,price1:rates[0].price1}});
 		}
-	</script>
+    $(function(){
+        // 返回上一层
+        $(".head .jiantou img").click(function(){
+            window.history.back();
+        });
+        var data = {debug:false,appId:'{{ info.appid }}',timestamp:{{ info.timestamp || 0 }},nonceStr:'{{ info.noncestr }}',signature:'{{ info.signature }}'};
+        data.jsApiList = [
+          'checkJsApi',
+          'hideOptionMenu',
+          'showOptionMenu',
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage',
+          'onMenuShareQQ',
+          'onMenuShareWeibo',
+          'getNetworkType',
+          'openLocation',
+          'getLocation',
+          'openCard',
+          'chooseWXPay',
+          'previewImage'
+        ];
+        wx.config(data);
+        wx.ready(function(){
+        });
+        wx.error(function(res){
+        });
+      });
+      </script>
     <script type="text/babel">
     class Warp extends React.Component {
       render() {
@@ -301,7 +328,9 @@
         }
 
 		handleClick(e){
-            this.setState({pay_way:e.target.id});
+      this.setState({pay_way:e.target.id});
+      var pay_way = e.target.id;
+
 			if(confirm("确定要充值？")){
 				$.ajax({
 					url: this.props.member_order_url,
@@ -309,9 +338,8 @@
 					type: 'GET',
 					data: ({marketing_price:this.state.selected.price,actual_price:this.state.selected.price1,pay_way:e.target.id,activity_id:activity_id,openid:"{{openid}}"}),
 					success: function(data) {
-            alert(JSON.stringify(data));
               if (data.success) {
-                if(e.target.id=="ali_pay"){
+                if(pay_way=="ali_pay"){
                   location.href = data.url;
                 } else {
                   var row = data.row;
@@ -392,38 +420,5 @@
       document.getElementById("example")
     );
     </script>
-
-        <script type="text/javascript">
-            $(function(){
-                // 返回上一层
-                $(".head .jiantou img").click(function(){
-                    window.history.back();
-                });
-
-            })
-            $(function() {
-                var data = {debug:false,appId:'{{ info.appid }}',timestamp:{{ info.timestamp || 0 }},nonceStr:'{{ info.noncestr }}',signature:'{{ info.signature }}'};
-                data.jsApiList = [
-                'checkJsApi',
-                'hideOptionMenu',
-                'showOptionMenu',
-                'onMenuShareTimeline',
-                'onMenuShareAppMessage',
-                'onMenuShareQQ',
-                'onMenuShareWeibo',
-                'getNetworkType',
-                'openLocation',
-                'getLocation',
-                'openCard',
-                'chooseWXPay',
-                'previewImage'
-                ];
-                wx.config(data);
-                wx.ready(function(){
-                });
-                wx.error(function(res){
-                });
-            });
-            </script>
   </body>
 </html>
