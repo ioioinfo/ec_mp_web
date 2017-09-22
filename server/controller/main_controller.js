@@ -2935,22 +2935,26 @@ exports.register = function(server, options, next){
 							}
 							mendians_map[origin].push(shopping_carts[i]);
 						}
-						var data = {
-							"product_ids":JSON.stringify(product_ids),
-							"industry_id":102
-						}
-						query_product_stock(data,function(err,rows){
-							if (!err) {
-								var stock_map = {};
-								for (var i = 0; i < rows.rows.length; i++) {
-									var product = rows.rows[i];
-									stock_map[product.product_id] = product.quantity-product.lock_num;
-								}
-								return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map),"stock_map":JSON.stringify(stock_map)});
-							}else {
-								return reply({"success":false,"message":results.message});
+						if (product_ids.length==0) {
+							return reply.view("shopping_cart",{"success":true});
+						}else {
+							var data = {
+								"product_ids":JSON.stringify(product_ids),
+								"industry_id":102
 							}
-						});
+							query_product_stock(data,function(err,rows){
+								if (!err) {
+									var stock_map = {};
+									for (var i = 0; i < rows.rows.length; i++) {
+										var product = rows.rows[i];
+										stock_map[product.product_id] = product.quantity-product.lock_num;
+									}
+									return reply.view("shopping_cart",{"success":true,"shopping_carts":JSON.stringify(shopping_carts),"update_ids":JSON.stringify(update_ids),"products":JSON.stringify(results.products),"total_data":JSON.stringify(total_data),"mendians_list":JSON.stringify(mendians_list),"mendians_map":JSON.stringify(mendians_map),"stock_map":JSON.stringify(stock_map)});
+								}else {
+									return reply({"success":false,"message":results.message});
+								}
+							});
+						}
 					}else {
 						return reply({"success":false,"message":results.message});
 					}
