@@ -5,6 +5,7 @@ const wx_reply = require('../utils/wx_reply');
 
 //静态页面 帮助控制器
 exports.register = function(server, options, next){
+  var wx_api = server.plugins.services.wx_api;
 
   //签名验证
   var check_signature = function(signature,token,timestamp,nonce) {
@@ -62,6 +63,27 @@ exports.register = function(server, options, next){
                 } else {
                   return reply(resp.text({content:"你好"}));
                 }
+            });
+        }
+    },
+
+    //授权页面跳转
+    {
+        method: 'GET',
+        path: '/go2auth/{key}',
+        handler: function(request, reply) {
+            var path = request.params.key;
+            if (!path) {
+              return reply("param path is null");
+            }
+
+            path = encodeURIComponent(path+request.url.search);
+
+            var host = "http://shop.buy42.com/";
+            var platform_id = "shantao_dingyue";
+
+            wx_api.get_go2auth_url(platform_id,host,path,function(err,body) {
+                return reply.redirect(body.url);
             });
         }
     },
