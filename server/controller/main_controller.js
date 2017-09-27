@@ -945,7 +945,8 @@ exports.register = function(server, options, next){
 																"to_district" : order.district,
 																"to_detail_address" : order.detail_address,
 																"linkname" : order.linkname,
-																"mobile" : order.mobile
+																"mobile" : order.mobile,
+																"send_seller":order.send_seller
 															};
 															logistics_order(data2,function(err,content){
 																if (!err) {
