@@ -498,7 +498,7 @@
 			var window_width = $(window).width();
 			$(".list_infor").css("max-width",window_width);
 			$(".list_infor").css("width",window_width);
-      var touchPage;
+            var touchPage;
 			var change = 0;
 			$(".list_infor")
 			.on("touchstart",function(e){
@@ -513,8 +513,8 @@
 				  change=-100;
 			  }
         if(change<-50){
-          $(this).css("left",change);
-        }
+            $(this).css("left",change);
+            }
 
 			})
 			.on("touchend",function(){
@@ -537,9 +537,9 @@
 			var total_data = {{total_data|safe}};
 			var update_ids = {{update_ids | safe}};
 			var selected = 0;
-      var mendians_list = {{mendians_list | safe}};
-      var mendians_map = {{mendians_map | safe}};
-      var stock_map = {{stock_map | safe}};
+            var mendians_list = {{mendians_list | safe}};
+            var mendians_map = {{mendians_map | safe}};
+            var stock_map = {{stock_map | safe}};
 			var all_carts_status = function(){
 				var all_selected = 1;
 				_.each(shopping_carts,function(shopping_cart) {
