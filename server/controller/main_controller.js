@@ -835,6 +835,20 @@ exports.register = function(server, options, next){
 					}
 			}
 	};
+    
+    //页面获取微信id
+	var cookie_get_openid = function(request,cb) {
+		var state;
+		var openid = "";
+
+		if (request.state && request.state.cookie) {
+			state = request.state.cookie;
+			if (state[cookie_key]) {
+				openid = state[cookie_key];
+			}
+		}
+		cb(openid);
+    };
 
 	var get_logistics_list = function(list,total_data,cb) {
 		var lgtic = {};
@@ -4234,7 +4248,18 @@ exports.register = function(server, options, next){
 						if (rows.rows[0].order_status!="-1" && rows.rows[0].order_status!="0" ) {
 							return reply({"success":false,"message":"订单已经付过款了"})
 						}
-						return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
+
+						var p_url = request.connection.info.protocol + '://' + request.info.host + request.url.path;
+
+						page_get_openid(request,function(openid) {
+							if (openid) {
+								wx_api.jsapi_ticket(platform_id,p_url, function(err,info) {
+										return reply.view("pay_way",{"info":info,"openid":openid,"rows":JSON.stringify(rows.rows),"order_id":order_id});
+								});
+							} else {
+								return reply.view("pay_way",{"rows":JSON.stringify(rows.rows),"order_id":order_id});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}
@@ -5224,7 +5249,19 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/',
 			handler: function(request, reply){
-				return reply.view("homePage");
+                //判断是否在微信中浏览
+                var is_in_wechat = /(micromessenger|webbrowser)/.test(request.headers["user-agent"].toLowerCase());
+                if (is_in_wechat) {
+                    cookie_get_openid(request, function(openid){
+                        if (openid) {
+                            return reply.view("homePage");
+                        } else {
+                            return reply.redirect("/");
+                        }
+                    });
+                } else {
+                    return reply.view("homePage");
+                }
 			}
 		},
 		//微信openid
