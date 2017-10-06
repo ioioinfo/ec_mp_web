@@ -5250,13 +5250,15 @@ exports.register = function(server, options, next){
 			path: '/',
 			handler: function(request, reply){
                 //判断是否在微信中浏览
-                var is_in_wechat = /(micromessenger|webbrowser)/.test(request.headers["user-agent"].toLowerCase());
+                var user_agent = request.headers["user-agent"].toLowerCase();
+                
+                var is_in_wechat = /(micromessenger|webbrowser)/.test(user_agent);
                 if (is_in_wechat) {
                     cookie_get_openid(request, function(openid){
                         if (openid) {
                             return reply.view("homePage");
                         } else {
-                            return reply.redirect("/");
+                            return reply.redirect("/go2auth/wx_auth");
                         }
                     });
                 } else {
