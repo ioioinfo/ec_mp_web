@@ -2401,7 +2401,10 @@ exports.register = function(server, options, next){
 							});
 							product.values = values;
 							product.mp_stock = stock;
-							if (product.is_down == 1) {
+                            
+                            var left_stock = stock.total.quantity - stock.total.lock_num;
+                            
+							if (product.is_down == 1 || left_stock <= 0) {
 								return reply.view("down_product_show",{"product":product,"industry_properties":industry_properties,"property":property});
 							}
 							return reply.view(industry.view_name,{"product":product,"industry_properties":industry_properties,"property":property});
@@ -2410,9 +2413,11 @@ exports.register = function(server, options, next){
 							if (!err) {
 								var stocks = content.stocks;
 								var properties = content.properties;
-								ep.emit("stock",{"properties":properties,"stocks":stocks});
+                                var total = content.total;
+                                
+								ep.emit("stock",{"properties":properties,"stocks":stocks,"total":total});
 							}else {
-								ep.emit("stock",{"properties":{},"stocks":{}});
+								ep.emit("stock",{"properties":{},"stocks":{},"total":total});
 							}
 						});
 						find_pictures_byId(product_id, function(err, content){
