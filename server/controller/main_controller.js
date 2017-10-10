@@ -835,7 +835,7 @@ exports.register = function(server, options, next){
 					}
 			}
 	};
-    
+
     //页面获取微信id
 	var cookie_get_openid = function(request,cb) {
 		var state;
@@ -2401,9 +2401,9 @@ exports.register = function(server, options, next){
 							});
 							product.values = values;
 							product.mp_stock = stock;
-                            
+
                             var left_stock = stock.total.quantity - stock.total.lock_num;
-                            
+
 							if (product.is_down == 1 || left_stock <= 0) {
 								return reply.view("down_product_show",{"product":product,"industry_properties":industry_properties,"property":property});
 							}
@@ -2414,7 +2414,7 @@ exports.register = function(server, options, next){
 								var stocks = content.stocks;
 								var properties = content.properties;
                                 var total = content.total;
-                                
+
 								ep.emit("stock",{"properties":properties,"stocks":stocks,"total":total});
 							}else {
 								ep.emit("stock",{"properties":{},"stocks":{},"total":total});
@@ -5117,7 +5117,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
 				var cookie_id = get_cookie_id(request);
 				if (!cookie_id) {
-					return reply({"success":false});
+					return reply({"success":false,"message":"您的浏览器设置已被禁用Cookies，您必须设置浏览器允许使用Cookies选项后才能使用本系统"});
 				}
 				get_captcha(cookie_id,function(err, content){
 					if (!err) {
@@ -5256,7 +5256,7 @@ exports.register = function(server, options, next){
 			handler: function(request, reply){
                 //判断是否在微信中浏览
                 var user_agent = request.headers["user-agent"].toLowerCase();
-                
+
                 var is_in_wechat = /(micromessenger|webbrowser)/.test(user_agent);
                 if (is_in_wechat) {
                     cookie_get_openid(request, function(openid){

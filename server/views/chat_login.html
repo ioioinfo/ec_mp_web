@@ -266,9 +266,11 @@
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
-
-
-					this.setState({src: "data:image/png;base64,"+data.image});
+          if (data.success) {
+            this.setState({src: "data:image/png;base64,"+data.image});
+          }else {
+            alert(data.message);
+          }
 				}.bind(this),
 				error: function(xhr, status, err) {
 				}.bind(this)
