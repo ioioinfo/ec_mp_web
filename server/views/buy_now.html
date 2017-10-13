@@ -966,11 +966,6 @@
               </div>
               <div class="middle">
                 <div class="middle-shouhuoren">
-                  <span class="span1">街道</span><p><span class="span2"><input type="text" name="" value="" placeholder="请输入街道地址" class="street-address"></span></p>
-                </div>
-              </div>
-              <div class="middle">
-                <div class="middle-shouhuoren">
                   <textarea  placeholder="详细地址" class="input2 detail_address"></textarea>
                 </div>
               </div>
@@ -1210,7 +1205,10 @@
                     alert("电话必填！")
                     state = 0;
                     return;
-                }else if (!data.detail_address) {
+                }else if (!$("#s3").val() || "市、县级市、县" == $("#s3").val()) {
+    				alert("省市区不能为空");
+    				return;
+    			}else if (!data.detail_address) {
                     alert("详细地址必填！")
                     state = 0;
                     return;
@@ -1345,8 +1343,8 @@
 	 }
 	 }
 	 if (index < provinces.length) {
-	 document.getElementById(s[0]).selectedIndex = index + 1;
-	 change(1);
+	 //document.getElementById(s[0]).selectedIndex = index + 1;
+	 //change(1);
 	 }
 	}
 

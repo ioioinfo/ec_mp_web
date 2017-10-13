@@ -274,6 +274,10 @@
 				alert("别名不能为空");
 				return;
 			}
+            else if (!$("#s3").val() || "市、县级市、县" == $("#s3").val()) {
+				alert("省市区不能为空");
+				return;
+			}
 			else if (!$(".detail_address").val()) {
 				alert("详细地址不能为空");
 				return;
@@ -351,8 +355,8 @@
 	 }
 	 }
 	 if (index < provinces.length) {
-	 document.getElementById(s[0]).selectedIndex = index + 1;
-	 change(1);
+	 //document.getElementById(s[0]).selectedIndex = index + 1;
+	 //change(1);
 	 }
 	}
 
