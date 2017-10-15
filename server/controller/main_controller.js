@@ -796,6 +796,7 @@ var query_product_stock = function(data,cb){
 	do_post_method(url,data,cb);
 }
 exports.register = function(server, options, next){
+    var person_api = server.plugins.services.person_api;
 	var wx_api = server.plugins.services.wx_api;
 
 	var platform_id = "shantao_dingyue";
@@ -1622,7 +1623,7 @@ exports.register = function(server, options, next){
 								"return_url" : "http://shop.buy42.com/pay_success",
 								"callback_url" : "http://211.149.248.241:18000/receive_pay_notify",
 								"openid":openid,
-								"mp_platform_id":"shantao_dingyue"
+								"mp_platform_id": platform_id
 							};
 							trade_weixinpay(info,function(err,content){
 								if (!err) {
@@ -2258,7 +2259,7 @@ exports.register = function(server, options, next){
 										"return_url" : "http://shop.buy42.com/pay_success",
 										"callback_url" : "http://211.149.248.241:18000/receive_pay_notify",
 										"openid":openid,
-										"mp_platform_id":"shantao_dingyue"
+										"mp_platform_id": platform_id
 									};
 									trade_weixinpay(info,function(err,content){
 										if (!err) {
@@ -4231,7 +4232,14 @@ exports.register = function(server, options, next){
 			method: 'GET',
 			path: '/logout',
 			handler: function(request, reply){
-				return reply({"success":true}).state('cookie', {});
+                var cookie;
+                if (request.state && request.state.cookie) {
+                    cookie = request.state.cookie;
+                    cookie.person_id = null;
+                }else {
+                    cookie = {};
+                }
+				return reply({"success":true}).state('cookie', {}, cookie_options);
 			}
 		},
 		//售光页面
@@ -5158,9 +5166,21 @@ exports.register = function(server, options, next){
 									return reply({"success":false,"message":"no account"});
 								}
 
-								var state = login_set_cookie(request,person_id);
-
-								return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+                                // 绑定微信账号
+                                cookie_get_openid(request,function(openid) {
+                                    if (openid) {
+                                        //保存微信信息
+                                        person_api.save_wx(platform_id,openid,function(err,content) {
+                                            //关联微信信息
+                                            person_api.bind_person_wx(platform_id,openid,person_id,function(err,content) {
+                                                console.log("bind person wx:" + person_id + "," + openid);
+                                            });
+                                        });
+                                    }
+                                    
+                                    var state = login_set_cookie(request,person_id);
+                                    return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
+                                });
 							}else {
 								return reply({"success":false,"message":content.message});
 							}
@@ -5261,7 +5281,22 @@ exports.register = function(server, options, next){
                 if (is_in_wechat) {
                     cookie_get_openid(request, function(openid){
                         if (openid) {
-                            return reply.view("homePage");
+                            var person_id = get_cookie_person(request);
+                            if (!person_id) {
+                                //获取微信绑定账号
+                                person_api.get_wx_by_openid(platform_id,openid,function(err,content) {
+                                    if (content.success && content.rows) {
+                                        var person_id = content.rows[0].person_id;
+                                        
+                                        var state = login_set_cookie(request,person_id);
+                                        return reply.view("homePage").state('cookie', state, {ttl:10*365*24*60*60*1000});
+                                    } else {
+                                        return reply.view("homePage");
+                                    }
+                                });
+                            } else {
+                                return reply.view("homePage");
+                            }
                         } else {
                             return reply.redirect("/go2auth/wx_auth");
                         }

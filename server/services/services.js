@@ -23,6 +23,7 @@ exports.register = function(server, options, next){
     };
 
     load_module('wx_api', './wx_api.js');
+    load_module('person_api', './person_api.js');
 
     next();
 }
