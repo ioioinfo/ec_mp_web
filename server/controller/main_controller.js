@@ -5285,7 +5285,7 @@ exports.register = function(server, options, next){
                             if (!person_id) {
                                 //获取微信绑定账号
                                 person_api.get_wx_by_openid(platform_id,openid,function(err,content) {
-                                    if (content.success && content.rows) {
+                                    if (content.success && content.rows && content.rows.length > 0) {
                                         var person_id = content.rows[0].person_id;
                                         
                                         var state = login_set_cookie(request,person_id);
