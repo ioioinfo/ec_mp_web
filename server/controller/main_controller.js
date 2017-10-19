@@ -2925,11 +2925,18 @@ exports.register = function(server, options, next){
 					if (!err) {
 						var update_ids = [];
 						var total_data = results.total_data;
-						var shopping_carts = results.shopping_carts;
+						var old_shopping_carts = results.shopping_carts;
 						var products = results.products;
 						var mendians_list = [];
 						var mendians_map = {};
 						var product_ids = [];
+
+						var shopping_carts = [];
+						for (var i = 0; i < old_shopping_carts.length; i++) {
+							if (products[old_shopping_carts[i].product_id]) {
+								shopping_carts.push(old_shopping_carts[i]);
+							}
+						}
 						for (var i = 0; i < shopping_carts.length; i++) {
 							var origin = products[shopping_carts[i].product_id].origin;
 							var product_id = shopping_carts[i].product_id;
