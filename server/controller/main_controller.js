@@ -701,8 +701,8 @@ var vip_add_amount_begin = function(data,cb){
 	do_post_method(url,data,cb);
 }
 //删除订单
-var order_delete = function(data,cb){
-	var url = "http://127.0.0.1:18010/order_delete";
+var user_delete = function(data,cb){
+	var url = "http://127.0.0.1:18010/user_delete";
 	do_post_method(url,data,cb);
 }
 var search_order_byStatus = function(person_id,status,cb){
@@ -1390,29 +1390,13 @@ exports.register = function(server, options, next){
 							return reply({"success":false,"message":"no order","service_info":service_info});
 						}
 						var order_status = rows.rows[0].order_status;
-						if (order_status == "-1" || order_status == "0" ) {
-							order_cancel_operation(data,function(err,content){
-								if (!err) {
-									order_delete(data,function(err,content){
-										if (!err) {
-											return reply({"success":true});
-										}else {
-											return reply({"success":false,"message":content.message});
-										}
-									});
-								}else {
-									return reply({"success":false,"message":content.message});
-								}
-							});
-						}else {
-							order_delete(data,function(err,content){
-								if (!err) {
-									return reply({"success":true});
-								}else {
-									return reply({"success":false,"message":content.message});
-								}
-							});
-						}
+						user_delete(data,function(err,content){
+							if (!err) {
+								return reply({"success":true});
+							}else {
+								return reply({"success":false,"message":content.message});
+							}
+						});
 					}else {
 						return reply({"success":false,"message":rows.message})
 					}
@@ -5177,7 +5161,7 @@ exports.register = function(server, options, next){
                                             });
                                         });
                                     }
-                                    
+
                                     var state = login_set_cookie(request,person_id);
                                     return reply({"success":true,"service_info":service_info}).state('cookie', state, {ttl:10*365*24*60*60*1000});
                                 });
@@ -5287,7 +5271,7 @@ exports.register = function(server, options, next){
                                 person_api.get_wx_by_openid(platform_id,openid,function(err,content) {
                                     if (content.success && content.rows && content.rows.length > 0) {
                                         var person_id = content.rows[0].person_id;
-                                        
+
                                         var state = login_set_cookie(request,person_id);
                                         return reply.view("homePage").state('cookie', state, {ttl:10*365*24*60*60*1000});
                                     } else {
