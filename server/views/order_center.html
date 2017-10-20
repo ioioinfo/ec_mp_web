@@ -298,6 +298,11 @@
 
                   button =(<div><span className="removeproduct" onClick={this.handleClick2} id="shanchudingdan">删除订单</span></div>)
               }
+
+              var array = [];
+              if (this.props.detailsitems[this.props.item.order_id]) {
+                  array = this.props.detailsitems[this.props.item.order_id];
+              }
               return (
                   <div className="public_all" >
                       <div className="public_market">
@@ -308,7 +313,7 @@
                         <span><img src="{{static_host}}/images/jiantou-right.png" alt="" /></span>
                         <span className="public_market_span2">{order_status}</span>
                       </div>
-                      {this.props.detailsitems[this.props.item.order_id].map(item => (
+                      {array.map(item => (
                           <Product key={item.product_id} item={item} returniitem={this.props.item} order_status={order_status} products={this.props.products} />))
                       }
                       <div className="product_yunfei">

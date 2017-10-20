@@ -547,7 +547,6 @@
         				<span {% if order.order_status=="等待买家收货" %} class="receive_product" {% endif %} data-id="{{order.order_id}}"> 确认收货</span>
         			</p>
         		{% elseif order.order_status=="交易成功" %}
-                    <li class="apply_product"><a><p>申请退款</p></a></li>
                     <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
         		{% elseif order.order_status=="交易关闭" %}
                     <li><a><p class="delete_order" data-id="{{order.order_id}}">删除订单</p></a></li>
