@@ -41,12 +41,6 @@ var Lunbo = require('newflash_v1.1');
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
-        var items = [
-            {id:1,img:'http://static.buy42.com/images/htad1.jpg',href:'search?sort_id=009002001'}
-            ,{id:2,img:'http://static.buy42.com/images/htad2.jpg',href:'search?num=50&lastest=1'}
-            ,{id:3,img:'http://static.buy42.com/images/htad3.jpg',href:'about_us'}
-            ,{id:4,img:'https://img.alicdn.com/imgextra/i1/931691262/TB2NZODrxhmpuFjSZFyXXcLdFXa-931691262.jpg',href:'news_view?news_id=1'}
-        ];
         this.state={items:items,count:0};
     }
     handleClick(e){
